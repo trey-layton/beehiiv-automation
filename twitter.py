@@ -1,12 +1,12 @@
 from requests_oauthlib import OAuth1Session
 import json
-from config import get_config
 import logging
+from config import get_config
 
 logger = logging.getLogger(__name__)
 
 
-def post_tweet(tweet_text):
+def post_tweet(tweet_text, reply_text):
     try:
         config = get_config()
         twitter_oauth = OAuth1Session(
@@ -21,16 +21,22 @@ def post_tweet(tweet_text):
 
         if response.status_code != 201:
             raise Exception(
-                "Request returned an error: {} {}".format(
-                    response.status_code, response.text
-                )
+                f"Request returned an error: {response.status_code} {response.text}"
             )
 
-        logger.info("Tweet posted successfully!")
-        logger.info("Response code: {}".format(response.status_code))
-
+        logger.info("Main tweet posted successfully!")
         json_response = response.json()
-        logger.debug(json.dumps(json_response, indent=4, sort_keys=True))
+        tweet_id = json_response["data"]["id"]
+
+        payload = {"text": reply_text, "reply": {"in_reply_to_tweet_id": tweet_id}}
+        response = twitter_oauth.post("https://api.twitter.com/2/tweets", json=payload)
+
+        if response.status_code != 201:
+            raise Exception(
+                f"Request returned an error: {response.status_code} {response.text}"
+            )
+
+        logger.info("Reply tweet posted successfully!")
     except Exception as e:
         logger.exception("Error while posting tweet:")
         raise

@@ -1,45 +1,96 @@
 import logging
+import json
+import schedule
+import time
 from beehiiv import get_beehiiv_post_id, get_beehiiv_post_content
 from content_extraction import extract_text
-from content_generation import generate_tweet
+from content_generation import generate_article_tweets
+from twitter import post_tweet
 from config import load_env_variables, get_config
+from dotenv import load_dotenv
+
+
+def load_env_variables():
+    load_dotenv(dotenv_path="/Users/treylayton/Desktop/Coding/beehiiv_project/.env")
+
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-def main(beehiiv_url):
+def fetch_beehiiv_content(user_id):
     try:
-        # Load environment variables from .env file
-        load_env_variables()
-        # Get the configuration settings
         config = get_config()
+        with open("user_config.json") as f:
+            user_config = json.load(f)
 
-        # Extract the post ID from the Beehiiv newsletter URL
+        beehiiv_api_key = user_config[user_id]["beehiiv_api_key"]
+        beehiiv_url = user_config[user_id]["beehiiv_url"]
+
         post_id = get_beehiiv_post_id(beehiiv_url)
-
-        # Fetch the HTML content of the Beehiiv post using the API
-        html_str = get_beehiiv_post_content(
-            config["beehiiv_api_key"], config["publication_id"], post_id
+        content_data = get_beehiiv_post_content(
+            beehiiv_api_key, config["publication_id"], post_id
         )
-        # Extract the text content from the HTML
-        cleaned_text = extract_text(html_str)
+
+        return content_data
+    except Exception as e:
+        logger.exception("Error while fetching Beehiiv content:")
+        raise
+
+
+def post_on_twitter(precta_tweet, postcta_tweet, subscribe_url, post_tweet_flag):
+    try:
+        if post_tweet_flag:
+            # Post the precta tweet
+            logger.info("precta tweet:")
+            logger.info(precta_tweet)
+            reply_tweet = f"Subscribe now to read! {subscribe_url}"
+            post_tweet(precta_tweet, reply_tweet)
+
+            # Schedule the post cta tweet
+            def post_postcta_tweet():
+                logger.info("post cta Tweet:")
+                logger.info(postcta_tweet)
+                post_tweet(postcta_tweet, "")
+
+            # Schedule the post cta tweet to be posted after a certain delay
+            schedule_time = 10  # Delay in minutes, adjust as needed
+            schedule.every(schedule_time).minutes.do(post_postcta_tweet)
+
+            while True:
+                schedule.run_pending()
+                time.sleep(1)
+
+    except Exception as e:
+        logger.exception("Error while posting tweet:")
+        raise
+
+
+def main(user_id, post_tweet_flag=True):
+    try:
+        load_env_variables()
+        config = get_config()
+        subscribe_url = config["subscribe_url"]
+
+        content_data = fetch_beehiiv_content(user_id)
+        cleaned_text = extract_text(content_data["free_content"])
         logger.info("Cleaned text:")
         logger.info(cleaned_text)
 
-        # Generate a tweet based on the extracted text using Claude
-        tweet = generate_tweet(cleaned_text)
-        logger.info("\nTweet:")
-        logger.info(tweet)
+        article_link = content_data["web_url"]
+        precta_tweet, postcta_tweet = generate_article_tweets(
+            cleaned_text, article_link
+        )
 
-        return tweet
-
+        post_on_twitter(precta_tweet, postcta_tweet, subscribe_url, post_tweet_flag)
     except Exception as e:
         logger.exception("An error occurred:")
         return None
 
 
 if __name__ == "__main__":
-    # Get the Beehiiv newsletter URL from user input
-    beehiiv_url = input("Enter the Beehiiv newsletter URL: ")
-    main(beehiiv_url)
+    user_id = input("Enter the user ID: ")
+    post_tweet_flag = (
+        input("Do you want to post the tweet? (yes/no): ").strip().lower() == "yes"
+    )
+    main(user_id, post_tweet_flag)

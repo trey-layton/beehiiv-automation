@@ -8,14 +8,9 @@ logger = logging.getLogger(__name__)
 def extract_text(html_str):
     try:
         soup = BeautifulSoup(html_str, "html.parser")
-
         paragraphs = soup.find_all("p", {"class": "paragraph"})
-        logger.debug(f"Found {len(paragraphs)} paragraph elements.")
 
-        text = ""
-        for paragraph in paragraphs:
-            text += paragraph.get_text() + "\n\n"
-
+        text = "\n\n".join(paragraph.get_text() for paragraph in paragraphs)
         text = re.sub(r"_.*?_", "", text)
         text = re.sub(r"https?://\S+", "", text)
         text = re.sub(r"\n\s*\n", "\n", text, flags=re.MULTILINE)
