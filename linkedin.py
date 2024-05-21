@@ -6,7 +6,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-"""def post_linkedin(post_text, access_token, linkedin_member_id):
+def post_linkedin(post_text, access_token, linkedin_member_id):
     try:
         headers = {
             "Content-Type": "application/json",
@@ -64,4 +64,3 @@ def get_linkedin_member_id(access_token):
     except Exception as e:
         logger.exception("Error while fetching LinkedIn member ID:")
         raise
-"""

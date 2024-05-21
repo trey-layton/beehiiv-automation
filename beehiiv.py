@@ -1,86 +1,81 @@
+import re
 import http.client
 import json
-import re
-import sys
+import logging
+from bs4 import BeautifulSoup
+from dotenv import load_dotenv
+from config import get_config
 
 
-def get_user_config(user_id):
-    with open("user_config.json") as config_file:
-        config = json.load(config_file)
-    return config.get(user_id)
+logger = logging.getLogger(__name__)
 
 
-def extract_post_id(beehiiv_url):
-    match = re.search(r"/posts/([^/]+)/", beehiiv_url)
-    if match:
-        return match.group(1)
-    else:
-        raise ValueError("Invalid beehiiv URL: Unable to extract post ID")
+def load_env_variables():
+    load_dotenv(dotenv_path="/Users/treylayton/Desktop/Coding/beehiiv_project/.env")
 
 
-def fetch_post_data(beehiiv_api_key, publication_id, post_id):
-    conn = http.client.HTTPSConnection("api.beehiiv.com")
-
-    headers = {
-        "Accept": "application/json",
-        "Authorization": f"Bearer {beehiiv_api_key}",
-    }
-
-    endpoint = f"/v2/publications/{publication_id}/posts/{post_id}?expand[]=free_web_content&expand[]=premium_web_content"
-
-    conn.request("GET", endpoint, headers=headers)
-
-    res = conn.getresponse()
-    if res.status != 200:
-        print(f"API request failed with status code {res.status}")
-        sys.exit(1)
-
-    data = res.read()
-
-    return json.loads(data.decode("utf-8"))
-
-
-def main():
-    if len(sys.argv) != 2:
-        print("Usage: python beehiiv.py <user_id>")
-        sys.exit(1)
-
-    user_id = sys.argv[1]
-    user_config = get_user_config(user_id)
-
-    if not user_config:
-        print(f"User ID '{user_id}' not found in config.")
-        sys.exit(1)
-
-    beehiiv_api_key = user_config["beehiiv_api_key"]
-    publication_id = user_config["publication_id"]
-    beehiiv_url = user_config["beehiiv_url"]
-
+def get_beehiiv_post_id(beehiiv_url):
     try:
-        post_id = extract_post_id(beehiiv_url)
-    except ValueError as e:
-        print(e)
-        sys.exit(1)
-
-    post_data = fetch_post_data(beehiiv_api_key, publication_id, post_id)
-
-    # Debugging: Print the full response data
-    print("Full response data:")
-    print(json.dumps(post_data, indent=2))
-
-    post_info = post_data.get("data", {})
-
-    result = {
-        "web_url": post_info.get("web_url"),
-        "free_web_content": post_info.get("content", {}).get("free", {}).get("web"),
-        "premium_web_content": post_info.get("content", {})
-        .get("premium", {})
-        .get("web"),
-        "thumbnail_url": post_info.get("thumbnail_url"),
-    }
-
-    print(json.dumps(result, indent=2))
+        post_id_match = re.search(
+            r"https://app\.beehiiv\.com/posts/([a-z0-9-]+)", beehiiv_url
+        )
+        return post_id_match.group(1) if post_id_match else None
+    except Exception as e:
+        logger.exception("Error while extracting Beehiiv post ID:")
+        raise
 
 
-if __name__ == "__main__":
-    main()
+def clean_html_content(html_content):
+    soup = BeautifulSoup(html_content, "html.parser")
+    text_elements = soup.find_all(["h1", "h2", "h3", "p", "li"])
+    clean_text = "\n".join([element.get_text() for element in text_elements])
+    return clean_text
+
+
+def get_beehiiv_post_content(beehiiv_api_key, publication_id, post_id):
+    try:
+        conn = http.client.HTTPSConnection("api.beehiiv.com")
+        headers = {
+            "Accept": "application/json",
+            "Authorization": f"Bearer {beehiiv_api_key}",
+        }
+        conn.request(
+            "GET",
+            f"/v2/publications/pub_{publication_id}/posts/post_{post_id}?expand%5B%5D=free_web_content",
+            headers=headers,
+        )
+
+        res = conn.getresponse()
+        data = res.read().decode("utf-8")
+        json_data = json.loads(data)
+
+        # Debug: log the entire JSON response
+        print("Beehiiv API response:", json.dumps(json_data, indent=4))
+
+        if "data" in json_data:
+            data = json_data["data"]
+            post_content = (
+                clean_html_content(data["content"]["free"]["web"])
+                if "content" in data
+                and "free" in data["content"]
+                and "web" in data["content"]["free"]
+                else None
+            )
+            web_url = data["web_url"] if "web_url" in data else None
+            thumbnail_url = data["thumbnail_url"] if "thumbnail_url" in data else None
+
+            return {
+                "post_id": post_id,
+                "free_content": post_content,
+                "web_url": web_url,
+                "thumbnail_url": thumbnail_url,
+            }
+        else:
+            logger.error("Invalid response structure: 'data' key not found")
+            return None
+    except Exception as e:
+        logger.exception("Error while fetching Beehiiv post content:")
+        raise
+
+
+# The script's final result is a dictionary containing the post ID, free content, web URL, and thumbnail URL of a specified Beehiiv post. This dictionary can then be used in subsequent steps of your process to generate social media posts and relevant links.
