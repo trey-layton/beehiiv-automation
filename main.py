@@ -2,9 +2,9 @@ import logging
 import json
 import time
 import os
+import argparse
 from dotenv import load_dotenv
 from beehiiv import get_beehiiv_post_id, get_beehiiv_post_content
-from content_extraction import extract_text
 from content_generation import (
     generate_precta_tweet,
     generate_postcta_tweet,
@@ -49,7 +49,7 @@ def fetch_beehiiv_content(user_id):
 
 def post_pre_tweet(precta_tweet, subscribe_url):
     try:
-        reply_tweet = f"Subscribe now to read! {subscribe_url}"
+        reply_tweet = f"subscribe now to read! {subscribe_url}"
         post_tweet(precta_tweet, reply_text=reply_tweet)
     except Exception as e:
         logger.exception("Error while posting precta tweet:")
@@ -59,7 +59,7 @@ def post_pre_tweet(precta_tweet, subscribe_url):
 def post_post_tweet(postcta_tweet, article_link, media_id):
     try:
         tweet_id = post_tweet(postcta_tweet, media_id=media_id)
-        reply_tweet = f"Read the full article here: {article_link}"
+        reply_tweet = f"read the full article here: {article_link}"
         post_tweet(reply_tweet, in_reply_to_tweet_id=tweet_id)
     except Exception as e:
         logger.exception("Error while posting postcta tweet:")
@@ -72,6 +72,7 @@ def post_thread(thread_tweets):
         previous_tweet_id = None
 
         for i, tweet in enumerate(thread_tweets):
+            logger.info(f"Posting tweet {i+1}: {tweet}")  # Log each tweet content
             if i == 0:
                 first_tweet_id = post_tweet(tweet)
                 previous_tweet_id = first_tweet_id
@@ -82,38 +83,40 @@ def post_thread(thread_tweets):
 
         # Quote tweet the first tweet in the last tweet
         if first_tweet_id:
-            last_tweet_text = (
-                f"Quote tweet: https://twitter.com/yourusername/status/{first_tweet_id}"
-            )
+            last_tweet_text = f"and if you found this thread to be valuable, it would really help if you liked and shared! https://twitter.com/yourusername/status/{first_tweet_id}"
             post_tweet(last_tweet_text, in_reply_to_tweet_id=previous_tweet_id)
     except Exception as e:
         logger.exception("Error while posting thread:")
         raise
 
 
-def main(user_id, post_tweet_flag=True):
+def main(user_id, generate_precta, generate_postcta, generate_thread):
     try:
         load_env_variables()
         user_config = get_user_config()
 
         content_data = fetch_beehiiv_content(user_id)
-        cleaned_text = extract_text(content_data["free_content"])
-        logger.info("Cleaned text:")
-        logger.info(cleaned_text)
+        logger.info(f"Fetched Beehiiv content: {json.dumps(content_data, indent=4)}")
+
+        original_content = content_data["free_content"]
 
         article_link = content_data["web_url"]
         thumbnail_url = content_data["thumbnail_url"]
         subscribe_url = content_data["subscribe_url"]
 
-        precta_tweet = generate_precta_tweet(cleaned_text)
-        postcta_tweet = generate_postcta_tweet(cleaned_text)
-        thread_tweets = generate_thread_tweets(cleaned_text, subscribe_url)
+        if generate_precta:
+            precta_tweet = generate_precta_tweet(original_content)
+            post_pre_tweet(precta_tweet, subscribe_url)
 
-        if post_tweet_flag:
-            # post_pre_tweet(precta_tweet, subscribe_url)
-            time.sleep(5)  # Short delay in seconds
+        if generate_postcta:
+            postcta_tweet = generate_postcta_tweet(original_content)
             media_id = upload_media(thumbnail_url)
-            # post_post_tweet(postcta_tweet, article_link, media_id)
+            post_post_tweet(postcta_tweet, article_link, media_id)
+
+        if generate_thread:
+            thread_tweets = generate_thread_tweets(original_content, article_link)
+            for tweet in thread_tweets:
+                print(tweet)
             post_thread(thread_tweets)
 
     except Exception as e:
@@ -122,8 +125,23 @@ def main(user_id, post_tweet_flag=True):
 
 
 if __name__ == "__main__":
-    user_id = input("Enter the user ID: ")
-    post_tweet_flag = (
-        input("Do you want to post the tweet? (yes/no): ").strip().lower() == "yes"
+    parser = argparse.ArgumentParser(
+        description="Generate and post tweets from Beehiiv content."
     )
-    main(user_id, post_tweet_flag)
+    parser.add_argument("user_id", help="User ID for fetching Beehiiv content")
+    parser.add_argument(
+        "--precta",
+        action="store_true",
+        help="Generate and post pre-newsletter CTA tweet",
+    )
+    parser.add_argument(
+        "--postcta",
+        action="store_true",
+        help="Generate and post post-newsletter CTA tweet",
+    )
+    parser.add_argument(
+        "--thread", action="store_true", help="Generate and post thread tweets"
+    )
+    args = parser.parse_args()
+
+    main(args.user_id, args.precta, args.postcta, args.thread)

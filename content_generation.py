@@ -13,7 +13,7 @@ def generate_tweet(text, instruction):
 
         system_message = {
             "role": "system",
-            "content": "Generate a JSON object with the tweet text under the key 'tweet'. Never, and I mean never, go beyond 280 characters for tweets. This will break the entire automation, and the consequences are grave. Make the tweet relevant to the specific newsletter edition that you are provided. There is likely to be extra content that isn't related to the main story, so make sure to use your reasoning and context inferences to determine what the main story is and only use this part for the tweet.",
+            "content": "Do not use any capital letters anywhere in the tweet. Never, and I mean never, go beyond 280 characters for tweets. This will break the entire automation, and the consequences are grave. Make the tweet relevant to the specific newsletter edition that you are provided. There is likely to be extra content that isn't related to the main story, so make sure to use your reasoning and context inferences to determine what the main story is and only use this part for the tweet. Do not use any information or outside details, and do not put a link to the story or even a placeholder as this is being added elsewhere.",
         }
         user_message = {
             "role": "user",
@@ -21,7 +21,7 @@ def generate_tweet(text, instruction):
         }
 
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model="gpt-4o",
             messages=[system_message, user_message],
             max_tokens=100,
             n=1,
@@ -62,22 +62,22 @@ def generate_postcta_tweet(text):
     return generate_tweet(text, postcta_instruction)
 
 
-def generate_thread_tweets(text, subscribe_url):
+def generate_thread_tweets(text, article_link):
     try:
         config = get_config()
         client = OpenAI(api_key=config["openai_api_key"])
 
         system_message = {
             "role": "system",
-            "content": "Generate a list of 5 tweets summarizing the main takeaways from the newsletter. Each tweet must be a maximum of 280 characters. Focus solely on one key point or insight, and don't include any other extra information.",
+            "content": "Generate a list of 5 tweets summarizing the main takeaways from the newsletter. Each tweet must be a maximum of 280 characters. Mark the break between tweets with a <br> where there is no space between the break and the first letter of the next tweet. Focus solely on one key point or insight, and don't include any other extra information.",
         }
         user_message = {
             "role": "user",
-            "content": f"First, go through this newsletter and use context and your best judgement to determine what the main story is. Then, summarize the main takeaways. Do not use hashtags or capital letters anywhere, but feel free to use a couple of emojis without overdoing it. Here's an example: `#1. Newsletter growth hack I've used to drive 100K+ subscribers: Referral giveaways. Here's how you can use them to do the same for your newsletter (it's much easier than most think): #2. Referral giveaways are fairly simple: Here’s how they work: 1) Give away a product or service for free 2) Subscribers enter to win by sharing their referral link 3) 1 successful referral = 1 entry to win the giveaway These work great for 3 reasons: #3. 1) The Incentives The more subscribers share, the better their shot at winning. Yet subscribers still get a chance to win with 1 referral. This incentive structure is key. You want subscribers to share as much as possible. #4. 2) You don't need a referral program If you don’t have a milestone referral program, that’s ok. You can still do referral giveaways. Use beehiiv’s or SparkLoop’s referral tool to give readers a referral link to share and track results. #5. 3) The subscribers you get will be high-quality. This is because the people being referred don't sign up because of the giveaway. They learn about your newsletter from a friend or co-worker sharing it with them.`:\n{text}",
+            "content": f"First, go through this newsletter and use context and your best judgement to determine what the main story is. Then, summarize the main takeaways. Do not use hashtags or capital letters anywhere, but feel free to use a couple of emojis without overdoing it. This example numbers each tweet, but that's just so you can see how long and what types of phrases to use before and after tweet cut offs. You should NOT number your tweets. Here's an example: `#1. Newsletter growth hack I've used to drive 100K+ subscribers: Referral giveaways. Here's how you can use them to do the same for your newsletter (it's much easier than most think): #2. Referral giveaways are fairly simple: Here’s how they work: 1) Give away a product or service for free 2) Subscribers enter to win by sharing their referral link 3) 1 successful referral = 1 entry to win the giveaway These work great for 3 reasons: #3. 1) The Incentives The more subscribers share, the better their shot at winning. Yet subscribers still get a chance to win with 1 referral. This incentive structure is key. You want subscribers to share as much as possible. #4. 2) You don't need a referral program If you don’t have a milestone referral program, that’s ok. You can still do referral giveaways. Use beehiiv’s or SparkLoop’s referral tool to give readers a referral link to share and track results. #5. 3) The subscribers you get will be high-quality. This is because the people being referred don't sign up because of the giveaway. They learn about your newsletter from a friend or co-worker sharing it with them.`:\n{text}",
         }
 
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model="gpt-4o",
             messages=[system_message, user_message],
             max_tokens=1000,
             n=1,
@@ -90,12 +90,15 @@ def generate_thread_tweets(text, subscribe_url):
 
         try:
             thread_data = json.loads(response_content)
-            thread_tweets = thread_data["tweets"]
+            thread_text = thread_data["tweet"]
         except (json.JSONDecodeError, KeyError):
             logger.error(
                 "The response did not contain the expected JSON structure. Using the raw content."
             )
-            thread_tweets = response_content.split("\n")
+            thread_text = response_content
+
+        # Split the thread text into individual tweets using <br> as the delimiter
+        thread_tweets = thread_text.split("<br>")
 
         # Ensure the last two tweets are the plug and quote tweet
         if len(thread_tweets) < 2:
@@ -103,11 +106,8 @@ def generate_thread_tweets(text, subscribe_url):
                 "The generated thread is too short. Ensure the newsletter content is sufficient."
             )
 
-        thread_tweets[-2] = (
-            f"for more insights, check out my newsletter breaking it down: {subscribe_url}"
-        )
-        thread_tweets[-1] = (
-            f"if you enjoyed this thread, would really appreciate it if you liked or shared! {thread_tweets[0]}"
+        thread_tweets.append(
+            f"for more insights, check out the full article here: {article_link}"
         )
 
         return thread_tweets
