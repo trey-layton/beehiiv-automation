@@ -6,9 +6,13 @@ from config import get_config
 logger = logging.getLogger(__name__)
 
 
-def generate_tweet(text, instruction):
+def generate_tweet(text, instruction, user_id, config=None):
     try:
-        config = get_config()
+        if config is None:
+            config = get_config(user_id)
+        logger.info(
+            f"Using OpenAI API key: {config['openai_api_key']}"
+        )  # Log the API key
         client = OpenAI(api_key=config["openai_api_key"])
 
         system_message = {
@@ -52,19 +56,20 @@ def generate_tweet(text, instruction):
         raise
 
 
-def generate_precta_tweet(text):
+def generate_precta_tweet(text, user_id, config=None):
     precta_instruction = "First, go through this newsletter and isolate the main story. Then, turn the following newsletter into a super catchy, intriguing post-newsletter CTA TWEET (so never more than 280 characters) encouraging people on social media to read the newly published newsletter. Example: How to get newsletter subscribers -- for free. That's the topic of my newsletter tomorrow. I'm breaking down all the best ways to grow your email list organically without a large social following. Get access below:"
-    return generate_tweet(text, precta_instruction)
+    return generate_tweet(text, precta_instruction, user_id, config)
 
 
-def generate_postcta_tweet(text):
+def generate_postcta_tweet(text, user_id, config=None):
     postcta_instruction = "First, go through this newsletter and isolate the main story. Then, turn the following newsletter into a super catchy, intriguing post-newsletter CTA TWEET (so never more than 280 characters) encouraging people on social media to read the newly published newsletter. Example: can you imagine going on a road trip if there were no gas stations? this is an issue facing space companies, and this yc-backed company is looking to change that:"
-    return generate_tweet(text, postcta_instruction)
+    return generate_tweet(text, postcta_instruction, user_id, config)
 
 
-def generate_thread_tweets(text, article_link):
+def generate_thread_tweets(text, article_link, user_id, config=None):
     try:
-        config = get_config()
+        if config is None:
+            config = get_config(user_id)
         client = OpenAI(api_key=config["openai_api_key"])
 
         system_message = {
