@@ -3,15 +3,10 @@ import http.client
 import json
 import logging
 from bs4 import BeautifulSoup
-from dotenv import load_dotenv
 from config import get_config
 
 
 logger = logging.getLogger(__name__)
-
-
-def load_env_variables():
-    load_dotenv(dotenv_path="/Users/treylayton/Desktop/Coding/beehiiv_project/.env")
 
 
 def get_beehiiv_post_id(beehiiv_url):
@@ -32,8 +27,11 @@ def clean_html_content(html_content):
     return clean_text
 
 
-def get_beehiiv_post_content(beehiiv_api_key, publication_id, post_id):
+def get_beehiiv_post_content(user_id, post_id):
     try:
+        config = get_config(user_id)
+        beehiiv_api_key = config["beehiiv_api_key"]
+        publication_id = config["publication_id"]
         conn = http.client.HTTPSConnection("api.beehiiv.com")
         headers = {
             "Accept": "application/json",
@@ -79,3 +77,20 @@ def get_beehiiv_post_content(beehiiv_api_key, publication_id, post_id):
 
 
 # The script's final result is a dictionary containing the post ID, free content, web URL, and thumbnail URL of a specified Beehiiv post. This dictionary can then be used in subsequent steps of your process to generate social media posts and relevant links.
+
+# Example usage
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.DEBUG)
+    user_id = "treylayton.eth"  # Replace with the actual user_id you want to test
+    beehiiv_url = "https://app.beehiiv.com/posts/example-post-id"  # Replace with the actual Beehiiv post URL
+    post_id = get_beehiiv_post_id(beehiiv_url)
+    if post_id:
+        post_content = get_beehiiv_post_content(user_id, post_id)
+        if post_content:
+            logger.info(
+                f"Fetched Beehiiv post content: {json.dumps(post_content, indent=4)}"
+            )
+        else:
+            logger.error("Failed to fetch Beehiiv post content")
+    else:
+        logger.error("Failed to extract Beehiiv post ID")

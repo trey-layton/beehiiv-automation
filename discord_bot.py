@@ -6,18 +6,18 @@ import os
 import subprocess
 from requests_oauthlib import OAuth1Session
 from cryptography.fernet import Fernet
-from dotenv import load_dotenv
 import base64
+from config import get_config
 
-# Load environment variables from .env file
-load_dotenv()
+# Load environment variables and configuration
+config = get_config()
 
 # Get the bot token and application ID from environment variables
-DISCORD_BOT_TOKEN = os.getenv("DISCORD_BOT_TOKEN")
-DISCORD_APP_ID = os.getenv("DISCORD_APP_ID")
-GUILD_ID = os.getenv("GUILD_ID")
-TWITTER_CONSUMER_KEY = os.getenv("TWITTER_API_KEY")
-TWITTER_CONSUMER_SECRET = os.getenv("TWITTER_API_SECRET")
+DISCORD_BOT_TOKEN = config["discord_bot_token"]
+DISCORD_APP_ID = config["discord_app_id"]
+GUILD_ID = config["guild_id"]
+TWITTER_CONSUMER_KEY = config["twitter_api_key"]
+TWITTER_CONSUMER_SECRET = config["twitter_api_secret"]
 
 if (
     not DISCORD_BOT_TOKEN

@@ -2,7 +2,7 @@ import logging
 import json
 import os
 import argparse
-from dotenv import load_dotenv
+from config import get_config
 from beehiiv import get_beehiiv_post_id, get_beehiiv_post_content
 from content_generation import (
     generate_precta_tweet,
@@ -16,9 +16,6 @@ import base64
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-
-# Load environment variables from .env file
-load_dotenv(dotenv_path="/Users/treylayton/Desktop/Coding/beehiiv_project/.env")
 
 
 # Function to load the encryption key
@@ -129,18 +126,14 @@ def post_thread(thread_tweets, twitter_credentials):
 def main(user_id, edition_url, generate_precta, generate_postcta, generate_thread):
     try:
         logger.info("Starting the main function")
-        user_config = load_user_config(user_id)
-        logger.info(f"Loaded user config: {json.dumps(user_config, indent=4)}")
+        config = get_config(user_id)
+        logger.info(f"Loaded user config: {json.dumps(config, indent=4)}")
 
         twitter_credentials = {
-            "twitter_api_key": os.getenv(
-                "TWITTER_API_KEY"
-            ),  # Using environment variable
-            "twitter_api_secret": os.getenv(
-                "TWITTER_API_SECRET"
-            ),  # Using environment variable
-            "twitter_access_key": user_config["twitter_access_key"],
-            "twitter_access_secret": user_config["twitter_access_secret"],
+            "twitter_api_key": config["twitter_api_key"],
+            "twitter_api_secret": config["twitter_api_secret"],
+            "twitter_access_key": config["twitter_access_key"],
+            "twitter_access_secret": config["twitter_access_secret"],
         }
         logger.info(f"Twitter credentials loaded for user: {user_id}")
 

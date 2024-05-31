@@ -5,18 +5,19 @@ import requests
 import tempfile
 import os
 import time
+from config import get_config
 
 logger = logging.getLogger(__name__)
 
 
-def upload_media(
-    media_url,
-    twitter_api_key,
-    twitter_api_secret,
-    twitter_access_key,
-    twitter_access_secret,
-):
+def upload_media(media_url, user_id):
     try:
+        config = get_config(user_id)
+        twitter_api_key = config["twitter_api_key"]
+        twitter_api_secret = config["twitter_api_secret"]
+        twitter_access_key = config["twitter_access_key"]
+        twitter_access_secret = config["twitter_access_secret"]
+
         response = requests.get(media_url)
         if response.status_code != 200:
             raise Exception(
@@ -63,16 +64,19 @@ def upload_media(
 
 def post_tweet(
     tweet_text,
-    twitter_api_key,
-    twitter_api_secret,
-    twitter_access_key,
-    twitter_access_secret,
+    user_id,
     reply_text=None,
     media_id=None,
     in_reply_to_tweet_id=None,
     max_retries=5,
 ):
     try:
+        config = get_config(user_id)
+        twitter_api_key = config["twitter_api_key"]
+        twitter_api_secret = config["twitter_api_secret"]
+        twitter_access_key = config["twitter_access_key"]
+        twitter_access_secret = config["twitter_access_secret"]
+
         twitter_oauth = OAuth1Session(
             twitter_api_key,
             client_secret=twitter_api_secret,
