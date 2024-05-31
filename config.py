@@ -63,6 +63,10 @@ def get_config(user_id, override_config=None):
         "twitter_api_key": os.getenv("TWITTER_API_KEY"),
         "twitter_api_secret": os.getenv("TWITTER_API_SECRET"),
         "openai_api_key": os.getenv("OPENAI_API_KEY"),
+        "discord_bot_token": os.getenv("DISCORD_BOT_TOKEN"),
+        "discord_app_id": os.getenv("DISCORD_APP_ID"),
+        "guild_id": os.getenv("GUILD_ID"),
+        "anthropic_api_key": os.getenv("ANTHROPIC_API_KEY"),
     }
 
     # Verify that critical environment variables are set
