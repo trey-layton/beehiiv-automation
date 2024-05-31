@@ -6,7 +6,7 @@ import base64
 import json
 
 # Load environment variables from .env file
-load_dotenv(dotenv_path="./beehiiv-automation/.env")
+load_dotenv(dotenv_path="/root/beehiiv-automation/.env")
 
 logger = logging.getLogger(__name__)
 
