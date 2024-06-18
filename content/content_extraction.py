@@ -5,7 +5,24 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def extract_text(html_str):
+def extract_text(html_str: str) -> str:
+    """
+    Extracts and cleans text content from the provided HTML string.
+
+    Args:
+        html_str (str): The HTML content to extract text from.
+
+    Returns:
+        str: The cleaned text content extracted from the HTML.
+
+    Raises:
+        ValueError: If the input HTML string is empty or None.
+        Exception: If an error occurs during text extraction.
+    """
+    if not html_str:
+        logger.error("Empty or None HTML string provided")
+        raise ValueError("HTML string cannot be empty or None")
+
     try:
         logger.info(
             f"Original HTML content: {html_str[:500]}..."
@@ -17,6 +34,9 @@ def extract_text(html_str):
         paragraphs = soup.find_all("p")
 
         logger.info(f"Found {len(paragraphs)} paragraphs")
+
+        if not paragraphs:
+            logger.warning("No paragraphs found in the HTML content")
 
         text = "\n\n".join(paragraph.get_text() for paragraph in paragraphs)
         text = re.sub(r"_.*?_", "", text)

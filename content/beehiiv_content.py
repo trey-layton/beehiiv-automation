@@ -2,14 +2,22 @@ import re
 import http.client
 import json
 import logging
-from bs4 import BeautifulSoup
-from config import get_config
-
+from typing import Optional, Dict, Any
+from content.html_utils import clean_html_content
 
 logger = logging.getLogger(__name__)
 
 
-def get_beehiiv_post_id(beehiiv_url):
+def get_beehiiv_post_id(beehiiv_url: str) -> Optional[str]:
+    """
+    Extracts the post ID from a given Beehiiv URL.
+
+    Args:
+        beehiiv_url (str): The URL of the Beehiiv post.
+
+    Returns:
+        Optional[str]: The extracted post ID or None if extraction fails.
+    """
     try:
         post_id_match = re.search(
             r"https://app\.beehiiv\.com/posts/([a-z0-9-]+)", beehiiv_url
@@ -20,18 +28,29 @@ def get_beehiiv_post_id(beehiiv_url):
         raise
 
 
-def clean_html_content(html_content):
-    soup = BeautifulSoup(html_content, "html.parser")
-    text_elements = soup.find_all(["h1", "h2", "h3", "p", "li"])
-    clean_text = "\n".join([element.get_text() for element in text_elements])
-    return clean_text
+def get_beehiiv_post_content(
+    user_id: str, post_id: str, config: dict
+) -> Optional[Dict[str, Any]]:
+    """
+    Retrieves and returns content for a specific Beehiiv post.
 
+    Args:
+        user_id (str): The user ID requesting the content.
+        post_id (str): The post ID to retrieve content for.
+        config (dict): The configuration dictionary.
 
-def get_beehiiv_post_content(user_id, post_id):
+    Returns:
+        Optional[Dict[str, Any]]: A dictionary containing post details like post_id, free_content, web_url, and thumbnail_url,
+                                  or None if the content could not be retrieved.
+    """
     try:
-        config = get_config(user_id)
         beehiiv_api_key = config["beehiiv_api_key"]
         publication_id = config["publication_id"]
+    except KeyError as e:
+        logger.error("Missing configuration key: %s", e)
+        return None
+
+    try:
         conn = http.client.HTTPSConnection("api.beehiiv.com")
         headers = {
             "Accept": "application/json",
@@ -44,11 +63,15 @@ def get_beehiiv_post_content(user_id, post_id):
         )
 
         res = conn.getresponse()
+        if res.status != 200:
+            logger.error("Failed to fetch Beehiiv post content: HTTP %s", res.status)
+            return None
+
         data = res.read().decode("utf-8")
         json_data = json.loads(data)
 
         # Debug: log the entire JSON response
-        print("Beehiiv API response:", json.dumps(json_data, indent=4))
+        # logger.debug("Beehiiv API response: %s", json.dumps(json_data, indent=4))
 
         if "data" in json_data:
             data = json_data["data"]
@@ -59,8 +82,8 @@ def get_beehiiv_post_content(user_id, post_id):
                 and "web" in data["content"]["free"]
                 else None
             )
-            web_url = data["web_url"] if "web_url" in data else None
-            thumbnail_url = data["thumbnail_url"] if "thumbnail_url" in data else None
+            web_url = data.get("web_url")
+            thumbnail_url = data.get("thumbnail_url")
 
             return {
                 "post_id": post_id,
@@ -71,26 +94,12 @@ def get_beehiiv_post_content(user_id, post_id):
         else:
             logger.error("Invalid response structure: 'data' key not found")
             return None
+    except http.client.HTTPException as e:
+        logger.exception("HTTP error while fetching Beehiiv post content:")
+        return None
+    except json.JSONDecodeError as e:
+        logger.exception("Error decoding JSON response:")
+        return None
     except Exception as e:
         logger.exception("Error while fetching Beehiiv post content:")
         raise
-
-
-# The script's final result is a dictionary containing the post ID, free content, web URL, and thumbnail URL of a specified Beehiiv post. This dictionary can then be used in subsequent steps of your process to generate social media posts and relevant links.
-
-# Example usage
-if __name__ == "__main__":
-    logging.basicConfig(level=logging.DEBUG)
-    user_id = "treylayton.eth"  # Replace with the actual user_id you want to test
-    beehiiv_url = "https://app.beehiiv.com/posts/example-post-id"  # Replace with the actual Beehiiv post URL
-    post_id = get_beehiiv_post_id(beehiiv_url)
-    if post_id:
-        post_content = get_beehiiv_post_content(user_id, post_id)
-        if post_content:
-            logger.info(
-                f"Fetched Beehiiv post content: {json.dumps(post_content, indent=4)}"
-            )
-        else:
-            logger.error("Failed to fetch Beehiiv post content")
-    else:
-        logger.error("Failed to extract Beehiiv post ID")
