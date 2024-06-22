@@ -1,10 +1,21 @@
+import sys
+import os
+
+# Add the project root directory to sys.path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 import discord
 from discord.ext import commands
 from discord import app_commands
 import logging
 from typing import Optional, Dict, Any
+
+# Import necessary handlers
 from discord_functionality.discord_utils import load_user_config
-from discord_functionality.discord_events_handler import on_ready, on_message
+from discord_functionality.discord_events_handler import (
+    on_ready as on_ready_event,
+    on_message,
+)
 from discord_functionality.discord_commands_handler import (
     set_config_command,
     run_script_command,
@@ -22,10 +33,13 @@ def run_discord_bot(config: Dict[str, Any], key: bytes) -> None:
         config (Dict[str, Any]): Configuration dictionary.
         key (bytes): Encryption key.
     """
-    DISCORD_BOT_TOKEN: Optional[str] = config.get("discord_bot_token")
+    DISCORD_BOT_TOKEN = config.get("discord_bot_token")
 
     if not DISCORD_BOT_TOKEN:
         raise ValueError("Discord bot token not found in configuration.")
+
+    # Log the bot token to confirm retrieval
+    logging.info(f"Using Discord bot token: {DISCORD_BOT_TOKEN}")
 
     # Create a bot instance
     intents = discord.Intents.default()
@@ -36,20 +50,20 @@ def run_discord_bot(config: Dict[str, Any], key: bytes) -> None:
 
     # Register event handlers
     @bot.event
-    async def on_ready_event() -> None:
+    async def on_ready() -> None:
         """
         Event handler for when the bot is ready.
         Calls the on_ready function from discord_events_handler.
         """
         try:
-            await on_ready(bot, config)
+            await on_ready_event(bot, config)
             logging.info("Bot is ready and commands are synced.")
         except Exception as e:
             logging.exception("Error during on_ready event:")
             raise
 
     @bot.event
-    async def on_message_event(message: discord.Message) -> None:
+    async def on_message(message: discord.Message) -> None:
         """
         Event handler for when a message is received.
         Calls the on_message function from discord_events_handler.
@@ -146,3 +160,8 @@ def run_discord_bot(config: Dict[str, Any], key: bytes) -> None:
             )
 
     bot.run(DISCORD_BOT_TOKEN)
+
+
+if __name__ == "__main__":
+    logging.info("Starting the Discord bot...")
+    run_discord_bot({}, b"some_key")

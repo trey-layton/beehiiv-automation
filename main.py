@@ -15,6 +15,7 @@ from content.generate_tweets import (
     generate_postcta_tweet,
     generate_thread_tweets,
 )
+from discord_functionality.discord_bot import run_discord_bot
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -63,14 +64,7 @@ def main(
         if generate_postcta:
             postcta_tweet = generate_postcta_tweet(original_content, api_key)
             logger.info(f"Generated postcta tweet: {postcta_tweet}")
-            media_id = upload_media(
-                thumbnail_url,
-                twitter_credentials["twitter_api_key"],
-                twitter_credentials["twitter_api_secret"],
-                twitter_credentials["twitter_access_key"],
-                twitter_credentials["twitter_access_secret"],
-                config,
-            )
+            media_id = upload_media(thumbnail_url, user_id, twitter_credentials)
             logger.info(f"Uploaded media with ID: {media_id}")
             post_post_tweet(postcta_tweet, article_link, media_id, twitter_credentials)
 
@@ -80,6 +74,9 @@ def main(
             )
             logger.info(f"Generated thread tweets: {thread_tweets}")
             post_thread(thread_tweets, twitter_credentials)
+
+        # Start Discord bot with configurations and encryption key
+        run_discord_bot(config, key)
 
         logger.info("Main function completed successfully")
     except Exception as e:
