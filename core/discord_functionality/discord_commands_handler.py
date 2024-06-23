@@ -4,7 +4,7 @@ from typing import Dict, Any
 import logging
 import os
 import subprocess
-from discord_functionality.discord_utils import save_user_config
+from core.discord_functionality.discord_utils import save_user_config
 
 
 async def set_config_command(

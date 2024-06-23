@@ -1,5 +1,8 @@
 import json
 from openai import OpenAI
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def setup_openai(api_key):
@@ -7,6 +10,8 @@ def setup_openai(api_key):
 
 
 def call_openai(api_key, system_message, user_message):
+    logger.info(f"Calling OpenAI API with system message: {system_message}")
+    logger.info(f"User message (first 500 chars): {user_message['content'][:500]}")
     client = setup_openai(api_key)
 
     completion = client.chat.completions.create(

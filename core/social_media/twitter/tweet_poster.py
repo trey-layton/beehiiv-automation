@@ -1,6 +1,6 @@
 import logging
 from typing import Dict, List, Optional
-from social_media.twitter.tweet_posting import post_tweet
+from core.social_media.twitter.tweet_posting import post_tweet
 
 logger = logging.getLogger(__name__)
 

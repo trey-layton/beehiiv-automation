@@ -1,6 +1,6 @@
 import discord
 import logging
-from discord_functionality.discord_utils import save_user_config
+from core.discord_functionality.discord_utils import save_user_config
 from requests_oauthlib import OAuth1Session
 from typing import Dict, Any
 

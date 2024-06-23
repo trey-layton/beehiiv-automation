@@ -3,8 +3,10 @@ import requests
 import logging
 import time
 from typing import Optional, List, Dict
+import json
 
 logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.DEBUG)
 
 
 def post_tweet(
@@ -15,23 +17,6 @@ def post_tweet(
     in_reply_to_tweet_id: Optional[str] = None,
     max_retries: int = 5,
 ) -> str:
-    """
-    Posts a tweet to Twitter.
-
-    Args:
-        tweet_text (str): The text of the tweet.
-        twitter_credentials (Dict[str, str]): Twitter API credentials.
-        reply_text (Optional[str]): Text for a reply tweet, if any.
-        media_id (Optional[str]): Media ID to attach to the tweet, if any.
-        in_reply_to_tweet_id (Optional[str]): Tweet ID to reply to, if any.
-        max_retries (int): The maximum number of retry attempts for rate limits.
-
-    Returns:
-        str: The ID of the posted tweet.
-
-    Raises:
-        Exception: If tweet posting fails after max retries.
-    """
     try:
         twitter_api_key = twitter_credentials["twitter_api_key"]
         twitter_api_secret = twitter_credentials["twitter_api_secret"]
@@ -51,10 +36,21 @@ def post_tweet(
         if in_reply_to_tweet_id:
             payload["reply"] = {"in_reply_to_tweet_id": in_reply_to_tweet_id}
 
+        logger.debug(
+            f"Preparing to post tweet with payload: {json.dumps(payload, indent=2)}"
+        )
+
         for attempt in range(max_retries):
+            logger.info(f"Attempt {attempt + 1} of {max_retries} to post tweet")
             response = twitter_oauth.post(
                 "https://api.twitter.com/2/tweets", json=payload
             )
+
+            logger.debug(f"API Response Status Code: {response.status_code}")
+            logger.debug(
+                f"API Response Headers: {json.dumps(dict(response.headers), indent=2)}"
+            )
+            logger.debug(f"API Response Content: {response.text}")
 
             if response.status_code == 201:
                 logger.info("Tweet posted successfully!")
@@ -62,6 +58,7 @@ def post_tweet(
                 tweet_id = json_response["data"]["id"]
 
                 if reply_text:
+                    logger.info(f"Posting reply tweet: {reply_text}")
                     payload = {
                         "text": reply_text,
                         "reply": {"in_reply_to_tweet_id": tweet_id},
@@ -69,6 +66,14 @@ def post_tweet(
                     response = twitter_oauth.post(
                         "https://api.twitter.com/2/tweets", json=payload
                     )
+
+                    logger.debug(
+                        f"Reply API Response Status Code: {response.status_code}"
+                    )
+                    logger.debug(
+                        f"Reply API Response Headers: {json.dumps(dict(response.headers), indent=2)}"
+                    )
+                    logger.debug(f"Reply API Response Content: {response.text}")
 
                     if response.status_code != 201:
                         raise Exception(

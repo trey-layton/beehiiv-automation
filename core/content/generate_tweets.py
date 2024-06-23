@@ -1,10 +1,9 @@
 import subprocess
 import json
 import logging
-from content.openai_client import call_openai
-from content.text_utils import split_tweets
+from core.content.text_utils import split_tweets
 import os
-from openai import OpenAIError
+from core.content.language_model_client import call_language_model
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)  # Ensure logs are printed to the console
@@ -30,13 +29,9 @@ def run_js_script(script_path, function_name, argument):
 
 def validate_tweet_length(tweet):
     try:
-        # Get the directory of the current script
         current_dir = os.path.dirname(os.path.abspath(__file__))
-        # Go up one level to the project root
         project_root = os.path.dirname(current_dir)
-        # Construct the path to the JS file
         js_file_path = os.path.join(project_root, "js_utils", "twitter_text_util.js")
-        # Normalize the path to resolve any .. or . components
         js_file_path = os.path.normpath(js_file_path)
 
         logger.info(f"Attempting to run JavaScript script at: {js_file_path}")
@@ -73,6 +68,8 @@ def auto_link_tweet(tweet):
 
 
 def generate_tweet(text, instruction, api_key):
+    logger.info(f"Generating tweet with instruction: {instruction}")
+    logger.info(f"Content passed to language model (first 500 chars): {text[:500]}")
     try:
         system_message = {
             "role": "system",
@@ -84,19 +81,20 @@ def generate_tweet(text, instruction, api_key):
         }
 
         try:
-            response_content = call_openai(api_key, system_message, user_message)
-            logger.info(f"Raw API response: {response_content}")
+            response_content = call_language_model(
+                api_key, system_message, user_message
+            )
+            logger.info(f"Parsed API response: {response_content}")
 
             if isinstance(response_content, dict) and "tweet" in response_content:
                 tweet_text = response_content["tweet"]
+            elif isinstance(response_content, dict) and "text" in response_content:
+                tweet_text = response_content["text"]
             else:
                 logger.error(f"Unexpected response format: {response_content}")
-                raise ValueError("Invalid response format from OpenAI API")
-        except OpenAIError as e:
-            logger.error(f"OpenAI API error: {str(e)}")
-            raise
+                raise ValueError("Invalid response format from language model API")
         except Exception as e:
-            logger.error(f"Unexpected error in API call: {str(e)}")
+            logger.error(f"Language model API error: {str(e)}")
             raise
 
         tweet_text = tweet_text.replace("\n", ". ")
@@ -110,7 +108,6 @@ def generate_tweet(text, instruction, api_key):
         raise
 
 
-# Existing functions for generating specific types of tweets
 def generate_precta_tweet(text, api_key):
     precta_instruction = "First, go through this newsletter and isolate the main story. Then, turn the following newsletter into a super catchy, intriguing pre-newsletter CTA TWEET (so never more than 280 characters) encouraging people on social media to read the newly published newsletter. Example: How to get newsletter subscribers -- for free. That's the topic of my newsletter tomorrow. I'm breaking down all the best ways to grow your email list organically without a large social following. Get access below:"
     return generate_tweet(text, precta_instruction, api_key)
@@ -129,10 +126,10 @@ def generate_thread_tweets(text, article_link, api_key):
         }
         user_message = {
             "role": "user",
-            "content": f"First, go through this newsletter and use context and your best judgement to determine what the main story is. Then, summarize the main takeaways. Do not use hashtags or capital letters anywhere, but feel free to use a couple of emojis without overdoing it. This example numbers each tweet, but that's just so you can see how long and what types of phrases to use before and after tweet cut offs. You should NOT number your tweets. Here's an example: `#1. Newsletter growth hack I've used to drive 100K+ subscribers: Referral giveaways. Here's how you can use them to do the same for your newsletter (it's much easier than most think): #2. Referral giveaways are fairly simple: Here’s how they work: 1) Give away a product or service for free 2) Subscribers enter to win by sharing their referral link 3) 1 successful referral = 1 entry to win the giveaway These work great for 3 reasons: #3. 1) The Incentives The more subscribers share, the better their shot at winning. Yet subscribers still get a chance to win with 1 referral. This incentive structure is key. You want subscribers to share as much as possible. #4. 2) You don't need a referral program If you don’t have a milestone referral program, that’s ok. You can still do referral giveaways. Use beehiiv’s or SparkLoop’s referral tool to give readers a referral link to share and track results. #5. The subscribers you get will be high-quality. This is because the people being referred don't sign up because of the giveaway. They learn about your newsletter from a friend or co-worker sharing it with them.`:\n{text}",
+            "content": f"First, go through this newsletter and use context and your best judgement to determine what the main story is. Then, summarize the main takeaways. Do not use hashtags or capital letters anywhere, but feel free to use a couple of emojis without overdoing it. This example numbers each tweet, but that's just so you can see how long and what types of phrases to use before and after tweet cut offs. You should NOT number your tweets. Here's an example: `#1. Newsletter growth hack I've used to drive 100K+ subscribers: Referral giveaways. Here's how you can use them to do the same for your newsletter (it's much easier than most think): #2. Referral giveaways are fairly simple: Here's how they work: 1) Give away a product or service for free 2) Subscribers enter to win by sharing their referral link 3) 1 successful referral = 1 entry to win the giveaway These work great for 3 reasons: #3. 1) The Incentives The more subscribers share, the better their shot at winning. Yet subscribers still get a chance to win with 1 referral. This incentive structure is key. You want subscribers to share as much as possible. #4. 2) You don't need a referral program If you don't have a milestone referral program, that's ok. You can still do referral giveaways. Use beehiiv's or SparkLoop's referral tool to give readers a referral link to share and track results. #5. The subscribers you get will be high-quality. This is because the people being referred don't sign up because of the giveaway. They learn about your newsletter from a friend or co-worker sharing it with them.`:\n{text}",
         }
 
-        response_content = call_openai(api_key, system_message, user_message)
+        response_content = call_language_model(api_key, system_message, user_message)
 
         logger.info(f"Raw API response: {response_content}")
 
