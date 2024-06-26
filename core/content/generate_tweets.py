@@ -119,35 +119,40 @@ def generate_postcta_tweet(text, api_key):
 
 
 def generate_thread_tweets(text, article_link, api_key):
+    logger.info(f"Generating thread tweets. Text length: {len(text)}")
     try:
         system_message = {
             "role": "system",
-            "content": "Generate a list of 5 tweets summarizing the main takeaways from the newsletter. Each tweet must be a maximum of 280 characters. Mark the break between tweets with a <br> where there is no space between the break and the first letter of the next tweet. Focus solely on one key point or insight, and don't include any other extra information. Always return your answer in JSON.",
+            "content": "Generate a list of 5 tweets summarizing the main takeaways from the newsletter. Each tweet must be a maximum of 280 characters. Focus solely on one key point or insight, and don't include any other extra information. Return your answer as a JSON object with numbered keys (1, 2, 3, 4, 5) for each tweet.",
         }
         user_message = {
             "role": "user",
-            "content": f"First, go through this newsletter and use context and your best judgement to determine what the main story is. Then, summarize the main takeaways. Do not use hashtags or capital letters anywhere, but feel free to use a couple of emojis without overdoing it. This example numbers each tweet, but that's just so you can see how long and what types of phrases to use before and after tweet cut offs. You should NOT number your tweets. Here's an example: `#1. Newsletter growth hack I've used to drive 100K+ subscribers: Referral giveaways. Here's how you can use them to do the same for your newsletter (it's much easier than most think): #2. Referral giveaways are fairly simple: Here's how they work: 1) Give away a product or service for free 2) Subscribers enter to win by sharing their referral link 3) 1 successful referral = 1 entry to win the giveaway These work great for 3 reasons: #3. 1) The Incentives The more subscribers share, the better their shot at winning. Yet subscribers still get a chance to win with 1 referral. This incentive structure is key. You want subscribers to share as much as possible. #4. 2) You don't need a referral program If you don't have a milestone referral program, that's ok. You can still do referral giveaways. Use beehiiv's or SparkLoop's referral tool to give readers a referral link to share and track results. #5. The subscribers you get will be high-quality. This is because the people being referred don't sign up because of the giveaway. They learn about your newsletter from a friend or co-worker sharing it with them.`:\n{text}",
+            "content": f"First, go through this newsletter and use context and your best judgement to determine what the main story is. Then, summarize the main takeaways. Do not use hashtags or capital letters anywhere, but feel free to use a couple of emojis without overdoing it. Here's the newsletter content:\n{text}",
         }
 
         response_content = call_language_model(api_key, system_message, user_message)
+        logger.info(f"Language model response: {response_content}")
 
-        logger.info(f"Raw API response: {response_content}")
+        # Extract tweets from the response
+        if isinstance(response_content, dict) and "text" in response_content:
+            response_text = response_content["text"]
+            # Split the text into lines and filter out non-tweet lines
+            lines = response_text.split("\n")
+            tweets = [
+                line.split(". ", 1)[1]
+                for line in lines
+                if line.strip() and line[0].isdigit()
+            ]
+        elif isinstance(response_content, dict):
+            # If the response is already in the correct format
+            tweets = [tweet for key, tweet in response_content.items() if key.isdigit()]
+        else:
+            logger.error(f"Unexpected response format: {response_content}")
+            return []
 
-        try:
-            thread_data = json.loads(response_content)
-            thread_tweets = [tweet for key, tweet in thread_data.items()]
-        except (json.JSONDecodeError, KeyError):
-            logger.error(
-                "The response did not contain the expected JSON structure. Using the raw content."
-            )
-            thread_tweets = split_tweets(response_content)
+        logger.info(f"Extracted {len(tweets)} tweets: {tweets}")
+        return tweets
 
-        # Ensure the last tweet is the plug tweet
-        thread_tweets.append(
-            f"for more insights, check out the full article here: {article_link}"
-        )
-
-        return thread_tweets
     except Exception as e:
-        logger.exception("Error while generating thread tweets:")
-        raise
+        logger.exception(f"Error in generate_thread_tweets: {str(e)}")
+        return []

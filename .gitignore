@@ -1,3 +1,6 @@
 .env
+core/config/secret.key
+testlinkedin.py
+user_config.db
 # Add other files or folders like node_modules
 node_modules

@@ -1,4 +1,8 @@
+# File: beehiiv_project/run_discord_bot.py
+
 import logging
+import sys
+from logging.handlers import RotatingFileHandler
 import asyncio
 import os
 from core.config.environment import load_environment, get_config
@@ -6,10 +10,40 @@ from core.encryption.encryption import load_key
 from core.discord_functionality.discord_bot import run_discord_bot
 from core.config.user_config import init_db, DB_PATH
 
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
-logger = logging.getLogger(__name__)
+
+def setup_logging():
+    logger = logging.getLogger()
+    logger.setLevel(logging.DEBUG)
+
+    # Console handler
+    console_handler = logging.StreamHandler(sys.stdout)
+    console_handler.setLevel(logging.INFO)
+    console_formatter = logging.Formatter(
+        "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    )
+    console_handler.setFormatter(console_formatter)
+
+    # File handler
+    file_handler = logging.FileHandler("debug.log", mode="w")
+    file_handler.setLevel(logging.DEBUG)
+    file_formatter = logging.Formatter(
+        "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    )
+    file_handler.setFormatter(file_formatter)
+
+    # Add handlers to the logger
+    logger.addHandler(console_handler)
+    logger.addHandler(file_handler)
+
+    # Disable propagation for discord.py logs to avoid duplicate logging
+    logging.getLogger("discord").propagate = False
+    logging.getLogger("discord.http").setLevel(logging.INFO)
+
+    return logger
+
+
+# Set up logging globally
+logger = setup_logging()
 
 
 async def main():
@@ -41,6 +75,8 @@ async def main():
 
     except Exception as e:
         logger.exception("An error occurred while running the Discord bot:")
+    finally:
+        logger.info("Discord bot shutting down")
 
 
 if __name__ == "__main__":

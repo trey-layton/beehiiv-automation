@@ -62,12 +62,12 @@ def run_discord_bot(config, key):
                 ephemeral=True,
             )
         except TweepyException as e:
-            logger.error(f"Twitter API error: {e}")
+            logger.error(f"Twitter API error in register command: {e}")
             await interaction.followup.send(
                 f"Error! Failed to get request token: {str(e)}", ephemeral=True
             )
         except Exception as e:
-            logger.error(f"Unexpected error in register command: {e}")
+            logger.exception(f"Unexpected error in register command: {e}")
             await interaction.followup.send(
                 f"An unexpected error occurred: {str(e)}", ephemeral=True
             )
@@ -90,7 +90,7 @@ def run_discord_bot(config, key):
                 "twitter_access_secret": access_token_secret,
                 "beehiiv_api_key": beehiiv_info.get("beehiiv_api_key"),
                 "beehiiv_publication_id": beehiiv_info.get("beehiiv_publication_id"),
-                "subscribe_url": beehiiv_info.get("subscribe_url"),  # Add this line
+                "subscribe_url": beehiiv_info.get("subscribe_url"),
             }
 
             logger.info(
@@ -118,12 +118,12 @@ def run_discord_bot(config, key):
                     ephemeral=True,
                 )
         except TweepyException as e:
-            logger.error(f"Twitter API error: {e}")
+            logger.error(f"Twitter API error in confirm_auth command: {e}")
             await interaction.followup.send(
                 f"Error! Failed to get access token: {str(e)}", ephemeral=True
             )
         except Exception as e:
-            logger.error(f"Unexpected error in confirm_auth command: {e}")
+            logger.exception(f"Unexpected error in confirm_auth command: {e}")
             await interaction.followup.send(
                 f"An unexpected error occurred: {str(e)}", ephemeral=True
             )
@@ -142,42 +142,74 @@ def run_discord_bot(config, key):
         postcta: bool = False,
         thread: bool = False,
     ):
-        await interaction.response.defer()
-
         logger.info(f"generate_tweets command invoked by user {interaction.user.id}")
-
-        key_path = "core/config/secret.key"
-        user_config_path = "core/config/user_config.db"
-
-        success, message = run_main_process(
-            str(interaction.user.id),
-            edition_url,
-            precta,
-            postcta,
-            thread,
-            key_path,
-            user_config_path,
+        logger.info(
+            f"Parameters: edition_url={edition_url}, precta={precta}, postcta={postcta}, thread={thread}"
         )
 
-        if success:
-            await interaction.followup.send("Tweets generated and posted successfully!")
-        else:
-            logger.error(
-                f"Tweet generation failed for user {interaction.user.id}: {message}"
+        try:
+            # Attempt to defer the response immediately
+            await interaction.response.defer(thinking=True)
+            logger.info("Interaction deferred successfully")
+        except discord.errors.NotFound:
+            logger.warning(
+                f"Interaction {interaction.id} has expired. Unable to defer response."
             )
-            if "Twitter authentication failed" in message:
-                auth_url = client.oauth1_user_handler.get_authorization_url()
-                client.temp_user_data[interaction.user.id] = {
-                    "reauth": True,
-                }
+            return  # Exit the function as we can't respond to an expired interaction
+
+        try:
+            logger.info("Preparing to run main process")
+            key_path = "core/config/secret.key"
+            user_config_path = "user_config.db"
+
+            # Run the main process in a separate thread to avoid blocking
+            loop = asyncio.get_event_loop()
+            result = await loop.run_in_executor(
+                None,
+                run_main_process,
+                str(interaction.user.id),
+                edition_url,
+                precta,
+                postcta,
+                thread,
+                key_path,
+                user_config_path,
+            )
+
+            logger.info(f"Main process result: {result}")
+
+            if result is None:
+                raise ValueError("run_main_process returned None")
+
+            success, message = result
+            logger.info(f"Process completed. Success: {success}, Message: {message}")
+
+            if success:
                 await interaction.followup.send(
-                    f"Your Twitter tokens are invalid. Please reauthorize by visiting this URL: {auth_url}\n"
-                    "After authorizing, use the /confirm_auth command with the new PIN.",
-                    ephemeral=True,
+                    "Tweets generated and posted successfully!"
                 )
             else:
-                await interaction.followup.send(
-                    f"An error occurred while generating and posting tweets: {message}"
-                )
+                if "Twitter authentication failed" in message:
+                    # Handle Twitter authentication failure
+                    logger.error("Twitter authentication failed")
+                    auth_url = client.oauth1_user_handler.get_authorization_url()
+                    client.temp_user_data[interaction.user.id] = {
+                        "reauth": True,
+                    }
+                    await interaction.followup.send(
+                        f"Your Twitter tokens are invalid. Please reauthorize by visiting this URL: {auth_url}\n"
+                        "After authorizing, use the /confirm_auth command with the new PIN.",
+                        ephemeral=True,
+                    )
+                else:
+                    logger.error(f"Tweet generation failed: {message}")
+                    await interaction.followup.send(
+                        f"An error occurred while generating and posting tweets: {message}"
+                    )
+        except Exception as e:
+            logger.exception(f"Unexpected error in generate_tweets command: {e}")
+            await interaction.followup.send(
+                "An unexpected error occurred. Please check the logs for more information."
+            )
 
     return client

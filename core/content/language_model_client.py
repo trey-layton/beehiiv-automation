@@ -73,9 +73,34 @@ def call_language_model(api_key, system_message, user_message, provider="anthrop
     logger.info(f"Calling {provider} API with system message: {system_message}")
     logger.info(f"User message (first 500 chars): {user_message['content'][:500]}")
 
-    if provider == "anthropic":
-        return call_anthropic(api_key, system_message, user_message)
-    elif provider == "openai":
-        return call_openai(api_key, system_message, user_message)
-    else:
-        raise ValueError(f"Unsupported provider: {provider}")
+    try:
+        if provider == "anthropic":
+            response_content = call_anthropic(api_key, system_message, user_message)
+        elif provider == "openai":
+            response_content = call_openai(api_key, system_message, user_message)
+        else:
+            raise ValueError(f"Unsupported provider: {provider}")
+
+        logger.info(f"Raw API response type: {type(response_content)}")
+        logger.info(
+            f"Raw API response (first 500 chars): {str(response_content)[:500]}"
+        )
+
+        if isinstance(response_content, dict):
+            logger.info("Response is a dictionary, returning as is")
+            return response_content
+        elif isinstance(response_content, str):
+            try:
+                parsed_content = json.loads(response_content)
+                logger.info("Successfully parsed response as JSON")
+                return parsed_content
+            except json.JSONDecodeError:
+                logger.warning("Response is not valid JSON, returning raw string")
+                return response_content
+        else:
+            logger.warning(f"Unexpected response type: {type(response_content)}")
+            return str(response_content)
+
+    except Exception as e:
+        logger.error(f"Error in call_language_model: {str(e)}")
+        raise

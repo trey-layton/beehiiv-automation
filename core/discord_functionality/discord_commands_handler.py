@@ -1,10 +1,12 @@
 import discord
 from requests_oauthlib import OAuth1Session
 from typing import Dict, Any
-import logging
 import os
 import subprocess
 from core.discord_functionality.discord_utils import save_user_config
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 async def set_config_command(
