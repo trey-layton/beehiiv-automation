@@ -1,0 +1,5 @@
+{
+    "USE_ANTHROPIC_API": true,
+    "ENABLE_THREAD_GENERATION": true,
+    "USE_ADVANCED_MEDIA_UPLOAD": true
+  }
