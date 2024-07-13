@@ -1,6 +1,14 @@
-.env
-# Add other files or folders like node_modules
-node_modules
+# Sensitive files
 .env.staging
 core/config/secret.key
 user_config.db
+.env
+
+# Next.js build output
+stack-auth-nextjs/.next/
+
+# Node modules
+node_modules/
+
+# OS files
+.DS_Store
