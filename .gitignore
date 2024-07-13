@@ -1,3 +1,6 @@
 .env
 # Add other files or folders like node_modules
 node_modules
+.env.staging
+core/config/secret.key
+user_config.db
