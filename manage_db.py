@@ -1,6 +1,7 @@
 import sqlite3
 import json
 import os
+from venv import logger
 from core.encryption.encryption import (
     load_key,
     decrypt_data,
@@ -120,6 +121,24 @@ def main_menu():
     return input("Enter your choice (1-5): ")
 
 
+def check_and_update_schema(conn):
+    try:
+        c = conn.cursor()
+
+        # Check if the 'stack_auth_id' column exists
+        c.execute("PRAGMA table_info(users)")
+        columns = [col[1] for col in c.fetchall()]
+
+        if "stack_auth_id" not in columns:
+            logger.info("Adding 'stack_auth_id' column to users table")
+            c.execute("ALTER TABLE users ADD COLUMN stack_auth_id TEXT")
+            conn.commit()
+            logger.info("Schema update completed successfully")
+    except sqlite3.Error as e:
+        logger.error(f"Error updating database schema: {e}")
+        raise
+
+
 def main():
     key = load_key(KEY_PATH)
     print(f"Checking for database at: {os.path.abspath(DB_PATH)}")
@@ -129,8 +148,9 @@ def main():
 
     try:
         key = load_key(KEY_PATH)
+        check_and_update_schema(conn)  # Add this line
     except Exception as e:
-        print(f"Error loading key: {e}")
+        print(f"Error loading key or updating schema: {e}")
         return
 
     while True:

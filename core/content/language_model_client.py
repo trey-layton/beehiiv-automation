@@ -38,9 +38,9 @@ async def call_anthropic(api_key, system_message, user_message):
     client = AsyncAnthropic(api_key=api_key)
     try:
         response = await client.messages.create(
-            model="claude-3-sonnet-20240229",
+            model="claude-3-5-sonnet-20240620",
             max_tokens=1024,
-            temperature=0.3,
+            temperature=0.7,
             system=system_message["content"],
             messages=[{"role": "user", "content": user_message["content"]}],
         )

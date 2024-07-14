@@ -10,7 +10,7 @@ def load_environment(env="production"):
 
     # Clear existing environment variables
     for key in list(os.environ.keys()):
-        if key.startswith(("DISCORD_", "TWITTER_", "OPENAI_", "ANTHROPIC_")):
+        if key.startswith(("DISCORD_", "TWITTER_", "OPENAI_", "ANTHROPIC_", "STACK_")):
             del os.environ[key]
 
     # Get the project root directory
@@ -18,10 +18,9 @@ def load_environment(env="production"):
     logger.info(f"Project root: {project_root}")
 
     # Path to the .env file
-    if env == "staging":
-        dotenv_path = os.path.join(project_root, ".env.staging")
-    else:
-        dotenv_path = os.path.join(project_root, ".env")
+    dotenv_path = os.path.join(
+        project_root, f".env{'.staging' if env == 'staging' else ''}"
+    )
 
     logger.info(f"Attempting to load env file: {dotenv_path}")
 
@@ -48,6 +47,9 @@ def load_environment(env="production"):
         "TWITTER_API_SECRET",
         "OPENAI_API_KEY",
         "ANTHROPIC_API_KEY",
+        "STACK_AUTH_API_URL",
+        "STACK_PROJECT_ID",
+        "STACK_SECRET_SERVER_KEY",
     ]
 
     for var in required_vars:
@@ -66,6 +68,9 @@ def get_config(env="production"):
         "twitter_api_secret": os.getenv("TWITTER_API_SECRET"),
         "openai_api_key": os.getenv("OPENAI_API_KEY"),
         "anthropic_api_key": os.getenv("ANTHROPIC_API_KEY"),
+        "stack_auth_api_url": os.getenv("STACK_AUTH_API_URL"),
+        "stack_project_id": os.getenv("STACK_PROJECT_ID"),
+        "stack_secret_server_key": os.getenv("STACK_SECRET_SERVER_KEY"),
     }
     logger.info(f"Loaded config keys: {config.keys()}")
     return config

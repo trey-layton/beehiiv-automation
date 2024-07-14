@@ -66,38 +66,20 @@ class ConfirmView(discord.ui.View):
             for tweet_type, tweet_data in self.tweets.items():
                 try:
                     if tweet_type == "precta":
-                        tweet_id = await self.tweet_handler.post_tweet(
-                            tweet_data["text"]
+                        self.tweet_handler.post_pre_cta_tweet(
+                            tweet_data["text"], tweet_data["reply"]
                         )
-                        if tweet_id:
-                            reply_id = await self.tweet_handler.post_tweet(
-                                tweet_data["reply"], in_reply_to_tweet_id=tweet_id
-                            )
-                            results.append(
-                                f"Pre-CTA tweet posted successfully. Tweet ID: {tweet_id}, Reply ID: {reply_id}"
-                            )
-                        else:
-                            results.append("Failed to post Pre-CTA tweet")
+                        results.append("Pre-CTA tweet posted successfully")
                     elif tweet_type == "postcta":
-                        media_id = await self.tweet_handler.upload_media(
+                        media_id = self.tweet_handler.upload_media(
                             tweet_data["media_url"]
                         )
-                        tweet_id = await self.tweet_handler.post_tweet(
-                            tweet_data["text"], media_id=media_id
+                        self.tweet_handler.post_post_cta_tweet(
+                            tweet_data["text"], self.edition_url, media_id
                         )
-                        if tweet_id:
-                            reply_id = await self.tweet_handler.post_tweet(
-                                tweet_data["reply"], in_reply_to_tweet_id=tweet_id
-                            )
-                            results.append(
-                                f"Post-CTA tweet posted successfully. Tweet ID: {tweet_id}, Reply ID: {reply_id}"
-                            )
-                        else:
-                            results.append("Failed to post Post-CTA tweet")
+                        results.append("Post-CTA tweet posted successfully")
                     elif tweet_type == "thread":
-                        await self.tweet_handler.post_thread(
-                            tweet_data, self.edition_url
-                        )
+                        self.tweet_handler.post_thread(tweet_data, self.edition_url)
                         results.append("Thread posted successfully")
                 except Exception as e:
                     logger.error(f"Error posting {tweet_type} tweet: {str(e)}")
@@ -109,6 +91,11 @@ class ConfirmView(discord.ui.View):
             await interaction.followup.send(
                 f"An unexpected error occurred while posting tweets: {str(e)}"
             )
+        self.stop()
+
+    @discord.ui.button(label="Cancel", style=discord.ButtonStyle.red)
+    async def cancel(self, interaction: discord.Interaction, button: discord.ui.Button):
+        await interaction.response.send_message("Tweet posting cancelled.")
         self.stop()
 
     @discord.ui.button(label="Cancel", style=discord.ButtonStyle.red)
@@ -560,6 +547,7 @@ def run_discord_bot(config):
                     else:
                         await interaction.followup.send(response)
 
+                    # Only show the confirmation view for tweets that can be posted automatically
                     # Only show the confirmation view for tweets that can be posted automatically
                     if precta or postcta or thread:
                         user_config = load_user_config(user_id)

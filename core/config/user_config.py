@@ -5,7 +5,6 @@ import logging
 from typing import Dict, Any
 from core.encryption.encryption import encrypt_data, decrypt_data, get_key
 
-
 logger = logging.getLogger(__name__)
 
 PROJECT_ROOT = os.path.dirname(
@@ -15,24 +14,26 @@ DB_PATH = os.path.join(PROJECT_ROOT, "user_config.db")
 
 
 def init_db():
-    conn = sqlite3.connect(DB_PATH)
-    c = conn.cursor()
-    c.execute(
-        """CREATE TABLE IF NOT EXISTS users
-                 (user_id TEXT PRIMARY KEY, encrypted_data BLOB)"""
-    )
-    conn.commit()
-    conn.close()
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        c = conn.cursor()
+        c.execute(
+            """CREATE TABLE IF NOT EXISTS users
+                     (user_id TEXT PRIMARY KEY, encrypted_data BLOB)"""
+        )
+        conn.commit()
+    except sqlite3.Error as e:
+        logger.error(f"Error initializing database: {e}")
+    finally:
+        if conn:
+            conn.close()
 
 
 def save_user_config(user_config, user_id):
     key = get_key()
     logger.info(f"Saving config for user: {user_id}")
-    logger.info(f"Key (first 10 bytes): {key[:10]}")
-    logger.info(f"Key length: {len(key)}")
     try:
         encrypted_data = encrypt_data(json.dumps(user_config).encode(), key)
-        logger.info(f"Encrypted data (first 20 bytes): {encrypted_data[:20]}")
         conn = sqlite3.connect(DB_PATH)
         c = conn.cursor()
         c.execute(
@@ -40,32 +41,33 @@ def save_user_config(user_config, user_id):
             (user_id, encrypted_data),
         )
         conn.commit()
-        conn.close()
         logger.info(f"User config saved successfully for user: {user_id}")
         return True
     except Exception as e:
         logger.error(f"Error saving user config: {str(e)}")
         return False
+    finally:
+        if conn:
+            conn.close()
 
 
 def load_user_config(user_id):
     key = get_key()
-    logger.info(f"Loaded key (first 10 bytes): {key[:10]}")
-    logger.info(f"Loaded key length: {len(key)}")
-    conn = sqlite3.connect(DB_PATH)
-    c = conn.cursor()
-    c.execute("SELECT encrypted_data FROM users WHERE user_id = ?", (user_id,))
-    result = c.fetchone()
-    conn.close()
-    if result:
-        try:
-            logger.info(f"Encrypted data (first 20 bytes): {result[0][:20]}")
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        c = conn.cursor()
+        c.execute("SELECT encrypted_data FROM users WHERE user_id = ?", (user_id,))
+        result = c.fetchone()
+        if result:
             decrypted_data = decrypt_data(result[0], key)
             return json.loads(decrypted_data)
-        except Exception as e:
-            logger.error(f"Error decrypting data for user {user_id}: {str(e)}")
-            return None
-    return None
+        return None
+    except Exception as e:
+        logger.error(f"Error loading user config for user {user_id}: {str(e)}")
+        return None
+    finally:
+        if conn:
+            conn.close()
 
 
 def update_user_config_field(user_id, field, value):
