@@ -73,4 +73,12 @@ def get_config(env="production"):
         "stack_secret_server_key": os.getenv("STACK_SECRET_SERVER_KEY"),
     }
     logger.info(f"Loaded config keys: {config.keys()}")
+
+    # Log the first few characters of each config value
+    for key, value in config.items():
+        if value:
+            logger.debug(f"{key}: {'*' * min(len(value), 10)}")
+        else:
+            logger.warning(f"{key} is not set")
+
     return config

@@ -21,6 +21,13 @@ from .admin_commands import (
     list_features,
 )
 from discord.ui import Button, View
+from core.social_media.threads.generate_threads import generate_thread_posts
+from core.social_media.twitter.generate_tweets import (
+    generate_precta_tweet as generate_precta_x_post,
+    generate_postcta_tweet as generate_postcta_x_post,
+    generate_thread_tweets as generate_x_thread,
+    generate_long_form_tweet as generate_long_form_x_post,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -118,6 +125,15 @@ def run_discord_bot(config):
     intents = discord.Intents.default()
     intents.message_content = True
     client = MyClient(intents=intents, config=config)
+
+    # Verify the Discord bot token
+    if not config.get("discord_bot_token"):
+        logger.error("Discord bot token is missing or empty")
+        raise ValueError("Discord bot token is required")
+
+    logger.info(
+        f"Discord bot token (first 10 chars): {config['discord_bot_token'][:10]}..."
+    )
 
     config.update(
         {
@@ -331,7 +347,7 @@ def run_discord_bot(config):
             user_id = str(interaction.user.id)
             user_config = load_user_config(user_id) or {}
 
-            logger.info(f"Authorizing Twitter for user: {user_id}")
+            logger.info(f"Authorizing X for user: {user_id}")
             logger.debug(f"Current user config: {user_config}")
 
             twitter_consumer_key = os.getenv("TWITTER_API_KEY")
@@ -339,7 +355,7 @@ def run_discord_bot(config):
 
             if not twitter_consumer_key or not twitter_consumer_secret:
                 await interaction.followup.send(
-                    "Twitter API credentials are not properly configured. Please contact the administrator.",
+                    "X API credentials are not properly configured. Please contact the administrator.",
                     ephemeral=True,
                 )
                 return
@@ -475,26 +491,41 @@ def run_discord_bot(config):
     @client.tree.command()
     @app_commands.describe(
         edition_url="URL of the specific edition to fetch content for",
-        precta="Generate pre-newsletter CTA tweet",
-        postcta="Generate post-newsletter CTA tweet",
-        thread="Generate thread tweets",
-        long_form="Generate a long-form tweet (approximately 850 characters)",
+        precta_x="Generate pre-newsletter CTA X post",
+        postcta_x="Generate post-newsletter CTA X post",
+        thread_x="Generate X thread",
+        long_form_x="Generate a long-form X post (approximately 850 characters)",
+        precta_thread="Generate pre-newsletter CTA Thread post",
+        postcta_thread="Generate post-newsletter CTA Thread post",
+        thread_thread="Generate Thread posts",
         linkedin="Generate a LinkedIn post",
     )
     async def generate_content(
         interaction: discord.Interaction,
         edition_url: str,
-        precta: Optional[bool] = False,
-        postcta: Optional[bool] = False,
-        thread: Optional[bool] = False,
-        long_form: Optional[bool] = False,
+        precta_x: Optional[bool] = False,
+        postcta_x: Optional[bool] = False,
+        thread_x: Optional[bool] = False,
+        long_form_x: Optional[bool] = False,
+        precta_thread: Optional[bool] = False,
+        postcta_thread: Optional[bool] = False,
+        thread_thread: Optional[bool] = False,
         linkedin: Optional[bool] = False,
     ):
         await interaction.response.defer(thinking=True)
         try:
             user_id = str(interaction.user.id)
             result = await run_main_process(
-                user_id, edition_url, precta, postcta, thread, long_form, linkedin
+                user_id,
+                edition_url,
+                precta_x,
+                postcta_x,
+                thread_x,
+                long_form_x,
+                precta_thread,
+                postcta_thread,
+                thread_thread,
+                linkedin,
             )
 
             if len(result) != 3:
@@ -506,6 +537,7 @@ def run_discord_bot(config):
 
             success, message, generated_content = result
 
+            # Update the result handling to include Thread posts
             if success:
                 if not generated_content:
                     await interaction.followup.send(
@@ -524,17 +556,20 @@ def run_discord_bot(config):
                             if "reply" in content_data:
                                 response += f"Reply: {content_data['reply']}\n"
                         elif isinstance(content_data, list):
-                            if content_data:  # Check if the list is not empty
-                                for i, tweet in enumerate(content_data, 1):
-                                    response += f"Tweet {i}: {tweet}\n"
+                            if content_data:
+                                for i, post in enumerate(content_data, 1):
+                                    if isinstance(post, dict):
+                                        response += f"Post {i}: {post['text']} (Type: {post.get('type', 'unknown')})\n"
+                                    else:
+                                        response += f"Post {i}: {post}\n"
                             else:
-                                response += "No tweets were generated.\n"
+                                response += "No posts were generated.\n"
                         else:
-                            if content_type in ["long_form", "linkedin"]:
+                            if content_type in ["long_form_x", "linkedin"]:
                                 content_data = content_data.replace("<br>", "\n\n")
                                 content_data = content_data.strip()
-                            response += f"{content_data}\n"
-                        response += "\n"
+                            content_text = content_data
+                            response += f"{content_type.upper()}:\n\n{content_text}\n\n"
 
                     # Send the response in chunks if it's too long
                     if len(response) > 2000:
@@ -547,11 +582,9 @@ def run_discord_bot(config):
                     else:
                         await interaction.followup.send(response)
 
-                    # Only show the confirmation view for tweets that can be posted automatically
-                    # Only show the confirmation view for tweets that can be posted automatically
-                    if precta or postcta or thread:
+                    if precta_x or postcta_x or thread_x:
                         user_config = load_user_config(user_id)
-                        twitter_credentials = {
+                        x_credentials = {
                             "twitter_api_key": os.getenv("TWITTER_API_KEY"),
                             "twitter_api_secret": os.getenv("TWITTER_API_SECRET"),
                             "twitter_access_key": user_config.get("twitter_access_key"),
@@ -560,10 +593,10 @@ def run_discord_bot(config):
                             ),
                         }
                         view = ConfirmView(
-                            generated_content, user_id, edition_url, twitter_credentials
+                            generated_content, user_id, edition_url, x_credentials
                         )
                         await interaction.followup.send(
-                            "Do you want to post these tweets?", view=view
+                            "Do you want to post these X posts?", view=view
                         )
             else:
                 await interaction.followup.send(f"An error occurred: {message}")

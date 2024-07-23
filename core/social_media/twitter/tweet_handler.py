@@ -56,9 +56,10 @@ class TweetHandler:
             )
 
             if response.status_code != 201:
-                raise Exception(
-                    f"Request returned an error: {response.status_code} {response.text}"
+                logger.error(
+                    f"Error posting tweet. Status: {response.status_code}, Response: {response.text}"
                 )
+                return None
 
             json_response = response.json()
             logger.info(f"Tweet posted successfully: {json_response['data']['text']}")
@@ -98,36 +99,47 @@ class TweetHandler:
 
         for i, tweet in enumerate(tweets):
             if isinstance(tweet, dict):
-                tweet_text = tweet["text"]
+                tweet_text = tweet.get("text", "")
                 tweet_type = tweet.get("type", "normal")
             else:
-                tweet_text = tweet
+                tweet_text = str(tweet)
                 tweet_type = "normal"
 
-            logger.debug(f"Posting tweet {i+1}: {tweet_text[:50]}...")
+            logger.debug(
+                f"Posting tweet {i+1}: {tweet_text[:50]}... (Type: {tweet_type})"
+            )
 
-            if tweet_type == "quote_tweet":
-                tweet_id = self.post_tweet(
-                    tweet_text,
-                    in_reply_to_tweet_id=previous_tweet_id,
-                    quote_tweet_id=first_tweet_id,
-                )
-            else:
-                tweet_id = self.post_tweet(
-                    tweet_text, in_reply_to_tweet_id=previous_tweet_id
-                )
+            if not tweet_text:
+                logger.warning(f"Empty tweet detected at position {i+1}. Skipping.")
+                continue
 
-            if not tweet_id:
-                logger.error(f"Failed to post thread tweet {i+1}")
+            try:
+                if tweet_type == "quote_tweet":
+                    tweet_id = self.post_tweet(
+                        tweet_text,
+                        in_reply_to_tweet_id=previous_tweet_id,
+                        quote_tweet_id=first_tweet_id,
+                    )
+                else:
+                    tweet_id = self.post_tweet(
+                        tweet_text, in_reply_to_tweet_id=previous_tweet_id
+                    )
+
+                if not tweet_id:
+                    logger.error(f"Failed to post thread tweet {i+1}")
+                    return
+
+                logger.debug(f"Tweet {i+1} posted successfully with ID: {tweet_id}")
+
+                if i == 0:
+                    first_tweet_id = tweet_id
+                    logger.debug(f"First tweet ID captured: {first_tweet_id}")
+
+                previous_tweet_id = tweet_id
+
+            except Exception as e:
+                logger.exception(f"Error posting tweet {i+1}: {str(e)}")
                 return
-
-            logger.debug(f"Tweet {i+1} posted successfully with ID: {tweet_id}")
-
-            if i == 0:
-                first_tweet_id = tweet_id
-                logger.debug(f"First tweet ID captured: {first_tweet_id}")
-
-            previous_tweet_id = tweet_id
 
         logger.info("Thread posted successfully")
 
