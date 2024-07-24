@@ -36,11 +36,13 @@ PROJECT_ROOT = os.path.dirname(
 )
 USER_CONFIG_PATH = os.path.join(PROJECT_ROOT, "user_config.db")
 
-ADMIN_USER_ID = "795075580659236904"  # Replace with your Discord user ID
-
 
 def is_admin(interaction: discord.Interaction) -> bool:
-    return str(interaction.user.id) == ADMIN_USER_ID
+    admin_ids = [
+        "795075580659236904",
+        "446080996195041312",
+    ]  # Add your cofounder's Discord ID
+    return str(interaction.user.id) in admin_ids
 
 
 class ConfirmView(discord.ui.View):
@@ -491,25 +493,25 @@ def run_discord_bot(config):
     @client.tree.command()
     @app_commands.describe(
         edition_url="URL of the specific edition to fetch content for",
-        precta_x="Generate pre-newsletter CTA X post",
-        postcta_x="Generate post-newsletter CTA X post",
-        thread_x="Generate X thread",
-        long_form_x="Generate a long-form X post (approximately 850 characters)",
-        precta_thread="Generate pre-newsletter CTA Thread post",
-        postcta_thread="Generate post-newsletter CTA Thread post",
-        thread_thread="Generate Thread posts",
+        precta_tweet="Generate pre-newsletter CTA tweet",
+        postcta_tweet="Generate post-newsletter CTA tweet",
+        thread_tweet="Generate Twitter thread",
+        long_form_tweet="Generate a long-form tweet (approximately 850 characters)",
+        # precta_thread="Generate pre-newsletter CTA Thread post",
+        # postcta_thread="Generate post-newsletter CTA Thread post",
+        # thread_thread="Generate Thread posts",
         linkedin="Generate a LinkedIn post",
     )
     async def generate_content(
         interaction: discord.Interaction,
         edition_url: str,
-        precta_x: Optional[bool] = False,
-        postcta_x: Optional[bool] = False,
-        thread_x: Optional[bool] = False,
-        long_form_x: Optional[bool] = False,
-        precta_thread: Optional[bool] = False,
-        postcta_thread: Optional[bool] = False,
-        thread_thread: Optional[bool] = False,
+        precta_twitter: Optional[bool] = False,
+        postcta_twitter: Optional[bool] = False,
+        thread_twitter: Optional[bool] = False,
+        long_form_twitter: Optional[bool] = False,
+        # precta_thread: Optional[bool] = False,
+        # postcta_thread: Optional[bool] = False,
+        # thread_thread: Optional[bool] = False,
         linkedin: Optional[bool] = False,
     ):
         await interaction.response.defer(thinking=True)
@@ -518,13 +520,13 @@ def run_discord_bot(config):
             result = await run_main_process(
                 user_id,
                 edition_url,
-                precta_x,
-                postcta_x,
-                thread_x,
-                long_form_x,
-                precta_thread,
-                postcta_thread,
-                thread_thread,
+                precta_twitter,
+                postcta_twitter,
+                thread_twitter,
+                long_form_twitter,
+                # precta_thread,
+                # postcta_thread,
+                # thread_thread,
                 linkedin,
             )
 
@@ -582,7 +584,7 @@ def run_discord_bot(config):
                     else:
                         await interaction.followup.send(response)
 
-                    if precta_x or postcta_x or thread_x:
+                    if precta_twitter or postcta_twitter or thread_twitter:
                         user_config = load_user_config(user_id)
                         x_credentials = {
                             "twitter_api_key": os.getenv("TWITTER_API_KEY"),
