@@ -8,7 +8,7 @@ from core.social_media.threads.generate_threads import (
 from core.social_media.twitter.generate_tweets import (
     generate_precta_tweet,
     generate_postcta_tweet,
-    generate_thread_tweets,
+    generate_thread_tweet,
     generate_long_form_tweet,
 )
 from core.social_media.linkedin.generate_linkedin_post import generate_linkedin_post
@@ -112,7 +112,7 @@ async def run_main_process(
 
         if generate_thread_tweet:
             logger.info("Generating Twitter thread")
-            thread_tweet = await generate_thread_tweets(
+            thread_tweet = await generate_thread_tweet(
                 original_content, article_link, user_config.get("openai_api_key")
             )
             logger.debug(f"Generated thread_tweet: {thread_tweet}")  # Add this line
