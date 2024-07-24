@@ -156,7 +156,7 @@ async def generate_postcta_tweet(text, api_key, example_tweet):
     return await quality_check_content(tweet, api_key)
 
 
-async def generate_thread_tweets(text, article_link, api_key):
+async def generate_thread_tweet(text, article_link, api_key):
     logger.info(f"Generating thread tweets. Text length: {len(text)}")
     try:
         system_message = {
@@ -344,7 +344,7 @@ That's amazing."
         return tweets
 
     except Exception as e:
-        logger.exception(f"Error in generate_thread_tweets: {str(e)}")
+        logger.exception(f"Error in generate_thread_tweet: {str(e)}")
         return []
 
 

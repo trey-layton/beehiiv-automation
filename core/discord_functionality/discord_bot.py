@@ -505,10 +505,10 @@ def run_discord_bot(config):
     async def generate_content(
         interaction: discord.Interaction,
         edition_url: str,
-        precta_twitter: Optional[bool] = False,
-        postcta_twitter: Optional[bool] = False,
-        thread_twitter: Optional[bool] = False,
-        long_form_twitter: Optional[bool] = False,
+        precta_tweet: Optional[bool] = False,
+        postcta_tweet: Optional[bool] = False,
+        thread_tweet: Optional[bool] = False,
+        long_form_tweet: Optional[bool] = False,
         # precta_thread: Optional[bool] = False,
         # postcta_thread: Optional[bool] = False,
         # thread_thread: Optional[bool] = False,
@@ -520,10 +520,10 @@ def run_discord_bot(config):
             result = await run_main_process(
                 user_id,
                 edition_url,
-                precta_twitter,
-                postcta_twitter,
-                thread_twitter,
-                long_form_twitter,
+                precta_tweet,
+                postcta_tweet,
+                thread_tweet,
+                long_form_tweet,
                 # precta_thread,
                 # postcta_thread,
                 # thread_thread,
@@ -584,7 +584,7 @@ def run_discord_bot(config):
                     else:
                         await interaction.followup.send(response)
 
-                    if precta_twitter or postcta_twitter or thread_twitter:
+                    if precta_tweet or postcta_tweet or thread_tweet:
                         user_config = load_user_config(user_id)
                         x_credentials = {
                             "twitter_api_key": os.getenv("TWITTER_API_KEY"),

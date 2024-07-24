@@ -24,10 +24,10 @@ logger = logging.getLogger(__name__)
 async def run_main_process(
     user_id: str,
     edition_url: str,
-    generate_precta_x: bool = False,
-    generate_postcta_x: bool = False,
-    generate_thread_x: bool = False,
-    generate_long_form_x: bool = False,
+    generate_precta_tweet: bool = False,
+    generate_postcta_tweet: bool = False,
+    generate_thread_tweet: bool = False,
+    generate_long_form_tweet: bool = False,
     generate_precta_threads: bool = False,
     generate_postcta_threads: bool = False,
     generate_thread_threads: bool = False,
@@ -89,44 +89,44 @@ async def run_main_process(
 
         generated_content = {}
 
-        if generate_precta_x:
-            logger.info("Generating pre-CTA X post")
-            precta_x = await generate_precta_tweet(
+        if generate_precta_tweet:
+            logger.info("Generating pre-CTA tweet")
+            precta_tweet = await generate_precta_tweet(
                 original_content, user_config.get("openai_api_key"), example_tweet
             )
-            generated_content["precta_x"] = {
-                "text": precta_x,
+            generated_content["precta_tweet"] = {
+                "text": precta_tweet,
                 "reply": f"subscribe for free to get it in your inbox! {subscribe_url}",
             }
 
-        if generate_postcta_x:
-            logger.info("Generating post-CTA X post")
-            postcta_x = await generate_postcta_tweet(
+        if generate_postcta_tweet:
+            logger.info("Generating post-CTA tweet")
+            postcta_tweet = await generate_postcta_tweet(
                 original_content, user_config.get("openai_api_key"), example_tweet
             )
-            generated_content["postcta_x"] = {
-                "text": postcta_x,
+            generated_content["postcta_tweet"] = {
+                "text": postcta_tweet,
                 "reply": f"check out the full thing online now! {article_link}",
                 "media_url": thumbnail_url,
             }
 
-        if generate_thread_x:
-            logger.info("Generating X thread")
-            thread_x = await generate_thread_tweets(
+        if generate_thread_tweet:
+            logger.info("Generating Twitter thread")
+            thread_tweet = await generate_thread_tweets(
                 original_content, article_link, user_config.get("openai_api_key")
             )
-            logger.debug(f"Generated thread_x: {thread_x}")  # Add this line
-            generated_content["thread_x"] = thread_x
+            logger.debug(f"Generated thread_tweet: {thread_tweet}")  # Add this line
+            generated_content["thread_tweet"] = thread_tweet
 
-        if generate_long_form_x:
-            logger.info("Generating long-form X post")
+        if generate_long_form_tweet:
+            logger.info("Generating long-form tweet")
             example_tweet = user_config.get(
                 "example_long_form_tweet", ""
             )  # Get the example tweet from user config
-            long_form_x = await generate_long_form_tweet(
+            long_form_tweet = await generate_long_form_tweet(
                 original_content, user_config.get("openai_api_key")
             )
-            generated_content["long_form_x"] = long_form_x
+            generated_content["long_form_tweet"] = long_form_tweet
 
         if generate_linkedin:
             logger.info("Generating LinkedIn post")
