@@ -23,10 +23,10 @@ from .admin_commands import (
 from discord.ui import Button, View
 from core.social_media.threads.generate_threads import generate_thread_posts
 from core.social_media.twitter.generate_tweets import (
-    generate_precta_tweet as generate_precta_x_post,
-    generate_postcta_tweet as generate_postcta_x_post,
-    generate_thread_tweets as generate_x_thread,
-    generate_long_form_tweet as generate_long_form_x_post,
+    generate_precta_tweet as generate_precta_tweet,
+    generate_postcta_tweet as generate_postcta_tweet,
+    generate_thread_tweet as generate_thread_tweet,
+    generate_long_form_tweet as generate_long_form_tweet,
 )
 
 logger = logging.getLogger(__name__)
