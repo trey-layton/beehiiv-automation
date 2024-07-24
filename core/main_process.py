@@ -112,11 +112,13 @@ async def run_main_process(
 
         if generate_thread_tweet:
             logger.info("Generating Twitter thread")
-            thread_tweet = await generate_thread_tweet(
-                original_content, article_link, user_config.get("openai_api_key")
+            thread_tweets = await generate_thread_tweet(
+                original_content,
+                article_link,
+                user_config.get("openai_api_key"),
+                example_tweet,
             )
-            logger.debug(f"Generated thread_tweet: {thread_tweet}")  # Add this line
-            generated_content["thread_tweet"] = thread_tweet
+            generated_content["thread_tweet"] = thread_tweets
 
         if generate_long_form_tweet:
             logger.info("Generating long-form tweet")
