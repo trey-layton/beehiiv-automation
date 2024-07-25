@@ -10,6 +10,7 @@ from core.social_media.twitter.generate_tweets import (
     generate_postcta_tweet,
     generate_thread_tweet,
     generate_long_form_tweet,
+    gen_link_focused_tweet
 )
 from core.social_media.linkedin.generate_linkedin_post import generate_linkedin_post
 from core.social_media.twitter.tweet_handler import TweetHandler
@@ -28,6 +29,7 @@ async def run_main_process(
     generate_postcta_tweet: bool = False,
     generate_thread_tweet: bool = False,
     generate_long_form_tweet: bool = False,
+    generate_link_focused_tweet: bool = False,
     generate_precta_threads: bool = False,
     generate_postcta_threads: bool = False,
     generate_thread_threads: bool = False,
@@ -70,6 +72,7 @@ async def run_main_process(
             return False, f"Error fetching Beehiiv content: {str(e)}", {}
 
         original_content = content_data.get("free_content")
+        raw_content = content_data.get("raw_content")
         article_link = content_data.get("web_url")
         thumbnail_url = content_data.get("thumbnail_url")
 
@@ -129,6 +132,13 @@ async def run_main_process(
                 original_content, user_config.get("openai_api_key")
             )
             generated_content["long_form_tweet"] = long_form_tweet
+
+        if generate_link_focused_tweet:
+            logger.info("Generating link-focused tweet")
+            link_focused_tweet = await gen_link_focused_tweet(
+                raw_content, user_config.get("openai_api_key")
+            )
+            generated_content["link_focused_tweet"] = link_focused_tweet
 
         if generate_linkedin:
             logger.info("Generating LinkedIn post")

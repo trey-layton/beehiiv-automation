@@ -7,6 +7,7 @@ from core.content.language_model_client import call_language_model
 from core.config.user_config import load_user_config
 from core.content.content_quality_check import quality_check_content
 import re
+from bs4 import BeautifulSoup
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)  # Ensure logs are printed to the console
@@ -70,7 +71,7 @@ async def generate_tweet(text, instruction, api_key, example_tweet):
         # Extract tweet text from the response
         if isinstance(response_content, dict):
             tweet_text = (
-                response_content.get("tweet") or response_content.get("text") or ""
+                    response_content.get("tweet") or response_content.get("text") or ""
             )
         elif isinstance(response_content, str):
             tweet_text = response_content
@@ -129,7 +130,7 @@ async def shorten_tweet(tweet_text, api_key):
 
     if isinstance(shortened_response, dict):
         shortened_tweet = (
-            shortened_response.get("tweet") or shortened_response.get("text") or ""
+                shortened_response.get("tweet") or shortened_response.get("text") or ""
         )
     elif isinstance(shortened_response, str):
         shortened_tweet = shortened_response
@@ -444,7 +445,7 @@ If you found this helpful - give me a retweet or a comment - it helps me spread 
         # Extract tweet text from the response
         if isinstance(response_content, dict):
             tweet_text = (
-                response_content.get("tweet") or response_content.get("text") or ""
+                    response_content.get("tweet") or response_content.get("text") or ""
             )
         elif isinstance(response_content, str):
             tweet_text = response_content
@@ -466,4 +467,42 @@ If you found this helpful - give me a retweet or a comment - it helps me spread 
 
     except Exception as e:
         logger.exception(f"Unexpected error in generate_long_form_tweet: {str(e)}")
+        raise
+
+
+async def gen_link_focused_tweet(text, api_key):
+    logger.info("Generating link-focused tweet")
+    try:
+        soup = BeautifulSoup(text, 'html.parser')
+
+        links = [a['href'] for a in soup.find_all('a', href=True) if "utm" in a['href']]
+
+        link_content = "\n".join(links)
+
+        system_message = {
+            "role": "system",
+            "content": "You are a social media expert tasked with creating an engaging tweet that highlights the key links from a newsletter. The tweet should be informative and encourage readers to check out the links. Keep the tweet under 280 characters."
+        }
+
+        user_message = {
+            "role": "user",
+            "content": f"Create a tweet that highlights these links from the newsletter:\n\n{link_content}"
+        }
+
+        response_content = await call_language_model(api_key, system_message, user_message)
+
+        if isinstance(response_content, dict):
+            tweet_text = response_content.get("tweet") or response_content.get("text") or ""
+        elif isinstance(response_content, str):
+            tweet_text = response_content
+        else:
+            raise ValueError("Invalid response format from language model API")
+
+        tweet_text = clean_tweet_text(tweet_text)
+        tweet_text = await quality_check_content(tweet_text, api_key)
+
+        logger.info(f"Final link-focused tweet text (length {len(tweet_text)}): {tweet_text}")
+        return tweet_text
+    except Exception as e:
+        logger.exception(f"Unexpected error in generate_link_focused_tweet: {str(e)}")
         raise

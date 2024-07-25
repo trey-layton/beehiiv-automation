@@ -44,6 +44,7 @@ async def fetch_beehiiv_content(user_id: str, edition_url: str) -> dict:
         content_data = {
             "subscribe_url": user_data.get("subscribe_url"),
             "free_content": post_content.get("free_content"),
+            "raw_content": post_content.get("raw_content"),
             "web_url": post_content.get("web_url"),
             "thumbnail_url": post_content.get("thumbnail_url"),
         }
