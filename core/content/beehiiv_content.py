@@ -5,6 +5,7 @@ import logging
 from typing import Optional, Dict, Any
 from urllib.parse import urlencode
 from bs4 import BeautifulSoup
+from core.models.user import User
 
 logger = logging.getLogger(__name__)
 
@@ -55,16 +56,16 @@ def get_beehiiv_post_id(beehiiv_url: str) -> Optional[str]:
 
 
 def get_beehiiv_post_content(
-    user_id: str, post_id: str, config: dict
+    user_config: dict, post_id: str
 ) -> Optional[Dict[str, Any]]:
     try:
-        beehiiv_api_key = config.get("beehiiv_api_key")
-        publication_id = config.get("beehiiv_publication_id")
+        beehiiv_api_key = user_config.get("beehiiv_api_key")
+        publication_id = user_config.get("publication_id")
 
         if not beehiiv_api_key:
             raise ValueError("Missing configuration key: 'beehiiv_api_key'")
         if not publication_id:
-            raise ValueError("Missing configuration key: 'beehiiv_publication_id'")
+            raise ValueError("Missing configuration key: 'publication_id'")
 
         conn = http.client.HTTPSConnection("api.beehiiv.com")
         headers = {

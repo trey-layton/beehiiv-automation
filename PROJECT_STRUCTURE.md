@@ -32,14 +32,6 @@ BEEHIIV_PROJECT/
 │   │   ├── language_model_client.py
 │   │   └── text_utils.py
 │   │
-│   ├── discord_functionality/
-│   │   ├── __init__.py
-│   │   ├── admin_commands.py
-│   │   ├── discord_bot.py
-│   │   ├── discord_commands_handler.py
-│   │   ├── discord_events_handler.py
-│   │   └── discord_utils.py
-│   │
 │   ├── encryption/
 │   │   ├── __init__.py
 │   │   └── encryption.py
@@ -67,7 +59,4 @@ BEEHIIV_PROJECT/
 ├── .env.staging
 ├── .gitignore
 ├── manage_db.py
-├── requirements.txt
-├── run_discord_bot.py
-├── run_staging_bot.py
-└── user_config.db
+└── requirements.txt

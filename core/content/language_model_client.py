@@ -1,110 +1,48 @@
 import os
-import json
-import logging
-from anthropic import Anthropic, AsyncAnthropic
-from openai import AsyncOpenAI, OpenAI
-import re
+from dotenv import load_dotenv
+import anthropic
+import openai
 
-logger = logging.getLogger(__name__)
+load_dotenv()
 
-
-def extract_json_from_string(s):
-    """Extract a JSON object from a string, even if there's additional text."""
-    json_match = re.search(r"\{.*\}", s, re.DOTALL)
-    if json_match:
-        try:
-            return json.loads(json_match.group())
-        except json.JSONDecodeError:
-            return None
-    return None
+LANGUAGE_MODEL_PROVIDER = os.getenv("LANGUAGE_MODEL_PROVIDER", "anthropic")
+ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 
-def parse_response(response_content):
-    """Parse the response content, attempting to extract JSON if present."""
-    try:
-        # First, try to parse the entire response as JSON
-        return json.loads(response_content)
-    except json.JSONDecodeError:
-        # If that fails, try to extract JSON from the string
-        extracted_json = extract_json_from_string(response_content)
-        if extracted_json:
-            return extracted_json
-        else:
-            # If no JSON found, return the raw text in a dict
-            return {"text": response_content.strip()}
-
-
-async def call_anthropic(api_key, system_message, user_message):
-    client = AsyncAnthropic(api_key=api_key)
-    try:
-        response = await client.messages.create(
-            model="claude-3-5-sonnet-20240620",
-            max_tokens=1024,
-            temperature=0.7,
-            system=system_message["content"],
-            messages=[{"role": "user", "content": user_message["content"]}],
-        )
-        return parse_response(response.content[0].text)
-    except Exception as e:
-        logger.error(f"Anthropic API error: {str(e)}")
-        raise
-
-
-async def call_openai(api_key, system_message, user_message):
-    client = AsyncOpenAI(api_key=api_key)
-    try:
-        completion = await client.chat.completions.create(
-            model="gpt-4",
-            messages=[
-                {"role": "system", "content": system_message["content"]},
-                {"role": "user", "content": user_message["content"]},
-            ],
-            max_tokens=1024,
-            n=1,
-            temperature=0.3,
-        )
-        return parse_response(completion.choices[0].message.content)
-    except Exception as e:
-        logger.error(f"OpenAI API error: {str(e)}")
-        raise
-
-
-async def call_language_model(
-    api_key, system_message, user_message, provider="anthropic"
-):
-    logger.info(f"Calling {provider} API with system message: {system_message}")
-    logger.info(f"User message (first 500 chars): {user_message['content'][:500]}")
-
-    try:
-        if provider == "anthropic":
-            response_content = await call_anthropic(
-                api_key, system_message, user_message
-            )
-        elif provider == "openai":
-            response_content = await call_openai(api_key, system_message, user_message)
-        else:
-            raise ValueError(f"Unsupported provider: {provider}")
-
-        logger.info(f"Raw API response type: {type(response_content)}")
-        logger.info(
-            f"Raw API response (first 500 chars): {str(response_content)[:500]}"
+async def call_language_model(system_message: dict, user_message: dict):
+    if LANGUAGE_MODEL_PROVIDER == "anthropic":
+        return await call_anthropic(system_message, user_message)
+    elif LANGUAGE_MODEL_PROVIDER == "openai":
+        return await call_openai(system_message, user_message)
+    else:
+        raise ValueError(
+            f"Unsupported language model provider: {LANGUAGE_MODEL_PROVIDER}"
         )
 
-        if isinstance(response_content, dict):
-            logger.info("Response is a dictionary, returning as is")
-            return response_content
-        elif isinstance(response_content, str):
-            try:
-                parsed_content = json.loads(response_content)
-                logger.info("Successfully parsed response as JSON")
-                return parsed_content
-            except json.JSONDecodeError:
-                logger.warning("Response is not valid JSON, returning raw string")
-                return response_content
-        else:
-            logger.warning(f"Unexpected response type: {type(response_content)}")
-            return str(response_content)
 
-    except Exception as e:
-        logger.error(f"Error in call_language_model: {str(e)}")
-        raise
+async def call_anthropic(system_message: dict, user_message: dict):
+    client = anthropic.AsyncAnthropic(api_key=ANTHROPIC_API_KEY)
+    response = await client.messages.create(
+        model="claude-3-5-sonnet-20240620",
+        max_tokens=1024,
+        temperature=0.7,
+        system=system_message["content"],
+        messages=[{"role": "user", "content": user_message["content"]}],
+    )
+    return response.content[0].text
+
+
+async def call_openai(system_message: dict, user_message: dict):
+    client = openai.AsyncOpenAI(api_key=OPENAI_API_KEY)
+    completion = await client.chat.completions.create(
+        model="gpt-4o",
+        messages=[
+            {"role": "system", "content": system_message["content"]},
+            {"role": "user", "content": user_message["content"]},
+        ],
+        max_tokens=1024,
+        n=1,
+        temperature=0.3,
+    )
+    return completion.choices[0].message.content

@@ -5,7 +5,7 @@ from core.content.language_model_client import call_language_model
 logger = logging.getLogger(__name__)
 
 
-async def generate_linkedin_post(text, api_key, example_post):
+async def generate_linkedin_post(text: str, user_config: dict, example_post: str):
     logger.info("Generating LinkedIn post")
     logger.info(f"Content passed to language model (first 500 chars): {text[:500]}")
     try:
@@ -18,9 +18,7 @@ async def generate_linkedin_post(text, api_key, example_post):
             "content": f"Create a LinkedIn post summarizing this newsletter content. Use a professional style similar to this example, but adapted for LinkedIn: {example_post}\n\nHere's the newsletter content:\n{text}",
         }
 
-        response_content = await call_language_model(
-            api_key, system_message, user_message
-        )
+        response_content = await call_language_model(system_message, user_message)
         logger.info(f"Raw API response: {response_content}")
 
         # Extract post text from the response

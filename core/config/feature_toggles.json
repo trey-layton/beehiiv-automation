@@ -2,5 +2,6 @@
   "USE_ANTHROPIC_API": true,
   "ENABLE_THREAD_GENERATION": true,
   "USE_ADVANCED_MEDIA_UPLOAD": true,
-  "USE_STACK_AUTH": false
+  "USE_STACK_AUTH": false,
+  "USE_QUALITY_CHECK": false
 }
