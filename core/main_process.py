@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 
 async def run_main_process(
-    user: Dict[str, Any],
+    user_config: Dict[str, Any],
     edition_url: str,
     precta_tweet: bool = False,
     postcta_tweet: bool = False,
@@ -22,17 +22,15 @@ async def run_main_process(
     long_form_tweet: bool = False,
     linkedin: bool = False,
 ) -> Tuple[bool, str, Dict[str, Any]]:
-    logger.info(f"run_main_process started for user {user['id']}")
+    logger.info(f"run_main_process started for user {user_config['account_id']}")
     try:
-        user_config = load_user_config(user["id"])
         if not user_config:
-            logger.warning(f"User profile not found for user {user['id']}")
             return False, "User profile not found. Please update your profile.", {}
 
         if not user_config.get("beehiiv_api_key") or not user_config.get(
             "publication_id"
         ):
-            logger.warning(f"Beehiiv credentials missing for user {user['id']}")
+            logger.warning(f"Beehiiv credentials missing for user {user_config['account_id']}")
             return (
                 False,
                 "Beehiiv credentials are missing. Please connect your Beehiiv account.",

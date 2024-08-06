@@ -11,7 +11,7 @@ def mock_get_user_id(token):
     return "test_user_id"
 
 
-def mock_load_user_config(user_id):
+def mock_load_user_config(account_id):
     return {
         "beehiiv_api_key": "test_api_key",
         "subscribe_url": "https://test.subscribe.url",
@@ -19,7 +19,7 @@ def mock_load_user_config(user_id):
     }
 
 
-def mock_save_user_config(config, user_id):
+def mock_save_user_config(config, account_id):
     return True
 
 
