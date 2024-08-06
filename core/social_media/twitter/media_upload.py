@@ -9,14 +9,13 @@ from typing import Dict, Any
 logger = logging.getLogger(__name__)
 
 
-def upload_media(media_url: str, user_id: str, config: Dict[str, Any]) -> str:
+def upload_media(media_url: str, user_config: dict) -> str:
     """
     Uploads media to Twitter from a given URL.
 
     Args:
         media_url (str): The URL of the media to upload.
-        user_id (str): The user ID for retrieving Twitter credentials.
-        config (Dict[str, Any]): Configuration dictionary containing Twitter API credentials.
+        user_config (dict): User configuration dictionary containing Twitter API credentials.
 
     Returns:
         str: The media ID of the uploaded media.
@@ -26,10 +25,12 @@ def upload_media(media_url: str, user_id: str, config: Dict[str, Any]) -> str:
     """
     temp_file_path = None
     try:
-        twitter_api_key = config["twitter_api_key"]
-        twitter_api_secret = config["twitter_api_secret"]
-        twitter_access_key = config["twitter_access_key"]
-        twitter_access_secret = config["twitter_access_secret"]
+        twitter_oauth = OAuth1Session(
+            user_config["twitter_api_key"],
+            client_secret=user_config["twitter_api_secret"],
+            resource_owner_key=user_config["twitter_access_key"],
+            resource_owner_secret=user_config["twitter_access_secret"],
+        )
 
         response = requests.get(media_url)
         if response.status_code != 200:
@@ -40,13 +41,6 @@ def upload_media(media_url: str, user_id: str, config: Dict[str, Any]) -> str:
         with tempfile.NamedTemporaryFile(delete=False) as temp_file:
             temp_file.write(response.content)
             temp_file_path = temp_file.name
-
-        twitter_oauth = OAuth1Session(
-            twitter_api_key,
-            client_secret=twitter_api_secret,
-            resource_owner_key=twitter_access_key,
-            resource_owner_secret=twitter_access_secret,
-        )
 
         with open(temp_file_path, "rb") as file:
             media_data = file.read()
@@ -79,15 +73,14 @@ def upload_media(media_url: str, user_id: str, config: Dict[str, Any]) -> str:
                 logger.exception("Error cleaning up temporary file:")
 
 
-def advanced_upload_media(media_url: str, user_id: str, config: Dict[str, Any]) -> str:
+def advanced_upload_media(media_url: str, user_config: dict) -> str:
     """
     Advanced method to upload media to Twitter from a given URL.
     This method supports larger file sizes and provides more detailed feedback.
 
     Args:
         media_url (str): The URL of the media to upload.
-        user_id (str): The user ID for retrieving Twitter credentials.
-        config (Dict[str, Any]): Configuration dictionary containing Twitter API credentials.
+        user_config (dict): User configuration dictionary containing Twitter API credentials.
 
     Returns:
         str: The media ID of the uploaded media.
@@ -97,10 +90,10 @@ def advanced_upload_media(media_url: str, user_id: str, config: Dict[str, Any]) 
     """
     try:
         twitter_oauth = OAuth1Session(
-            config["twitter_api_key"],
-            client_secret=config["twitter_api_secret"],
-            resource_owner_key=config["twitter_access_key"],
-            resource_owner_secret=config["twitter_access_secret"],
+            user_config["twitter_api_key"],
+            client_secret=user_config["twitter_api_secret"],
+            resource_owner_key=user_config["twitter_access_key"],
+            resource_owner_secret=user_config["twitter_access_secret"],
         )
 
         # Download the media

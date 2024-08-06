@@ -1,12 +1,16 @@
-# core/content/content_quality_check.py
-
 import logging
 from core.content.language_model_client import call_language_model
+from core.config.feature_toggle import feature_toggle
 
 logger = logging.getLogger(__name__)
 
 
-async def quality_check_content(content, api_key, max_iterations=3):
+async def quality_check_content(
+    content: str, api_key: str, max_iterations: int = 3
+) -> str:
+    if not feature_toggle.is_enabled("USE_QUALITY_CHECK"):
+        logger.info("Quality check is disabled")
+        return content
     system_message = {
         "role": "system",
         "content": "You are a content quality expert. Your task is to evaluate the given content and determine if it sounds natural and human-like or if it appears robotic and AI-generated. If it needs improvement, provide specific suggestions to make it more authentic and engaging.",

@@ -1,10 +1,6 @@
+import logging
 from typing import Any, Dict, Tuple
 from core.content.content_fetcher import fetch_beehiiv_content
-from core.social_media.threads.generate_threads import (
-    generate_pre_cta_thread,
-    generate_post_cta_thread,
-    generate_thread_posts,
-)
 from core.social_media.twitter.generate_tweets import (
     generate_precta_tweet,
     generate_postcta_tweet,
@@ -12,171 +8,74 @@ from core.social_media.twitter.generate_tweets import (
     generate_long_form_tweet,
 )
 from core.social_media.linkedin.generate_linkedin_post import generate_linkedin_post
-from core.social_media.twitter.tweet_handler import TweetHandler
-import logging
 from core.config.user_config import load_user_config
-from core.encryption.encryption import get_key, get_key_path
-import os
 
 logger = logging.getLogger(__name__)
 
 
 async def run_main_process(
-    user_id: str,
+    user_config: Dict[str, Any],
     edition_url: str,
-    generate_precta_tweet: bool = False,
-    generate_postcta_tweet: bool = False,
-    generate_thread_tweet: bool = False,
-    generate_long_form_tweet: bool = False,
-    generate_precta_threads: bool = False,
-    generate_postcta_threads: bool = False,
-    generate_thread_threads: bool = False,
-    generate_linkedin: bool = False,
+    precta_tweet: bool = False,
+    postcta_tweet: bool = False,
+    thread_tweet: bool = False,
+    long_form_tweet: bool = False,
+    linkedin: bool = False,
 ) -> Tuple[bool, str, Dict[str, Any]]:
+    logger.info(f"run_main_process started for user {user_config['account_id']}")
     try:
-        user_config = load_user_config(user_id)
         if not user_config:
-            return False, "User not found or not authenticated", {}
+            return False, "User profile not found. Please update your profile.", {}
 
-        logger.info(f"Fetching Beehiiv content for user {user_id}")
-
-        beehiiv_api_key = user_config.get("beehiiv_api_key")
-        if not beehiiv_api_key:
-            return False, "Missing configuration key: 'beehiiv_api_key'", {}
-
-        beehiiv_publication_id = user_config.get("publication_id")
-        if not beehiiv_publication_id:
-            return False, "Missing configuration key: 'publication_id'", {}
-
-        twitter_credentials = {
-            "twitter_api_key": os.getenv("TWITTER_API_KEY"),
-            "twitter_api_secret": os.getenv("TWITTER_API_SECRET"),
-            "twitter_access_key": user_config.get("twitter_access_key"),
-            "twitter_access_secret": user_config.get("twitter_access_secret"),
-        }
-
-        tweet_handler = TweetHandler(twitter_credentials)
-        tweet_handler.set_user_id(user_id)
-
-        try:
-            tweet_handler.initialize_twitter_oauth()
-        except ValueError as ve:
-            return False, f"Error initializing Twitter OAuth: {str(ve)}", {}
-
-        # Fetch content data
-        try:
-            content_data = await fetch_beehiiv_content(user_id, edition_url)
-        except Exception as e:
-            return False, f"Error fetching Beehiiv content: {str(e)}", {}
-
-        original_content = content_data.get("free_content")
-        article_link = content_data.get("web_url")
-        thumbnail_url = content_data.get("thumbnail_url")
-
-        # Retrieve user-specific data
-        subscribe_url = user_config.get("subscribe_url")
-        example_tweet = user_config.get("example_tweet", "")
-
-        if not original_content:
-            return False, "Failed to fetch content from Beehiiv", {}
-
-        if not subscribe_url:
+        if not user_config.get("beehiiv_api_key") or not user_config.get(
+            "publication_id"
+        ):
+            logger.warning(f"Beehiiv credentials missing for user {user_config['account_id']}")
             return (
                 False,
-                "Subscribe URL not found. Please update your profile with a subscribe URL.",
+                "Beehiiv credentials are missing. Please connect your Beehiiv account.",
                 {},
             )
 
+        logger.info(f"Fetching Beehiiv content for URL: {edition_url}")
+        content_data = await fetch_beehiiv_content(user_config, edition_url)
+        original_content = content_data.get("free_content")
+
+        if not original_content:
+            logger.error("Failed to fetch content from Beehiiv")
+            return False, "Failed to fetch content from Beehiiv", {}
+
+        logger.info("Content fetched successfully, generating requested content types")
         generated_content = {}
 
-        if generate_precta_tweet:
-            logger.info("Generating pre-CTA tweet")
-            precta_tweet = await generate_precta_tweet(
-                original_content, user_config.get("openai_api_key"), example_tweet
+        if precta_tweet:
+            generated_content["precta_tweet"] = await generate_precta_tweet(
+                original_content, user_config
             )
-            generated_content["precta_tweet"] = {
-                "text": precta_tweet,
-                "reply": f"subscribe for free to get it in your inbox! {subscribe_url}",
-            }
 
-        if generate_postcta_tweet:
-            logger.info("Generating post-CTA tweet")
-            postcta_tweet = await generate_postcta_tweet(
-                original_content, user_config.get("openai_api_key"), example_tweet
+        if postcta_tweet:
+            generated_content["postcta_tweet"] = await generate_postcta_tweet(
+                original_content, user_config
             )
-            generated_content["postcta_tweet"] = {
-                "text": postcta_tweet,
-                "reply": f"check out the full thing online now! {article_link}",
-                "media_url": thumbnail_url,
-            }
 
-        if generate_thread_tweet:
-            logger.info("Generating Twitter thread")
-            thread_tweets = await generate_thread_tweet(
-                original_content,
-                article_link,
-                user_config.get("openai_api_key"),
-                example_tweet,
+        if thread_tweet:
+            generated_content["thread_tweet"] = await generate_thread_tweet(
+                original_content, content_data.get("web_url"), user_config
             )
-            generated_content["thread_tweet"] = thread_tweets
 
-        if generate_long_form_tweet:
-            logger.info("Generating long-form tweet")
-            example_tweet = user_config.get(
-                "example_long_form_tweet", ""
-            )  # Get the example tweet from user config
-            long_form_tweet = await generate_long_form_tweet(
-                original_content, user_config.get("openai_api_key")
+        if long_form_tweet:
+            generated_content["long_form_tweet"] = await generate_long_form_tweet(
+                original_content, user_config
             )
-            generated_content["long_form_tweet"] = long_form_tweet
 
-        if generate_linkedin:
-            logger.info("Generating LinkedIn post")
-            linkedin_post = await generate_linkedin_post(
-                original_content,
-                user_config.get("openai_api_key"),
-                example_tweet,
+        if linkedin:
+            generated_content["linkedin"] = await generate_linkedin_post(
+                original_content, user_config
             )
-            generated_content["linkedin"] = linkedin_post
-        if generate_precta_threads:
-            logger.info("Generating pre-CTA Thread post")
-            precta_thread = await generate_pre_cta_thread(
-                original_content,
-                user_config.get("openai_api_key"),
-                example_tweet,  # You might want to add a separate example_thread_post to user_config
-            )
-            generated_content["precta_thread"] = precta_thread
-
-        if generate_postcta_threads:
-            logger.info("Generating post-CTA Thread post")
-            postcta_thread = await generate_post_cta_thread(
-                original_content,
-                user_config.get("openai_api_key"),
-                example_tweet,  # You might want to add a separate example_thread_post to user_config
-            )
-            generated_content["postcta_thread"] = postcta_thread
-
-        if generate_thread_threads:
-            logger.info("Generating Thread posts")
-            thread_thread = await generate_thread_posts(
-                original_content,
-                user_config.get("openai_api_key"),
-                example_tweet,  # You might want to add a separate example_thread_post to user_config
-            )
-            generated_content["thread_thread"] = thread_thread
-
-        if not generated_content:
-            logger.info("No content types were selected for generation")
-            return True, "No content was generated as no options were selected.", {}
 
         logger.info("Content generation completed successfully")
-        return (
-            True,
-            "Content generated successfully. Please review before posting.",
-            generated_content,
-        )
+        return True, "Content generated successfully", generated_content
+
     except Exception as e:
-        logger.exception(
-            f"An unexpected error occurred in run_main_process for user {user_id}:"
-        )
+        logger.exception(f"Error in run_main_process: {str(e)}")
         return False, f"An unexpected error occurred: {str(e)}", {}

@@ -1,24 +1,23 @@
 import requests
-from requests_oauthlib import OAuth1
+from requests_oauthlib import OAuth1Session
 import json
 import logging
 from typing import Optional, List, Dict, Union
+from media_upload import upload_media, advanced_upload_media
 
 logger = logging.getLogger(__name__)
 
 
 class TweetHandler:
-    def __init__(self, twitter_credentials):
-        self.oauth = OAuth1(
-            twitter_credentials["twitter_api_key"],
-            client_secret=twitter_credentials["twitter_api_secret"],
-            resource_owner_key=twitter_credentials["twitter_access_key"],
-            resource_owner_secret=twitter_credentials["twitter_access_secret"],
+    def __init__(self, user_config: dict):
+        self.user_config = user_config
+        self.oauth = OAuth1Session(
+            user_config["twitter_api_key"],
+            client_secret=user_config["twitter_api_secret"],
+            resource_owner_key=user_config["twitter_access_key"],
+            resource_owner_secret=user_config["twitter_access_secret"],
         )
-        self.user_id = None
-
-    def set_user_id(self, user_id: str):
-        self.user_id = user_id
+        self.user_id = user_config.get("id")
 
     def initialize_twitter_oauth(self):
         if not self.user_id:
@@ -48,9 +47,7 @@ class TweetHandler:
         logger.debug(f"Tweet payload: {json.dumps(payload, indent=2)}")
 
         try:
-            response = requests.post(
-                url, auth=self.oauth, headers=headers, json=payload
-            )
+            response = self.oauth.post(url, headers=headers, json=payload)
             logger.debug(
                 f"Twitter API response: Status {response.status_code}, Content: {response.text}"
             )
@@ -144,26 +141,7 @@ class TweetHandler:
         logger.info("Thread posted successfully")
 
     def upload_media(self, media_url: str) -> Optional[str]:
-        try:
-            response = requests.get(media_url)
-            if response.status_code != 200:
-                raise Exception(
-                    f"Failed to download media: {response.status_code} {response.text}"
-                )
+        return upload_media(media_url, self.user_config)
 
-            upload_url = "https://upload.twitter.com/1.1/media/upload.json"
-            files = {"media": response.content}
-            upload_response = requests.post(upload_url, auth=self.oauth, files=files)
-
-            if upload_response.status_code != 200:
-                raise Exception(
-                    f"Media upload returned an error: {upload_response.status_code} {upload_response.text}"
-                )
-
-            media_id = upload_response.json()["media_id_string"]
-            logger.info("Media uploaded successfully!")
-
-            return media_id
-        except Exception as e:
-            logger.exception("Error while uploading media:")
-            return None
+    def advanced_upload_media(self, media_url: str) -> Optional[str]:
+        return advanced_upload_media(media_url, self.user_config)

@@ -10,7 +10,7 @@ def load_environment(env="production"):
 
     # Clear existing environment variables
     for key in list(os.environ.keys()):
-        if key.startswith(("DISCORD_", "TWITTER_", "OPENAI_", "ANTHROPIC_", "STACK_")):
+        if key.startswith(("TWITTER_", "OPENAI_", "ANTHROPIC_", "STACK_")):
             del os.environ[key]
 
     # Get the project root directory
@@ -29,19 +29,8 @@ def load_environment(env="production"):
         load_dotenv(dotenv_path, override=True)
         logger.info(f"Loaded environment variables from {dotenv_path}")
 
-        # Print the first few characters of the loaded token for verification
-        token = os.getenv("DISCORD_BOT_TOKEN")
-        if token:
-            logger.info(f"Loaded Discord bot token: {token[:10]}...")
-        else:
-            logger.warning("Discord bot token not found in environment variables")
-    else:
-        logger.error(f".env file not found at {dotenv_path}")
-
     # Check if all required environment variables are set
     required_vars = [
-        "DISCORD_BOT_TOKEN",
-        "DISCORD_APP_ID",
         "GUILD_ID",
         "TWITTER_API_KEY",
         "TWITTER_API_SECRET",
@@ -61,8 +50,6 @@ def get_config(env="production"):
     logger.info(f"Getting config for environment: {env}")
     load_environment(env)
     config = {
-        "discord_bot_token": os.getenv("DISCORD_BOT_TOKEN"),
-        "discord_app_id": os.getenv("DISCORD_APP_ID"),
         "guild_id": os.getenv("GUILD_ID"),
         "twitter_api_key": os.getenv("TWITTER_API_KEY"),
         "twitter_api_secret": os.getenv("TWITTER_API_SECRET"),
