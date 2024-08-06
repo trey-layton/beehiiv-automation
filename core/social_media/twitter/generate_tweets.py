@@ -3,17 +3,23 @@ import re
 from core.content.language_model_client import call_language_model
 from core.content.content_quality_check import quality_check_content
 from core.config.feature_toggle import feature_toggle
+
+# from .tweet_examples import PRECTA_EXAMPLES, POSTCTA_EXAMPLES, THREAD_EXAMPLES, LONG_FORM_EXAMPLES
 from dotenv import load_dotenv
 
 load_dotenv()
 
 logger = logging.getLogger(__name__)
 
-
-def count_tweet_characters(tweet: str) -> int:
-    url_pattern = r"https?://[\w./]+"
-    tweet_without_urls = re.sub(url_pattern, "x" * 23, tweet)
-    return len(tweet_without_urls)
+NEWSLETTER_TYPES = {
+    "Briefs and bullets": "Easily digestible top stories. Summarize the main story in detail, highlighting key facts, figures, and quotes. For secondary stories, provide brief, punchy headlines.",
+    "TLDR summaries": "Collection of highly relevant resources in one place. Summarize each article's key points succinctly, maintaining the original order and structure.",
+    "All bullets": "Skimmable and targeted information. Create a list of the most important points, keeping each bullet brief and focused.",
+    "Curated list": "Expert-curated, more valuable than just resources. Summarize the expert's main points or recommendations, highlighting their unique insights.",
+    "High-value curation": "Hours of effort condensed into one resource for a very specific purpose. Focus on summarizing the key data points, trends, or opportunities identified by the curator.",
+    "Daily analysis": "Continuing updates and interpretation from an expert. Summarize the main analysis or prediction, including key supporting evidence or data.",
+    "Weekly deep dives": "Highly researched single lesson. Provide a comprehensive summary of the main topic, including key arguments, data points, and conclusions.",
+}
 
 
 def clean_tweet_text(tweet_text: str) -> str:
@@ -23,10 +29,10 @@ def clean_tweet_text(tweet_text: str) -> str:
     return tweet_text
 
 
-async def generate_tweet(text: str, instruction: str, user_config: dict) -> str:
-    logger.info(f"Generating tweet with instruction: {instruction}")
-    logger.info(f"Content passed to language model (first 500 chars): {text[:500]}")
-
+async def generate_tweet(
+    text: str, instruction: str, user_config: dict, classification: str
+) -> str:
+    value_prop = NEWSLETTER_TYPES.get(classification, "")
     system_message = {
         "role": "system",
         "content": "You are a brilliant social media manager tasked with creating engaging tweets. Create a tweet of up to 280 characters (including spaces and emojis) based on the given content. The tweet should be catchy, informative, and ready to post as-is. Do not include any additional text, formatting, or placeholders. Never, ever add links. These will always be handled elsewhere. More than anything, don't come off as spammy and AI-generated. You will be fired if you do. Examples of things that really hint at AI-written content: too many emojis, too enthusiastic, generic phrases, cliches, etc. For any arguments or reasoning-based content, do not generate your own argument but rather use the logic and ideas discussed in the newsletter. Once again, I cannot emphasize enough how important it is to embody the writer's unique writing style, both in their social posts and in their actual newsletter.",
@@ -34,7 +40,7 @@ async def generate_tweet(text: str, instruction: str, user_config: dict) -> str:
 
     user_message = {
         "role": "user",
-        "content": f"{instruction} Here's the newsletter content:\n{text}",
+        "content": f"{instruction} Because this is a {classification} analysis, audiences value {value_prop}. Here's the newsletter content:\n{text}",
     }
 
     try:
@@ -51,77 +57,47 @@ async def generate_tweet(text: str, instruction: str, user_config: dict) -> str:
 
         tweet_text = clean_tweet_text(tweet_text)
 
-        if feature_toggle.is_enabled("USE_QUALITY_CHECK"):
-            tweet_text = await quality_check_content(
-                tweet_text, user_config.get("anthropic_api_key")
-            )
-        else:
-            logger.info("Quality check is disabled")
-
-        if len(tweet_text) > 280:
-            tweet_text = await shorten_tweet(tweet_text)
-
         return tweet_text
     except Exception as e:
         logger.exception(f"Unexpected error in generate_tweet: {str(e)}")
         raise
 
 
-async def shorten_tweet(tweet_text: str) -> str:
-    system_message = {
-        "role": "system",
-        "content": "Shorten the given tweet to exactly 265 characters or less while maintaining its core message and engagement potential. The shortened tweet should be ready to post as-is, without any additional text or formatting. Never add links or CTAs to subscribe.",
-    }
-    user_message = {
-        "role": "user",
-        "content": f"Shorten this tweet to 265 characters or less:\n{tweet_text}",
-    }
-
+async def generate_precta_tweet(
+    text: str, user_config: dict, classification: str
+) -> str:
     try:
-        shortened_response = await call_language_model(system_message, user_message)
-
-        if isinstance(shortened_response, dict):
-            shortened_tweet = (
-                shortened_response.get("tweet") or shortened_response.get("text") or ""
-            )
-        elif isinstance(shortened_response, str):
-            shortened_tweet = shortened_response
-        else:
-            raise ValueError(
-                "Invalid response format from language model API for shortened tweet"
-            )
-
-        return clean_tweet_text(shortened_tweet)[:265]
+        # example_tweet = PRECTA_EXAMPLES.get(classification, "")
+        instruction = "First, go through this newsletter and isolate the main story. Then, turn the following newsletter into a super catchy, intriguing pre-newsletter CTA TWEET (so never more than 280 characters) encouraging people on social media to read the newly published newsletter. Example: `How to get newsletter subscribers -- for free. That's the topic of my newsletter tomorrow. I'm breaking down all the best ways to grow your email list organically without a large social following. Get access below:` but combine this content type with the writer's actual social media style (tone, syntax, punctuation, etc)"
+        tweet_text = await generate_tweet(
+            text, instruction, user_config, classification
+        )
+        return tweet_text
     except Exception as e:
-        logger.exception(f"Error in shorten_tweet: {str(e)}")
-        raise
+        logger.exception(f"Error in generate_precta_tweet: {str(e)}")
+        return ""
 
 
-async def generate_precta_tweet(text: str, user_config: dict) -> str:
-    instruction = "First, go through this newsletter and isolate the main story. Then, turn the following newsletter into a super catchy, intriguing pre-newsletter CTA TWEET (so never more than 280 characters) encouraging people on social media to read the newly published newsletter. Example: `How to get newsletter subscribers -- for free. That's the topic of my newsletter tomorrow. I'm breaking down all the best ways to grow your email list organically without a large social following. Get access below:` but combine this content type with the writer's actual social media style (tone, syntax, punctuation, etc)"
-    tweet = await generate_tweet(text, instruction, user_config)
-    if feature_toggle.is_enabled("USE_QUALITY_CHECK"):
-        return await quality_check_content(tweet, user_config.get("anthropic_api_key"))
-    else:
-        logger.info("Quality check is disabled for pre-CTA tweet")
-        return tweet
-
-
-async def generate_postcta_tweet(text: str, user_config: dict) -> str:
-    instruction = "First, go through this newsletter and isolate the main story. Then, turn the following newsletter into a super catchy, intriguing post-newsletter CTA TWEET (so never more than 280 characters) encouraging people on social media to read the newly published newsletter. Example: `Paid recommendations are the easiest way to monetize subscribers instantly. Luckily, there are 3 simple ways to set them up. Today's newsletter breaks these down step-by-step to help you take advantage.` but combine this content type with the writer's actual social media style (tone, syntax, punctuation, etc)."
-    tweet = await generate_tweet(text, instruction, user_config)
-    if feature_toggle.is_enabled("USE_QUALITY_CHECK"):
-        return await quality_check_content(tweet, user_config.get("anthropic_api_key"))
-    else:
-        logger.info("Quality check is disabled for post-CTA tweet")
-        return tweet
+async def generate_postcta_tweet(
+    text: str, user_config: dict, classification: str
+) -> str:
+    try:
+        # example_tweet = POSTCTA_EXAMPLES.get(classification, "")
+        instruction = "First, go through this newsletter and isolate the main story. Then, turn the following newsletter into a super catchy, intriguing post-newsletter CTA TWEET (so never more than 280 characters) encouraging people on social media to read the newly published newsletter. Example: `Paid recommendations are the easiest way to monetize subscribers instantly. Luckily, there are 3 simple ways to set them up. Today's newsletter breaks these down step-by-step to help you take advantage.` but combine this content type with the writer's actual social media style (tone, syntax, punctuation, etc)."
+        tweet_text = await generate_tweet(
+            text, instruction, user_config, classification
+        )
+        return tweet_text
+    except Exception as e:
+        logger.exception(f"Error in generate_postcta_tweet: {str(e)}")
+        return ""
 
 
 async def generate_thread_tweet(
-    text: str, article_link: str, user_config: dict
+    text: str, article_link: str, user_config: dict, classification: str
 ) -> list:
-    logger.info(f"Generating thread tweets. Text length: {len(text)}")
-
+    # example_thread = THREAD_EXAMPLES.get(classification, "")
+    value_prop = NEWSLETTER_TYPES.get(classification, "")
     example_tweet = """tweet 1: "A professional sports gambler used analytics to turn a $700,000 loan into more than $300 million.
 
 This is the wild story 👇👇👇"
@@ -164,29 +140,18 @@ Benham consulted clients using the same algorithms, statistics & data research t
 
     user_message = {
         "role": "user",
-        "content": f"First, go through this newsletter and use context and your best judgement to determine what the main story is. Then, summarize the main takeaways. Emulate the writer's actual social media style (tone, syntax, punctuation, etc) as seen in this example:\n\n{example_tweet}\n\nHere's the newsletter content:\n{text}",
+        "content": f"Because this is a {classification} newsletter, audiences value {value_prop}. Emulate the writer's actual social media style (tone, syntax, punctuation, etc) as seen in these examples classified by type of newsletter: '{example_tweet}'. Here's the newsletter content:{text}",
     }
 
     try:
-        response_content = await call_language_model(system_message, user_message)
+        response_content = await call_language_model(
+            user_config.get("anthropic_api_key"), system_message, user_message
+        )
         tweets = []
         if isinstance(response_content, dict):
             for key, tweet in response_content.items():
                 if key.rstrip(".").isdigit():
                     tweets.append({"text": clean_tweet_text(tweet), "type": "content"})
-
-        tweets.append(
-            {
-                "text": f"If you want to go even deeper, check out the full article! {article_link}",
-                "type": "article_link",
-            }
-        )
-        tweets.append(
-            {
-                "text": "If you found value in this thread, please give it a like and share!",
-                "type": "quote_tweet",
-            }
-        )
 
         logger.info(f"Generated {len(tweets)} tweets for the thread")
         return tweets
@@ -195,9 +160,11 @@ Benham consulted clients using the same algorithms, statistics & data research t
         return []
 
 
-async def generate_long_form_tweet(text: str, user_config: dict) -> str:
-    logger.info("Generating long-form tweet")
-
+async def generate_long_form_tweet(
+    text: str, user_config: dict, classification: str
+) -> str:
+    # example_tweet = LONG_FORM_EXAMPLES.get(classification, "")
+    value_prop = NEWSLETTER_TYPES.get(classification, "")
     example_tweet = """There is a proven playbook to grow companies.
 
 The best entrepreneurs have a series of plays they run to print money. What tools to use, agencies to hire, strategies to employ.
@@ -279,11 +246,13 @@ If you found this helpful - give me a retweet or a comment - it helps me spread 
 
     user_message = {
         "role": "user",
-        "content": f"Create a long-form tweet summarizing this newsletter content. Use a style similar to this example:\n\n{example_tweet}\n\nHere's the newsletter content:\n{text}",
+        "content": f"Because this is a {classification} newsletter, audiences value {value_prop}. Emulate the writer's actual social media style (tone, syntax, punctuation, etc) as seen in these examples classified by type of newsletter: '{example_tweet}'. Here's the newsletter content:{text}",
     }
 
     try:
-        response_content = await call_language_model(system_message, user_message)
+        response_content = await call_language_model(
+            user_config.get("anthropic_api_key"), system_message, user_message
+        )
 
         if isinstance(response_content, dict):
             tweet_text = (
@@ -298,16 +267,7 @@ If you found this helpful - give me a retweet or a comment - it helps me spread 
         tweet_text = tweet_text.replace("\n", "<br>")
         tweet_text = tweet_text.replace("<br><br>", "<br>")
 
-        if feature_toggle.is_enabled("USE_QUALITY_CHECK"):
-            quality_checked_tweet = await quality_check_content(
-                tweet_text, user_config.get("anthropic_api_key")
-            )
-        else:
-            logger.info("Quality check is disabled for long-form tweet")
-            quality_checked_tweet = tweet_text
-
-        logger.info(f"Generated long-form tweet (length {len(quality_checked_tweet)})")
-        return quality_checked_tweet
+        return tweet_text
     except Exception as e:
         logger.exception(f"Error in generate_long_form_tweet: {str(e)}")
         raise

@@ -1,20 +1,19 @@
-# PostOnce Project Structure
-
-```bash
 BEEHIIV_PROJECT/
 │
 ├── .vscode/
 │   └── settings.json
 │
-├── cli/
+├── api/
+│   ├── get_token.py
 │   └── main.py
 │
-├── cloud/
+├── cli/
+│   └── main.py
 │
 ├── core/
 │   ├── auth/
 │   │   ├── __init__.py
-│   │   └── stack_auth_client.py
+│   │   └── supabase_auth.py
 │   │
 │   ├── config/
 │   │   ├── __init__.py
@@ -29,12 +28,16 @@ BEEHIIV_PROJECT/
 │   │   ├── beehiiv_content.py
 │   │   ├── content_extraction.py
 │   │   ├── content_fetcher.py
+│   │   ├── content_quality_check.py
 │   │   ├── language_model_client.py
 │   │   └── text_utils.py
 │   │
 │   ├── encryption/
 │   │   ├── __init__.py
 │   │   └── encryption.py
+│   │
+│   ├── models/
+│   │   └── user.py
 │   │
 │   └── social_media/
 │       ├── linkedin/
@@ -50,13 +53,15 @@ BEEHIIV_PROJECT/
 ├── js_utils/
 │   └── twitter_text_util.js
 │
-├── stack-auth-nextjs/
-│
 ├── tests/
-│   └── __init__.py
+│   ├── __init__.py
+│   ├── mocks.py
+│   └── test_api.py
 │
 ├── .env
 ├── .env.staging
 ├── .gitignore
-├── manage_db.py
-└── requirements.txt
+├── main_process.py
+├── PROJECT_STRUCTURE.md
+├── requirements.txt
+└── vercel.json

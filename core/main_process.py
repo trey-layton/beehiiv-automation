@@ -9,12 +9,16 @@ from core.social_media.twitter.generate_tweets import (
 )
 from core.social_media.linkedin.generate_linkedin_post import generate_linkedin_post
 from core.config.user_config import load_user_config
+from core.content.improved_llm_flow.classifier import classify_and_summarize
+from core.content.improved_llm_flow.content_improver import improve_content
+from core.content.improved_llm_flow.cta_adder import add_cta
+
 
 logger = logging.getLogger(__name__)
 
 
 async def run_main_process(
-    user: Dict[str, Any],
+    user_config: Dict[str, Any],
     edition_url: str,
     precta_tweet: bool = False,
     postcta_tweet: bool = False,
@@ -22,24 +26,10 @@ async def run_main_process(
     long_form_tweet: bool = False,
     linkedin: bool = False,
 ) -> Tuple[bool, str, Dict[str, Any]]:
-    logger.info(f"run_main_process started for user {user['id']}")
+    logger.info(f"run_main_process started for user {user_config['id']}")
+    generated_content = {}
+
     try:
-        user_config = load_user_config(user["id"])
-        if not user_config:
-            logger.warning(f"User profile not found for user {user['id']}")
-            return False, "User profile not found. Please update your profile.", {}
-
-        if not user_config.get("beehiiv_api_key") or not user_config.get(
-            "publication_id"
-        ):
-            logger.warning(f"Beehiiv credentials missing for user {user['id']}")
-            return (
-                False,
-                "Beehiiv credentials are missing. Please connect your Beehiiv account.",
-                {},
-            )
-
-        logger.info(f"Fetching Beehiiv content for URL: {edition_url}")
         content_data = await fetch_beehiiv_content(user_config, edition_url)
         original_content = content_data.get("free_content")
 
@@ -47,37 +37,92 @@ async def run_main_process(
             logger.error("Failed to fetch content from Beehiiv")
             return False, "Failed to fetch content from Beehiiv", {}
 
-        logger.info("Content fetched successfully, generating requested content types")
-        generated_content = {}
+        classification_result = await classify_and_summarize(original_content)
+        classification = classification_result.get("classification", "Unknown")
+        logger.info(f"Content classified as: {classification}")
 
         if precta_tweet:
-            generated_content["precta_tweet"] = await generate_precta_tweet(
-                original_content, user_config
+            logger.info("Generating pre-CTA tweet")
+            precta_content = await generate_precta_tweet(
+                original_content, user_config, classification
             )
+            if precta_content:
+                improved_precta = await improve_content(precta_content, "single_tweet")
+                cta_added_precta = await add_cta(
+                    improved_precta, "precta_tweet", user_config, edition_url
+                )
+                generated_content["precta_tweet"] = [
+                    {"text": improved_precta},
+                    {"text": cta_added_precta},
+                ]
 
         if postcta_tweet:
-            generated_content["postcta_tweet"] = await generate_postcta_tweet(
-                original_content, user_config
+            logger.info("Generating post-CTA tweet")
+            postcta_content = await generate_postcta_tweet(
+                original_content, user_config, classification
             )
+            if postcta_content:
+                improved_postcta = await improve_content(
+                    postcta_content, "single_tweet"
+                )
+                cta_added_postcta = await add_cta(
+                    improved_postcta, "postcta_tweet", user_config, edition_url
+                )
+                generated_content["postcta_tweet"] = [
+                    {"text": improved_postcta},
+                    {"text": cta_added_postcta},
+                ]
 
         if thread_tweet:
-            generated_content["thread_tweet"] = await generate_thread_tweet(
-                original_content, content_data.get("web_url"), user_config
+            logger.info("Generating thread tweet")
+            thread_content = await generate_thread_tweet(
+                original_content,
+                content_data.get("web_url"),
+                user_config,
+                classification,
             )
+            if thread_content:
+                improved_thread = await improve_content(thread_content, "thread")
+                cta_added_thread = await add_cta(
+                    improved_thread, "thread_tweet", user_config, edition_url
+                )
+                generated_content["thread_tweet"] = improved_thread + [
+                    {"text": cta_added_thread}
+                ]
 
         if long_form_tweet:
-            generated_content["long_form_tweet"] = await generate_long_form_tweet(
-                original_content, user_config
+            logger.info("Generating long-form tweet")
+            long_form_content = await generate_long_form_tweet(
+                original_content, user_config, classification
             )
+            if long_form_content:
+                improved_long_form = await improve_content(
+                    long_form_content, "long_form_tweet"
+                )
+                cta_added_long_form = await add_cta(
+                    improved_long_form, "long_form_tweet", user_config, edition_url
+                )
+                generated_content["long_form_tweet"] = [
+                    {"text": improved_long_form},
+                    {"text": cta_added_long_form},
+                ]
 
         if linkedin:
-            generated_content["linkedin"] = await generate_linkedin_post(
-                original_content, user_config
+            logger.info("Generating LinkedIn post")
+            linkedin_content = await generate_linkedin_post(
+                original_content, user_config, classification
             )
+            if linkedin_content:
+                improved_linkedin = await improve_content(
+                    linkedin_content, "linkedin_post"
+                )
+                generated_content["linkedin"] = [{"text": improved_linkedin}]
 
-        logger.info("Content generation completed successfully")
+        logger.info(
+            f"Content generation completed. Generated types: {list(generated_content.keys())}"
+        )
         return True, "Content generated successfully", generated_content
 
     except Exception as e:
         logger.exception(f"Error in run_main_process: {str(e)}")
-        return False, f"An unexpected error occurred: {str(e)}", {}
+        return False, f"An unexpected error occurred: {str(e)}", generated_content

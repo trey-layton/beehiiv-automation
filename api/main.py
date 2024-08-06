@@ -42,6 +42,20 @@ class ContentGeneration(BaseModel):
     generate_linkedin: bool = False
 
 
+async def get_user_profile(user_id: str) -> Dict[str, Any]:
+    try:
+        response = (
+            supabase.table("user_profiles").select("*").eq("id", user_id).execute()
+        )
+        if response.data:
+            return response.data[0]
+        else:
+            raise HTTPException(status_code=404, detail="User profile not found")
+    except Exception as e:
+        logger.error(f"Error fetching user profile: {str(e)}")
+        raise HTTPException(status_code=500, detail="Internal server error")
+
+
 async def get_current_user(
     credentials: HTTPAuthorizationCredentials = Depends(security),
 ):
@@ -128,22 +142,15 @@ async def generate_content_endpoint(
 ):
     logger.info(f"generate_content_endpoint called for user {current_user.id}")
     try:
-        # Fetch user profile from Supabase
-        user_profile = (
-            supabase.table("user_profiles")
-            .select("*")
-            .eq("id", current_user.id)
-            .execute()
-        )
+        user_profile = await get_user_profile(current_user.id)
 
-        if not user_profile.data:
-            logger.warning(f"User profile not found for user {current_user.id}")
-            return {
-                "status": "error",
-                "message": "User profile not found. Please update your profile.",
-            }
-
-        user_config = user_profile.data[0]
+        user_config = {
+            "id": current_user.id,
+            "subscribe_url": user_profile.get("subscribe_url"),
+            "beehiiv_api_key": user_profile.get("beehiiv_api_key"),
+            "publication_id": user_profile.get("publication_id"),
+            # Add any other necessary user configuration here
+        }
 
         success, message, content = await run_main_process(
             user_config,
