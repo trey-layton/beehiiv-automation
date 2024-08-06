@@ -15,11 +15,13 @@ load_dotenv()
 app = FastAPI()
 
 
-def get_access_token(credentials: HTTPAuthorizationCredentials = Depends(HTTPBearer())) -> str:
+def get_access_token(
+    credentials: HTTPAuthorizationCredentials = Depends(HTTPBearer()),
+) -> str:
     if credentials.scheme != "Bearer":
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Invalid authorization scheme"
+            detail="Invalid authorization scheme",
         )
     return credentials.credentials
 
@@ -31,8 +33,13 @@ def get_supabase_client(access_token: str = Depends(get_access_token)) -> Client
         logger.error(f"Error creating Supabase client: {str(e)}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Internal server error"
+            detail="Internal server error",
         )
+
+
+@app.get("/")
+async def root():
+    return {"message": "Hello World"}
 
 
 @app.get("/user_info")
@@ -43,7 +50,7 @@ async def get_user_data(supabase: Client = Depends(get_supabase_client)):
         if response.data is None:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Failed to fetch user data"
+                detail="Failed to fetch user data",
             )
 
         return response.data
@@ -52,7 +59,7 @@ async def get_user_data(supabase: Client = Depends(get_supabase_client)):
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Error fetching user data: {str(e)}"
+            detail=f"Error fetching user data: {str(e)}",
         )
 
 
@@ -64,37 +71,43 @@ class UserProfile(BaseModel):
 
 
 @app.post("/update_user_profile")
-async def update_user_profile(params: UserProfile, supabase: Client = Depends(get_supabase_client)):
+async def update_user_profile(
+    params: UserProfile, supabase: Client = Depends(get_supabase_client)
+):
     try:
         logger.info("Attempting to update profile")
-        response = supabase.from_("account_profiles").upsert(
-            {
-                "account_id": params.account_id,
-                "beehiiv_api_key": params.beehiiv_api_key,
-                "publication_id": params.publication_id,
-                "subscribe_url": params.subscribe_url,
-            }
-        ).execute()
+        response = (
+            supabase.from_("account_profiles")
+            .upsert(
+                {
+                    "account_id": params.account_id,
+                    "beehiiv_api_key": params.beehiiv_api_key,
+                    "publication_id": params.publication_id,
+                    "subscribe_url": params.subscribe_url,
+                }
+            )
+            .execute()
+        )
 
         if response.data is None:
             logger.error("Failed to update profile: No data returned")
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Failed to update profile"
+                detail="Failed to update profile",
             )
 
         logger.info("Profile updated successfully")
         return {
             "status": "success",
             "message": "Profile updated successfully",
-            "data": response.data
+            "data": response.data,
         }
     except HTTPException as e:
         raise e
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Error updating user profile: {str(e)}"
+            detail=f"Error updating user profile: {str(e)}",
         )
 
 
@@ -109,15 +122,22 @@ class ContentGeneration(BaseModel):
 
 
 @app.post("/generate_content")
-async def generate_content(params: ContentGeneration, supabase: Client = Depends(get_supabase_client)):
+async def generate_content(
+    params: ContentGeneration, supabase: Client = Depends(get_supabase_client)
+):
     try:
-        account_profile = supabase.from_("account_profiles").select("*").eq("account_id", params.account_id).execute()
+        account_profile = (
+            supabase.from_("account_profiles")
+            .select("*")
+            .eq("account_id", params.account_id)
+            .execute()
+        )
 
         if account_profile.data is None:
             logger.warning("User profile not found")
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
-                detail="User profile not found. Please update your profile."
+                detail="User profile not found. Please update your profile.",
             )
 
         success, message, content = await run_main_process(
@@ -135,15 +155,12 @@ async def generate_content(params: ContentGeneration, supabase: Client = Depends
             return {"status": "success", "message": message, "content": content}
         else:
             logger.warning(f"Content generation failed: {message}")
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail=message
-            )
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=message)
     except HTTPException as e:
         raise e
     except Exception as e:
         logger.exception(f"Error in generate_content_endpoint: {str(e)}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Error generating content: {str(e)}"
+            detail=f"Error generating content: {str(e)}",
         )
