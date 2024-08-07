@@ -6,6 +6,8 @@ from pydantic import BaseModel, HttpUrl
 from dotenv import load_dotenv
 from core.main_process import run_main_process
 import logging
+from tasks import generate_content_task
+from celery.result import AsyncResult
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -140,7 +142,7 @@ async def generate_content(
                 detail="User profile not found. Please update your profile.",
             )
 
-        success, message, content = await run_main_process(
+        task = generate_content_task.delay(
             account_profile.data[0],
             str(params.edition_url),
             params.generate_precta_tweet,
@@ -150,17 +152,31 @@ async def generate_content(
             params.generate_linkedin,
         )
 
-        if success:
-            logger.info("Content generated successfully")
-            return {"status": "success", "message": message, "content": content}
-        else:
-            logger.warning(f"Content generation failed: {message}")
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=message)
+        logger.info(f"Content generation task initiated: {task.id}")
+        return {"status": "processing", "task_id": str(task.id)}
     except HTTPException as e:
         raise e
     except Exception as e:
         logger.exception(f"Error in generate_content_endpoint: {str(e)}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Error generating content: {str(e)}",
+            detail=f"Error initiating content generation: {str(e)}",
         )
+
+
+@app.get("/task_status/{task_id}")
+async def task_status(task_id: str):
+    task = AsyncResult(task_id)
+    if task.state == "PENDING":
+        response = {"state": task.state, "status": "Task is pending..."}
+    elif task.state != "FAILURE":
+        response = {"state": task.state, "status": "Task is in progress..."}
+        if task.info:
+            response["result"] = task.info
+    else:
+        response = {
+            "state": task.state,
+            "status": "Task failed",
+            "error": str(task.info),
+        }
+    return response
