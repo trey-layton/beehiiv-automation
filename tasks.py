@@ -1,7 +1,10 @@
 from celery import Celery
 from core.main_process import run_main_process
 
-app = Celery("tasks", broker="redis://localhost:6379/0")
+app = Celery(
+    "tasks",
+    broker="redis://default:cA9rxpr0gB4AeW2JFSTkoQuw6ZLhJ1Wq@redis-17705.c263.us-east-1-2.ec2.redns.redis-cloud.com:17705",
+)
 
 
 @app.task
