@@ -45,11 +45,13 @@ def get_supabase_client() -> Client:
     return supabase_client
 
 
-# Add a test endpoint
 @app.get("/test-supabase")
 async def test_supabase(client: Client = Depends(get_supabase_client)):
+    logger.debug("Test-supabase endpoint called")
     try:
+        logger.debug("Attempting to query Supabase")
         response = client.table("user_profiles").select("*").limit(1).execute()
+        logger.debug(f"Supabase response: {response}")
         return {"status": "success", "data": response.data}
     except Exception as e:
         logger.error(f"Supabase query failed: {str(e)}")
@@ -58,6 +60,7 @@ async def test_supabase(client: Client = Depends(get_supabase_client)):
 
 @app.get("/")
 async def root():
+    logger.debug("Root endpoint called")
     return {"message": "Hello World"}
 
 
