@@ -1,5 +1,5 @@
 import os
-from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi import FastAPI, Depends, HTTPException, status, Request
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from supabase import create_client, Client
 from pydantic import BaseModel, HttpUrl
@@ -45,6 +45,20 @@ def get_supabase_client() -> Client:
     return supabase_client
 
 
+@app.middleware("http")
+async def log_requests(request: Request, call_next):
+    logger.debug(f"Received request: {request.method} {request.url}")
+    response = await call_next(request)
+    logger.debug(f"Returning response: Status {response.status_code}")
+    return response
+
+
+@app.get("/")
+async def root():
+    logger.debug("Root endpoint called")
+    return {"message": "Hello World"}
+
+
 @app.get("/test-supabase")
 async def test_supabase(client: Client = Depends(get_supabase_client)):
     logger.debug("Test-supabase endpoint called")
@@ -58,10 +72,16 @@ async def test_supabase(client: Client = Depends(get_supabase_client)):
         raise HTTPException(status_code=500, detail=f"Supabase query failed: {str(e)}")
 
 
-@app.get("/")
-async def root():
-    logger.debug("Root endpoint called")
-    return {"message": "Hello World"}
+@app.get("/debug")
+async def debug_info():
+    logger.debug("Debug endpoint called")
+    return {
+        "supabase_url": os.getenv("SUPABASE_URL"),
+        "supabase_key_length": (
+            len(os.getenv("SUPABASE_KEY", "")) if os.getenv("SUPABASE_KEY") else 0
+        ),
+        "endpoints": [route.path for route in app.routes],
+    }
 
 
 @app.get("/user_info")
