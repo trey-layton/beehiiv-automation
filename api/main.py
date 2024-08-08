@@ -183,30 +183,44 @@ async def generate_content(
         logger.info(f"Generating content for user ID: {current_user.id}")
         logger.info(f"Params: {params}")
 
-        # Fetch the account profile
-        account_profile_response = (
-            supabase.table("account_profiles")
+        # Fetch the user profile
+        user_profile_response = (
+            supabase.table("user_profiles")
             .select("*")
-            .eq("account_id", current_user.id)
+            .eq("id", current_user.id)
             .execute()
         )
 
-        logger.info(f"Account profile response: {account_profile_response}")
+        logger.info(f"User profile response: {user_profile_response}")
 
-        if not account_profile_response.data:
-            logger.error(f"No profile found for user ID: {current_user.id}")
-            raise HTTPException(
-                status_code=404,
-                detail="User profile not found. This is unexpected as the profile should exist.",
+        if not user_profile_response.data:
+            logger.warning(
+                f"Profile not found for user ID: {current_user.id}. Creating a new profile."
             )
+            new_profile = {
+                "id": current_user.id,
+                "beehiiv_api_key": "",
+                "publication_id": "",
+                "subscribe_url": "",
+            }
+            create_response = (
+                supabase.table("user_profiles").insert(new_profile).execute()
+            )
+            if create_response.data:
+                user_profile = create_response.data[0]
+            else:
+                raise HTTPException(
+                    status_code=500, detail="Failed to create user profile"
+                )
+        else:
+            user_profile = user_profile_response.data[0]
 
-        account_profile = account_profile_response.data[0]
-        logger.info(f"Account profile data: {account_profile}")
+        logger.info(f"User profile data: {user_profile}")
 
         # Check if required fields are present
         required_fields = ["beehiiv_api_key", "publication_id", "subscribe_url"]
         missing_fields = [
-            field for field in required_fields if not account_profile.get(field)
+            field for field in required_fields if not user_profile.get(field)
         ]
 
         if missing_fields:
@@ -220,7 +234,7 @@ async def generate_content(
 
         # Initiate the content generation task
         task = generate_content_task.delay(
-            account_profile,
+            user_profile,
             str(params.edition_url),
             params.generate_precta_tweet,
             params.generate_postcta_tweet,
