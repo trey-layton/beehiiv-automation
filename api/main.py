@@ -30,19 +30,20 @@ except Exception as e:
     raise
 
 
-def get_access_token(
-    credentials: HTTPAuthorizationCredentials = Depends(HTTPBearer()),
-) -> str:
-    if credentials.scheme != "Bearer":
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Invalid authorization scheme",
-        )
-    return credentials.credentials
-
-
 def get_supabase_client() -> Client:
     return supabase_client
+
+
+async def get_current_user(
+    credentials: HTTPAuthorizationCredentials = Depends(HTTPBearer()),
+):
+    try:
+        user = supabase_client.auth.get_user(credentials.credentials)
+        return user.user
+    except Exception as e:
+        raise HTTPException(
+            status_code=401, detail="Invalid authentication credentials"
+        )
 
 
 @app.middleware("http")
@@ -64,7 +65,7 @@ async def test_supabase(client: Client = Depends(get_supabase_client)):
     logger.debug("Test-supabase endpoint called")
     try:
         logger.debug("Attempting to query Supabase")
-        response = client.table("user_profiles").select("*").limit(1).execute()
+        response = client.table("account_profiles").select("*").limit(1).execute()
         logger.debug(f"Supabase response: {response}")
         return {"status": "success", "data": response.data}
     except Exception as e:
@@ -85,28 +86,38 @@ async def debug_info():
 
 
 @app.get("/user_info")
-async def get_user_data(supabase: Client = Depends(get_supabase_client)):
+async def get_user_info(
+    current_user: dict = Depends(get_current_user),
+    supabase: Client = Depends(get_supabase_client),
+):
     try:
-        response = supabase.from_("account_profiles").select("*").execute()
-
-        if response.data is None:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Failed to fetch user data",
-            )
-
-        return response.data
-    except HTTPException as e:
-        raise e
-    except Exception as e:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Error fetching user data: {str(e)}",
+        logger.info(f"Fetching info for user ID: {current_user.id}")
+        response = (
+            supabase.table("account_profiles")
+            .select("*")
+            .eq("account_id", current_user.id)
+            .execute()
         )
+
+        if response.data and len(response.data) > 0:
+            user_profile = response.data[0]
+            return {
+                "account_id": user_profile["account_id"],
+                "email": current_user.email,
+                "beehiiv_api_key": user_profile["beehiiv_api_key"],
+                "subscribe_url": user_profile["subscribe_url"],
+                "publication_id": user_profile["publication_id"],
+                "example_tweet": user_profile.get("example_tweet"),
+            }
+        else:
+            raise HTTPException(status_code=404, detail="User profile not found")
+
+    except Exception as e:
+        logger.error(f"Error fetching user info: {str(e)}")
+        raise HTTPException(status_code=500, detail="Internal server error")
 
 
 class UserProfile(BaseModel):
-    account_id: str
     beehiiv_api_key: str
     publication_id: str
     subscribe_url: str
@@ -114,15 +125,17 @@ class UserProfile(BaseModel):
 
 @app.post("/update_user_profile")
 async def update_user_profile(
-    params: UserProfile, supabase: Client = Depends(get_supabase_client)
+    params: UserProfile,
+    current_user: dict = Depends(get_current_user),
+    supabase: Client = Depends(get_supabase_client),
 ):
     try:
         logger.info("Attempting to update profile")
         response = (
-            supabase.from_("account_profiles")
+            supabase.table("account_profiles")
             .upsert(
                 {
-                    "account_id": params.account_id,
+                    "account_id": current_user.id,
                     "beehiiv_api_key": params.beehiiv_api_key,
                     "publication_id": params.publication_id,
                     "subscribe_url": params.subscribe_url,
@@ -133,28 +146,23 @@ async def update_user_profile(
 
         if response.data is None:
             logger.error("Failed to update profile: No data returned")
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Failed to update profile",
-            )
+            raise HTTPException(status_code=400, detail="Failed to update profile")
 
         logger.info("Profile updated successfully")
         return {
             "status": "success",
             "message": "Profile updated successfully",
-            "data": response.data,
+            "data": response.data[0],
         }
     except HTTPException as e:
         raise e
     except Exception as e:
         raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Error updating user profile: {str(e)}",
+            status_code=500, detail=f"Error updating user profile: {str(e)}"
         )
 
 
 class ContentGeneration(BaseModel):
-    account_id: str
     edition_url: HttpUrl
     generate_precta_tweet: bool = False
     generate_postcta_tweet: bool = False
@@ -165,20 +173,22 @@ class ContentGeneration(BaseModel):
 
 @app.post("/generate_content")
 async def generate_content(
-    params: ContentGeneration, supabase: Client = Depends(get_supabase_client)
+    params: ContentGeneration,
+    current_user: dict = Depends(get_current_user),
+    supabase: Client = Depends(get_supabase_client),
 ):
     try:
         account_profile = (
-            supabase.from_("account_profiles")
+            supabase.table("account_profiles")
             .select("*")
-            .eq("account_id", params.account_id)
+            .eq("account_id", current_user.id)
             .execute()
         )
 
-        if account_profile.data is None:
+        if not account_profile.data:
             logger.warning("User profile not found")
             raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
+                status_code=404,
                 detail="User profile not found. Please update your profile.",
             )
 
@@ -199,8 +209,7 @@ async def generate_content(
     except Exception as e:
         logger.exception(f"Error in generate_content_endpoint: {str(e)}")
         raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Error initiating content generation: {str(e)}",
+            status_code=500, detail=f"Error initiating content generation: {str(e)}"
         )
 
 
