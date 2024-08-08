@@ -2,7 +2,7 @@ import os
 from fastapi import FastAPI, Depends, HTTPException, status, Request
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from supabase import create_client, Client
-from pydantic import BaseModel, HttpUrl
+from pydantic import BaseModel, HttpUrl, ConfigDict
 from dotenv import load_dotenv
 from core.main_process import run_main_process
 import logging
@@ -121,6 +121,7 @@ class UserProfile(BaseModel):
     beehiiv_api_key: str
     publication_id: str
     subscribe_url: str
+    model_config = ConfigDict(from_attributes=True)
 
 
 @app.post("/update_user_profile")
@@ -169,6 +170,7 @@ class ContentGeneration(BaseModel):
     generate_thread_tweet: bool = False
     generate_long_form_tweet: bool = False
     generate_linkedin: bool = False
+    model_config = ConfigDict(from_attributes=True)
 
 
 @app.post("/generate_content")
@@ -178,22 +180,47 @@ async def generate_content(
     supabase: Client = Depends(get_supabase_client),
 ):
     try:
-        account_profile = (
+        logger.info(f"Generating content for user ID: {current_user.id}")
+        logger.info(f"Params: {params}")
+
+        # Fetch the account profile
+        account_profile_response = (
             supabase.table("account_profiles")
             .select("*")
             .eq("account_id", current_user.id)
             .execute()
         )
 
-        if not account_profile.data:
-            logger.warning("User profile not found")
+        logger.info(f"Account profile response: {account_profile_response}")
+
+        if not account_profile_response.data:
+            logger.error(f"No profile found for user ID: {current_user.id}")
             raise HTTPException(
                 status_code=404,
-                detail="User profile not found. Please update your profile.",
+                detail="User profile not found. This is unexpected as the profile should exist.",
             )
 
+        account_profile = account_profile_response.data[0]
+        logger.info(f"Account profile data: {account_profile}")
+
+        # Check if required fields are present
+        required_fields = ["beehiiv_api_key", "publication_id", "subscribe_url"]
+        missing_fields = [
+            field for field in required_fields if not account_profile.get(field)
+        ]
+
+        if missing_fields:
+            logger.warning(
+                f"Incomplete profile for user ID: {current_user.id}. Missing fields: {missing_fields}"
+            )
+            raise HTTPException(
+                status_code=400,
+                detail=f"Incomplete user profile. Please update your profile with the following information: {', '.join(missing_fields)}",
+            )
+
+        # Initiate the content generation task
         task = generate_content_task.delay(
-            account_profile.data[0],
+            account_profile,
             str(params.edition_url),
             params.generate_precta_tweet,
             params.generate_postcta_tweet,
@@ -204,10 +231,12 @@ async def generate_content(
 
         logger.info(f"Content generation task initiated: {task.id}")
         return {"status": "processing", "task_id": str(task.id)}
+
     except HTTPException as e:
+        logger.error(f"HTTP exception in generate_content: {e.detail}")
         raise e
     except Exception as e:
-        logger.exception(f"Error in generate_content_endpoint: {str(e)}")
+        logger.exception(f"Unexpected error in generate_content: {str(e)}")
         raise HTTPException(
             status_code=500, detail=f"Error initiating content generation: {str(e)}"
         )
