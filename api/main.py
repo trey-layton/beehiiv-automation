@@ -16,6 +16,19 @@ load_dotenv()
 
 app = FastAPI()
 
+# Create a single Supabase client instance using environment variables
+try:
+    supabase_url = os.getenv("SUPABASE_URL")
+    supabase_key = os.getenv("SUPABASE_KEY")
+    if not supabase_url or not supabase_key:
+        raise ValueError("SUPABASE_URL or SUPABASE_KEY environment variable is missing")
+
+    supabase_client = create_client(supabase_url, supabase_key)
+    logger.debug("Supabase client created successfully")
+except Exception as e:
+    logger.error(f"Error creating Supabase client: {str(e)}")
+    raise
+
 
 def get_access_token(
     credentials: HTTPAuthorizationCredentials = Depends(HTTPBearer()),
@@ -28,15 +41,19 @@ def get_access_token(
     return credentials.credentials
 
 
-def get_supabase_client(access_token: str = Depends(get_access_token)) -> Client:
+def get_supabase_client() -> Client:
+    return supabase_client
+
+
+# Add a test endpoint
+@app.get("/test-supabase")
+async def test_supabase(client: Client = Depends(get_supabase_client)):
     try:
-        return create_client(os.getenv("SUPABASE_URL"), access_token)
+        response = client.table("user_profiles").select("*").limit(1).execute()
+        return {"status": "success", "data": response.data}
     except Exception as e:
-        logger.error(f"Error creating Supabase client: {str(e)}")
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Internal server error",
-        )
+        logger.error(f"Supabase query failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Supabase query failed: {str(e)}")
 
 
 @app.get("/")
