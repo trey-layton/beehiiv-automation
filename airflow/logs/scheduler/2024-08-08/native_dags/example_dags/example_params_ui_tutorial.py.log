@@ -1,0 +1,70 @@
+[2024-08-08T16:48:06.792-0700] {processor.py:161} INFO - Started process (PID=98702) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py
+[2024-08-08T16:48:06.794-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py for tasks to queue
+[2024-08-08T16:48:06.794-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:48:06.794-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py
+[2024-08-08T16:48:06.819-0700] {processor.py:840} INFO - DAG(s) 'example_params_ui_tutorial' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py
+[2024-08-08T16:48:06.949-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:48:06.949-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:48:06.956-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:48:06.956-0700] {dag.py:3947} INFO - Setting next_dagrun for example_params_ui_tutorial to None, run_after=None
+[2024-08-08T16:48:06.971-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py took 0.181 seconds
+[2024-08-08T16:49:51.836-0700] {processor.py:161} INFO - Started process (PID=98903) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py
+[2024-08-08T16:49:51.838-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py for tasks to queue
+[2024-08-08T16:49:51.838-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:49:51.838-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py
+[2024-08-08T16:49:51.862-0700] {processor.py:840} INFO - DAG(s) 'example_params_ui_tutorial' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py
+[2024-08-08T16:49:51.989-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:49:51.989-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:49:51.996-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:49:51.996-0700] {dag.py:3947} INFO - Setting next_dagrun for example_params_ui_tutorial to None, run_after=None
+[2024-08-08T16:49:52.009-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py took 0.175 seconds
+[2024-08-08T16:51:50.142-0700] {processor.py:161} INFO - Started process (PID=99159) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py
+[2024-08-08T16:51:50.144-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py for tasks to queue
+[2024-08-08T16:51:50.144-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:51:50.144-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py
+[2024-08-08T16:51:50.165-0700] {processor.py:840} INFO - DAG(s) 'example_params_ui_tutorial' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py
+[2024-08-08T16:51:50.236-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:51:50.236-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:51:50.241-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:51:50.241-0700] {dag.py:3947} INFO - Setting next_dagrun for example_params_ui_tutorial to None, run_after=None
+[2024-08-08T16:51:50.252-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py took 0.112 seconds
+[2024-08-08T16:52:14.080-0700] {processor.py:161} INFO - Started process (PID=99220) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py
+[2024-08-08T16:52:14.082-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py for tasks to queue
+[2024-08-08T16:52:14.082-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:52:14.082-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py
+[2024-08-08T16:52:14.103-0700] {processor.py:840} INFO - DAG(s) 'example_params_ui_tutorial' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py
+[2024-08-08T16:52:14.173-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:52:14.173-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:52:14.178-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:52:14.178-0700] {dag.py:3947} INFO - Setting next_dagrun for example_params_ui_tutorial to None, run_after=None
+[2024-08-08T16:52:14.188-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py took 0.109 seconds
+[2024-08-08T16:53:34.858-0700] {processor.py:161} INFO - Started process (PID=99359) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py
+[2024-08-08T16:53:34.860-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py for tasks to queue
+[2024-08-08T16:53:34.860-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:53:34.860-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py
+[2024-08-08T16:53:34.881-0700] {processor.py:840} INFO - DAG(s) 'example_params_ui_tutorial' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py
+[2024-08-08T16:53:34.959-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:53:34.959-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:53:34.965-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:53:34.965-0700] {dag.py:3947} INFO - Setting next_dagrun for example_params_ui_tutorial to None, run_after=None
+[2024-08-08T16:53:34.977-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py took 0.121 seconds
+[2024-08-08T16:54:48.203-0700] {processor.py:161} INFO - Started process (PID=99503) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py
+[2024-08-08T16:54:48.205-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py for tasks to queue
+[2024-08-08T16:54:48.205-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:54:48.205-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py
+[2024-08-08T16:54:48.227-0700] {processor.py:840} INFO - DAG(s) 'example_params_ui_tutorial' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py
+[2024-08-08T16:54:48.301-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:54:48.300-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:54:48.306-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:54:48.305-0700] {dag.py:3947} INFO - Setting next_dagrun for example_params_ui_tutorial to None, run_after=None
+[2024-08-08T16:54:48.317-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py took 0.115 seconds
+[2024-08-08T16:56:02.105-0700] {processor.py:161} INFO - Started process (PID=99656) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py
+[2024-08-08T16:56:02.106-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py for tasks to queue
+[2024-08-08T16:56:02.107-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:56:02.107-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py
+[2024-08-08T16:56:02.128-0700] {processor.py:840} INFO - DAG(s) 'example_params_ui_tutorial' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py
+[2024-08-08T16:56:02.198-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:56:02.198-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:56:02.203-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:56:02.203-0700] {dag.py:3947} INFO - Setting next_dagrun for example_params_ui_tutorial to None, run_after=None
+[2024-08-08T16:56:02.214-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py took 0.111 seconds
+[2024-08-08T16:57:14.996-0700] {processor.py:161} INFO - Started process (PID=99778) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py
+[2024-08-08T16:57:14.998-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py for tasks to queue
+[2024-08-08T16:57:14.998-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:57:14.998-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py
+[2024-08-08T16:57:15.020-0700] {processor.py:840} INFO - DAG(s) 'example_params_ui_tutorial' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py
+[2024-08-08T16:57:15.095-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:57:15.095-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:57:15.100-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:57:15.100-0700] {dag.py:3947} INFO - Setting next_dagrun for example_params_ui_tutorial to None, run_after=None
+[2024-08-08T16:57:15.114-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py took 0.120 seconds
+[2024-08-08T16:58:31.842-0700] {processor.py:161} INFO - Started process (PID=99948) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py
+[2024-08-08T16:58:31.844-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py for tasks to queue
+[2024-08-08T16:58:31.844-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:58:31.844-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py
+[2024-08-08T16:58:31.867-0700] {processor.py:840} INFO - DAG(s) 'example_params_ui_tutorial' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py
+[2024-08-08T16:58:31.937-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:58:31.937-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:58:31.942-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:58:31.942-0700] {dag.py:3947} INFO - Setting next_dagrun for example_params_ui_tutorial to None, run_after=None
+[2024-08-08T16:58:31.953-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py took 0.112 seconds
+[2024-08-08T16:59:42.643-0700] {processor.py:161} INFO - Started process (PID=177) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py
+[2024-08-08T16:59:42.645-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py for tasks to queue
+[2024-08-08T16:59:42.645-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:59:42.645-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py
+[2024-08-08T16:59:42.667-0700] {processor.py:840} INFO - DAG(s) 'example_params_ui_tutorial' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py
+[2024-08-08T16:59:42.737-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:59:42.737-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:59:42.742-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:59:42.742-0700] {dag.py:3947} INFO - Setting next_dagrun for example_params_ui_tutorial to None, run_after=None
+[2024-08-08T16:59:42.753-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_ui_tutorial.py took 0.112 seconds

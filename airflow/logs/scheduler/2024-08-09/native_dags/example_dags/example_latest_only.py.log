@@ -1,0 +1,651 @@
+[2024-08-08T17:01:07.369-0700] {processor.py:161} INFO - Started process (PID=379) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:01:07.371-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T17:01:07.371-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:01:07.371-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:01:07.375-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:01:07.438-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:01:07.438-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T17:01:07.451-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:01:07.451-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T17:01:07.465-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.098 seconds
+[2024-08-08T17:02:20.327-0700] {processor.py:161} INFO - Started process (PID=770) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:02:20.329-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T17:02:20.329-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:02:20.329-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:02:20.333-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:02:20.393-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:02:20.392-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T17:02:20.405-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:02:20.405-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T17:02:20.418-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.093 seconds
+[2024-08-08T17:03:34.093-0700] {processor.py:161} INFO - Started process (PID=923) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:03:34.095-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T17:03:34.095-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:03:34.095-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:03:34.099-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:03:34.158-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:03:34.158-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T17:03:34.170-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:03:34.170-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T17:03:34.182-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.091 seconds
+[2024-08-08T17:04:46.668-0700] {processor.py:161} INFO - Started process (PID=1119) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:04:46.669-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T17:04:46.670-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:04:46.670-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:04:46.674-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:04:46.732-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:04:46.732-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T17:04:46.743-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:04:46.743-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T17:04:46.755-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.089 seconds
+[2024-08-08T17:06:33.909-0700] {processor.py:161} INFO - Started process (PID=1378) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:06:33.910-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T17:06:33.911-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:06:33.911-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:06:33.915-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:06:33.970-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:06:33.970-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T17:06:33.981-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:06:33.981-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T17:06:33.993-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.086 seconds
+[2024-08-08T17:07:11.123-0700] {processor.py:161} INFO - Started process (PID=1481) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:07:11.125-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T17:07:11.125-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:07:11.125-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:07:11.129-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:07:11.188-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:07:11.188-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T17:07:11.199-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:07:11.199-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T17:07:11.212-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.091 seconds
+[2024-08-08T17:08:17.983-0700] {processor.py:161} INFO - Started process (PID=1584) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:08:17.985-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T17:08:17.985-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:08:17.985-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:08:17.989-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:08:18.047-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:08:18.047-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T17:08:18.058-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:08:18.058-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T17:08:18.071-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.089 seconds
+[2024-08-08T17:09:39.193-0700] {processor.py:161} INFO - Started process (PID=1729) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:09:39.195-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T17:09:39.195-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:09:39.195-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:09:39.200-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:09:39.259-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:09:39.259-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T17:09:39.271-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:09:39.271-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T17:09:39.284-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.093 seconds
+[2024-08-08T17:36:18.800-0700] {processor.py:161} INFO - Started process (PID=1863) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:36:18.802-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T17:36:18.802-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:36:18.802-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:36:18.807-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:36:18.871-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:36:18.871-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T17:36:18.884-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:36:18.884-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T17:36:18.897-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.100 seconds
+[2024-08-08T17:38:50.564-0700] {processor.py:161} INFO - Started process (PID=1991) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:38:50.566-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T17:38:50.566-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:38:50.566-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:38:50.570-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:38:50.632-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:38:50.632-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T17:38:50.644-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:38:50.644-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T17:38:50.658-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.096 seconds
+[2024-08-08T17:41:19.885-0700] {processor.py:161} INFO - Started process (PID=2082) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:41:19.886-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T17:41:19.887-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:41:19.887-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:41:19.891-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:41:19.948-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:41:19.948-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T17:41:19.959-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:41:19.959-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T17:41:19.972-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.089 seconds
+[2024-08-08T17:43:47.259-0700] {processor.py:161} INFO - Started process (PID=2173) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:43:47.261-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T17:43:47.261-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:43:47.261-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:43:47.266-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:43:47.329-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:43:47.329-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T17:43:47.342-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:43:47.342-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T17:43:47.355-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.098 seconds
+[2024-08-08T17:46:16.187-0700] {processor.py:161} INFO - Started process (PID=2261) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:46:16.189-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T17:46:16.190-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:46:16.190-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:46:16.195-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:46:16.257-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:46:16.257-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T17:46:16.270-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:46:16.270-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T17:46:16.283-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.097 seconds
+[2024-08-08T17:48:42.271-0700] {processor.py:161} INFO - Started process (PID=2353) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:48:42.273-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T17:48:42.273-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:48:42.273-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:48:42.278-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:48:42.342-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:48:42.342-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T17:48:42.354-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:48:42.354-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T17:48:42.367-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.098 seconds
+[2024-08-08T17:51:10.154-0700] {processor.py:161} INFO - Started process (PID=2440) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:51:10.156-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T17:51:10.156-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:51:10.156-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:51:10.160-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:51:10.217-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:51:10.217-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T17:51:10.228-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:51:10.228-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T17:51:10.240-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.088 seconds
+[2024-08-08T17:53:35.402-0700] {processor.py:161} INFO - Started process (PID=2531) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:53:35.404-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T17:53:35.404-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:53:35.404-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:53:35.408-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T17:53:35.467-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:53:35.466-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T17:53:35.478-0700] {logging_mixin.py:188} INFO - [2024-08-08T17:53:35.477-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T17:53:35.489-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.089 seconds
+[2024-08-08T18:24:51.912-0700] {processor.py:161} INFO - Started process (PID=2647) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:24:51.914-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T18:24:51.914-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:24:51.914-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:24:51.917-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:24:51.955-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:24:51.955-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T18:24:51.963-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:24:51.963-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T18:24:51.982-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.071 seconds
+[2024-08-08T18:26:47.841-0700] {processor.py:161} INFO - Started process (PID=2789) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:26:47.843-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T18:26:47.843-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:26:47.843-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:26:47.846-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:26:47.889-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:26:47.889-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T18:26:47.898-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:26:47.898-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T18:26:47.907-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.067 seconds
+[2024-08-08T18:28:45.940-0700] {processor.py:161} INFO - Started process (PID=2888) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:28:45.941-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T18:28:45.941-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:28:45.941-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:28:45.944-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:28:45.985-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:28:45.985-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T18:28:45.994-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:28:45.994-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T18:28:46.004-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.065 seconds
+[2024-08-08T18:30:45.673-0700] {processor.py:161} INFO - Started process (PID=2967) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:30:45.674-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T18:30:45.674-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:30:45.674-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:30:45.678-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:30:45.720-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:30:45.720-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T18:30:45.729-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:30:45.729-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T18:30:45.738-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.067 seconds
+[2024-08-08T18:32:48.382-0700] {processor.py:161} INFO - Started process (PID=3049) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:32:48.383-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T18:32:48.384-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:32:48.383-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:32:48.387-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:32:48.430-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:32:48.430-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T18:32:48.440-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:32:48.440-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T18:32:48.450-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.069 seconds
+[2024-08-08T18:34:49.403-0700] {processor.py:161} INFO - Started process (PID=3150) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:34:49.404-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T18:34:49.405-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:34:49.405-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:34:49.408-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:34:49.450-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:34:49.449-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T18:34:49.458-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:34:49.458-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T18:34:49.467-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.065 seconds
+[2024-08-08T18:36:46.584-0700] {processor.py:161} INFO - Started process (PID=3242) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:36:46.586-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T18:36:46.586-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:36:46.586-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:36:46.590-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:36:46.633-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:36:46.633-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T18:36:46.642-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:36:46.642-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T18:36:46.651-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.068 seconds
+[2024-08-08T18:38:48.005-0700] {processor.py:161} INFO - Started process (PID=3337) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:38:48.006-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T18:38:48.006-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:38:48.006-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:38:48.009-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:38:48.053-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:38:48.053-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T18:38:48.062-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:38:48.061-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T18:38:48.071-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.068 seconds
+[2024-08-08T18:40:40.752-0700] {processor.py:161} INFO - Started process (PID=3426) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:40:40.753-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T18:40:40.754-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:40:40.753-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:40:40.757-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:40:40.799-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:40:40.798-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T18:40:40.807-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:40:40.807-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T18:40:40.817-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.067 seconds
+[2024-08-08T18:42:37.681-0700] {processor.py:161} INFO - Started process (PID=3557) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:42:37.682-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T18:42:37.682-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:42:37.682-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:42:37.686-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:42:37.727-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:42:37.727-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T18:42:37.735-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:42:37.735-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T18:42:37.744-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.065 seconds
+[2024-08-08T18:44:36.509-0700] {processor.py:161} INFO - Started process (PID=3636) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:44:36.511-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T18:44:36.511-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:44:36.511-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:44:36.514-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:44:36.556-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:44:36.556-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T18:44:36.565-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:44:36.565-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T18:44:36.575-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.067 seconds
+[2024-08-08T18:46:38.254-0700] {processor.py:161} INFO - Started process (PID=3720) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:46:38.255-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T18:46:38.255-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:46:38.255-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:46:38.258-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:46:38.297-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:46:38.297-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T18:46:38.305-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:46:38.305-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T18:46:38.313-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.061 seconds
+[2024-08-08T18:48:35.680-0700] {processor.py:161} INFO - Started process (PID=3824) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:48:35.681-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T18:48:35.682-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:48:35.682-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:48:35.685-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:48:35.729-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:48:35.728-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T18:48:35.737-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:48:35.737-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T18:48:35.747-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.068 seconds
+[2024-08-08T18:50:39.050-0700] {processor.py:161} INFO - Started process (PID=3910) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:50:39.052-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T18:50:39.052-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:50:39.052-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:50:39.054-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:50:39.094-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:50:39.094-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T18:50:39.102-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:50:39.102-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T18:50:39.110-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.061 seconds
+[2024-08-08T18:52:38.270-0700] {processor.py:161} INFO - Started process (PID=4012) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:52:38.271-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T18:52:38.271-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:52:38.271-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:52:38.274-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:52:38.332-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:52:38.332-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T18:52:38.341-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:52:38.341-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T18:52:38.350-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.082 seconds
+[2024-08-08T18:54:38.930-0700] {processor.py:161} INFO - Started process (PID=4097) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:54:38.932-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T18:54:38.933-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:54:38.933-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:54:38.936-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:54:38.975-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:54:38.975-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T18:54:38.983-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:54:38.983-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T18:54:38.992-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.063 seconds
+[2024-08-08T18:56:41.122-0700] {processor.py:161} INFO - Started process (PID=4201) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:56:41.123-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T18:56:41.123-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:56:41.123-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:56:41.126-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:56:41.167-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:56:41.167-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T18:56:41.175-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:56:41.175-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T18:56:41.184-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.063 seconds
+[2024-08-08T18:58:37.506-0700] {processor.py:161} INFO - Started process (PID=4278) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:58:37.507-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T18:58:37.508-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:58:37.508-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:58:37.511-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T18:58:37.552-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:58:37.551-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T18:58:37.560-0700] {logging_mixin.py:188} INFO - [2024-08-08T18:58:37.560-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T18:58:37.568-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.063 seconds
+[2024-08-08T19:00:25.426-0700] {processor.py:161} INFO - Started process (PID=4404) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:00:25.428-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T19:00:25.428-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:00:25.428-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:00:25.432-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:00:25.478-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:00:25.477-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T19:00:25.499-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:00:25.498-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T19:00:25.509-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.084 seconds
+[2024-08-08T19:02:24.499-0700] {processor.py:161} INFO - Started process (PID=4524) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:02:24.501-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T19:02:24.501-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:02:24.501-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:02:24.504-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:02:24.544-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:02:24.544-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T19:02:24.551-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:02:24.551-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T19:02:24.560-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.063 seconds
+[2024-08-08T19:04:18.038-0700] {processor.py:161} INFO - Started process (PID=4692) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:04:18.039-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T19:04:18.039-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:04:18.039-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:04:18.042-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:04:18.083-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:04:18.083-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T19:04:18.090-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:04:18.090-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T19:04:18.099-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.062 seconds
+[2024-08-08T19:06:13.877-0700] {processor.py:161} INFO - Started process (PID=4793) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:06:13.879-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T19:06:13.880-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:06:13.880-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:06:13.883-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:06:13.926-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:06:13.925-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T19:06:13.934-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:06:13.934-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T19:06:13.943-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.067 seconds
+[2024-08-08T19:08:09.818-0700] {processor.py:161} INFO - Started process (PID=4928) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:08:09.819-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T19:08:09.819-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:08:09.819-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:08:09.822-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:08:09.864-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:08:09.864-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T19:08:09.873-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:08:09.873-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T19:08:09.883-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.067 seconds
+[2024-08-08T19:10:07.230-0700] {processor.py:161} INFO - Started process (PID=5019) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:10:07.231-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T19:10:07.231-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:10:07.231-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:10:07.234-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:10:07.273-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:10:07.273-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T19:10:07.281-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:10:07.281-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T19:10:07.289-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.060 seconds
+[2024-08-08T19:11:58.796-0700] {processor.py:161} INFO - Started process (PID=5106) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:11:58.797-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T19:11:58.797-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:11:58.797-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:11:58.801-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:11:58.853-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:11:58.853-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T19:11:58.862-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:11:58.862-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T19:11:58.872-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.078 seconds
+[2024-08-08T19:13:57.927-0700] {processor.py:161} INFO - Started process (PID=5248) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:13:57.930-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T19:13:57.930-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:13:57.930-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:13:57.934-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:13:57.978-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:13:57.978-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T19:13:57.988-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:13:57.988-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T19:13:57.998-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.072 seconds
+[2024-08-08T19:15:57.393-0700] {processor.py:161} INFO - Started process (PID=5390) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:15:57.394-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T19:15:57.395-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:15:57.394-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:15:57.397-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:15:57.438-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:15:57.438-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T19:15:57.446-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:15:57.446-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T19:15:57.455-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.063 seconds
+[2024-08-08T19:17:52.922-0700] {processor.py:161} INFO - Started process (PID=5526) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:17:52.924-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T19:17:52.924-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:17:52.924-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:17:52.928-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:17:52.969-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:17:52.969-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T19:17:52.977-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:17:52.977-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T19:17:52.987-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.067 seconds
+[2024-08-08T19:19:49.990-0700] {processor.py:161} INFO - Started process (PID=5616) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:19:49.991-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T19:19:49.991-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:19:49.991-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:19:49.994-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:19:50.032-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:19:50.032-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T19:19:50.040-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:19:50.040-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T19:19:50.048-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.060 seconds
+[2024-08-08T19:21:44.061-0700] {processor.py:161} INFO - Started process (PID=5711) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:21:44.062-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T19:21:44.063-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:21:44.062-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:21:44.065-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:21:44.106-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:21:44.105-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T19:21:44.114-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:21:44.114-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T19:21:44.122-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.063 seconds
+[2024-08-08T19:23:33.671-0700] {processor.py:161} INFO - Started process (PID=5785) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:23:33.672-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T19:23:33.673-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:23:33.673-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:23:33.675-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:23:33.714-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:23:33.714-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T19:23:33.722-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:23:33.722-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T19:23:33.731-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.061 seconds
+[2024-08-08T19:25:32.113-0700] {processor.py:161} INFO - Started process (PID=5891) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:25:32.115-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T19:25:32.116-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:25:32.116-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:25:32.119-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:25:32.159-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:25:32.159-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T19:25:32.166-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:25:32.166-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T19:25:32.175-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.063 seconds
+[2024-08-08T19:27:34.274-0700] {processor.py:161} INFO - Started process (PID=5974) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:27:34.275-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T19:27:34.275-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:27:34.275-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:27:34.278-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:27:34.320-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:27:34.320-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T19:27:34.329-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:27:34.329-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T19:27:34.339-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.067 seconds
+[2024-08-08T19:29:36.825-0700] {processor.py:161} INFO - Started process (PID=6057) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:29:36.827-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T19:29:36.827-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:29:36.827-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:29:36.830-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:29:36.870-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:29:36.870-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T19:29:36.878-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:29:36.878-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T19:29:36.887-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.062 seconds
+[2024-08-08T19:31:35.871-0700] {processor.py:161} INFO - Started process (PID=6137) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:31:35.872-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T19:31:35.872-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:31:35.872-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:31:35.875-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:31:35.918-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:31:35.918-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T19:31:35.926-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:31:35.926-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T19:31:35.936-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.067 seconds
+[2024-08-08T19:33:34.960-0700] {processor.py:161} INFO - Started process (PID=6215) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:33:34.961-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T19:33:34.961-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:33:34.961-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:33:34.964-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:33:35.004-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:33:35.004-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T19:33:35.013-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:33:35.012-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T19:33:35.022-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.063 seconds
+[2024-08-08T19:35:25.883-0700] {processor.py:161} INFO - Started process (PID=6292) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:35:25.884-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T19:35:25.885-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:35:25.885-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:35:25.888-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:35:25.931-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:35:25.931-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T19:35:25.939-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:35:25.939-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T19:35:25.949-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.068 seconds
+[2024-08-08T19:37:24.837-0700] {processor.py:161} INFO - Started process (PID=6370) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:37:24.839-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T19:37:24.839-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:37:24.839-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:37:24.843-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:37:24.883-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:37:24.882-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T19:37:24.891-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:37:24.890-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T19:37:24.899-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.064 seconds
+[2024-08-08T19:39:17.241-0700] {processor.py:161} INFO - Started process (PID=6454) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:39:17.242-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T19:39:17.243-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:39:17.243-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:39:17.246-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:39:17.285-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:39:17.285-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T19:39:17.293-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:39:17.293-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T19:39:17.302-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.063 seconds
+[2024-08-08T19:41:14.058-0700] {processor.py:161} INFO - Started process (PID=6535) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:41:14.060-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T19:41:14.060-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:41:14.060-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:41:14.063-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:41:14.103-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:41:14.103-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T19:41:14.111-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:41:14.111-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T19:41:14.120-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.064 seconds
+[2024-08-08T19:43:13.087-0700] {processor.py:161} INFO - Started process (PID=6617) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:43:13.089-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T19:43:13.089-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:43:13.089-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:43:13.092-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:43:13.134-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:43:13.134-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T19:43:13.143-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:43:13.143-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T19:43:13.152-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.066 seconds
+[2024-08-08T19:45:13.363-0700] {processor.py:161} INFO - Started process (PID=6697) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:45:13.365-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T19:45:13.365-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:45:13.365-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:45:13.368-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:45:13.408-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:45:13.408-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T19:45:13.416-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:45:13.416-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T19:45:13.424-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.062 seconds
+[2024-08-08T19:47:12.549-0700] {processor.py:161} INFO - Started process (PID=6778) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:47:12.550-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T19:47:12.550-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:47:12.550-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:47:12.553-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:47:12.593-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:47:12.592-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T19:47:12.600-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:47:12.600-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T19:47:12.609-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.062 seconds
+[2024-08-08T19:49:13.242-0700] {processor.py:161} INFO - Started process (PID=6861) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:49:13.244-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T19:49:13.244-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:49:13.244-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:49:13.247-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:49:13.289-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:49:13.289-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T19:49:13.298-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:49:13.298-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T19:49:13.308-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.067 seconds
+[2024-08-08T19:51:09.889-0700] {processor.py:161} INFO - Started process (PID=6940) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:51:09.890-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T19:51:09.891-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:51:09.891-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:51:09.894-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:51:09.932-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:51:09.932-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T19:51:09.940-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:51:09.940-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T19:51:09.949-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.061 seconds
+[2024-08-08T19:53:08.729-0700] {processor.py:161} INFO - Started process (PID=7029) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:53:08.730-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T19:53:08.731-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:53:08.731-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:53:08.734-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:53:08.776-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:53:08.776-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T19:53:08.784-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:53:08.784-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T19:53:08.795-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.067 seconds
+[2024-08-08T19:55:07.138-0700] {processor.py:161} INFO - Started process (PID=7107) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:55:07.139-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T19:55:07.140-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:55:07.140-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:55:07.143-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:55:07.183-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:55:07.183-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T19:55:07.191-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:55:07.190-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T19:55:07.199-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.062 seconds
+[2024-08-08T19:57:03.005-0700] {processor.py:161} INFO - Started process (PID=7190) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:57:03.007-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T19:57:03.007-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:57:03.007-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:57:03.010-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:57:03.052-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:57:03.052-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T19:57:03.060-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:57:03.060-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T19:57:03.069-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.065 seconds
+[2024-08-08T19:58:58.466-0700] {processor.py:161} INFO - Started process (PID=7267) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:58:58.468-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T19:58:58.468-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:58:58.468-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:58:58.471-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T19:58:58.513-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:58:58.513-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T19:58:58.521-0700] {logging_mixin.py:188} INFO - [2024-08-08T19:58:58.521-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T19:58:58.530-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.065 seconds
+[2024-08-08T20:00:47.806-0700] {processor.py:161} INFO - Started process (PID=7348) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:00:47.809-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T20:00:47.809-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:00:47.809-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:00:47.812-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:00:47.851-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:00:47.851-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T20:00:47.858-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:00:47.858-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T20:00:47.867-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.062 seconds
+[2024-08-08T20:02:40.633-0700] {processor.py:161} INFO - Started process (PID=7440) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:02:40.636-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T20:02:40.637-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:02:40.636-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:02:40.640-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:02:40.682-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:02:40.682-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T20:02:40.690-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:02:40.690-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T20:02:40.700-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.068 seconds
+[2024-08-08T20:04:36.772-0700] {processor.py:161} INFO - Started process (PID=7522) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:04:36.773-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T20:04:36.773-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:04:36.773-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:04:36.776-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:04:36.818-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:04:36.817-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T20:04:36.826-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:04:36.826-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T20:04:36.835-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.065 seconds
+[2024-08-08T20:06:33.114-0700] {processor.py:161} INFO - Started process (PID=7605) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:06:33.116-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T20:06:33.117-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:06:33.116-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:06:33.120-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:06:33.159-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:06:33.159-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T20:06:33.166-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:06:33.166-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T20:06:33.175-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.061 seconds
+[2024-08-08T20:08:29.845-0700] {processor.py:161} INFO - Started process (PID=7692) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:08:29.846-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T20:08:29.847-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:08:29.847-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:08:29.850-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:08:29.891-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:08:29.891-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T20:08:29.899-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:08:29.899-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T20:08:29.909-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.066 seconds
+[2024-08-08T20:10:21.862-0700] {processor.py:161} INFO - Started process (PID=7802) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:10:21.863-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T20:10:21.864-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:10:21.864-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:10:21.867-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:10:21.906-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:10:21.906-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T20:10:21.914-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:10:21.914-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T20:10:21.922-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.061 seconds
+[2024-08-08T20:12:16.112-0700] {processor.py:161} INFO - Started process (PID=7908) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:12:16.113-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T20:12:16.114-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:12:16.114-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:12:16.117-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:12:16.158-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:12:16.158-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T20:12:16.166-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:12:16.166-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T20:12:16.175-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.065 seconds
+[2024-08-08T20:14:14.091-0700] {processor.py:161} INFO - Started process (PID=8012) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:14:14.092-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T20:14:14.092-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:14:14.092-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:14:14.095-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:14:14.138-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:14:14.138-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T20:14:14.146-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:14:14.146-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T20:14:14.155-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.066 seconds
+[2024-08-08T20:16:13.281-0700] {processor.py:161} INFO - Started process (PID=8133) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:16:13.283-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T20:16:13.283-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:16:13.283-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:16:13.286-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:16:13.330-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:16:13.330-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T20:16:13.339-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:16:13.339-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T20:16:13.349-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.069 seconds
+[2024-08-08T20:18:15.497-0700] {processor.py:161} INFO - Started process (PID=8243) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:18:15.499-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T20:18:15.499-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:18:15.499-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:18:15.502-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:18:15.546-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:18:15.546-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T20:18:15.555-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:18:15.555-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T20:18:15.565-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.070 seconds
+[2024-08-08T20:20:12.804-0700] {processor.py:161} INFO - Started process (PID=8403) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:20:12.806-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T20:20:12.806-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:20:12.806-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:20:12.810-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:20:12.852-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:20:12.852-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T20:20:12.861-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:20:12.861-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T20:20:12.871-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.068 seconds
+[2024-08-08T20:22:13.714-0700] {processor.py:161} INFO - Started process (PID=8512) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:22:13.716-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T20:22:13.716-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:22:13.716-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:22:13.719-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:22:13.763-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:22:13.763-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T20:22:13.772-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:22:13.771-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T20:22:13.781-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.069 seconds
+[2024-08-08T20:24:11.839-0700] {processor.py:161} INFO - Started process (PID=8592) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:24:11.840-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T20:24:11.841-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:24:11.841-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:24:11.844-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:24:11.884-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:24:11.884-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T20:24:11.893-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:24:11.893-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T20:24:11.903-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.065 seconds
+[2024-08-08T20:26:12.016-0700] {processor.py:161} INFO - Started process (PID=8694) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:26:12.018-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T20:26:12.018-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:26:12.018-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:26:12.021-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:26:12.066-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:26:12.066-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T20:26:12.075-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:26:12.075-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T20:26:12.083-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.069 seconds
+[2024-08-08T20:28:02.819-0700] {processor.py:161} INFO - Started process (PID=8817) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:28:02.821-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T20:28:02.821-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:28:02.821-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:28:02.824-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:28:02.866-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:28:02.866-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T20:28:02.876-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:28:02.876-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T20:28:02.886-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.068 seconds
+[2024-08-08T20:30:00.450-0700] {processor.py:161} INFO - Started process (PID=8931) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:30:00.451-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T20:30:00.451-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:30:00.451-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:30:00.454-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:30:00.497-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:30:00.497-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T20:30:00.505-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:30:00.505-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T20:30:00.514-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.066 seconds
+[2024-08-08T20:31:55.408-0700] {processor.py:161} INFO - Started process (PID=9068) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:31:55.409-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T20:31:55.409-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:31:55.409-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:31:55.412-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:31:55.451-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:31:55.451-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T20:31:55.459-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:31:55.459-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T20:31:55.467-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.060 seconds
+[2024-08-08T20:33:50.378-0700] {processor.py:161} INFO - Started process (PID=9197) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:33:50.381-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T20:33:50.383-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:33:50.382-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:33:50.391-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:33:50.432-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:33:50.432-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T20:33:50.439-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:33:50.439-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T20:33:50.448-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.071 seconds
+[2024-08-08T20:35:48.243-0700] {processor.py:161} INFO - Started process (PID=9292) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:35:48.244-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T20:35:48.244-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:35:48.244-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:35:48.247-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:35:48.288-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:35:48.288-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T20:35:48.297-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:35:48.296-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T20:35:48.306-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.065 seconds
+[2024-08-08T20:37:40.630-0700] {processor.py:161} INFO - Started process (PID=9396) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:37:40.632-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T20:37:40.632-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:37:40.632-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:37:40.635-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:37:40.677-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:37:40.677-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T20:37:40.685-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:37:40.685-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T20:37:40.695-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.066 seconds
+[2024-08-08T20:39:40.605-0700] {processor.py:161} INFO - Started process (PID=9505) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:39:40.607-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T20:39:40.607-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:39:40.607-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:39:40.611-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:39:40.656-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:39:40.656-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T20:39:40.665-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:39:40.665-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T20:39:40.674-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.071 seconds
+[2024-08-08T20:41:33.620-0700] {processor.py:161} INFO - Started process (PID=9592) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:41:33.623-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T20:41:33.623-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:41:33.623-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:41:33.626-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:41:33.668-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:41:33.668-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T20:41:33.676-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:41:33.676-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T20:41:33.686-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.067 seconds
+[2024-08-08T20:43:32.272-0700] {processor.py:161} INFO - Started process (PID=9687) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:43:32.274-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T20:43:32.274-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:43:32.274-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:43:32.277-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:43:32.317-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:43:32.317-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T20:43:32.325-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:43:32.325-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T20:43:32.333-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.062 seconds
+[2024-08-08T20:45:30.904-0700] {processor.py:161} INFO - Started process (PID=9828) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:45:30.905-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T20:45:30.906-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:45:30.906-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:45:30.909-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:45:30.950-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:45:30.950-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T20:45:30.958-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:45:30.958-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T20:45:30.967-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.065 seconds
+[2024-08-08T20:47:30.023-0700] {processor.py:161} INFO - Started process (PID=10000) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:47:30.024-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T20:47:30.025-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:47:30.025-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:47:30.027-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:47:30.071-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:47:30.071-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T20:47:30.079-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:47:30.079-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T20:47:30.088-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.066 seconds
+[2024-08-08T20:49:25.987-0700] {processor.py:161} INFO - Started process (PID=10176) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:49:25.989-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T20:49:25.989-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:49:25.989-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:49:25.992-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:49:26.033-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:49:26.033-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T20:49:26.042-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:49:26.042-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T20:49:26.051-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.065 seconds
+[2024-08-08T20:51:25.451-0700] {processor.py:161} INFO - Started process (PID=10362) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:51:25.452-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T20:51:25.452-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:51:25.452-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:51:25.455-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:51:25.495-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:51:25.495-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T20:51:25.503-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:51:25.503-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T20:51:25.512-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.062 seconds
+[2024-08-08T20:53:21.205-0700] {processor.py:161} INFO - Started process (PID=10624) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:53:21.206-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py for tasks to queue
+[2024-08-08T20:53:21.207-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:53:21.207-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:53:21.210-0700] {processor.py:840} INFO - DAG(s) 'latest_only' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py
+[2024-08-08T20:53:21.251-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:53:21.251-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T20:53:21.259-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:53:21.259-0700] {dag.py:3947} INFO - Setting next_dagrun for latest_only to 2024-08-08 20:00:00+00:00, run_after=2024-08-09 00:00:00+00:00
+[2024-08-08T20:53:21.267-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_latest_only.py took 0.064 seconds

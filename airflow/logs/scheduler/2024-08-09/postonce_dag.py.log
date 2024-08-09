@@ -1,0 +1,518 @@
+[2024-08-08T20:19:34.644-0700] {processor.py:161} INFO - Started process (PID=8351) to work on /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:19:34.645-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py for tasks to queue
+[2024-08-08T20:19:34.646-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:19:34.646-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:19:34.729-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:19:34.722-0700] {dagbag.py:355} ERROR - Failed to import: /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+Traceback (most recent call last):
+  File "/Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/models/dagbag.py", line 351, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py", line 8, in <module>
+    from api.main import get_supabase_client
+ModuleNotFoundError: No module named 'api'
+[2024-08-08T20:19:34.731-0700] {processor.py:842} WARNING - No viable dags retrieved from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:19:34.768-0700] {processor.py:183} INFO - Processing /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py took 0.125 seconds
+[2024-08-08T20:20:18.235-0700] {processor.py:161} INFO - Started process (PID=8410) to work on /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:20:18.237-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py for tasks to queue
+[2024-08-08T20:20:18.237-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:20:18.237-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:20:18.322-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:20:18.314-0700] {dagbag.py:355} ERROR - Failed to import: /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+Traceback (most recent call last):
+  File "/Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/models/dagbag.py", line 351, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py", line 8, in <module>
+    from api.main import get_supabase_client
+ModuleNotFoundError: No module named 'api'
+[2024-08-08T20:20:18.324-0700] {processor.py:842} WARNING - No viable dags retrieved from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:20:18.361-0700] {processor.py:183} INFO - Processing /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py took 0.127 seconds
+[2024-08-08T20:21:18.744-0700] {processor.py:161} INFO - Started process (PID=8469) to work on /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:21:18.745-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py for tasks to queue
+[2024-08-08T20:21:18.746-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:21:18.745-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:21:18.828-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:21:18.820-0700] {dagbag.py:355} ERROR - Failed to import: /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+Traceback (most recent call last):
+  File "/Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/models/dagbag.py", line 351, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py", line 8, in <module>
+    from api.main import get_supabase_client
+ModuleNotFoundError: No module named 'api'
+[2024-08-08T20:21:18.830-0700] {processor.py:842} WARNING - No viable dags retrieved from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:21:18.868-0700] {processor.py:183} INFO - Processing /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py took 0.125 seconds
+[2024-08-08T20:22:18.669-0700] {processor.py:161} INFO - Started process (PID=8517) to work on /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:22:18.671-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py for tasks to queue
+[2024-08-08T20:22:18.671-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:22:18.671-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:22:18.760-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:22:18.751-0700] {dagbag.py:355} ERROR - Failed to import: /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+Traceback (most recent call last):
+  File "/Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/models/dagbag.py", line 351, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py", line 8, in <module>
+    from api.main import get_supabase_client
+ModuleNotFoundError: No module named 'api'
+[2024-08-08T20:22:18.762-0700] {processor.py:842} WARNING - No viable dags retrieved from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:22:18.802-0700] {processor.py:183} INFO - Processing /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py took 0.134 seconds
+[2024-08-08T20:23:19.881-0700] {processor.py:161} INFO - Started process (PID=8555) to work on /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:23:19.882-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py for tasks to queue
+[2024-08-08T20:23:19.882-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:23:19.882-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:23:19.975-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:23:19.967-0700] {dagbag.py:355} ERROR - Failed to import: /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+Traceback (most recent call last):
+  File "/Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/models/dagbag.py", line 351, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py", line 8, in <module>
+    from api.main import get_supabase_client
+ModuleNotFoundError: No module named 'api'
+[2024-08-08T20:23:19.977-0700] {processor.py:842} WARNING - No viable dags retrieved from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:23:20.015-0700] {processor.py:183} INFO - Processing /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py took 0.135 seconds
+[2024-08-08T20:24:17.238-0700] {processor.py:161} INFO - Started process (PID=8595) to work on /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:24:17.239-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py for tasks to queue
+[2024-08-08T20:24:17.239-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:24:17.239-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:24:17.323-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:24:17.315-0700] {dagbag.py:355} ERROR - Failed to import: /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+Traceback (most recent call last):
+  File "/Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/models/dagbag.py", line 351, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py", line 8, in <module>
+    from api.main import get_supabase_client
+ModuleNotFoundError: No module named 'api'
+[2024-08-08T20:24:17.325-0700] {processor.py:842} WARNING - No viable dags retrieved from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:24:17.362-0700] {processor.py:183} INFO - Processing /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py took 0.126 seconds
+[2024-08-08T20:25:18.329-0700] {processor.py:161} INFO - Started process (PID=8643) to work on /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:25:18.330-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py for tasks to queue
+[2024-08-08T20:25:18.331-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:25:18.330-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:25:18.417-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:25:18.409-0700] {dagbag.py:355} ERROR - Failed to import: /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+Traceback (most recent call last):
+  File "/Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/models/dagbag.py", line 351, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py", line 8, in <module>
+    from api.main import get_supabase_client
+ModuleNotFoundError: No module named 'api'
+[2024-08-08T20:25:18.419-0700] {processor.py:842} WARNING - No viable dags retrieved from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:25:18.457-0700] {processor.py:183} INFO - Processing /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py took 0.129 seconds
+[2024-08-08T20:26:17.212-0700] {processor.py:161} INFO - Started process (PID=8699) to work on /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:26:17.213-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py for tasks to queue
+[2024-08-08T20:26:17.214-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:26:17.213-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:26:17.297-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:26:17.289-0700] {dagbag.py:355} ERROR - Failed to import: /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+Traceback (most recent call last):
+  File "/Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/models/dagbag.py", line 351, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py", line 8, in <module>
+    from api.main import get_supabase_client
+ModuleNotFoundError: No module named 'api'
+[2024-08-08T20:26:17.299-0700] {processor.py:842} WARNING - No viable dags retrieved from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:26:17.335-0700] {processor.py:183} INFO - Processing /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py took 0.124 seconds
+[2024-08-08T20:27:12.097-0700] {processor.py:161} INFO - Started process (PID=8775) to work on /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:27:12.098-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py for tasks to queue
+[2024-08-08T20:27:12.098-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:27:12.098-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:27:12.182-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:27:12.175-0700] {dagbag.py:355} ERROR - Failed to import: /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+Traceback (most recent call last):
+  File "/Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/models/dagbag.py", line 351, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py", line 8, in <module>
+    from api.main import get_supabase_client
+ModuleNotFoundError: No module named 'api'
+[2024-08-08T20:27:12.184-0700] {processor.py:842} WARNING - No viable dags retrieved from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:27:12.221-0700] {processor.py:183} INFO - Processing /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py took 0.125 seconds
+[2024-08-08T20:28:07.922-0700] {processor.py:161} INFO - Started process (PID=8826) to work on /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:28:07.923-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py for tasks to queue
+[2024-08-08T20:28:07.923-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:28:07.923-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:28:08.010-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:28:08.002-0700] {dagbag.py:355} ERROR - Failed to import: /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+Traceback (most recent call last):
+  File "/Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/models/dagbag.py", line 351, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py", line 8, in <module>
+    from api.main import get_supabase_client
+ModuleNotFoundError: No module named 'api'
+[2024-08-08T20:28:08.013-0700] {processor.py:842} WARNING - No viable dags retrieved from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:28:08.051-0700] {processor.py:183} INFO - Processing /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py took 0.131 seconds
+[2024-08-08T20:29:07.093-0700] {processor.py:161} INFO - Started process (PID=8885) to work on /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:29:07.095-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py for tasks to queue
+[2024-08-08T20:29:07.095-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:29:07.095-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:29:07.179-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:29:07.171-0700] {dagbag.py:355} ERROR - Failed to import: /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+Traceback (most recent call last):
+  File "/Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/models/dagbag.py", line 351, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py", line 8, in <module>
+    from api.main import get_supabase_client
+ModuleNotFoundError: No module named 'api'
+[2024-08-08T20:29:07.181-0700] {processor.py:842} WARNING - No viable dags retrieved from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:29:07.219-0700] {processor.py:183} INFO - Processing /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py took 0.127 seconds
+[2024-08-08T20:30:05.277-0700] {processor.py:161} INFO - Started process (PID=8938) to work on /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:30:05.278-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py for tasks to queue
+[2024-08-08T20:30:05.279-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:30:05.279-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:30:05.365-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:30:05.357-0700] {dagbag.py:355} ERROR - Failed to import: /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+Traceback (most recent call last):
+  File "/Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/models/dagbag.py", line 351, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py", line 8, in <module>
+    from api.main import get_supabase_client
+ModuleNotFoundError: No module named 'api'
+[2024-08-08T20:30:05.368-0700] {processor.py:842} WARNING - No viable dags retrieved from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:30:05.407-0700] {processor.py:183} INFO - Processing /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py took 0.132 seconds
+[2024-08-08T20:31:02.377-0700] {processor.py:161} INFO - Started process (PID=9008) to work on /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:31:02.379-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py for tasks to queue
+[2024-08-08T20:31:02.379-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:31:02.379-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:31:02.461-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:31:02.454-0700] {dagbag.py:355} ERROR - Failed to import: /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+Traceback (most recent call last):
+  File "/Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/models/dagbag.py", line 351, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py", line 8, in <module>
+    from api.main import get_supabase_client
+ModuleNotFoundError: No module named 'api'
+[2024-08-08T20:31:02.463-0700] {processor.py:842} WARNING - No viable dags retrieved from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:31:02.499-0700] {processor.py:183} INFO - Processing /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py took 0.123 seconds
+[2024-08-08T20:32:00.758-0700] {processor.py:161} INFO - Started process (PID=9076) to work on /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:32:00.759-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py for tasks to queue
+[2024-08-08T20:32:00.760-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:32:00.760-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:32:00.845-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:32:00.838-0700] {dagbag.py:355} ERROR - Failed to import: /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+Traceback (most recent call last):
+  File "/Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/models/dagbag.py", line 351, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py", line 8, in <module>
+    from api.main import get_supabase_client
+ModuleNotFoundError: No module named 'api'
+[2024-08-08T20:32:00.847-0700] {processor.py:842} WARNING - No viable dags retrieved from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:32:00.885-0700] {processor.py:183} INFO - Processing /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py took 0.128 seconds
+[2024-08-08T20:32:58.029-0700] {processor.py:161} INFO - Started process (PID=9153) to work on /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:32:58.030-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py for tasks to queue
+[2024-08-08T20:32:58.031-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:32:58.031-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:32:58.118-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:32:58.110-0700] {dagbag.py:355} ERROR - Failed to import: /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+Traceback (most recent call last):
+  File "/Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/models/dagbag.py", line 351, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py", line 8, in <module>
+    from api.main import get_supabase_client
+ModuleNotFoundError: No module named 'api'
+[2024-08-08T20:32:58.120-0700] {processor.py:842} WARNING - No viable dags retrieved from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:32:58.157-0700] {processor.py:183} INFO - Processing /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py took 0.130 seconds
+[2024-08-08T20:33:55.647-0700] {processor.py:161} INFO - Started process (PID=9203) to work on /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:33:55.648-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py for tasks to queue
+[2024-08-08T20:33:55.648-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:33:55.648-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:33:55.731-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:33:55.724-0700] {dagbag.py:355} ERROR - Failed to import: /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+Traceback (most recent call last):
+  File "/Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/models/dagbag.py", line 351, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py", line 8, in <module>
+    from api.main import get_supabase_client
+ModuleNotFoundError: No module named 'api'
+[2024-08-08T20:33:55.733-0700] {processor.py:842} WARNING - No viable dags retrieved from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:33:55.770-0700] {processor.py:183} INFO - Processing /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py took 0.124 seconds
+[2024-08-08T20:34:55.385-0700] {processor.py:161} INFO - Started process (PID=9252) to work on /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:34:55.386-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py for tasks to queue
+[2024-08-08T20:34:55.386-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:34:55.386-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:34:55.469-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:34:55.462-0700] {dagbag.py:355} ERROR - Failed to import: /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+Traceback (most recent call last):
+  File "/Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/models/dagbag.py", line 351, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py", line 8, in <module>
+    from api.main import get_supabase_client
+ModuleNotFoundError: No module named 'api'
+[2024-08-08T20:34:55.471-0700] {processor.py:842} WARNING - No viable dags retrieved from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:34:55.507-0700] {processor.py:183} INFO - Processing /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py took 0.124 seconds
+[2024-08-08T20:35:52.227-0700] {processor.py:161} INFO - Started process (PID=9295) to work on /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:35:52.228-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py for tasks to queue
+[2024-08-08T20:35:52.228-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:35:52.228-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:35:52.310-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:35:52.303-0700] {dagbag.py:355} ERROR - Failed to import: /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+Traceback (most recent call last):
+  File "/Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/models/dagbag.py", line 351, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py", line 8, in <module>
+    from api.main import get_supabase_client
+ModuleNotFoundError: No module named 'api'
+[2024-08-08T20:35:52.312-0700] {processor.py:842} WARNING - No viable dags retrieved from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:35:52.347-0700] {processor.py:183} INFO - Processing /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py took 0.121 seconds
+[2024-08-08T20:36:48.436-0700] {processor.py:161} INFO - Started process (PID=9344) to work on /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:36:48.437-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py for tasks to queue
+[2024-08-08T20:36:48.437-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:36:48.437-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:36:48.521-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:36:48.514-0700] {dagbag.py:355} ERROR - Failed to import: /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+Traceback (most recent call last):
+  File "/Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/models/dagbag.py", line 351, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py", line 8, in <module>
+    from api.main import get_supabase_client
+ModuleNotFoundError: No module named 'api'
+[2024-08-08T20:36:48.523-0700] {processor.py:842} WARNING - No viable dags retrieved from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:36:48.559-0700] {processor.py:183} INFO - Processing /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py took 0.125 seconds
+[2024-08-08T20:37:46.068-0700] {processor.py:161} INFO - Started process (PID=9410) to work on /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:37:46.069-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py for tasks to queue
+[2024-08-08T20:37:46.069-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:37:46.069-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:37:46.150-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:37:46.143-0700] {dagbag.py:355} ERROR - Failed to import: /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+Traceback (most recent call last):
+  File "/Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/models/dagbag.py", line 351, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py", line 8, in <module>
+    from api.main import get_supabase_client
+ModuleNotFoundError: No module named 'api'
+[2024-08-08T20:37:46.152-0700] {processor.py:842} WARNING - No viable dags retrieved from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:37:46.189-0700] {processor.py:183} INFO - Processing /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py took 0.122 seconds
+[2024-08-08T20:38:47.328-0700] {processor.py:161} INFO - Started process (PID=9450) to work on /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:38:47.330-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py for tasks to queue
+[2024-08-08T20:38:47.330-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:38:47.330-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:38:47.415-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:38:47.408-0700] {dagbag.py:355} ERROR - Failed to import: /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+Traceback (most recent call last):
+  File "/Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/models/dagbag.py", line 351, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py", line 8, in <module>
+    from api.main import get_supabase_client
+ModuleNotFoundError: No module named 'api'
+[2024-08-08T20:38:47.417-0700] {processor.py:842} WARNING - No viable dags retrieved from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:38:47.452-0700] {processor.py:183} INFO - Processing /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py took 0.126 seconds
+[2024-08-08T20:39:45.799-0700] {processor.py:161} INFO - Started process (PID=9508) to work on /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:39:45.800-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py for tasks to queue
+[2024-08-08T20:39:45.800-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:39:45.800-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:39:45.886-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:39:45.877-0700] {dagbag.py:355} ERROR - Failed to import: /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+Traceback (most recent call last):
+  File "/Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/models/dagbag.py", line 351, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py", line 8, in <module>
+    from api.main import get_supabase_client
+ModuleNotFoundError: No module named 'api'
+[2024-08-08T20:39:45.888-0700] {processor.py:842} WARNING - No viable dags retrieved from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:39:45.927-0700] {processor.py:183} INFO - Processing /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py took 0.130 seconds
+[2024-08-08T20:40:42.766-0700] {processor.py:161} INFO - Started process (PID=9556) to work on /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:40:42.767-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py for tasks to queue
+[2024-08-08T20:40:42.767-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:40:42.767-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:40:42.853-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:40:42.844-0700] {dagbag.py:355} ERROR - Failed to import: /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+Traceback (most recent call last):
+  File "/Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/models/dagbag.py", line 351, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py", line 8, in <module>
+    from api.main import get_supabase_client
+ModuleNotFoundError: No module named 'api'
+[2024-08-08T20:40:42.855-0700] {processor.py:842} WARNING - No viable dags retrieved from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:40:42.893-0700] {processor.py:183} INFO - Processing /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py took 0.128 seconds
+[2024-08-08T20:41:39.108-0700] {processor.py:161} INFO - Started process (PID=9595) to work on /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:41:39.109-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py for tasks to queue
+[2024-08-08T20:41:39.109-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:41:39.109-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:41:39.192-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:41:39.183-0700] {dagbag.py:355} ERROR - Failed to import: /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+Traceback (most recent call last):
+  File "/Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/models/dagbag.py", line 351, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py", line 8, in <module>
+    from api.main import get_supabase_client
+ModuleNotFoundError: No module named 'api'
+[2024-08-08T20:41:39.194-0700] {processor.py:842} WARNING - No viable dags retrieved from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:41:39.230-0700] {processor.py:183} INFO - Processing /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py took 0.124 seconds
+[2024-08-08T20:42:38.729-0700] {processor.py:161} INFO - Started process (PID=9636) to work on /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:42:38.730-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py for tasks to queue
+[2024-08-08T20:42:38.730-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:42:38.730-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:42:38.823-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:42:38.815-0700] {dagbag.py:355} ERROR - Failed to import: /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+Traceback (most recent call last):
+  File "/Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/models/dagbag.py", line 351, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py", line 8, in <module>
+    from api.main import get_supabase_client
+ModuleNotFoundError: No module named 'api'
+[2024-08-08T20:42:38.825-0700] {processor.py:842} WARNING - No viable dags retrieved from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:42:38.862-0700] {processor.py:183} INFO - Processing /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py took 0.134 seconds
+[2024-08-08T20:43:37.634-0700] {processor.py:161} INFO - Started process (PID=9691) to work on /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:43:37.635-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py for tasks to queue
+[2024-08-08T20:43:37.635-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:43:37.635-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:43:37.718-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:43:37.711-0700] {dagbag.py:355} ERROR - Failed to import: /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+Traceback (most recent call last):
+  File "/Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/models/dagbag.py", line 351, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py", line 8, in <module>
+    from api.main import get_supabase_client
+ModuleNotFoundError: No module named 'api'
+[2024-08-08T20:43:37.720-0700] {processor.py:842} WARNING - No viable dags retrieved from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:43:37.756-0700] {processor.py:183} INFO - Processing /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py took 0.123 seconds
+[2024-08-08T20:44:37.970-0700] {processor.py:161} INFO - Started process (PID=9748) to work on /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:44:37.971-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py for tasks to queue
+[2024-08-08T20:44:37.971-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:44:37.971-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:44:38.059-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:44:38.051-0700] {dagbag.py:355} ERROR - Failed to import: /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+Traceback (most recent call last):
+  File "/Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/models/dagbag.py", line 351, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py", line 8, in <module>
+    from api.main import get_supabase_client
+ModuleNotFoundError: No module named 'api'
+[2024-08-08T20:44:38.061-0700] {processor.py:842} WARNING - No viable dags retrieved from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:44:38.097-0700] {processor.py:183} INFO - Processing /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py took 0.128 seconds
+[2024-08-08T20:45:36.391-0700] {processor.py:161} INFO - Started process (PID=9837) to work on /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:45:36.392-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py for tasks to queue
+[2024-08-08T20:45:36.392-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:45:36.392-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:45:36.479-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:45:36.471-0700] {dagbag.py:355} ERROR - Failed to import: /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+Traceback (most recent call last):
+  File "/Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/models/dagbag.py", line 351, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py", line 8, in <module>
+    from api.main import get_supabase_client
+ModuleNotFoundError: No module named 'api'
+[2024-08-08T20:45:36.481-0700] {processor.py:842} WARNING - No viable dags retrieved from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:45:36.519-0700] {processor.py:183} INFO - Processing /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py took 0.130 seconds
+[2024-08-08T20:46:35.467-0700] {processor.py:161} INFO - Started process (PID=9919) to work on /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:46:35.468-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py for tasks to queue
+[2024-08-08T20:46:35.469-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:46:35.468-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:46:35.551-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:46:35.544-0700] {dagbag.py:355} ERROR - Failed to import: /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+Traceback (most recent call last):
+  File "/Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/models/dagbag.py", line 351, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py", line 8, in <module>
+    from api.main import get_supabase_client
+ModuleNotFoundError: No module named 'api'
+[2024-08-08T20:46:35.554-0700] {processor.py:842} WARNING - No viable dags retrieved from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:46:35.590-0700] {processor.py:183} INFO - Processing /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py took 0.125 seconds
+[2024-08-08T20:47:35.370-0700] {processor.py:161} INFO - Started process (PID=10008) to work on /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:47:35.371-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py for tasks to queue
+[2024-08-08T20:47:35.371-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:47:35.371-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:47:35.455-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:47:35.448-0700] {dagbag.py:355} ERROR - Failed to import: /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+Traceback (most recent call last):
+  File "/Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/models/dagbag.py", line 351, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py", line 8, in <module>
+    from api.main import get_supabase_client
+ModuleNotFoundError: No module named 'api'
+[2024-08-08T20:47:35.458-0700] {processor.py:842} WARNING - No viable dags retrieved from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:47:35.496-0700] {processor.py:183} INFO - Processing /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py took 0.128 seconds
+[2024-08-08T20:48:32.559-0700] {processor.py:161} INFO - Started process (PID=10092) to work on /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:48:32.560-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py for tasks to queue
+[2024-08-08T20:48:32.560-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:48:32.560-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:48:32.646-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:48:32.639-0700] {dagbag.py:355} ERROR - Failed to import: /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+Traceback (most recent call last):
+  File "/Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/models/dagbag.py", line 351, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py", line 8, in <module>
+    from api.main import get_supabase_client
+ModuleNotFoundError: No module named 'api'
+[2024-08-08T20:48:32.648-0700] {processor.py:842} WARNING - No viable dags retrieved from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:48:32.685-0700] {processor.py:183} INFO - Processing /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py took 0.127 seconds
+[2024-08-08T20:49:31.252-0700] {processor.py:161} INFO - Started process (PID=10189) to work on /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:49:31.253-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py for tasks to queue
+[2024-08-08T20:49:31.253-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:49:31.253-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:49:31.334-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:49:31.327-0700] {dagbag.py:355} ERROR - Failed to import: /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+Traceback (most recent call last):
+  File "/Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/models/dagbag.py", line 351, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py", line 8, in <module>
+    from api.main import get_supabase_client
+ModuleNotFoundError: No module named 'api'
+[2024-08-08T20:49:31.336-0700] {processor.py:842} WARNING - No viable dags retrieved from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:49:31.371-0700] {processor.py:183} INFO - Processing /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py took 0.120 seconds
+[2024-08-08T20:50:33.482-0700] {processor.py:161} INFO - Started process (PID=10273) to work on /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:50:33.484-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py for tasks to queue
+[2024-08-08T20:50:33.484-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:50:33.484-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:50:33.568-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:50:33.561-0700] {dagbag.py:355} ERROR - Failed to import: /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+Traceback (most recent call last):
+  File "/Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/models/dagbag.py", line 351, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py", line 8, in <module>
+    from api.main import get_supabase_client
+ModuleNotFoundError: No module named 'api'
+[2024-08-08T20:50:33.571-0700] {processor.py:842} WARNING - No viable dags retrieved from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:50:33.608-0700] {processor.py:183} INFO - Processing /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py took 0.127 seconds
+[2024-08-08T20:51:30.871-0700] {processor.py:161} INFO - Started process (PID=10368) to work on /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:51:30.872-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py for tasks to queue
+[2024-08-08T20:51:30.873-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:51:30.873-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:51:30.961-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:51:30.952-0700] {dagbag.py:355} ERROR - Failed to import: /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+Traceback (most recent call last):
+  File "/Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/models/dagbag.py", line 351, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py", line 8, in <module>
+    from api.main import get_supabase_client
+ModuleNotFoundError: No module named 'api'
+[2024-08-08T20:51:30.963-0700] {processor.py:842} WARNING - No viable dags retrieved from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:51:31.002-0700] {processor.py:183} INFO - Processing /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py took 0.132 seconds
+[2024-08-08T20:52:28.174-0700] {processor.py:161} INFO - Started process (PID=10464) to work on /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:52:28.176-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py for tasks to queue
+[2024-08-08T20:52:28.176-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:52:28.176-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:52:28.257-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:52:28.249-0700] {dagbag.py:355} ERROR - Failed to import: /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+Traceback (most recent call last):
+  File "/Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/models/dagbag.py", line 351, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py", line 8, in <module>
+    from api.main import get_supabase_client
+ModuleNotFoundError: No module named 'api'
+[2024-08-08T20:52:28.259-0700] {processor.py:842} WARNING - No viable dags retrieved from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:52:28.294-0700] {processor.py:183} INFO - Processing /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py took 0.121 seconds
+[2024-08-08T20:53:25.196-0700] {processor.py:161} INFO - Started process (PID=10640) to work on /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:53:25.197-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py for tasks to queue
+[2024-08-08T20:53:25.197-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:53:25.197-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:53:25.277-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:53:25.270-0700] {dagbag.py:355} ERROR - Failed to import: /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+Traceback (most recent call last):
+  File "/Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/models/dagbag.py", line 351, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py", line 8, in <module>
+    from api.main import get_supabase_client
+ModuleNotFoundError: No module named 'api'
+[2024-08-08T20:53:25.279-0700] {processor.py:842} WARNING - No viable dags retrieved from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:53:25.314-0700] {processor.py:183} INFO - Processing /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py took 0.119 seconds
+[2024-08-08T20:54:24.082-0700] {processor.py:161} INFO - Started process (PID=10769) to work on /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:54:24.083-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py for tasks to queue
+[2024-08-08T20:54:24.084-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:54:24.084-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:54:24.169-0700] {logging_mixin.py:188} INFO - [2024-08-08T20:54:24.162-0700] {dagbag.py:355} ERROR - Failed to import: /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+Traceback (most recent call last):
+  File "/Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/models/dagbag.py", line 351, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py", line 8, in <module>
+    from api.main import get_supabase_client
+ModuleNotFoundError: No module named 'api'
+[2024-08-08T20:54:24.171-0700] {processor.py:842} WARNING - No viable dags retrieved from /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py
+[2024-08-08T20:54:24.206-0700] {processor.py:183} INFO - Processing /Users/treylayton/Desktop/Coding/beehiiv_project/airflow/dags/postonce_dag.py took 0.126 seconds

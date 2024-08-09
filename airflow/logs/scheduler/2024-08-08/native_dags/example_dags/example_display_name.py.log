@@ -1,0 +1,63 @@
+[2024-08-08T16:48:27.654-0700] {processor.py:161} INFO - Started process (PID=98733) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_display_name.py
+[2024-08-08T16:48:27.656-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_display_name.py for tasks to queue
+[2024-08-08T16:48:27.656-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:48:27.656-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_display_name.py
+[2024-08-08T16:48:27.680-0700] {processor.py:840} INFO - DAG(s) 'example_display_name' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_display_name.py
+[2024-08-08T16:48:27.795-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:48:27.795-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:48:27.801-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:48:27.801-0700] {dag.py:3947} INFO - Setting next_dagrun for example_display_name to None, run_after=None
+[2024-08-08T16:48:27.816-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_display_name.py took 0.164 seconds
+[2024-08-08T16:50:54.938-0700] {processor.py:161} INFO - Started process (PID=99073) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_display_name.py
+[2024-08-08T16:50:54.940-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_display_name.py for tasks to queue
+[2024-08-08T16:50:54.940-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:50:54.940-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_display_name.py
+[2024-08-08T16:50:54.961-0700] {processor.py:840} INFO - DAG(s) 'example_display_name' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_display_name.py
+[2024-08-08T16:50:55.062-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:50:55.062-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:50:55.067-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:50:55.067-0700] {dag.py:3947} INFO - Setting next_dagrun for example_display_name to None, run_after=None
+[2024-08-08T16:50:55.078-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_display_name.py took 0.142 seconds
+[2024-08-08T16:52:09.841-0700] {processor.py:161} INFO - Started process (PID=99204) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_display_name.py
+[2024-08-08T16:52:09.843-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_display_name.py for tasks to queue
+[2024-08-08T16:52:09.843-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:52:09.843-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_display_name.py
+[2024-08-08T16:52:09.864-0700] {processor.py:840} INFO - DAG(s) 'example_display_name' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_display_name.py
+[2024-08-08T16:52:09.918-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:52:09.917-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:52:09.923-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:52:09.923-0700] {dag.py:3947} INFO - Setting next_dagrun for example_display_name to None, run_after=None
+[2024-08-08T16:52:09.933-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_display_name.py took 0.094 seconds
+[2024-08-08T16:53:22.200-0700] {processor.py:161} INFO - Started process (PID=99344) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_display_name.py
+[2024-08-08T16:53:22.202-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_display_name.py for tasks to queue
+[2024-08-08T16:53:22.202-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:53:22.202-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_display_name.py
+[2024-08-08T16:53:22.225-0700] {processor.py:840} INFO - DAG(s) 'example_display_name' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_display_name.py
+[2024-08-08T16:53:22.284-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:53:22.284-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:53:22.291-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:53:22.291-0700] {dag.py:3947} INFO - Setting next_dagrun for example_display_name to None, run_after=None
+[2024-08-08T16:53:22.303-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_display_name.py took 0.105 seconds
+[2024-08-08T16:54:39.025-0700] {processor.py:161} INFO - Started process (PID=99482) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_display_name.py
+[2024-08-08T16:54:39.026-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_display_name.py for tasks to queue
+[2024-08-08T16:54:39.027-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:54:39.027-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_display_name.py
+[2024-08-08T16:54:39.050-0700] {processor.py:840} INFO - DAG(s) 'example_display_name' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_display_name.py
+[2024-08-08T16:54:39.107-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:54:39.106-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:54:39.112-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:54:39.112-0700] {dag.py:3947} INFO - Setting next_dagrun for example_display_name to None, run_after=None
+[2024-08-08T16:54:39.124-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_display_name.py took 0.101 seconds
+[2024-08-08T16:55:52.303-0700] {processor.py:161} INFO - Started process (PID=99635) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_display_name.py
+[2024-08-08T16:55:52.305-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_display_name.py for tasks to queue
+[2024-08-08T16:55:52.305-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:55:52.305-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_display_name.py
+[2024-08-08T16:55:52.326-0700] {processor.py:840} INFO - DAG(s) 'example_display_name' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_display_name.py
+[2024-08-08T16:55:52.383-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:55:52.383-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:55:52.389-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:55:52.388-0700] {dag.py:3947} INFO - Setting next_dagrun for example_display_name to None, run_after=None
+[2024-08-08T16:55:52.400-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_display_name.py took 0.098 seconds
+[2024-08-08T16:57:08.939-0700] {processor.py:161} INFO - Started process (PID=99767) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_display_name.py
+[2024-08-08T16:57:08.941-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_display_name.py for tasks to queue
+[2024-08-08T16:57:08.941-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:57:08.941-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_display_name.py
+[2024-08-08T16:57:08.963-0700] {processor.py:840} INFO - DAG(s) 'example_display_name' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_display_name.py
+[2024-08-08T16:57:09.020-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:57:09.020-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:57:09.026-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:57:09.026-0700] {dag.py:3947} INFO - Setting next_dagrun for example_display_name to None, run_after=None
+[2024-08-08T16:57:09.039-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_display_name.py took 0.101 seconds
+[2024-08-08T16:58:21.099-0700] {processor.py:161} INFO - Started process (PID=99919) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_display_name.py
+[2024-08-08T16:58:21.100-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_display_name.py for tasks to queue
+[2024-08-08T16:58:21.101-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:58:21.101-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_display_name.py
+[2024-08-08T16:58:21.121-0700] {processor.py:840} INFO - DAG(s) 'example_display_name' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_display_name.py
+[2024-08-08T16:58:21.174-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:58:21.173-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:58:21.179-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:58:21.179-0700] {dag.py:3947} INFO - Setting next_dagrun for example_display_name to None, run_after=None
+[2024-08-08T16:58:21.190-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_display_name.py took 0.093 seconds
+[2024-08-08T16:59:35.323-0700] {processor.py:161} INFO - Started process (PID=169) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_display_name.py
+[2024-08-08T16:59:35.325-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_display_name.py for tasks to queue
+[2024-08-08T16:59:35.326-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:59:35.326-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_display_name.py
+[2024-08-08T16:59:35.348-0700] {processor.py:840} INFO - DAG(s) 'example_display_name' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_display_name.py
+[2024-08-08T16:59:35.407-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:59:35.407-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:59:35.414-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:59:35.414-0700] {dag.py:3947} INFO - Setting next_dagrun for example_display_name to None, run_after=None
+[2024-08-08T16:59:35.427-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_display_name.py took 0.106 seconds

@@ -1,0 +1,119 @@
+[2024-08-08T16:47:45.898-0700] {processor.py:161} INFO - Started process (PID=98663) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:47:45.900-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py for tasks to queue
+[2024-08-08T16:47:45.900-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:47:45.900-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:47:45.905-0700] {processor.py:840} INFO - DAG(s) 'example_skip_dag' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:47:46.012-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:47:46.012-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:47:46.024-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:47:46.024-0700] {dag.py:3947} INFO - Setting next_dagrun for example_skip_dag to 2024-08-07 00:00:00+00:00, run_after=2024-08-08 00:00:00+00:00
+[2024-08-08T16:47:46.036-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py took 0.140 seconds
+[2024-08-08T16:49:32.285-0700] {processor.py:161} INFO - Started process (PID=98858) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:49:32.287-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py for tasks to queue
+[2024-08-08T16:49:32.287-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:49:32.287-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:49:32.292-0700] {processor.py:840} INFO - DAG(s) 'example_skip_dag' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:49:32.300-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:49:32.300-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:49:32.354-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:49:32.354-0700] {dag.py:3947} INFO - Setting next_dagrun for example_skip_dag to 2024-08-07 00:00:00+00:00, run_after=2024-08-08 00:00:00+00:00
+[2024-08-08T16:49:32.365-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py took 0.082 seconds
+[2024-08-08T16:50:46.421-0700] {processor.py:161} INFO - Started process (PID=99052) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:50:46.423-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py for tasks to queue
+[2024-08-08T16:50:46.423-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:50:46.423-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:50:46.428-0700] {processor.py:840} INFO - DAG(s) 'example_skip_dag' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:50:46.535-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:50:46.534-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:50:46.546-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:50:46.546-0700] {dag.py:3947} INFO - Setting next_dagrun for example_skip_dag to 2024-08-07 00:00:00+00:00, run_after=2024-08-08 00:00:00+00:00
+[2024-08-08T16:50:46.557-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py took 0.138 seconds
+[2024-08-08T16:51:29.076-0700] {processor.py:161} INFO - Started process (PID=99133) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:51:29.078-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py for tasks to queue
+[2024-08-08T16:51:29.079-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:51:29.079-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:51:29.086-0700] {processor.py:840} INFO - DAG(s) 'example_skip_dag' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:51:29.161-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:51:29.160-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:51:29.172-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:51:29.172-0700] {dag.py:3947} INFO - Setting next_dagrun for example_skip_dag to 2024-08-07 00:00:00+00:00, run_after=2024-08-08 00:00:00+00:00
+[2024-08-08T16:51:29.184-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py took 0.110 seconds
+[2024-08-08T16:51:58.930-0700] {processor.py:161} INFO - Started process (PID=99185) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:51:58.932-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py for tasks to queue
+[2024-08-08T16:51:58.932-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:51:58.932-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:51:58.937-0700] {processor.py:840} INFO - DAG(s) 'example_skip_dag' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:51:58.999-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:51:58.999-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:51:59.011-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:51:59.011-0700] {dag.py:3947} INFO - Setting next_dagrun for example_skip_dag to 2024-08-07 00:00:00+00:00, run_after=2024-08-08 00:00:00+00:00
+[2024-08-08T16:51:59.023-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py took 0.095 seconds
+[2024-08-08T16:53:11.381-0700] {processor.py:161} INFO - Started process (PID=99332) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:53:11.383-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py for tasks to queue
+[2024-08-08T16:53:11.383-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:53:11.383-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:53:11.388-0700] {processor.py:840} INFO - DAG(s) 'example_skip_dag' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:53:11.451-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:53:11.451-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:53:11.464-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:53:11.464-0700] {dag.py:3947} INFO - Setting next_dagrun for example_skip_dag to 2024-08-07 00:00:00+00:00, run_after=2024-08-08 00:00:00+00:00
+[2024-08-08T16:53:11.477-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py took 0.098 seconds
+[2024-08-08T16:53:13.893-0700] {processor.py:161} INFO - Started process (PID=99335) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:53:13.894-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py for tasks to queue
+[2024-08-08T16:53:13.895-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:53:13.895-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:53:13.900-0700] {processor.py:840} INFO - DAG(s) 'example_skip_dag' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:53:13.962-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:53:13.961-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:53:13.975-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:53:13.975-0700] {dag.py:3947} INFO - Setting next_dagrun for example_skip_dag to 2024-08-07 00:00:00+00:00, run_after=2024-08-08 00:00:00+00:00
+[2024-08-08T16:53:13.987-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py took 0.097 seconds
+[2024-08-08T16:54:28.285-0700] {processor.py:161} INFO - Started process (PID=99464) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:54:28.287-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py for tasks to queue
+[2024-08-08T16:54:28.288-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:54:28.288-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:54:28.292-0700] {processor.py:840} INFO - DAG(s) 'example_skip_dag' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:54:28.351-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:54:28.351-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:54:28.362-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:54:28.362-0700] {dag.py:3947} INFO - Setting next_dagrun for example_skip_dag to 2024-08-07 00:00:00+00:00, run_after=2024-08-08 00:00:00+00:00
+[2024-08-08T16:54:28.374-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py took 0.091 seconds
+[2024-08-08T16:54:29.127-0700] {processor.py:161} INFO - Started process (PID=99465) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:54:29.129-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py for tasks to queue
+[2024-08-08T16:54:29.129-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:54:29.129-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:54:29.134-0700] {processor.py:840} INFO - DAG(s) 'example_skip_dag' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:54:29.190-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:54:29.190-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:54:29.202-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:54:29.202-0700] {dag.py:3947} INFO - Setting next_dagrun for example_skip_dag to 2024-08-07 00:00:00+00:00, run_after=2024-08-08 00:00:00+00:00
+[2024-08-08T16:54:29.213-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py took 0.087 seconds
+[2024-08-08T16:55:42.214-0700] {processor.py:161} INFO - Started process (PID=99614) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:55:42.215-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py for tasks to queue
+[2024-08-08T16:55:42.216-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:55:42.215-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:55:42.220-0700] {processor.py:840} INFO - DAG(s) 'example_skip_dag' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:55:42.278-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:55:42.277-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:55:42.289-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:55:42.289-0700] {dag.py:3947} INFO - Setting next_dagrun for example_skip_dag to 2024-08-07 00:00:00+00:00, run_after=2024-08-08 00:00:00+00:00
+[2024-08-08T16:55:42.299-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py took 0.087 seconds
+[2024-08-08T16:55:42.869-0700] {processor.py:161} INFO - Started process (PID=99619) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:55:42.871-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py for tasks to queue
+[2024-08-08T16:55:42.871-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:55:42.871-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:55:42.876-0700] {processor.py:840} INFO - DAG(s) 'example_skip_dag' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:55:42.934-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:55:42.934-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:55:42.945-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:55:42.945-0700] {dag.py:3947} INFO - Setting next_dagrun for example_skip_dag to 2024-08-07 00:00:00+00:00, run_after=2024-08-08 00:00:00+00:00
+[2024-08-08T16:55:42.957-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py took 0.089 seconds
+[2024-08-08T16:56:57.070-0700] {processor.py:161} INFO - Started process (PID=99746) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:56:57.072-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py for tasks to queue
+[2024-08-08T16:56:57.073-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:56:57.073-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:56:57.077-0700] {processor.py:840} INFO - DAG(s) 'example_skip_dag' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:56:57.142-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:56:57.141-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:56:57.154-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:56:57.154-0700] {dag.py:3947} INFO - Setting next_dagrun for example_skip_dag to 2024-08-07 00:00:00+00:00, run_after=2024-08-08 00:00:00+00:00
+[2024-08-08T16:56:57.168-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py took 0.100 seconds
+[2024-08-08T16:56:58.315-0700] {processor.py:161} INFO - Started process (PID=99747) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:56:58.317-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py for tasks to queue
+[2024-08-08T16:56:58.317-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:56:58.317-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:56:58.322-0700] {processor.py:840} INFO - DAG(s) 'example_skip_dag' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:56:58.383-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:56:58.382-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:56:58.394-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:56:58.394-0700] {dag.py:3947} INFO - Setting next_dagrun for example_skip_dag to 2024-08-07 00:00:00+00:00, run_after=2024-08-08 00:00:00+00:00
+[2024-08-08T16:56:58.405-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py took 0.092 seconds
+[2024-08-08T16:58:11.032-0700] {processor.py:161} INFO - Started process (PID=99896) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:58:11.034-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py for tasks to queue
+[2024-08-08T16:58:11.034-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:58:11.034-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:58:11.038-0700] {processor.py:840} INFO - DAG(s) 'example_skip_dag' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:58:11.097-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:58:11.097-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:58:11.108-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:58:11.108-0700] {dag.py:3947} INFO - Setting next_dagrun for example_skip_dag to 2024-08-07 00:00:00+00:00, run_after=2024-08-08 00:00:00+00:00
+[2024-08-08T16:58:11.119-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py took 0.088 seconds
+[2024-08-08T16:58:11.700-0700] {processor.py:161} INFO - Started process (PID=99897) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:58:11.702-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py for tasks to queue
+[2024-08-08T16:58:11.702-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:58:11.702-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:58:11.707-0700] {processor.py:840} INFO - DAG(s) 'example_skip_dag' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:58:11.765-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:58:11.765-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:58:11.776-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:58:11.776-0700] {dag.py:3947} INFO - Setting next_dagrun for example_skip_dag to 2024-08-07 00:00:00+00:00, run_after=2024-08-08 00:00:00+00:00
+[2024-08-08T16:58:11.788-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py took 0.089 seconds
+[2024-08-08T16:59:23.991-0700] {processor.py:161} INFO - Started process (PID=157) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:59:23.992-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py for tasks to queue
+[2024-08-08T16:59:23.993-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:59:23.993-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:59:23.997-0700] {processor.py:840} INFO - DAG(s) 'example_skip_dag' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:59:24.055-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:59:24.055-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:59:24.066-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:59:24.066-0700] {dag.py:3947} INFO - Setting next_dagrun for example_skip_dag to 2024-08-07 00:00:00+00:00, run_after=2024-08-08 00:00:00+00:00
+[2024-08-08T16:59:24.078-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py took 0.089 seconds
+[2024-08-08T16:59:26.196-0700] {processor.py:161} INFO - Started process (PID=160) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:59:26.198-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py for tasks to queue
+[2024-08-08T16:59:26.198-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:59:26.198-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:59:26.203-0700] {processor.py:840} INFO - DAG(s) 'example_skip_dag' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py
+[2024-08-08T16:59:26.262-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:59:26.262-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:59:26.274-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:59:26.274-0700] {dag.py:3947} INFO - Setting next_dagrun for example_skip_dag to 2024-08-07 00:00:00+00:00, run_after=2024-08-08 00:00:00+00:00
+[2024-08-08T16:59:26.285-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_skip_dag.py took 0.091 seconds

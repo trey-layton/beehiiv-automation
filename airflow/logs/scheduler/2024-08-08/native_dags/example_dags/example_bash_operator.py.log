@@ -1,0 +1,63 @@
+[2024-08-08T16:48:48.181-0700] {processor.py:161} INFO - Started process (PID=98748) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_bash_operator.py
+[2024-08-08T16:48:48.182-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_bash_operator.py for tasks to queue
+[2024-08-08T16:48:48.183-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:48:48.183-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_bash_operator.py
+[2024-08-08T16:48:48.190-0700] {processor.py:840} INFO - DAG(s) 'example_bash_operator' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_bash_operator.py
+[2024-08-08T16:48:48.309-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:48:48.308-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:48:48.318-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:48:48.318-0700] {dag.py:3947} INFO - Setting next_dagrun for example_bash_operator to 2024-08-07 00:00:00+00:00, run_after=2024-08-08 00:00:00+00:00
+[2024-08-08T16:48:48.330-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_bash_operator.py took 0.151 seconds
+[2024-08-08T16:51:15.288-0700] {processor.py:161} INFO - Started process (PID=99114) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_bash_operator.py
+[2024-08-08T16:51:15.290-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_bash_operator.py for tasks to queue
+[2024-08-08T16:51:15.290-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:51:15.290-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_bash_operator.py
+[2024-08-08T16:51:15.298-0700] {processor.py:840} INFO - DAG(s) 'example_bash_operator' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_bash_operator.py
+[2024-08-08T16:51:15.414-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:51:15.414-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:51:15.423-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:51:15.423-0700] {dag.py:3947} INFO - Setting next_dagrun for example_bash_operator to 2024-08-07 00:00:00+00:00, run_after=2024-08-08 00:00:00+00:00
+[2024-08-08T16:51:15.436-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_bash_operator.py took 0.151 seconds
+[2024-08-08T16:52:30.044-0700] {processor.py:161} INFO - Started process (PID=99261) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_bash_operator.py
+[2024-08-08T16:52:30.046-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_bash_operator.py for tasks to queue
+[2024-08-08T16:52:30.046-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:52:30.046-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_bash_operator.py
+[2024-08-08T16:52:30.054-0700] {processor.py:840} INFO - DAG(s) 'example_bash_operator' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_bash_operator.py
+[2024-08-08T16:52:30.120-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:52:30.120-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:52:30.130-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:52:30.129-0700] {dag.py:3947} INFO - Setting next_dagrun for example_bash_operator to 2024-08-07 00:00:00+00:00, run_after=2024-08-08 00:00:00+00:00
+[2024-08-08T16:52:30.143-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_bash_operator.py took 0.101 seconds
+[2024-08-08T16:53:42.968-0700] {processor.py:161} INFO - Started process (PID=99376) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_bash_operator.py
+[2024-08-08T16:53:42.969-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_bash_operator.py for tasks to queue
+[2024-08-08T16:53:42.970-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:53:42.969-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_bash_operator.py
+[2024-08-08T16:53:42.976-0700] {processor.py:840} INFO - DAG(s) 'example_bash_operator' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_bash_operator.py
+[2024-08-08T16:53:43.039-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:53:43.039-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:53:43.048-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:53:43.048-0700] {dag.py:3947} INFO - Setting next_dagrun for example_bash_operator to 2024-08-07 00:00:00+00:00, run_after=2024-08-08 00:00:00+00:00
+[2024-08-08T16:53:43.060-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_bash_operator.py took 0.094 seconds
+[2024-08-08T16:54:59.048-0700] {processor.py:161} INFO - Started process (PID=99525) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_bash_operator.py
+[2024-08-08T16:54:59.050-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_bash_operator.py for tasks to queue
+[2024-08-08T16:54:59.051-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:54:59.051-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_bash_operator.py
+[2024-08-08T16:54:59.058-0700] {processor.py:840} INFO - DAG(s) 'example_bash_operator' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_bash_operator.py
+[2024-08-08T16:54:59.119-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:54:59.119-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:54:59.128-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:54:59.128-0700] {dag.py:3947} INFO - Setting next_dagrun for example_bash_operator to 2024-08-07 00:00:00+00:00, run_after=2024-08-08 00:00:00+00:00
+[2024-08-08T16:54:59.140-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_bash_operator.py took 0.093 seconds
+[2024-08-08T16:56:11.720-0700] {processor.py:161} INFO - Started process (PID=99681) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_bash_operator.py
+[2024-08-08T16:56:11.721-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_bash_operator.py for tasks to queue
+[2024-08-08T16:56:11.721-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:56:11.721-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_bash_operator.py
+[2024-08-08T16:56:11.728-0700] {processor.py:840} INFO - DAG(s) 'example_bash_operator' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_bash_operator.py
+[2024-08-08T16:56:11.790-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:56:11.790-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:56:11.799-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:56:11.799-0700] {dag.py:3947} INFO - Setting next_dagrun for example_bash_operator to 2024-08-07 00:00:00+00:00, run_after=2024-08-08 00:00:00+00:00
+[2024-08-08T16:56:11.810-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_bash_operator.py took 0.092 seconds
+[2024-08-08T16:57:28.195-0700] {processor.py:161} INFO - Started process (PID=99803) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_bash_operator.py
+[2024-08-08T16:57:28.197-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_bash_operator.py for tasks to queue
+[2024-08-08T16:57:28.198-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:57:28.198-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_bash_operator.py
+[2024-08-08T16:57:28.205-0700] {processor.py:840} INFO - DAG(s) 'example_bash_operator' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_bash_operator.py
+[2024-08-08T16:57:28.272-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:57:28.272-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:57:28.282-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:57:28.282-0700] {dag.py:3947} INFO - Setting next_dagrun for example_bash_operator to 2024-08-07 00:00:00+00:00, run_after=2024-08-08 00:00:00+00:00
+[2024-08-08T16:57:28.296-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_bash_operator.py took 0.102 seconds
+[2024-08-08T16:58:41.399-0700] {processor.py:161} INFO - Started process (PID=99972) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_bash_operator.py
+[2024-08-08T16:58:41.401-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_bash_operator.py for tasks to queue
+[2024-08-08T16:58:41.401-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:58:41.401-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_bash_operator.py
+[2024-08-08T16:58:41.408-0700] {processor.py:840} INFO - DAG(s) 'example_bash_operator' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_bash_operator.py
+[2024-08-08T16:58:41.471-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:58:41.471-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:58:41.480-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:58:41.480-0700] {dag.py:3947} INFO - Setting next_dagrun for example_bash_operator to 2024-08-07 00:00:00+00:00, run_after=2024-08-08 00:00:00+00:00
+[2024-08-08T16:58:41.492-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_bash_operator.py took 0.095 seconds
+[2024-08-08T16:59:56.235-0700] {processor.py:161} INFO - Started process (PID=194) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_bash_operator.py
+[2024-08-08T16:59:56.237-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_bash_operator.py for tasks to queue
+[2024-08-08T16:59:56.237-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:59:56.237-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_bash_operator.py
+[2024-08-08T16:59:56.244-0700] {processor.py:840} INFO - DAG(s) 'example_bash_operator' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_bash_operator.py
+[2024-08-08T16:59:56.309-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:59:56.309-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:59:56.318-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:59:56.318-0700] {dag.py:3947} INFO - Setting next_dagrun for example_bash_operator to 2024-08-07 00:00:00+00:00, run_after=2024-08-08 00:00:00+00:00
+[2024-08-08T16:59:56.332-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_bash_operator.py took 0.099 seconds

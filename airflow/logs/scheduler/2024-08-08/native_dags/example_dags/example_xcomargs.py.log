@@ -1,0 +1,136 @@
+[2024-08-08T16:47:27.077-0700] {processor.py:161} INFO - Started process (PID=98633) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:47:27.079-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py for tasks to queue
+[2024-08-08T16:47:27.080-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:47:27.080-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:47:27.103-0700] {processor.py:840} INFO - DAG(s) 'example_xcom_args_with_operators', 'example_xcom_args' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:47:27.210-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:47:27.210-0700] {dag.py:3089} INFO - Sync 2 DAGs
+[2024-08-08T16:47:27.215-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:47:27.215-0700] {dag.py:3947} INFO - Setting next_dagrun for example_xcom_args to None, run_after=None
+[2024-08-08T16:47:27.217-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:47:27.217-0700] {dag.py:3947} INFO - Setting next_dagrun for example_xcom_args_with_operators to None, run_after=None
+[2024-08-08T16:47:27.227-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py took 0.151 seconds
+[2024-08-08T16:49:13.933-0700] {processor.py:161} INFO - Started process (PID=98818) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:49:13.935-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py for tasks to queue
+[2024-08-08T16:49:13.936-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:49:13.936-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:49:13.959-0700] {processor.py:840} INFO - DAG(s) 'example_xcom_args_with_operators', 'example_xcom_args' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:49:14.017-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:49:14.017-0700] {dag.py:3089} INFO - Sync 2 DAGs
+[2024-08-08T16:49:14.022-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:49:14.022-0700] {dag.py:3947} INFO - Setting next_dagrun for example_xcom_args to None, run_after=None
+[2024-08-08T16:49:14.023-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:49:14.023-0700] {dag.py:3947} INFO - Setting next_dagrun for example_xcom_args_with_operators to None, run_after=None
+[2024-08-08T16:49:14.034-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py took 0.103 seconds
+[2024-08-08T16:50:28.571-0700] {processor.py:161} INFO - Started process (PID=98993) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:50:28.572-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py for tasks to queue
+[2024-08-08T16:50:28.573-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:50:28.573-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:50:28.592-0700] {processor.py:840} INFO - DAG(s) 'example_xcom_args_with_operators', 'example_xcom_args' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:50:28.698-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:50:28.697-0700] {dag.py:3089} INFO - Sync 2 DAGs
+[2024-08-08T16:50:28.703-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:50:28.703-0700] {dag.py:3947} INFO - Setting next_dagrun for example_xcom_args to None, run_after=None
+[2024-08-08T16:50:28.705-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:50:28.705-0700] {dag.py:3947} INFO - Setting next_dagrun for example_xcom_args_with_operators to None, run_after=None
+[2024-08-08T16:50:28.716-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py took 0.147 seconds
+[2024-08-08T16:51:11.794-0700] {processor.py:161} INFO - Started process (PID=99109) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:51:11.795-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py for tasks to queue
+[2024-08-08T16:51:11.796-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:51:11.796-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:51:11.819-0700] {processor.py:840} INFO - DAG(s) 'example_xcom_args_with_operators', 'example_xcom_args' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:51:11.881-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:51:11.881-0700] {dag.py:3089} INFO - Sync 2 DAGs
+[2024-08-08T16:51:11.887-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:51:11.887-0700] {dag.py:3947} INFO - Setting next_dagrun for example_xcom_args to None, run_after=None
+[2024-08-08T16:51:11.889-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:51:11.889-0700] {dag.py:3947} INFO - Setting next_dagrun for example_xcom_args_with_operators to None, run_after=None
+[2024-08-08T16:51:11.900-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py took 0.109 seconds
+[2024-08-08T16:51:41.251-0700] {processor.py:161} INFO - Started process (PID=99144) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:51:41.253-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py for tasks to queue
+[2024-08-08T16:51:41.253-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:51:41.253-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:51:41.277-0700] {processor.py:840} INFO - DAG(s) 'example_xcom_args_with_operators', 'example_xcom_args' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:51:41.338-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:51:41.337-0700] {dag.py:3089} INFO - Sync 2 DAGs
+[2024-08-08T16:51:41.343-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:51:41.343-0700] {dag.py:3947} INFO - Setting next_dagrun for example_xcom_args to None, run_after=None
+[2024-08-08T16:51:41.344-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:51:41.344-0700] {dag.py:3947} INFO - Setting next_dagrun for example_xcom_args_with_operators to None, run_after=None
+[2024-08-08T16:51:41.355-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py took 0.106 seconds
+[2024-08-08T16:52:53.822-0700] {processor.py:161} INFO - Started process (PID=99307) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:52:53.823-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py for tasks to queue
+[2024-08-08T16:52:53.824-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:52:53.823-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:52:53.844-0700] {processor.py:840} INFO - DAG(s) 'example_xcom_args', 'example_xcom_args_with_operators' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:52:53.904-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:52:53.904-0700] {dag.py:3089} INFO - Sync 2 DAGs
+[2024-08-08T16:52:53.910-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:52:53.910-0700] {dag.py:3947} INFO - Setting next_dagrun for example_xcom_args to None, run_after=None
+[2024-08-08T16:52:53.912-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:52:53.912-0700] {dag.py:3947} INFO - Setting next_dagrun for example_xcom_args_with_operators to None, run_after=None
+[2024-08-08T16:52:53.921-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py took 0.101 seconds
+[2024-08-08T16:52:55.033-0700] {processor.py:161} INFO - Started process (PID=99308) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:52:55.035-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py for tasks to queue
+[2024-08-08T16:52:55.035-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:52:55.035-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:52:55.057-0700] {processor.py:840} INFO - DAG(s) 'example_xcom_args_with_operators', 'example_xcom_args' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:52:55.116-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:52:55.116-0700] {dag.py:3089} INFO - Sync 2 DAGs
+[2024-08-08T16:52:55.121-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:52:55.121-0700] {dag.py:3947} INFO - Setting next_dagrun for example_xcom_args to None, run_after=None
+[2024-08-08T16:52:55.123-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:52:55.123-0700] {dag.py:3947} INFO - Setting next_dagrun for example_xcom_args_with_operators to None, run_after=None
+[2024-08-08T16:52:55.133-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py took 0.102 seconds
+[2024-08-08T16:54:10.120-0700] {processor.py:161} INFO - Started process (PID=99434) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:54:10.122-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py for tasks to queue
+[2024-08-08T16:54:10.122-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:54:10.122-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:54:10.146-0700] {processor.py:840} INFO - DAG(s) 'example_xcom_args_with_operators', 'example_xcom_args' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:54:10.207-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:54:10.207-0700] {dag.py:3089} INFO - Sync 2 DAGs
+[2024-08-08T16:54:10.212-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:54:10.212-0700] {dag.py:3947} INFO - Setting next_dagrun for example_xcom_args to None, run_after=None
+[2024-08-08T16:54:10.214-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:54:10.214-0700] {dag.py:3947} INFO - Setting next_dagrun for example_xcom_args_with_operators to None, run_after=None
+[2024-08-08T16:54:10.226-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py took 0.108 seconds
+[2024-08-08T16:54:11.000-0700] {processor.py:161} INFO - Started process (PID=99435) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:54:11.002-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py for tasks to queue
+[2024-08-08T16:54:11.002-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:54:11.002-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:54:11.025-0700] {processor.py:840} INFO - DAG(s) 'example_xcom_args', 'example_xcom_args_with_operators' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:54:11.083-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:54:11.083-0700] {dag.py:3089} INFO - Sync 2 DAGs
+[2024-08-08T16:54:11.088-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:54:11.088-0700] {dag.py:3947} INFO - Setting next_dagrun for example_xcom_args to None, run_after=None
+[2024-08-08T16:54:11.090-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:54:11.089-0700] {dag.py:3947} INFO - Setting next_dagrun for example_xcom_args_with_operators to None, run_after=None
+[2024-08-08T16:54:11.100-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py took 0.102 seconds
+[2024-08-08T16:55:24.426-0700] {processor.py:161} INFO - Started process (PID=99581) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:55:24.428-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py for tasks to queue
+[2024-08-08T16:55:24.428-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:55:24.428-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:55:24.450-0700] {processor.py:840} INFO - DAG(s) 'example_xcom_args_with_operators', 'example_xcom_args' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:55:24.510-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:55:24.510-0700] {dag.py:3089} INFO - Sync 2 DAGs
+[2024-08-08T16:55:24.515-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:55:24.515-0700] {dag.py:3947} INFO - Setting next_dagrun for example_xcom_args to None, run_after=None
+[2024-08-08T16:55:24.517-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:55:24.517-0700] {dag.py:3947} INFO - Setting next_dagrun for example_xcom_args_with_operators to None, run_after=None
+[2024-08-08T16:55:24.527-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py took 0.102 seconds
+[2024-08-08T16:55:24.865-0700] {processor.py:161} INFO - Started process (PID=99582) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:55:24.867-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py for tasks to queue
+[2024-08-08T16:55:24.867-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:55:24.867-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:55:24.890-0700] {processor.py:840} INFO - DAG(s) 'example_xcom_args', 'example_xcom_args_with_operators' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:55:24.948-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:55:24.948-0700] {dag.py:3089} INFO - Sync 2 DAGs
+[2024-08-08T16:55:24.953-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:55:24.953-0700] {dag.py:3947} INFO - Setting next_dagrun for example_xcom_args to None, run_after=None
+[2024-08-08T16:55:24.955-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:55:24.954-0700] {dag.py:3947} INFO - Setting next_dagrun for example_xcom_args_with_operators to None, run_after=None
+[2024-08-08T16:55:24.965-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py took 0.102 seconds
+[2024-08-08T16:56:38.730-0700] {processor.py:161} INFO - Started process (PID=99725) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:56:38.732-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py for tasks to queue
+[2024-08-08T16:56:38.732-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:56:38.732-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:56:38.756-0700] {processor.py:840} INFO - DAG(s) 'example_xcom_args_with_operators', 'example_xcom_args' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:56:38.822-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:56:38.821-0700] {dag.py:3089} INFO - Sync 2 DAGs
+[2024-08-08T16:56:38.827-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:56:38.827-0700] {dag.py:3947} INFO - Setting next_dagrun for example_xcom_args to None, run_after=None
+[2024-08-08T16:56:38.829-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:56:38.829-0700] {dag.py:3947} INFO - Setting next_dagrun for example_xcom_args_with_operators to None, run_after=None
+[2024-08-08T16:56:38.841-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py took 0.112 seconds
+[2024-08-08T16:56:39.613-0700] {processor.py:161} INFO - Started process (PID=99726) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:56:39.615-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py for tasks to queue
+[2024-08-08T16:56:39.616-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:56:39.616-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:56:39.642-0700] {processor.py:840} INFO - DAG(s) 'example_xcom_args_with_operators', 'example_xcom_args' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:56:39.707-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:56:39.707-0700] {dag.py:3089} INFO - Sync 2 DAGs
+[2024-08-08T16:56:39.713-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:56:39.713-0700] {dag.py:3947} INFO - Setting next_dagrun for example_xcom_args to None, run_after=None
+[2024-08-08T16:56:39.716-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:56:39.716-0700] {dag.py:3947} INFO - Setting next_dagrun for example_xcom_args_with_operators to None, run_after=None
+[2024-08-08T16:56:39.728-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py took 0.118 seconds
+[2024-08-08T16:57:53.300-0700] {processor.py:161} INFO - Started process (PID=99860) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:57:53.301-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py for tasks to queue
+[2024-08-08T16:57:53.302-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:57:53.302-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:57:53.323-0700] {processor.py:840} INFO - DAG(s) 'example_xcom_args', 'example_xcom_args_with_operators' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:57:53.382-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:57:53.381-0700] {dag.py:3089} INFO - Sync 2 DAGs
+[2024-08-08T16:57:53.387-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:57:53.387-0700] {dag.py:3947} INFO - Setting next_dagrun for example_xcom_args to None, run_after=None
+[2024-08-08T16:57:53.389-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:57:53.389-0700] {dag.py:3947} INFO - Setting next_dagrun for example_xcom_args_with_operators to None, run_after=None
+[2024-08-08T16:57:53.399-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py took 0.101 seconds
+[2024-08-08T16:57:53.675-0700] {processor.py:161} INFO - Started process (PID=99861) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:57:53.676-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py for tasks to queue
+[2024-08-08T16:57:53.677-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:57:53.676-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:57:53.698-0700] {processor.py:840} INFO - DAG(s) 'example_xcom_args', 'example_xcom_args_with_operators' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:57:53.757-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:57:53.756-0700] {dag.py:3089} INFO - Sync 2 DAGs
+[2024-08-08T16:57:53.762-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:57:53.762-0700] {dag.py:3947} INFO - Setting next_dagrun for example_xcom_args to None, run_after=None
+[2024-08-08T16:57:53.763-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:57:53.763-0700] {dag.py:3947} INFO - Setting next_dagrun for example_xcom_args_with_operators to None, run_after=None
+[2024-08-08T16:57:53.772-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py took 0.100 seconds
+[2024-08-08T16:59:06.857-0700] {processor.py:161} INFO - Started process (PID=135) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:59:06.859-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py for tasks to queue
+[2024-08-08T16:59:06.859-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:59:06.859-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:59:06.881-0700] {processor.py:840} INFO - DAG(s) 'example_xcom_args', 'example_xcom_args_with_operators' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:59:06.940-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:59:06.940-0700] {dag.py:3089} INFO - Sync 2 DAGs
+[2024-08-08T16:59:06.945-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:59:06.945-0700] {dag.py:3947} INFO - Setting next_dagrun for example_xcom_args to None, run_after=None
+[2024-08-08T16:59:06.946-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:59:06.946-0700] {dag.py:3947} INFO - Setting next_dagrun for example_xcom_args_with_operators to None, run_after=None
+[2024-08-08T16:59:06.956-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py took 0.101 seconds
+[2024-08-08T16:59:07.906-0700] {processor.py:161} INFO - Started process (PID=136) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:59:07.908-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py for tasks to queue
+[2024-08-08T16:59:07.908-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:59:07.908-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:59:07.931-0700] {processor.py:840} INFO - DAG(s) 'example_xcom_args', 'example_xcom_args_with_operators' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py
+[2024-08-08T16:59:07.990-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:59:07.990-0700] {dag.py:3089} INFO - Sync 2 DAGs
+[2024-08-08T16:59:07.996-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:59:07.996-0700] {dag.py:3947} INFO - Setting next_dagrun for example_xcom_args to None, run_after=None
+[2024-08-08T16:59:07.998-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:59:07.998-0700] {dag.py:3947} INFO - Setting next_dagrun for example_xcom_args_with_operators to None, run_after=None
+[2024-08-08T16:59:08.009-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_xcomargs.py took 0.105 seconds

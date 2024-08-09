@@ -1,0 +1,80 @@
+[2024-08-08T16:48:02.641-0700] {processor.py:161} INFO - Started process (PID=98693) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py
+[2024-08-08T16:48:02.643-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py for tasks to queue
+[2024-08-08T16:48:02.644-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:48:02.644-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py
+[2024-08-08T16:48:02.669-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:48:02.669-0700] {example_python_decorator.py:80} WARNING - The virtalenv_python example task requires virtualenv, please install it.
+[2024-08-08T16:48:02.671-0700] {processor.py:840} INFO - DAG(s) 'example_python_decorator' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py
+[2024-08-08T16:48:02.792-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:48:02.792-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:48:02.798-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:48:02.798-0700] {dag.py:3947} INFO - Setting next_dagrun for example_python_decorator to None, run_after=None
+[2024-08-08T16:48:02.813-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py took 0.174 seconds
+[2024-08-08T16:49:47.606-0700] {processor.py:161} INFO - Started process (PID=98894) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py
+[2024-08-08T16:49:47.607-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py for tasks to queue
+[2024-08-08T16:49:47.608-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:49:47.608-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py
+[2024-08-08T16:49:47.629-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:49:47.629-0700] {example_python_decorator.py:80} WARNING - The virtalenv_python example task requires virtualenv, please install it.
+[2024-08-08T16:49:47.630-0700] {processor.py:840} INFO - DAG(s) 'example_python_decorator' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py
+[2024-08-08T16:49:47.639-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:49:47.639-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:49:47.685-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:49:47.685-0700] {dag.py:3947} INFO - Setting next_dagrun for example_python_decorator to None, run_after=None
+[2024-08-08T16:49:47.696-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py took 0.092 seconds
+[2024-08-08T16:51:46.207-0700] {processor.py:161} INFO - Started process (PID=99151) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py
+[2024-08-08T16:51:46.208-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py for tasks to queue
+[2024-08-08T16:51:46.209-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:51:46.209-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py
+[2024-08-08T16:51:46.232-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:51:46.231-0700] {example_python_decorator.py:80} WARNING - The virtalenv_python example task requires virtualenv, please install it.
+[2024-08-08T16:51:46.233-0700] {processor.py:840} INFO - DAG(s) 'example_python_decorator' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py
+[2024-08-08T16:51:46.344-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:51:46.344-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:51:46.349-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:51:46.349-0700] {dag.py:3947} INFO - Setting next_dagrun for example_python_decorator to None, run_after=None
+[2024-08-08T16:51:46.363-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py took 0.158 seconds
+[2024-08-08T16:52:10.139-0700] {processor.py:161} INFO - Started process (PID=99207) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py
+[2024-08-08T16:52:10.140-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py for tasks to queue
+[2024-08-08T16:52:10.141-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:52:10.141-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py
+[2024-08-08T16:52:10.162-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:52:10.162-0700] {example_python_decorator.py:80} WARNING - The virtalenv_python example task requires virtualenv, please install it.
+[2024-08-08T16:52:10.164-0700] {processor.py:840} INFO - DAG(s) 'example_python_decorator' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py
+[2024-08-08T16:52:10.172-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:52:10.172-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:52:10.219-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:52:10.219-0700] {dag.py:3947} INFO - Setting next_dagrun for example_python_decorator to None, run_after=None
+[2024-08-08T16:52:10.230-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py took 0.094 seconds
+[2024-08-08T16:53:30.700-0700] {processor.py:161} INFO - Started process (PID=99354) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py
+[2024-08-08T16:53:30.702-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py for tasks to queue
+[2024-08-08T16:53:30.702-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:53:30.702-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py
+[2024-08-08T16:53:30.724-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:53:30.724-0700] {example_python_decorator.py:80} WARNING - The virtalenv_python example task requires virtualenv, please install it.
+[2024-08-08T16:53:30.725-0700] {processor.py:840} INFO - DAG(s) 'example_python_decorator' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py
+[2024-08-08T16:53:30.786-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:53:30.786-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:53:30.792-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:53:30.792-0700] {dag.py:3947} INFO - Setting next_dagrun for example_python_decorator to None, run_after=None
+[2024-08-08T16:53:30.803-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py took 0.105 seconds
+[2024-08-08T16:54:44.188-0700] {processor.py:161} INFO - Started process (PID=99493) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py
+[2024-08-08T16:54:44.189-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py for tasks to queue
+[2024-08-08T16:54:44.190-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:54:44.190-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py
+[2024-08-08T16:54:44.210-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:54:44.210-0700] {example_python_decorator.py:80} WARNING - The virtalenv_python example task requires virtualenv, please install it.
+[2024-08-08T16:54:44.212-0700] {processor.py:840} INFO - DAG(s) 'example_python_decorator' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py
+[2024-08-08T16:54:44.267-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:54:44.267-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:54:44.273-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:54:44.273-0700] {dag.py:3947} INFO - Setting next_dagrun for example_python_decorator to None, run_after=None
+[2024-08-08T16:54:44.284-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py took 0.098 seconds
+[2024-08-08T16:55:58.096-0700] {processor.py:161} INFO - Started process (PID=99650) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py
+[2024-08-08T16:55:58.097-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py for tasks to queue
+[2024-08-08T16:55:58.098-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:55:58.098-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py
+[2024-08-08T16:55:58.119-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:55:58.119-0700] {example_python_decorator.py:80} WARNING - The virtalenv_python example task requires virtualenv, please install it.
+[2024-08-08T16:55:58.120-0700] {processor.py:840} INFO - DAG(s) 'example_python_decorator' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py
+[2024-08-08T16:55:58.174-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:55:58.174-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:55:58.180-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:55:58.180-0700] {dag.py:3947} INFO - Setting next_dagrun for example_python_decorator to None, run_after=None
+[2024-08-08T16:55:58.190-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py took 0.096 seconds
+[2024-08-08T16:57:11.148-0700] {processor.py:161} INFO - Started process (PID=99770) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py
+[2024-08-08T16:57:11.150-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py for tasks to queue
+[2024-08-08T16:57:11.150-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:57:11.150-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py
+[2024-08-08T16:57:11.171-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:57:11.171-0700] {example_python_decorator.py:80} WARNING - The virtalenv_python example task requires virtualenv, please install it.
+[2024-08-08T16:57:11.173-0700] {processor.py:840} INFO - DAG(s) 'example_python_decorator' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py
+[2024-08-08T16:57:11.235-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:57:11.235-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:57:11.241-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:57:11.241-0700] {dag.py:3947} INFO - Setting next_dagrun for example_python_decorator to None, run_after=None
+[2024-08-08T16:57:11.253-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py took 0.107 seconds
+[2024-08-08T16:58:27.933-0700] {processor.py:161} INFO - Started process (PID=99938) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py
+[2024-08-08T16:58:27.935-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py for tasks to queue
+[2024-08-08T16:58:27.935-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:58:27.935-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py
+[2024-08-08T16:58:27.957-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:58:27.956-0700] {example_python_decorator.py:80} WARNING - The virtalenv_python example task requires virtualenv, please install it.
+[2024-08-08T16:58:27.958-0700] {processor.py:840} INFO - DAG(s) 'example_python_decorator' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py
+[2024-08-08T16:58:28.015-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:58:28.015-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:58:28.021-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:58:28.021-0700] {dag.py:3947} INFO - Setting next_dagrun for example_python_decorator to None, run_after=None
+[2024-08-08T16:58:28.032-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py took 0.100 seconds
+[2024-08-08T16:59:38.341-0700] {processor.py:161} INFO - Started process (PID=173) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py
+[2024-08-08T16:59:38.342-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py for tasks to queue
+[2024-08-08T16:59:38.343-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:59:38.343-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py
+[2024-08-08T16:59:38.365-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:59:38.365-0700] {example_python_decorator.py:80} WARNING - The virtalenv_python example task requires virtualenv, please install it.
+[2024-08-08T16:59:38.366-0700] {processor.py:840} INFO - DAG(s) 'example_python_decorator' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py
+[2024-08-08T16:59:38.423-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:59:38.422-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:59:38.429-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:59:38.429-0700] {dag.py:3947} INFO - Setting next_dagrun for example_python_decorator to None, run_after=None
+[2024-08-08T16:59:38.441-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_python_decorator.py took 0.102 seconds

@@ -1,0 +1,70 @@
+[2024-08-08T16:47:56.523-0700] {processor.py:161} INFO - Started process (PID=98674) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py
+[2024-08-08T16:47:56.525-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py for tasks to queue
+[2024-08-08T16:47:56.525-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:47:56.525-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py
+[2024-08-08T16:47:56.535-0700] {processor.py:840} INFO - DAG(s) 'example_sensors' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py
+[2024-08-08T16:47:56.668-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:47:56.668-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:47:56.674-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:47:56.674-0700] {dag.py:3947} INFO - Setting next_dagrun for example_sensors to None, run_after=None
+[2024-08-08T16:47:56.687-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py took 0.166 seconds
+[2024-08-08T16:49:42.277-0700] {processor.py:161} INFO - Started process (PID=98885) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py
+[2024-08-08T16:49:42.278-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py for tasks to queue
+[2024-08-08T16:49:42.279-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:49:42.279-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py
+[2024-08-08T16:49:42.287-0700] {processor.py:840} INFO - DAG(s) 'example_sensors' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py
+[2024-08-08T16:49:42.294-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:49:42.294-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:49:42.341-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:49:42.341-0700] {dag.py:3947} INFO - Setting next_dagrun for example_sensors to None, run_after=None
+[2024-08-08T16:49:42.352-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py took 0.077 seconds
+[2024-08-08T16:51:39.927-0700] {processor.py:161} INFO - Started process (PID=99143) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py
+[2024-08-08T16:51:39.929-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py for tasks to queue
+[2024-08-08T16:51:39.929-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:51:39.929-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py
+[2024-08-08T16:51:39.937-0700] {processor.py:840} INFO - DAG(s) 'example_sensors' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py
+[2024-08-08T16:51:40.066-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:51:40.066-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:51:40.071-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:51:40.071-0700] {dag.py:3947} INFO - Setting next_dagrun for example_sensors to None, run_after=None
+[2024-08-08T16:51:40.085-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py took 0.160 seconds
+[2024-08-08T16:52:04.325-0700] {processor.py:161} INFO - Started process (PID=99191) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py
+[2024-08-08T16:52:04.327-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py for tasks to queue
+[2024-08-08T16:52:04.327-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:52:04.327-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py
+[2024-08-08T16:52:04.335-0700] {processor.py:840} INFO - DAG(s) 'example_sensors' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py
+[2024-08-08T16:52:04.343-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:52:04.343-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:52:04.394-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:52:04.394-0700] {dag.py:3947} INFO - Setting next_dagrun for example_sensors to None, run_after=None
+[2024-08-08T16:52:04.405-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py took 0.082 seconds
+[2024-08-08T16:53:24.840-0700] {processor.py:161} INFO - Started process (PID=99347) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py
+[2024-08-08T16:53:24.843-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py for tasks to queue
+[2024-08-08T16:53:24.843-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:53:24.843-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py
+[2024-08-08T16:53:24.852-0700] {processor.py:840} INFO - DAG(s) 'example_sensors' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py
+[2024-08-08T16:53:24.932-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:53:24.932-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:53:24.938-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:53:24.937-0700] {dag.py:3947} INFO - Setting next_dagrun for example_sensors to None, run_after=None
+[2024-08-08T16:53:24.952-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py took 0.114 seconds
+[2024-08-08T16:54:38.109-0700] {processor.py:161} INFO - Started process (PID=99481) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py
+[2024-08-08T16:54:38.111-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py for tasks to queue
+[2024-08-08T16:54:38.112-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:54:38.112-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py
+[2024-08-08T16:54:38.121-0700] {processor.py:840} INFO - DAG(s) 'example_sensors' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py
+[2024-08-08T16:54:38.192-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:54:38.192-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:54:38.198-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:54:38.198-0700] {dag.py:3947} INFO - Setting next_dagrun for example_sensors to None, run_after=None
+[2024-08-08T16:54:38.210-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py took 0.103 seconds
+[2024-08-08T16:55:51.939-0700] {processor.py:161} INFO - Started process (PID=99634) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py
+[2024-08-08T16:55:51.940-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py for tasks to queue
+[2024-08-08T16:55:51.941-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:55:51.941-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py
+[2024-08-08T16:55:51.949-0700] {processor.py:840} INFO - DAG(s) 'example_sensors' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py
+[2024-08-08T16:55:52.019-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:55:52.018-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:55:52.024-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:55:52.023-0700] {dag.py:3947} INFO - Setting next_dagrun for example_sensors to None, run_after=None
+[2024-08-08T16:55:52.035-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py took 0.098 seconds
+[2024-08-08T16:57:05.082-0700] {processor.py:161} INFO - Started process (PID=99762) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py
+[2024-08-08T16:57:05.084-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py for tasks to queue
+[2024-08-08T16:57:05.084-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:57:05.084-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py
+[2024-08-08T16:57:05.092-0700] {processor.py:840} INFO - DAG(s) 'example_sensors' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py
+[2024-08-08T16:57:05.167-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:57:05.167-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:57:05.173-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:57:05.173-0700] {dag.py:3947} INFO - Setting next_dagrun for example_sensors to None, run_after=None
+[2024-08-08T16:57:05.186-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py took 0.105 seconds
+[2024-08-08T16:58:21.794-0700] {processor.py:161} INFO - Started process (PID=99920) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py
+[2024-08-08T16:58:21.796-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py for tasks to queue
+[2024-08-08T16:58:21.797-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:58:21.796-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py
+[2024-08-08T16:58:21.805-0700] {processor.py:840} INFO - DAG(s) 'example_sensors' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py
+[2024-08-08T16:58:21.876-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:58:21.875-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:58:21.881-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:58:21.881-0700] {dag.py:3947} INFO - Setting next_dagrun for example_sensors to None, run_after=None
+[2024-08-08T16:58:21.892-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py took 0.100 seconds
+[2024-08-08T16:59:32.204-0700] {processor.py:161} INFO - Started process (PID=165) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py
+[2024-08-08T16:59:32.205-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py for tasks to queue
+[2024-08-08T16:59:32.206-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:59:32.206-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py
+[2024-08-08T16:59:32.214-0700] {processor.py:840} INFO - DAG(s) 'example_sensors' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py
+[2024-08-08T16:59:32.288-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:59:32.288-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:59:32.293-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:59:32.293-0700] {dag.py:3947} INFO - Setting next_dagrun for example_sensors to None, run_after=None
+[2024-08-08T16:59:32.307-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_sensors.py took 0.105 seconds

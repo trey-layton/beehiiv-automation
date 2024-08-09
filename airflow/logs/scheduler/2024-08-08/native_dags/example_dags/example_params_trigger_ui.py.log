@@ -1,0 +1,70 @@
+[2024-08-08T16:48:09.238-0700] {processor.py:161} INFO - Started process (PID=98703) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py
+[2024-08-08T16:48:09.240-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py for tasks to queue
+[2024-08-08T16:48:09.241-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:48:09.241-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py
+[2024-08-08T16:48:09.265-0700] {processor.py:840} INFO - DAG(s) 'example_params_trigger_ui' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py
+[2024-08-08T16:48:09.383-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:48:09.383-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:48:09.389-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:48:09.389-0700] {dag.py:3947} INFO - Setting next_dagrun for example_params_trigger_ui to None, run_after=None
+[2024-08-08T16:48:09.401-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py took 0.165 seconds
+[2024-08-08T16:49:53.692-0700] {processor.py:161} INFO - Started process (PID=98904) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py
+[2024-08-08T16:49:53.694-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py for tasks to queue
+[2024-08-08T16:49:53.694-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:49:53.694-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py
+[2024-08-08T16:49:53.717-0700] {processor.py:840} INFO - DAG(s) 'example_params_trigger_ui' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py
+[2024-08-08T16:49:53.842-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:49:53.841-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:49:53.848-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:49:53.848-0700] {dag.py:3947} INFO - Setting next_dagrun for example_params_trigger_ui to None, run_after=None
+[2024-08-08T16:49:53.872-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py took 0.182 seconds
+[2024-08-08T16:51:51.573-0700] {processor.py:161} INFO - Started process (PID=99165) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py
+[2024-08-08T16:51:51.575-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py for tasks to queue
+[2024-08-08T16:51:51.575-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:51:51.575-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py
+[2024-08-08T16:51:51.598-0700] {processor.py:840} INFO - DAG(s) 'example_params_trigger_ui' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py
+[2024-08-08T16:51:51.668-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:51:51.668-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:51:51.673-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:51:51.673-0700] {dag.py:3947} INFO - Setting next_dagrun for example_params_trigger_ui to None, run_after=None
+[2024-08-08T16:51:51.683-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py took 0.112 seconds
+[2024-08-08T16:52:16.315-0700] {processor.py:161} INFO - Started process (PID=99223) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py
+[2024-08-08T16:52:16.317-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py for tasks to queue
+[2024-08-08T16:52:16.318-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:52:16.318-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py
+[2024-08-08T16:52:16.340-0700] {processor.py:840} INFO - DAG(s) 'example_params_trigger_ui' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py
+[2024-08-08T16:52:16.410-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:52:16.410-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:52:16.415-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:52:16.415-0700] {dag.py:3947} INFO - Setting next_dagrun for example_params_trigger_ui to None, run_after=None
+[2024-08-08T16:52:16.425-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py took 0.112 seconds
+[2024-08-08T16:53:37.048-0700] {processor.py:161} INFO - Started process (PID=99361) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py
+[2024-08-08T16:53:37.051-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py for tasks to queue
+[2024-08-08T16:53:37.051-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:53:37.051-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py
+[2024-08-08T16:53:37.075-0700] {processor.py:840} INFO - DAG(s) 'example_params_trigger_ui' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py
+[2024-08-08T16:53:37.149-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:53:37.148-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:53:37.154-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:53:37.154-0700] {dag.py:3947} INFO - Setting next_dagrun for example_params_trigger_ui to None, run_after=None
+[2024-08-08T16:53:37.166-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py took 0.120 seconds
+[2024-08-08T16:54:50.324-0700] {processor.py:161} INFO - Started process (PID=99506) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py
+[2024-08-08T16:54:50.325-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py for tasks to queue
+[2024-08-08T16:54:50.326-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:54:50.326-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py
+[2024-08-08T16:54:50.349-0700] {processor.py:840} INFO - DAG(s) 'example_params_trigger_ui' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py
+[2024-08-08T16:54:50.417-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:54:50.417-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:54:50.422-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:54:50.422-0700] {dag.py:3947} INFO - Setting next_dagrun for example_params_trigger_ui to None, run_after=None
+[2024-08-08T16:54:50.433-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py took 0.111 seconds
+[2024-08-08T16:56:04.197-0700] {processor.py:161} INFO - Started process (PID=99662) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py
+[2024-08-08T16:56:04.198-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py for tasks to queue
+[2024-08-08T16:56:04.199-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:56:04.199-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py
+[2024-08-08T16:56:04.220-0700] {processor.py:840} INFO - DAG(s) 'example_params_trigger_ui' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py
+[2024-08-08T16:56:04.292-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:56:04.292-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:56:04.297-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:56:04.297-0700] {dag.py:3947} INFO - Setting next_dagrun for example_params_trigger_ui to None, run_after=None
+[2024-08-08T16:56:04.310-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py took 0.115 seconds
+[2024-08-08T16:57:17.113-0700] {processor.py:161} INFO - Started process (PID=99782) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py
+[2024-08-08T16:57:17.115-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py for tasks to queue
+[2024-08-08T16:57:17.116-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:57:17.116-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py
+[2024-08-08T16:57:17.138-0700] {processor.py:840} INFO - DAG(s) 'example_params_trigger_ui' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py
+[2024-08-08T16:57:17.207-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:57:17.207-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:57:17.213-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:57:17.212-0700] {dag.py:3947} INFO - Setting next_dagrun for example_params_trigger_ui to None, run_after=None
+[2024-08-08T16:57:17.223-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py took 0.111 seconds
+[2024-08-08T16:58:33.981-0700] {processor.py:161} INFO - Started process (PID=99954) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py
+[2024-08-08T16:58:33.983-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py for tasks to queue
+[2024-08-08T16:58:33.983-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:58:33.983-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py
+[2024-08-08T16:58:34.008-0700] {processor.py:840} INFO - DAG(s) 'example_params_trigger_ui' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py
+[2024-08-08T16:58:34.080-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:58:34.080-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:58:34.085-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:58:34.085-0700] {dag.py:3947} INFO - Setting next_dagrun for example_params_trigger_ui to None, run_after=None
+[2024-08-08T16:58:34.096-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py took 0.117 seconds
+[2024-08-08T16:59:44.499-0700] {processor.py:161} INFO - Started process (PID=179) to work on /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py
+[2024-08-08T16:59:44.501-0700] {processor.py:830} INFO - Processing file /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py for tasks to queue
+[2024-08-08T16:59:44.501-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:59:44.501-0700] {dagbag.py:545} INFO - Filling up the DagBag from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py
+[2024-08-08T16:59:44.524-0700] {processor.py:840} INFO - DAG(s) 'example_params_trigger_ui' retrieved from /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py
+[2024-08-08T16:59:44.598-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:59:44.598-0700] {dag.py:3089} INFO - Sync 1 DAGs
+[2024-08-08T16:59:44.603-0700] {logging_mixin.py:188} INFO - [2024-08-08T16:59:44.603-0700] {dag.py:3947} INFO - Setting next_dagrun for example_params_trigger_ui to None, run_after=None
+[2024-08-08T16:59:44.614-0700] {processor.py:183} INFO - Processing /Users/treylayton/Library/Python/3.9/lib/python/site-packages/airflow/example_dags/example_params_trigger_ui.py took 0.116 seconds
