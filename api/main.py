@@ -1,4 +1,5 @@
 import os
+import time
 from fastapi import FastAPI, Depends, HTTPException, status, Request
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from supabase import create_client, Client
@@ -8,6 +9,8 @@ from core.main_process import run_main_process
 import logging
 from tasks import generate_content_task
 from celery.result import AsyncResult
+from airflow.api.client.local_client import Client as AirflowClient
+from datetime import datetime
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -32,6 +35,15 @@ except Exception as e:
 
 def get_supabase_client() -> Client:
     return supabase_client
+
+
+def trigger_airflow_dag(user_id, edition_url):
+    client = Client(None, None)
+    client.trigger_dag(
+        dag_id="postonce_workflow",
+        run_id=f"run_{user_id}_{int(time.time())}",
+        conf={"user_id": user_id, "edition_url": edition_url},
+    )
 
 
 async def get_current_user(
@@ -65,7 +77,7 @@ async def test_supabase(client: Client = Depends(get_supabase_client)):
     logger.debug("Test-supabase endpoint called")
     try:
         logger.debug("Attempting to query Supabase")
-        response = client.table("account_profiles").select("*").limit(1).execute()
+        response = client.table("user_profiles").select("*").limit(1).execute()
         logger.debug(f"Supabase response: {response}")
         return {"status": "success", "data": response.data}
     except Exception as e:
@@ -93,7 +105,7 @@ async def get_user_info(
     try:
         logger.info(f"Fetching info for user ID: {current_user.id}")
         response = (
-            supabase.table("account_profiles")
+            supabase.table("user_profiles")
             .select("*")
             .eq("account_id", current_user.id)
             .execute()
@@ -133,7 +145,7 @@ async def update_user_profile(
     try:
         logger.info("Attempting to update profile")
         response = (
-            supabase.table("account_profiles")
+            supabase.table("user_profiles")
             .upsert(
                 {
                     "account_id": current_user.id,
@@ -232,19 +244,24 @@ async def generate_content(
                 detail=f"Incomplete user profile. Please update your profile with the following information: {', '.join(missing_fields)}",
             )
 
-        # Initiate the content generation task
-        task = generate_content_task.delay(
-            user_profile,
-            str(params.edition_url),
-            params.generate_precta_tweet,
-            params.generate_postcta_tweet,
-            params.generate_thread_tweet,
-            params.generate_long_form_tweet,
-            params.generate_linkedin,
-        )
+        # Trigger Airflow DAG
+        airflow_client = AirflowClient()
+        execution_date = datetime.now()
+        run_id = f"manual__run_{execution_date.isoformat()}"
+        conf = {
+            "user_id": current_user.id,
+            "edition_url": str(params.edition_url),
+            "generate_precta_tweet": params.generate_precta_tweet,
+            "generate_postcta_tweet": params.generate_postcta_tweet,
+            "generate_thread_tweet": params.generate_thread_tweet,
+            "generate_long_form_tweet": params.generate_long_form_tweet,
+            "generate_linkedin": params.generate_linkedin,
+        }
 
-        logger.info(f"Content generation task initiated: {task.id}")
-        return {"status": "processing", "task_id": str(task.id)}
+        airflow_client.trigger_dag(dag_id="postonce_workflow", run_id=run_id, conf=conf)
+
+        logger.info(f"Airflow DAG triggered: {run_id}")
+        return {"status": "processing", "run_id": run_id}
 
     except HTTPException as e:
         logger.error(f"HTTP exception in generate_content: {e.detail}")
