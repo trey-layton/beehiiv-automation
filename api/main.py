@@ -32,6 +32,37 @@ except Exception as e:
     logger.error(f"Error creating Supabase client: {str(e)}")
     raise
 
+# Log environment variables (be careful not to log sensitive information)
+logger.debug(f"SUPABASE_URL: {os.getenv('SUPABASE_URL')}")
+logger.debug(f"SUPABASE_KEY is set: {bool(os.getenv('SUPABASE_KEY'))}")
+
+
+@app.get("/")
+async def root():
+    logger.debug("Root endpoint called")
+    return {"message": "Hello World"}
+
+
+@app.get("/test-supabase")
+async def test_supabase():
+    logger.debug("Test-supabase endpoint called")
+    try:
+        supabase_url = os.getenv("SUPABASE_URL")
+        supabase_key = os.getenv("SUPABASE_KEY")
+        if not supabase_url or not supabase_key:
+            raise ValueError("SUPABASE_URL or SUPABASE_KEY is missing")
+
+        client = create_client(supabase_url, supabase_key)
+        logger.debug("Supabase client created")
+
+        response = client.table("user_profiles").select("*").limit(1).execute()
+        logger.debug(f"Supabase response: {response}")
+
+        return {"status": "success", "data": response.data}
+    except Exception as e:
+        logger.exception(f"Supabase query failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Supabase query failed: {str(e)}")
+
 
 def get_supabase_client() -> Client:
     return supabase_client
@@ -64,25 +95,6 @@ async def log_requests(request: Request, call_next):
     response = await call_next(request)
     logger.debug(f"Returning response: Status {response.status_code}")
     return response
-
-
-@app.get("/")
-async def root():
-    logger.debug("Root endpoint called")
-    return {"message": "Hello World"}
-
-
-@app.get("/test-supabase")
-async def test_supabase(client: Client = Depends(get_supabase_client)):
-    logger.debug("Test-supabase endpoint called")
-    try:
-        logger.debug("Attempting to query Supabase")
-        response = client.table("user_profiles").select("*").limit(1).execute()
-        logger.debug(f"Supabase response: {response}")
-        return {"status": "success", "data": response.data}
-    except Exception as e:
-        logger.error(f"Supabase query failed: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"Supabase query failed: {str(e)}")
 
 
 @app.get("/debug")
@@ -134,45 +146,6 @@ class UserProfile(BaseModel):
     publication_id: str
     subscribe_url: str
     model_config = ConfigDict(from_attributes=True)
-
-
-@app.post("/update_user_profile")
-async def update_user_profile(
-    params: UserProfile,
-    current_user: dict = Depends(get_current_user),
-    supabase: Client = Depends(get_supabase_client),
-):
-    try:
-        logger.info("Attempting to update profile")
-        response = (
-            supabase.table("user_profiles")
-            .upsert(
-                {
-                    "account_id": current_user.id,
-                    "beehiiv_api_key": params.beehiiv_api_key,
-                    "publication_id": params.publication_id,
-                    "subscribe_url": params.subscribe_url,
-                }
-            )
-            .execute()
-        )
-
-        if response.data is None:
-            logger.error("Failed to update profile: No data returned")
-            raise HTTPException(status_code=400, detail="Failed to update profile")
-
-        logger.info("Profile updated successfully")
-        return {
-            "status": "success",
-            "message": "Profile updated successfully",
-            "data": response.data[0],
-        }
-    except HTTPException as e:
-        raise e
-    except Exception as e:
-        raise HTTPException(
-            status_code=500, detail=f"Error updating user profile: {str(e)}"
-        )
 
 
 class ContentGeneration(BaseModel):
@@ -289,3 +262,9 @@ async def task_status(task_id: str):
             "error": str(task.info),
         }
     return response
+
+
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run(app, host="0.0.0.0", port=8000)
