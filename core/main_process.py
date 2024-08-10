@@ -8,7 +8,6 @@ from core.social_media.twitter.generate_tweets import (
     generate_long_form_tweet,
 )
 from core.social_media.linkedin.generate_linkedin_post import generate_linkedin_post
-from core.config.user_config import load_user_config
 
 logger = logging.getLogger(__name__)
 
@@ -22,7 +21,7 @@ async def run_main_process(
     long_form_tweet: bool = False,
     linkedin: bool = False,
 ) -> Tuple[bool, str, Dict[str, Any]]:
-    logger.info(f"run_main_process started for user {user_config['account_id']}")
+    logger.info(f"run_main_process started for user {user_config['id']}")
     try:
         if not user_config:
             return False, "User profile not found. Please update your profile.", {}
@@ -30,7 +29,7 @@ async def run_main_process(
         if not user_config.get("beehiiv_api_key") or not user_config.get(
             "publication_id"
         ):
-            logger.warning(f"Beehiiv credentials missing for user {user_config['account_id']}")
+            logger.warning(f"Beehiiv credentials missing for user {user_config['id']}")
             return (
                 False,
                 "Beehiiv credentials are missing. Please connect your Beehiiv account.",

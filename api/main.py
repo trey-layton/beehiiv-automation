@@ -7,10 +7,7 @@ from pydantic import BaseModel, HttpUrl, ConfigDict
 from dotenv import load_dotenv
 from core.main_process import run_main_process
 import logging
-from tasks import generate_content_task
 from celery.result import AsyncResult
-from airflow.api.client.local_client import Client as AirflowClient
-from datetime import datetime
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -217,24 +214,27 @@ async def generate_content(
                 detail=f"Incomplete user profile. Please update your profile with the following information: {', '.join(missing_fields)}",
             )
 
-        # Trigger Airflow DAG
-        airflow_client = AirflowClient()
-        execution_date = datetime.now()
-        run_id = f"manual__run_{execution_date.isoformat()}"
-        conf = {
-            "user_id": current_user.id,
-            "edition_url": str(params.edition_url),
-            "generate_precta_tweet": params.generate_precta_tweet,
-            "generate_postcta_tweet": params.generate_postcta_tweet,
-            "generate_thread_tweet": params.generate_thread_tweet,
-            "generate_long_form_tweet": params.generate_long_form_tweet,
-            "generate_linkedin": params.generate_linkedin,
-        }
+        # Run the main process
+        success, message, generated_content = await run_main_process(
+            user_profile,
+            str(params.edition_url),
+            params.generate_precta_tweet,
+            params.generate_postcta_tweet,
+            params.generate_thread_tweet,
+            params.generate_long_form_tweet,
+            params.generate_linkedin,
+        )
 
-        airflow_client.trigger_dag(dag_id="postonce_workflow", run_id=run_id, conf=conf)
-
-        logger.info(f"Airflow DAG triggered: {run_id}")
-        return {"status": "processing", "run_id": run_id}
+        if success:
+            logger.info(f"Content generated successfully: {message}")
+            return {
+                "status": "success",
+                "message": message,
+                "content": generated_content,
+            }
+        else:
+            logger.error(f"Content generation failed: {message}")
+            raise HTTPException(status_code=500, detail=message)
 
     except HTTPException as e:
         logger.error(f"HTTP exception in generate_content: {e.detail}")
