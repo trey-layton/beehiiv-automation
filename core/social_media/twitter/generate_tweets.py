@@ -21,6 +21,8 @@ def clean_tweet_text(tweet_text: str) -> str:
     tweet_text = tweet_text.strip().strip('"')
     tweet_text = re.sub(r"\s+", " ", tweet_text)
     tweet_text = re.sub(r"^(Tweet:?\s*)", "", tweet_text, flags=re.IGNORECASE)
+    tweet_text = re.sub(r'^"\d+\.?"\s*:\s*"', "", tweet_text)  # Remove JSON formatting
+    tweet_text = tweet_text.rstrip('",')  # Remove trailing quotes and commas
     return tweet_text
 
 
@@ -176,20 +178,27 @@ Benham consulted clients using the same algorithms, statistics & data research t
         if isinstance(response_content, str):
             logger.info("Response is a string, attempting to parse as JSON")
             try:
-                parsed_content = json.loads(response_content)
-                if isinstance(parsed_content, dict):
-                    for key, tweet in parsed_content.items():
-                        if key.rstrip(".").isdigit():
-                            cleaned_tweet = clean_tweet_text(tweet)
-                            tweets.append({"text": cleaned_tweet, "type": "content"})
-                            logger.info(f"Added tweet: {cleaned_tweet}")
+                # Remove any text before the actual JSON content
+                json_str = re.search(r"\{.*\}", response_content, re.DOTALL)
+                if json_str:
+                    parsed_content = json.loads(json_str.group())
+                    if isinstance(parsed_content, dict):
+                        for key, tweet in parsed_content.items():
+                            if key.rstrip(".").isdigit():
+                                cleaned_tweet = clean_tweet_text(tweet)
+                                tweets.append(
+                                    {"text": cleaned_tweet, "type": "content"}
+                                )
+                                logger.info(f"Added tweet: {cleaned_tweet}")
+                else:
+                    logger.warning("No valid JSON found in the response")
             except json.JSONDecodeError:
                 logger.warning("Failed to parse response as JSON")
                 # Split the string into lines and use each non-empty line as a tweet
                 lines = response_content.split("\n")
                 for line in lines:
                     cleaned_line = clean_tweet_text(line)
-                    if cleaned_line:
+                    if cleaned_line and not cleaned_line.startswith(("{", "}")):
                         tweets.append({"text": cleaned_line, "type": "content"})
                         logger.info(f"Added tweet from line: {cleaned_line}")
         elif isinstance(response_content, dict):
