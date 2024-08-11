@@ -12,3 +12,4 @@ requests-oauthlib
 celery[redis]
 redis
 psycopg2-binary
+cachetools
