@@ -7,6 +7,9 @@ from supabase import create_client, Client
 import os
 from core.models.user import User
 from core.services.user_service import UserService
+import logging
+
+logger = logging.getLogger(__name__)
 
 app = FastAPI()
 security = HTTPBearer()
@@ -44,9 +47,9 @@ class UserProfile(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
     id: str
-    beehiiv_api_key: Optional[str]
-    publication_id: Optional[str]
-    subscribe_url: Optional[str]
+    beehiiv_api_key: Optional[str] = None
+    publication_id: Optional[str] = None
+    subscribe_url: Optional[str] = None
 
 
 async def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
@@ -73,8 +76,11 @@ async def root():
 async def generate_content(
     request: ContentGenerationRequest, user: dict = Depends(verify_token)
 ):
+    logger.info(f"Received request: {request}")
+    logger.info(f"User: {user}")
     try:
         user_profile = await get_user_profile(user.id)
+        logger.info(f"User profile: {user_profile}")
 
         success, message, generated_content = await run_main_process(
             user_profile.dict(),
@@ -85,12 +91,17 @@ async def generate_content(
             request.generate_long_form_tweet,
             request.generate_linkedin,
         )
+        logger.info(
+            f"run_main_process result: success={success}, message={message}, content={generated_content}"
+        )
 
         if success:
             return ContentGenerationResponse(
                 status="success", message=message, content=generated_content
             )
         else:
+            logger.error(f"Error in run_main_process: {message}")
             raise HTTPException(status_code=500, detail=message)
     except Exception as e:
+        logger.exception(f"Unexpected error in generate_content: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))

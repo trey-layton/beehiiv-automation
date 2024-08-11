@@ -72,7 +72,7 @@ async def run_main_process(
                 original_content, user_profile
             )
 
-        logger.info("Content generation completed successfully")
+        logger.info(f"Content generation completed successfully: {generated_content}")
         return True, "Content generated successfully", generated_content
 
     except Exception as e:
