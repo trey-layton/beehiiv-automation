@@ -5,6 +5,8 @@ from typing import Dict, Union, List, Optional
 from core.main_process import run_main_process
 from supabase import create_client, Client
 import os
+from core.models.user import User
+from core.services.user_service import UserService
 
 app = FastAPI()
 security = HTTPBearer()
@@ -14,6 +16,8 @@ supabase: Client = create_client(
     supabase_url=os.environ.get("SUPABASE_URL"),
     supabase_key=os.environ.get("SUPABASE_KEY"),
 )
+
+user_service = UserService(supabase)
 
 
 class ContentGenerationRequest(BaseModel):
