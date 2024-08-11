@@ -4,6 +4,7 @@ from pydantic import BaseModel, HttpUrl, ConfigDict
 from typing import Dict, Union, List, Optional
 from core.main_process import run_main_process
 from supabase import create_client, Client
+from supabase.client import User as SupabaseUser
 import os
 from core.models.user import User
 from core.services.user_service import UserService
@@ -54,8 +55,8 @@ class UserProfile(BaseModel):
 
 async def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
     try:
-        user = supabase.auth.get_user(credentials.credentials)
-        return user.user  # This returns the actual user data
+        user_response = supabase.auth.get_user(credentials.credentials)
+        return user_response.user  # This returns the actual User object
     except Exception as e:
         logger.exception(f"Error verifying token: {str(e)}")
         raise HTTPException(status_code=401, detail="Invalid or expired token")
@@ -75,12 +76,14 @@ async def root():
 
 @app.post("/generate_content", response_model=ContentGenerationResponse)
 async def generate_content(
-    request: ContentGenerationRequest, user: Dict = Depends(verify_token)
+    request: ContentGenerationRequest, user: SupabaseUser = Depends(verify_token)
 ):
     logger.info(f"Received request: {request}")
     logger.info(f"User: {user}")
     try:
-        user_profile = await get_user_profile(user["id"])  # Use 'id' key instead of .id
+        user_profile = await get_user_profile(
+            user.id
+        )  # Use .id to access the user's ID
         logger.info(f"User profile: {user_profile}")
 
         success, message, generated_content = await run_main_process(
