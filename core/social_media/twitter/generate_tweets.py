@@ -1,5 +1,6 @@
 import logging
 import re
+import json
 from core.content.language_model_client import call_language_model
 from core.content.content_quality_check import quality_check_content
 from core.config.feature_toggle import feature_toggle
@@ -172,7 +173,26 @@ Benham consulted clients using the same algorithms, statistics & data research t
         logger.info(f"Raw response from language model: {response_content}")
 
         tweets = []
-        if isinstance(response_content, dict):
+        if isinstance(response_content, str):
+            logger.info("Response is a string, attempting to parse as JSON")
+            try:
+                parsed_content = json.loads(response_content)
+                if isinstance(parsed_content, dict):
+                    for key, tweet in parsed_content.items():
+                        if key.rstrip(".").isdigit():
+                            cleaned_tweet = clean_tweet_text(tweet)
+                            tweets.append({"text": cleaned_tweet, "type": "content"})
+                            logger.info(f"Added tweet: {cleaned_tweet}")
+            except json.JSONDecodeError:
+                logger.warning("Failed to parse response as JSON")
+                # Split the string into lines and use each non-empty line as a tweet
+                lines = response_content.split("\n")
+                for line in lines:
+                    cleaned_line = clean_tweet_text(line)
+                    if cleaned_line:
+                        tweets.append({"text": cleaned_line, "type": "content"})
+                        logger.info(f"Added tweet from line: {cleaned_line}")
+        elif isinstance(response_content, dict):
             logger.info("Response is a dictionary")
             for key, tweet in response_content.items():
                 if key.rstrip(".").isdigit():
@@ -182,6 +202,7 @@ Benham consulted clients using the same algorithms, statistics & data research t
         else:
             logger.warning(f"Unexpected response type: {type(response_content)}")
 
+        # Add article link and quote tweet
         tweets.append(
             {
                 "text": f"If you want to go even deeper, check out the full article! {article_link}",
