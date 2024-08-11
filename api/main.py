@@ -10,6 +10,7 @@ from core.main_process import run_main_process
 import logging
 from celery.result import AsyncResult
 import psycopg2
+from urllib.parse import urlparse, parse_qs
 
 
 class VercelHandler(logging.Handler):
@@ -288,7 +289,23 @@ async def test_db_connection():
         db_url = os.getenv("POSTGRES_URL")
         logger.debug(f"Database URL is set: {bool(db_url)}")
 
-        conn = psycopg2.connect(db_url)
+        # Parse the URL
+        parsed_url = urlparse(db_url)
+
+        # Remove Supabase-specific query parameters
+        query_params = parse_qs(parsed_url.query)
+        cleaned_params = {
+            k: v[0] for k, v in query_params.items() if not k.startswith("supa")
+        }
+
+        # Reconstruct the cleaned URL
+        cleaned_url = f"{parsed_url.scheme}://{parsed_url.netloc}{parsed_url.path}"
+        if cleaned_params:
+            cleaned_url += "?" + "&".join(f"{k}={v}" for k, v in cleaned_params.items())
+
+        logger.debug(f"Cleaned Database URL: {cleaned_url}")
+
+        conn = psycopg2.connect(cleaned_url)
         logger.debug("Database connection successful")
         conn.close()
 
@@ -297,4 +314,30 @@ async def test_db_connection():
         logger.exception(f"Error connecting to database: {str(e)}")
         raise HTTPException(
             status_code=500, detail=f"Database connection failed: {str(e)}"
+        )
+
+
+@app.get("/test-supabase-connection")
+async def test_supabase_connection():
+    logger.debug("Test-supabase-connection endpoint called")
+    try:
+        # Attempt to fetch a single row from the user_profiles table
+        response = supabase_client.table("user_profiles").select("*").limit(1).execute()
+        logger.debug(f"Supabase query response: {response}")
+
+        if response.data:
+            return {
+                "status": "success",
+                "message": "Supabase connection successful",
+                "data": response.data,
+            }
+        else:
+            return {
+                "status": "success",
+                "message": "Supabase connection successful, but no data returned",
+            }
+    except Exception as e:
+        logger.exception(f"Error connecting to Supabase: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Supabase connection failed: {str(e)}"
         )
