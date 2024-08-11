@@ -9,6 +9,7 @@ import os
 from core.models.user import User
 from core.services.user_service import UserService
 import logging
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -56,7 +57,12 @@ class UserProfile(BaseModel):
 async def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
     try:
         user_response = supabase.auth.get_user(credentials.credentials)
-        return user_response.user  # This returns the actual User object
+        if hasattr(user_response, "user"):
+            return user_response.user
+        elif isinstance(user_response, dict) and "user" in user_response:
+            return user_response["user"]
+        else:
+            return user_response  # Return the whole response if structure is unknown
     except Exception as e:
         logger.exception(f"Error verifying token: {str(e)}")
         raise HTTPException(status_code=401, detail="Invalid or expired token")
@@ -76,14 +82,12 @@ async def root():
 
 @app.post("/generate_content", response_model=ContentGenerationResponse)
 async def generate_content(
-    request: ContentGenerationRequest, user: SupabaseUser = Depends(verify_token)
+    request: ContentGenerationRequest, user: Any = Depends(verify_token)
 ):
     logger.info(f"Received request: {request}")
     logger.info(f"User: {user}")
     try:
-        user_profile = await get_user_profile(
-            user.id
-        )  # Use .id to access the user's ID
+        user_profile = user.id if hasattr(user, "id") else str(user)
         logger.info(f"User profile: {user_profile}")
 
         success, message, generated_content = await run_main_process(
