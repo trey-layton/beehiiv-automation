@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from pydantic import BaseModel, HttpUrl
+from pydantic import BaseModel, HttpUrl, ConfigDict
 from typing import Dict, Union, List, Optional
 from core.main_process import run_main_process
 from supabase import create_client, Client
@@ -37,6 +37,8 @@ class ContentGenerationResponse(BaseModel):
 
 
 class UserProfile(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: str
     beehiiv_api_key: Optional[str]
     publication_id: Optional[str]
