@@ -32,6 +32,11 @@ class ContentGenerationResponse(BaseModel):
     content: Dict[str, Union[str, List[ContentItem]]]
 
 
+@app.get("/")
+async def root():
+    return {"message": "PostOnce API is running"}
+
+
 @app.post("/generate_content", response_model=ContentGenerationResponse)
 async def generate_content(
     request: ContentGenerationRequest,
