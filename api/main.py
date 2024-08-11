@@ -46,23 +46,20 @@ class ContentGenerationResponse(BaseModel):
 
 
 class UserProfile(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
-
     id: str
     beehiiv_api_key: Optional[str] = None
     publication_id: Optional[str] = None
     subscribe_url: Optional[str] = None
+    # Add any other fields that exist in your user_profiles table
+
+    class Config:
+        from_attributes = True
 
 
 async def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
     try:
-        user_response = supabase.auth.get_user(credentials.credentials)
-        if hasattr(user_response, "user"):
-            return user_response.user
-        elif isinstance(user_response, dict) and "user" in user_response:
-            return user_response["user"]
-        else:
-            return user_response  # Return the whole response if structure is unknown
+        user = supabase.auth.get_user(credentials.credentials)
+        return user
     except Exception as e:
         logger.exception(f"Error verifying token: {str(e)}")
         raise HTTPException(status_code=401, detail="Invalid or expired token")
@@ -82,12 +79,12 @@ async def root():
 
 @app.post("/generate_content", response_model=ContentGenerationResponse)
 async def generate_content(
-    request: ContentGenerationRequest, user: Any = Depends(verify_token)
+    request: ContentGenerationRequest, user: dict = Depends(verify_token)
 ):
     logger.info(f"Received request: {request}")
-    logger.info(f"User: {user}")
     try:
-        user_profile = user.id if hasattr(user, "id") else str(user)
+        user_id = user.id
+        user_profile = await get_user_profile(user_id)
         logger.info(f"User profile: {user_profile}")
 
         success, message, generated_content = await run_main_process(
