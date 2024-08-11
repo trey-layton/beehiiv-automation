@@ -169,11 +169,18 @@ Benham consulted clients using the same algorithms, statistics & data research t
 
     try:
         response_content = await call_language_model(system_message, user_message)
+        logger.info(f"Raw response from language model: {response_content}")
+
         tweets = []
         if isinstance(response_content, dict):
+            logger.info("Response is a dictionary")
             for key, tweet in response_content.items():
                 if key.rstrip(".").isdigit():
-                    tweets.append({"text": clean_tweet_text(tweet), "type": "content"})
+                    cleaned_tweet = clean_tweet_text(tweet)
+                    tweets.append({"text": cleaned_tweet, "type": "content"})
+                    logger.info(f"Added tweet: {cleaned_tweet}")
+        else:
+            logger.warning(f"Unexpected response type: {type(response_content)}")
 
         tweets.append(
             {
@@ -189,6 +196,7 @@ Benham consulted clients using the same algorithms, statistics & data research t
         )
 
         logger.info(f"Generated {len(tweets)} tweets for the thread")
+        logger.info(f"Final tweets: {tweets}")
         return tweets
     except Exception as e:
         logger.exception(f"Error in generate_thread_tweet: {str(e)}")
