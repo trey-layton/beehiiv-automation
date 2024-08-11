@@ -13,23 +13,23 @@ logger = logging.getLogger(__name__)
 
 
 async def run_main_process(
-    user_config: Dict[str, Any],
+    user_profile: Dict[str, Any],
     edition_url: str,
-    precta_tweet: bool = False,
-    postcta_tweet: bool = False,
-    thread_tweet: bool = False,
-    long_form_tweet: bool = False,
-    linkedin: bool = False,
+    generate_precta_tweet: bool = False,
+    generate_postcta_tweet: bool = False,
+    generate_thread_tweet: bool = False,
+    generate_long_form_tweet: bool = False,
+    generate_linkedin: bool = False,
 ) -> Tuple[bool, str, Dict[str, Any]]:
-    logger.info(f"run_main_process started for user {user_config['id']}")
+    logger.info(f"run_main_process started for user {user_profile['id']}")
     try:
-        if not user_config:
+        if not user_profile:
             return False, "User profile not found. Please update your profile.", {}
 
-        if not user_config.get("beehiiv_api_key") or not user_config.get(
+        if not user_profile.get("beehiiv_api_key") or not user_profile.get(
             "publication_id"
         ):
-            logger.warning(f"Beehiiv credentials missing for user {user_config['id']}")
+            logger.warning(f"Beehiiv credentials missing for user {user_profile['id']}")
             return (
                 False,
                 "Beehiiv credentials are missing. Please connect your Beehiiv account.",
@@ -37,7 +37,7 @@ async def run_main_process(
             )
 
         logger.info(f"Fetching Beehiiv content for URL: {edition_url}")
-        content_data = await fetch_beehiiv_content(user_config, edition_url)
+        content_data = await fetch_beehiiv_content(user_profile, edition_url)
         original_content = content_data.get("free_content")
 
         if not original_content:
@@ -47,29 +47,29 @@ async def run_main_process(
         logger.info("Content fetched successfully, generating requested content types")
         generated_content = {}
 
-        if precta_tweet:
+        if generate_precta_tweet:
             generated_content["precta_tweet"] = await generate_precta_tweet(
-                original_content, user_config
+                original_content, user_profile
             )
 
-        if postcta_tweet:
+        if generate_postcta_tweet:
             generated_content["postcta_tweet"] = await generate_postcta_tweet(
-                original_content, user_config
+                original_content, user_profile
             )
 
-        if thread_tweet:
+        if generate_thread_tweet:
             generated_content["thread_tweet"] = await generate_thread_tweet(
-                original_content, content_data.get("web_url"), user_config
+                original_content, content_data.get("web_url"), user_profile
             )
 
-        if long_form_tweet:
+        if generate_long_form_tweet:
             generated_content["long_form_tweet"] = await generate_long_form_tweet(
-                original_content, user_config
+                original_content, user_profile
             )
 
-        if linkedin:
+        if generate_linkedin:
             generated_content["linkedin"] = await generate_linkedin_post(
-                original_content, user_config
+                original_content, user_profile
             )
 
         logger.info("Content generation completed successfully")
