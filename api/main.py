@@ -4,17 +4,20 @@ from pydantic import BaseModel, HttpUrl, ConfigDict
 from typing import Dict, Union, List, Optional
 from core.main_process import run_main_process
 from supabase import create_client, Client
-from supabase.client import User as SupabaseUser
 import os
 from core.models.user import User
 from core.services.user_service import UserService
 import logging
 from typing import Any, Optional
+import supabase
 
 logger = logging.getLogger(__name__)
 
 app = FastAPI()
 security = HTTPBearer()
+
+print("Starting application...")
+print(f"Supabase version: {supabase.__version__}")
 
 # Initialize Supabase client
 supabase: Client = create_client(
@@ -58,8 +61,8 @@ class UserProfile(BaseModel):
 
 async def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
     try:
-        user = supabase.auth.get_user(credentials.credentials)
-        return user
+        response = supabase.auth.get_user(credentials.credentials)
+        return response.user  # This should return a dictionary with user data
     except Exception as e:
         logger.exception(f"Error verifying token: {str(e)}")
         raise HTTPException(status_code=401, detail="Invalid or expired token")
