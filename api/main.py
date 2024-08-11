@@ -55,8 +55,9 @@ class UserProfile(BaseModel):
 async def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
     try:
         user = supabase.auth.get_user(credentials.credentials)
-        return user
+        return user.user  # This returns the actual user data
     except Exception as e:
+        logger.exception(f"Error verifying token: {str(e)}")
         raise HTTPException(status_code=401, detail="Invalid or expired token")
 
 
@@ -74,12 +75,12 @@ async def root():
 
 @app.post("/generate_content", response_model=ContentGenerationResponse)
 async def generate_content(
-    request: ContentGenerationRequest, user: dict = Depends(verify_token)
+    request: ContentGenerationRequest, user: Dict = Depends(verify_token)
 ):
     logger.info(f"Received request: {request}")
     logger.info(f"User: {user}")
     try:
-        user_profile = await get_user_profile(user.id)
+        user_profile = await get_user_profile(user["id"])  # Use 'id' key instead of .id
         logger.info(f"User profile: {user_profile}")
 
         success, message, generated_content = await run_main_process(
