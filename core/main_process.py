@@ -1,13 +1,8 @@
 import logging
 from typing import Any, Dict, Tuple
 from core.content.content_fetcher import fetch_beehiiv_content
-from core.social_media.twitter.generate_tweets import (
-    generate_precta_tweet,
-    generate_postcta_tweet,
-    generate_thread_tweet,
-    generate_long_form_tweet,
-)
 from core.social_media.linkedin.generate_linkedin_post import generate_linkedin_post
+import json
 
 logger = logging.getLogger(__name__)
 
@@ -22,6 +17,7 @@ async def run_main_process(
     generate_linkedin: bool = False,
 ) -> Tuple[bool, str, Dict[str, Any]]:
     logger.info(f"run_main_process started for user {user_profile['id']}")
+    logger.info(f"User profile: {json.dumps(user_profile, indent=2)}")  # Add this line
     try:
         if not user_profile:
             return False, "User profile not found. Please update your profile.", {}

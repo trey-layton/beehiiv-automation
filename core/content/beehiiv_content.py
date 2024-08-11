@@ -59,7 +59,7 @@ def get_beehiiv_post_content(
     user_config: dict, post_id: str
 ) -> Optional[Dict[str, Any]]:
     try:
-        beehiiv_api_key = user_config.get("beehiiv_api_key")
+        beehiiv_api_key = user_config.get("beehiiv_api_key", "").strip()
         publication_id = user_config.get("publication_id", "").strip()
 
         if not beehiiv_api_key:
@@ -73,14 +73,15 @@ def get_beehiiv_post_content(
             "Authorization": f"Bearer {beehiiv_api_key}",
         }
 
-        params = urlencode({"expand[]": "free_web_content"})
-        url = f"/v2/publications/{publication_id}/posts/{post_id}?{params}".replace(
-            "\n", ""
-        )
-
-        logger.info(f"Sending request to Beehiiv API: URL={url}, Headers={headers}")
-        logger.info(f"Constructed URL: {url}")
+        # Log the headers for debugging
         logger.info(f"Headers: {headers}")
+
+        params = urlencode({"expand[]": "free_web_content"})
+        url = f"/v2/publications/{publication_id}/posts/{post_id}?{params}"
+
+        # Log the URL for debugging
+        logger.info(f"Constructed URL: {url}")
+
         conn.request("GET", url, headers=headers)
         res = conn.getresponse()
         data = res.read()

@@ -18,7 +18,11 @@ def load_user_config(account_id: str) -> dict:
             .execute()
         )
         if response.data:
-            return response.data[0]
+            config = response.data[0]
+            # Strip any whitespace or newline characters from the API key
+            if "beehiiv_api_key" in config:
+                config["beehiiv_api_key"] = config["beehiiv_api_key"].strip()
+            return config
         else:
             logger.warning(f"No user profile found for user {account_id}")
             return {}
