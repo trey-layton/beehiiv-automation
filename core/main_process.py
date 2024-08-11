@@ -17,7 +17,7 @@ async def run_main_process(
     generate_linkedin: bool = False,
 ) -> Tuple[bool, str, Dict[str, Any]]:
     logger.info(f"run_main_process started for user {user_profile['id']}")
-    logger.info(f"User profile: {json.dumps(user_profile, indent=2)}")  # Add this line
+    logger.info(f"User profile: {json.dumps(user_profile, indent=2)}")
     try:
         if not user_profile:
             return False, "User profile not found. Please update your profile.", {}
@@ -44,31 +44,45 @@ async def run_main_process(
         generated_content = {}
 
         if generate_precta_tweet:
+            from core.social_media.twitter.generate_tweets import generate_precta_tweet
+
             generated_content["precta_tweet"] = await generate_precta_tweet(
                 original_content, user_profile
             )
 
         if generate_postcta_tweet:
+            from core.social_media.twitter.generate_tweets import generate_postcta_tweet
+
             generated_content["postcta_tweet"] = await generate_postcta_tweet(
                 original_content, user_profile
             )
 
         if generate_thread_tweet:
+            from core.social_media.twitter.generate_tweets import generate_thread_tweet
+
             generated_content["thread_tweet"] = await generate_thread_tweet(
                 original_content, content_data.get("web_url"), user_profile
             )
 
         if generate_long_form_tweet:
+            from core.social_media.twitter.generate_tweets import (
+                generate_long_form_tweet,
+            )
+
             generated_content["long_form_tweet"] = await generate_long_form_tweet(
                 original_content, user_profile
             )
 
         if generate_linkedin:
+            from core.social_media.linkedin.generate_linkedin_post import (
+                generate_linkedin_post,
+            )
+
             generated_content["linkedin"] = await generate_linkedin_post(
                 original_content, user_profile
             )
 
-        logger.info(f"Content generation completed successfully: {generated_content}")
+        logger.info("Content generation completed successfully")
         return True, "Content generated successfully", generated_content
 
     except Exception as e:
