@@ -60,7 +60,7 @@ def get_beehiiv_post_content(
 ) -> Optional[Dict[str, Any]]:
     try:
         beehiiv_api_key = user_config.get("beehiiv_api_key")
-        publication_id = user_config.get("publication_id")
+        publication_id = user_config.get("publication_id", "").strip()
 
         if not beehiiv_api_key:
             raise ValueError("Missing configuration key: 'beehiiv_api_key'")
@@ -74,10 +74,13 @@ def get_beehiiv_post_content(
         }
 
         params = urlencode({"expand[]": "free_web_content"})
-        url = f"/v2/publications/{publication_id}/posts/{post_id}?{params}"
+        url = f"/v2/publications/{publication_id}/posts/{post_id}?{params}".replace(
+            "\n", ""
+        )
 
         logger.info(f"Sending request to Beehiiv API: URL={url}, Headers={headers}")
-
+        logger.info(f"Constructed URL: {url}")
+        logger.info(f"Headers: {headers}")
         conn.request("GET", url, headers=headers)
         res = conn.getresponse()
         data = res.read()
