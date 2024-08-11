@@ -1,4 +1,5 @@
 import os
+import sys
 import time
 from fastapi import FastAPI, Depends, HTTPException, status, Request
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
@@ -8,8 +9,20 @@ from dotenv import load_dotenv
 from core.main_process import run_main_process
 import logging
 from celery.result import AsyncResult
+import psycopg2
 
-logging.basicConfig(level=logging.DEBUG)
+
+class VercelHandler(logging.Handler):
+    def emit(self, record):
+        msg = self.format(record)
+        print(msg, file=sys.stderr)
+
+
+logging.basicConfig(
+    level=logging.DEBUG,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    handlers=[VercelHandler()],
+)
 logger = logging.getLogger(__name__)
 
 load_dotenv()
@@ -18,10 +31,12 @@ app = FastAPI()
 
 # Create a single Supabase client instance using environment variables
 try:
-    supabase_url = os.getenv("SUPABASE_URL")
-    supabase_key = os.getenv("SUPABASE_KEY")
+    supabase_url = os.getenv("NEXT_PUBLIC_SUPABASE_URL") or os.getenv("SUPABASE_URL")
+    supabase_key = os.getenv("NEXT_PUBLIC_SUPABASE_ANON_KEY") or os.getenv(
+        "SUPABASE_ANON_KEY"
+    )
     if not supabase_url or not supabase_key:
-        raise ValueError("SUPABASE_URL or SUPABASE_KEY environment variable is missing")
+        raise ValueError("Supabase URL or Anon Key environment variable is missing")
 
     supabase_client = create_client(supabase_url, supabase_key)
     logger.debug("Supabase client created successfully")
@@ -44,21 +59,17 @@ async def root():
 async def test_supabase():
     logger.debug("Test-supabase endpoint called")
     try:
-        supabase_url = os.getenv("SUPABASE_URL")
-        supabase_key = os.getenv("SUPABASE_KEY")
-        if not supabase_url or not supabase_key:
-            raise ValueError("SUPABASE_URL or SUPABASE_KEY is missing")
+        logger.debug(f"Supabase URL: {supabase_url}")
+        logger.debug(f"Supabase Key is set: {bool(supabase_key)}")
 
-        client = create_client(supabase_url, supabase_key)
-        logger.debug("Supabase client created")
-
-        response = client.table("user_profiles").select("*").limit(1).execute()
-        logger.debug(f"Supabase response: {response}")
+        logger.debug("Attempting to query user_profiles table")
+        response = supabase_client.table("user_profiles").select("*").limit(1).execute()
+        logger.debug(f"Supabase query response: {response}")
 
         return {"status": "success", "data": response.data}
     except Exception as e:
-        logger.exception(f"Supabase query failed: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"Supabase query failed: {str(e)}")
+        logger.exception(f"Error in test_supabase: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Supabase test failed: {str(e)}")
 
 
 def get_supabase_client() -> Client:
@@ -268,3 +279,22 @@ if __name__ == "__main__":
     import uvicorn
 
     uvicorn.run(app, host="0.0.0.0", port=8000)
+
+
+@app.get("/test-db-connection")
+async def test_db_connection():
+    logger.debug("Test-db-connection endpoint called")
+    try:
+        db_url = os.getenv("POSTGRES_URL")
+        logger.debug(f"Database URL is set: {bool(db_url)}")
+
+        conn = psycopg2.connect(db_url)
+        logger.debug("Database connection successful")
+        conn.close()
+
+        return {"status": "success", "message": "Database connection successful"}
+    except Exception as e:
+        logger.exception(f"Error connecting to database: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Database connection failed: {str(e)}"
+        )
