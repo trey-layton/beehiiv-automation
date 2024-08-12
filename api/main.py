@@ -3,7 +3,7 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from pydantic import BaseModel, HttpUrl
 from typing import Dict, Union, List
 from core.main_process import run_main_process
-from supabase import create_client, Client
+from supabase import create_client, Client, ClientOptions
 import os
 from core.services.account_profile_service import AccountProfileService
 import logging
@@ -21,7 +21,8 @@ def authenticate(credentials: HTTPAuthorizationCredentials = Depends(HTTPBearer(
         if credentials.scheme != "Bearer":
             raise ValueError("Invalid authorization scheme")
 
-        supabase = create_client(os.getenv("SUPABASE_URL"), credentials.credentials)
+        supabase = create_client(os.getenv("SUPABASE_URL"), os.getenv("SUPABASE_KEY"),
+                                 options=ClientOptions(headers={"Authorization": f"Bearer {credentials.credentials}"}))
 
         user_response = supabase.auth.get_user(credentials.credentials)
 
@@ -66,7 +67,6 @@ async def root():
 
 @app.post("/generate_content", response_model=ContentGenerationResponse)
 async def generate_content(request: ContentGenerationRequest, client_user: tuple[Client, dict] = Depends(authenticate)):
-
     try:
         account_profile_service = AccountProfileService(client_user[0])
         account_profile = await account_profile_service.get_account_profile(request.account_id)
