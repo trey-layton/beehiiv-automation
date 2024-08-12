@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 
 async def run_main_process(
     account_profile: AccountProfile,
-    edition_url: str,
+    post_id: str,
     generate_precta_tweet: bool = False,
     generate_postcta_tweet: bool = False,
     generate_thread_tweet: bool = False,
@@ -18,8 +18,8 @@ async def run_main_process(
 ) -> Tuple[bool, str, Dict[str, Any]]:
     logger.info(f"run_main_process started for user {account_profile.account_id}")
     try:
-        logger.info(f"Fetching Beehiiv content for URL: {edition_url}")
-        content_data = await fetch_beehiiv_content(account_profile, edition_url)
+        logger.info(f"Fetching Beehiiv content for Post: {post_id}")
+        content_data = await fetch_beehiiv_content(account_profile, post_id)
         original_content = content_data.get("free_content")
 
         if not original_content:

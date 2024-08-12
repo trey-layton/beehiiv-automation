@@ -33,29 +33,6 @@ def clean_html_content(html_content: str) -> str:
     return text
 
 
-def get_beehiiv_post_id(beehiiv_url: str) -> Optional[str]:
-    """
-    Extracts the post ID from a given Beehiiv URL.
-
-    Args:
-        beehiiv_url (str): The URL of the Beehiiv post.
-
-    Returns:
-        Optional[str]: The extracted post ID (with 'post_' prefix) or None if extraction fails.
-    """
-    try:
-        post_id_match = re.search(
-            r"https://app\.beehiiv\.com/posts/([a-z0-9-]+)", beehiiv_url
-        )
-        if post_id_match:
-            post_id = post_id_match.group(1)
-            return f"post_{post_id}" if not post_id.startswith("post_") else post_id
-        return None
-    except Exception as e:
-        logger.exception("Error while extracting Beehiiv post ID:")
-        raise
-
-
 def get_beehiiv_post_content(
     account_profile: AccountProfile, post_id: str
 ) -> Optional[Dict[str, Any]]:

@@ -1,11 +1,11 @@
 import logging
-from core.content.beehiiv_content import get_beehiiv_post_id, get_beehiiv_post_content
+from core.content.beehiiv_content import get_beehiiv_post_content
 from core.models.account_profile import AccountProfile
 
 logger = logging.getLogger(__name__)
 
 
-async def fetch_beehiiv_content(account_profile: AccountProfile, edition_url: str) -> dict:
+async def fetch_beehiiv_content(account_profile: AccountProfile, post_id: str) -> dict:
     try:
         logger.info(
             f"Fetching Beehiiv content for user {account_profile.account_id}"
@@ -13,11 +13,9 @@ async def fetch_beehiiv_content(account_profile: AccountProfile, edition_url: st
 
         if not account_profile.beehiiv_api_key:
             raise ValueError("Missing Beehiiv API key")
-        if not account_profile.publication_id:
+        elif not account_profile.publication_id:
             raise ValueError("Missing Beehiiv publication ID")
-
-        post_id = get_beehiiv_post_id(edition_url)
-        if not post_id:
+        elif not post_id:
             raise ValueError("Invalid Beehiiv post URL")
 
         post_content = get_beehiiv_post_content(account_profile, post_id)

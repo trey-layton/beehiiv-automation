@@ -41,7 +41,7 @@ def authenticate(credentials: HTTPAuthorizationCredentials = Depends(HTTPBearer(
 
 class ContentGenerationRequest(BaseModel):
     account_id: str
-    edition_url: HttpUrl
+    post_id: str
     generate_precta_tweet: bool = False
     generate_postcta_tweet: bool = False
     generate_thread_tweet: bool = False
@@ -73,7 +73,7 @@ async def generate_content(request: ContentGenerationRequest, client_user: tuple
 
         success, message, generated_content = await run_main_process(
             account_profile,
-            str(request.edition_url),
+            request.post_id,
             request.generate_precta_tweet,
             request.generate_postcta_tweet,
             request.generate_thread_tweet,
