@@ -5,7 +5,8 @@ import logging
 from typing import Optional, Dict, Any
 from urllib.parse import urlencode
 from bs4 import BeautifulSoup
-from core.models.user import User
+
+from core.models.account_profile import AccountProfile
 
 logger = logging.getLogger(__name__)
 
@@ -56,28 +57,25 @@ def get_beehiiv_post_id(beehiiv_url: str) -> Optional[str]:
 
 
 def get_beehiiv_post_content(
-    user_config: dict, post_id: str
+    account_profile: AccountProfile, post_id: str
 ) -> Optional[Dict[str, Any]]:
     try:
-        beehiiv_api_key = user_config.get("beehiiv_api_key", "").strip()
-        publication_id = user_config.get("publication_id", "").strip()
-
-        if not beehiiv_api_key:
+        if not account_profile.beehiiv_api_key:
             raise ValueError("Missing configuration key: 'beehiiv_api_key'")
-        if not publication_id:
+        if not account_profile.publication_id:
             raise ValueError("Missing configuration key: 'publication_id'")
 
         conn = http.client.HTTPSConnection("api.beehiiv.com")
         headers = {
             "Accept": "application/json",
-            "Authorization": f"Bearer {beehiiv_api_key}",
+            "Authorization": f"Bearer {account_profile.beehiiv_api_key}",
         }
 
         # Log the headers for debugging
         logger.info(f"Headers: {headers}")
 
         params = urlencode({"expand[]": "free_web_content"})
-        url = f"/v2/publications/{publication_id}/posts/{post_id}?{params}"
+        url = f"/v2/publications/{account_profile.publication_id}/posts/{post_id}?{params}"
 
         # Log the URL for debugging
         logger.info(f"Constructed URL: {url}")
