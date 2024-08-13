@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from pydantic import BaseModel, HttpUrl
-from typing import Dict, Union, List
+from pydantic import BaseModel
+from typing import Literal
 from core.main_process import run_main_process
 from supabase import create_client, Client, ClientOptions
 import os
@@ -42,30 +42,20 @@ def authenticate(credentials: HTTPAuthorizationCredentials = Depends(HTTPBearer(
 class ContentGenerationRequest(BaseModel):
     account_id: str
     post_id: str
-    generate_precta_tweet: bool = False
-    generate_postcta_tweet: bool = False
-    generate_thread_tweet: bool = False
-    generate_long_form_tweet: bool = False
-    generate_linkedin: bool = False
-
-
-class ContentItem(BaseModel):
-    type: str
-    text: str
-
-
-class ContentGenerationResponse(BaseModel):
-    status: str
-    message: str
-    content: Dict[str, Union[str, List[ContentItem]]]
-
+    content_type: Literal[
+        'precta_tweet',
+        'postcta_tweet',
+        'thread_tweet',
+        'long_form_tweet',
+        'linkedin'
+    ]
 
 @app.get("/")
 async def root():
     return {"message": "PostOnce API is running"}
 
 
-@app.post("/generate_content", response_model=ContentGenerationResponse)
+@app.post("/generate_content")
 async def generate_content(request: ContentGenerationRequest, client_user: tuple[Client, dict] = Depends(authenticate)):
     try:
         account_profile_service = AccountProfileService(client_user[0])
@@ -74,23 +64,24 @@ async def generate_content(request: ContentGenerationRequest, client_user: tuple
         success, message, generated_content = await run_main_process(
             account_profile,
             request.post_id,
-            request.generate_precta_tweet,
-            request.generate_postcta_tweet,
-            request.generate_thread_tweet,
-            request.generate_long_form_tweet,
-            request.generate_linkedin,
+            request.content_type
         )
         logger.info(
             f"run_main_process result: success={success}, message={message}, content={generated_content}"
         )
 
         if success:
-            return ContentGenerationResponse(
-                status="success", message=message, content=generated_content
-            )
+            return {
+                "status": "success",
+                "message": message,
+                "provider": generated_content["provider"],
+                "type": generated_content["type"],
+                "content": generated_content["content"]
+            }
         else:
             logger.error(f"Error in run_main_process: {message}")
             raise HTTPException(status_code=500, detail=message)
+
     except Exception as e:
         logger.exception(f"Unexpected error in generate_content: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
