@@ -16,13 +16,20 @@ app = FastAPI()
 security = HTTPBearer()
 
 
-def authenticate(credentials: HTTPAuthorizationCredentials = Depends(HTTPBearer())) -> tuple[Client, dict]:
+def authenticate(
+    credentials: HTTPAuthorizationCredentials = Depends(HTTPBearer()),
+) -> tuple[Client, dict]:
     try:
         if credentials.scheme != "Bearer":
             raise ValueError("Invalid authorization scheme")
 
-        supabase = create_client(os.getenv("SUPABASE_URL"), os.getenv("SUPABASE_KEY"),
-                                 options=ClientOptions(headers={"Authorization": f"Bearer {credentials.credentials}"}))
+        supabase = create_client(
+            os.getenv("SUPABASE_URL"),
+            os.getenv("SUPABASE_KEY"),
+            options=ClientOptions(
+                headers={"Authorization": f"Bearer {credentials.credentials}"}
+            ),
+        )
 
         user_response = supabase.auth.get_user(credentials.credentials)
 
@@ -60,7 +67,6 @@ async def generate_content(request: ContentGenerationRequest, client_user: tuple
     try:
         account_profile_service = AccountProfileService(client_user[0])
         account_profile = await account_profile_service.get_account_profile(request.account_id)
-
         success, message, generated_content = await run_main_process(
             account_profile,
             request.post_id,
