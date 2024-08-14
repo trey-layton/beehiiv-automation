@@ -1,15 +1,14 @@
 import logging
 from typing import Any, Dict, Tuple
-from core.content.content_fetcher import fetch_beehiiv_content
 import json
+from core.content.content_fetcher import fetch_beehiiv_content
 from core.models.account_profile import AccountProfile
 
 logger = logging.getLogger(__name__)
 
 
 async def run_main_process(
-feature/custom-linkedin-prompts
-    account_profile: AccountProfile, post_id: str, content_type
+    account_profile: AccountProfile, post_id: str, content_type: str
 ) -> Tuple[bool, str, Dict[str, Any]]:
     logger.info(f"run_main_process started for user {account_profile.account_id}")
     try:
@@ -26,7 +25,8 @@ feature/custom-linkedin-prompts
 
         if content_type == "precta_tweet":
             from core.social_media.twitter.generate_tweets import generate_precta_tweet
-          precta_tweet = await generate_precta_tweet(
+
+            precta_tweet = await generate_precta_tweet(
                 original_content, account_profile
             )
             generated_content = {
@@ -37,6 +37,7 @@ feature/custom-linkedin-prompts
 
         elif content_type == "postcta_tweet":
             from core.social_media.twitter.generate_tweets import generate_postcta_tweet
+
             postcta_tweet = await generate_postcta_tweet(
                 original_content, account_profile
             )
@@ -48,6 +49,7 @@ feature/custom-linkedin-prompts
 
         elif content_type == "thread_tweet":
             from core.social_media.twitter.generate_tweets import generate_thread_tweet
+
             thread_tweet = await generate_thread_tweet(
                 original_content, content_data.get("web_url"), account_profile
             )
@@ -75,6 +77,7 @@ feature/custom-linkedin-prompts
             from core.social_media.linkedin.generate_linkedin_post import (
                 generate_linkedin_post,
             )
+
             linkedin = await generate_linkedin_post(original_content, account_profile)
             generated_content = {
                 "provider": "linkedin",
