@@ -16,13 +16,20 @@ app = FastAPI()
 security = HTTPBearer()
 
 
-def authenticate(credentials: HTTPAuthorizationCredentials = Depends(HTTPBearer())) -> tuple[Client, dict]:
+def authenticate(
+    credentials: HTTPAuthorizationCredentials = Depends(HTTPBearer()),
+) -> tuple[Client, dict]:
     try:
         if credentials.scheme != "Bearer":
             raise ValueError("Invalid authorization scheme")
 
-        supabase = create_client(os.getenv("SUPABASE_URL"), os.getenv("SUPABASE_KEY"),
-                                 options=ClientOptions(headers={"Authorization": f"Bearer {credentials.credentials}"}))
+        supabase = create_client(
+            os.getenv("SUPABASE_URL"),
+            os.getenv("SUPABASE_KEY"),
+            options=ClientOptions(
+                headers={"Authorization": f"Bearer {credentials.credentials}"}
+            ),
+        )
 
         user_response = supabase.auth.get_user(credentials.credentials)
 
@@ -42,11 +49,7 @@ def authenticate(credentials: HTTPAuthorizationCredentials = Depends(HTTPBearer(
 class ContentGenerationRequest(BaseModel):
     account_id: str
     post_id: str
-    generate_precta_tweet: bool = False
-    generate_postcta_tweet: bool = False
-    generate_thread_tweet: bool = False
-    generate_long_form_tweet: bool = False
-    generate_linkedin: bool = False
+    content_type: str
 
 
 class ContentItem(BaseModel):
@@ -66,19 +69,18 @@ async def root():
 
 
 @app.post("/generate_content", response_model=ContentGenerationResponse)
-async def generate_content(request: ContentGenerationRequest, client_user: tuple[Client, dict] = Depends(authenticate)):
+async def generate_content(
+    request: ContentGenerationRequest,
+    client_user: tuple[Client, dict] = Depends(authenticate),
+):
     try:
         account_profile_service = AccountProfileService(client_user[0])
-        account_profile = await account_profile_service.get_account_profile(request.account_id)
+        account_profile = await account_profile_service.get_account_profile(
+            request.account_id
+        )
 
         success, message, generated_content = await run_main_process(
-            account_profile,
-            request.post_id,
-            request.generate_precta_tweet,
-            request.generate_postcta_tweet,
-            request.generate_thread_tweet,
-            request.generate_long_form_tweet,
-            request.generate_linkedin,
+            account_profile, request.post_id, request.content_type
         )
         logger.info(
             f"run_main_process result: success={success}, message={message}, content={generated_content}"

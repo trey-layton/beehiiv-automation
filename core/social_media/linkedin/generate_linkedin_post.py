@@ -1,16 +1,20 @@
 import logging
 import re
 from core.content.language_model_client import call_language_model
+from core.models.account_profile import AccountProfile
 
 logger = logging.getLogger(__name__)
 
 
-async def generate_linkedin_post(text: str, user_config: dict):
+async def generate_linkedin_post(text: str, account_profile: AccountProfile):
     logger.info("Generating LinkedIn post")
     logger.info(f"Content passed to language model (first 500 chars): {text[:500]}")
     try:
-        # Hardcoded example - replace this with your actual example
-        example_post = """
+        # Use custom prompt if available, otherwise use the default example
+        example_post = (
+            account_profile.custom_prompt
+            if account_profile.custom_prompt
+            else """
 How to build a holding company (without millions $$$): 
  
 Everyone thinks you need millions of dollars to build a holding company. 
@@ -109,13 +113,14 @@ Buy your dream & build back Main Street..
 
 Be the first to get more details about this (BIG) new project here → https://lnkd.in/eHwd3tXr
         """
+        )
         system_message = {
             "role": "system",
-            "content": "You are a skilled content creator specializing in LinkedIn posts. Generate a post of approximately 1000 characters that summarizes the main points of the given content. The post should be informative, engaging, and have a 'thought leadership' tone. Each sentence or key point should be on a new line, separated by <br>. Do not use emojis. The post should be ready to publish on LinkedIn. Do not include any additional text, formatting, or placeholders beyond the <br> separators.",
+            "content": "You are a skilled content creator specializing in LinkedIn posts. Generate a post of approximately 1000 characters that summarizes the main points of the given content. The post should be informative, engaging, and have a 'thought leadership' tone. Do not use emojis. If the example post provided breaks these guidelines, override them with the example post instead as this was chosen specifically for the person. Each sentence or key point should be on a new line, separated by <br>. The post should be ready to publish on LinkedIn. Do not include any additional text, formatting, or placeholders beyond the <br> separators.",
         }
         user_message = {
             "role": "user",
-            "content": f"Create a LinkedIn post summarizing this newsletter content. Use a professional style similar to this example, but adapted for LinkedIn: {example_post}\n\nHere's the newsletter content:\n{text}",
+            "content": f"Create a LinkedIn post summarizing this newsletter content. Use a professional style similar to this example, but adapted for LinkedIn: {example_post}\n\nHere's the newsletter content:\n{text}.  The first piece of content that I provided you was the example tweet. DO NOT WRITE ABOUT THE CONTENT OF IT. This example post is ONLY for structure replication, but the contents of the second piece of custom content you were provided are the actual newsletter contents, so write the post about the actual subject matter in this second piece of content.",
         }
 
         response_content = await call_language_model(system_message, user_message)

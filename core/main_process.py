@@ -8,13 +8,7 @@ logger = logging.getLogger(__name__)
 
 
 async def run_main_process(
-    account_profile: AccountProfile,
-    post_id: str,
-    generate_precta_tweet: bool = False,
-    generate_postcta_tweet: bool = False,
-    generate_thread_tweet: bool = False,
-    generate_long_form_tweet: bool = False,
-    generate_linkedin: bool = False,
+    account_profile: AccountProfile, post_id: str, content_type
 ) -> Tuple[bool, str, Dict[str, Any]]:
     logger.info(f"run_main_process started for user {account_profile.account_id}")
     try:
@@ -29,44 +23,67 @@ async def run_main_process(
         logger.info("Content fetched successfully, generating requested content types")
         generated_content = {}
 
-        if generate_precta_tweet:
+        if content_type == "precta_tweet":
             from core.social_media.twitter.generate_tweets import generate_precta_tweet
 
-            generated_content["precta_tweet"] = await generate_precta_tweet(
+            precta_tweet = await generate_precta_tweet(
                 original_content, account_profile
             )
+            generated_content = {
+                "provider": "twitter",
+                "type": "precta_tweet",
+                "content": [{"type": "post", "text": precta_tweet}],
+            }
 
-        if generate_postcta_tweet:
+        elif content_type == "postcta_tweet":
             from core.social_media.twitter.generate_tweets import generate_postcta_tweet
 
-            generated_content["postcta_tweet"] = await generate_postcta_tweet(
+            postcta_tweet = await generate_postcta_tweet(
                 original_content, account_profile
             )
+            generated_content = {
+                "provider": "twitter",
+                "type": "postcta_tweet",
+                "content": [{"type": "post", "text": postcta_tweet}],
+            }
 
-        if generate_thread_tweet:
+        elif content_type == "thread_tweet":
             from core.social_media.twitter.generate_tweets import generate_thread_tweet
 
-            generated_content["thread_tweet"] = await generate_thread_tweet(
+            thread_tweet = await generate_thread_tweet(
                 original_content, content_data.get("web_url"), account_profile
             )
+            generated_content = {
+                "provider": "twitter",
+                "type": "thread_tweet",
+                "content": thread_tweet,
+            }
 
-        if generate_long_form_tweet:
+        elif content_type == "long_form_tweet":
             from core.social_media.twitter.generate_tweets import (
                 generate_long_form_tweet,
             )
 
-            generated_content["long_form_tweet"] = await generate_long_form_tweet(
+            long_form_tweet = await generate_long_form_tweet(
                 original_content, account_profile
             )
+            generated_content = {
+                "provider": "twitter",
+                "type": "long_form_tweet",
+                "content": [{"type": "long_post", "text": long_form_tweet}],
+            }
 
-        if generate_linkedin:
+        elif content_type == "linkedin":
             from core.social_media.linkedin.generate_linkedin_post import (
                 generate_linkedin_post,
             )
 
-            generated_content["linkedin"] = await generate_linkedin_post(
-                original_content, account_profile
-            )
+            linkedin = await generate_linkedin_post(original_content, account_profile)
+            generated_content = {
+                "provider": "linkedin",
+                "type": "linkedin",
+                "content": [{"type": "post", "text": linkedin}],
+            }
 
         logger.info("Content generation completed successfully")
         return True, "Content generated successfully", generated_content
