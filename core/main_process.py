@@ -1,6 +1,7 @@
 import logging
 from typing import Any, Dict, Tuple
 from core.content.content_fetcher import fetch_beehiiv_content
+<<<<<<< Updated upstream
 from core.social_media.twitter.generate_tweets import (
     generate_precta_tweet,
     generate_postcta_tweet,
@@ -13,6 +14,10 @@ from core.content.improved_llm_flow.classifier import classify_and_summarize
 from core.content.improved_llm_flow.content_improver import improve_content
 from core.content.improved_llm_flow.cta_adder import add_cta
 
+=======
+from core.models.account_profile import AccountProfile
+from core.content.improved_llm_flow.content_editor import edit_content
+>>>>>>> Stashed changes
 
 logger = logging.getLogger(__name__)
 
@@ -46,6 +51,7 @@ async def run_main_process(
             precta_content = await generate_precta_tweet(
                 original_content, user_config, classification
             )
+<<<<<<< Updated upstream
             if precta_content:
                 improved_precta = await improve_content(precta_content, "single_tweet")
                 cta_added_precta = await add_cta(
@@ -55,12 +61,21 @@ async def run_main_process(
                     {"text": improved_precta},
                     {"text": cta_added_precta},
                 ]
+=======
+            edited_tweet = await edit_content(precta_tweet, "pre-CTA tweet")
+            generated_content = {
+                "provider": "twitter",
+                "type": "precta_tweet",
+                "content": [{"type": "post", "text": edited_tweet}],
+            }
+>>>>>>> Stashed changes
 
         if postcta_tweet:
             logger.info("Generating post-CTA tweet")
             postcta_content = await generate_postcta_tweet(
                 original_content, user_config, classification
             )
+<<<<<<< Updated upstream
             if postcta_content:
                 improved_postcta = await improve_content(
                     postcta_content, "single_tweet"
@@ -72,6 +87,14 @@ async def run_main_process(
                     {"text": improved_postcta},
                     {"text": cta_added_postcta},
                 ]
+=======
+            edited_tweet = await edit_content(postcta_tweet, "post-CTA tweet")
+            generated_content = {
+                "provider": "twitter",
+                "type": "postcta_tweet",
+                "content": [{"type": "post", "text": edited_tweet}],
+            }
+>>>>>>> Stashed changes
 
         if thread_tweet:
             logger.info("Generating thread tweet")
@@ -81,6 +104,7 @@ async def run_main_process(
                 user_config,
                 classification,
             )
+<<<<<<< Updated upstream
             if thread_content:
                 improved_thread = await improve_content(thread_content, "thread")
                 cta_added_thread = await add_cta(
@@ -89,6 +113,17 @@ async def run_main_process(
                 generated_content["thread_tweet"] = improved_thread + [
                     {"text": cta_added_thread}
                 ]
+=======
+            edited_thread = []
+            for tweet in thread_tweet:
+                edited_tweet = await edit_content(tweet["text"], "thread tweet")
+                edited_thread.append({"type": tweet["type"], "text": edited_tweet})
+            generated_content = {
+                "provider": "twitter",
+                "type": "thread_tweet",
+                "content": edited_thread,
+            }
+>>>>>>> Stashed changes
 
         if long_form_tweet:
             logger.info("Generating long-form tweet")
@@ -112,6 +147,7 @@ async def run_main_process(
             linkedin_content = await generate_linkedin_post(
                 original_content, user_config, classification
             )
+<<<<<<< Updated upstream
             if linkedin_content:
                 improved_linkedin = await improve_content(
                     linkedin_content, "linkedin_post"
@@ -122,6 +158,32 @@ async def run_main_process(
             f"Content generation completed. Generated types: {list(generated_content.keys())}"
         )
         return True, "Content generated successfully", generated_content
+=======
+            edited_tweet = await edit_content(long_form_tweet, "long-form tweet")
+            generated_content = {
+                "provider": "twitter",
+                "type": "long_form_tweet",
+                "content": [{"type": "long_post", "text": edited_tweet}],
+            }
+
+        elif content_type == "linkedin":
+            from core.social_media.linkedin.generate_linkedin_post import (
+                generate_linkedin_post,
+            )
+
+            linkedin_post = await generate_linkedin_post(
+                original_content, account_profile
+            )
+            edited_post = await edit_content(linkedin_post, "LinkedIn post")
+            generated_content = {
+                "provider": "linkedin",
+                "type": "linkedin",
+                "content": [{"type": "post", "text": edited_post}],
+            }
+
+        logger.info("Content generation and editing completed successfully")
+        return True, "Content generated and edited successfully", generated_content
+>>>>>>> Stashed changes
 
     except Exception as e:
         logger.exception(f"Error in run_main_process: {str(e)}")
