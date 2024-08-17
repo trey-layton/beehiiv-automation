@@ -59,8 +59,12 @@ async def generate_content(
     request: ContentGenerationRequest,
     client_user: tuple[Client, dict] = Depends(authenticate),
 ):
+    logger.info(f"Received request: {request}")
     try:
+        # Step 1: Authentication
+        logger.info("Authenticating user")
         supabase_client, user = client_user
+        logger.info(f"User authenticated: {user.id}")
         account_profile_service = AccountProfileService(supabase_client)
         account_profile = await account_profile_service.get_account_profile(
             request.account_id
