@@ -1,7 +1,5 @@
 from pydantic import ValidationError
-
 from core.models.account_profile import AccountProfile
-from fastapi import HTTPException
 from supabase import Client
 
 
@@ -9,11 +7,11 @@ class AccountProfileService:
     def __init__(self, supabase_client: Client):
         self.supabase = supabase_client
 
-    async def get_account_profile(self, account_profile: str):
+    async def get_account_profile(self, account_id: str):
         response = (
             self.supabase.table("account_profiles")
             .select("*")
-            .eq("account_id", account_profile)
+            .eq("account_id", account_id)
             .execute()
         )
         if response.data:

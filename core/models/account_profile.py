@@ -1,12 +1,12 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 
 class AccountProfile(BaseModel):
     account_id: str
     beehiiv_api_key: str
-    subscribe_url: str
     publication_id: str
-    custom_prompt: str = Field(default="")
+    subscribe_url: str
+    custom_prompt: str = ""
 
     class Config:
         from_attributes = True
