@@ -15,3 +15,4 @@ psycopg2-binary
 cachetools
 jwt
 tenacity
+traceback

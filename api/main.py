@@ -8,6 +8,7 @@ import os
 from core.services.account_profile_service import AccountProfileService
 import logging
 from dotenv import load_dotenv
+import traceback
 
 logger = logging.getLogger(__name__)
 load_dotenv()
@@ -61,10 +62,7 @@ async def generate_content(
 ):
     logger.info(f"Received request: {request}")
     try:
-        # Step 1: Authentication
-        logger.info("Authenticating user")
         supabase_client, user = client_user
-        logger.info(f"User authenticated: {user.id}")
         account_profile_service = AccountProfileService(supabase_client)
         account_profile = await account_profile_service.get_account_profile(
             request.account_id
@@ -87,9 +85,15 @@ async def generate_content(
                 "content": generated_content["content"],
             }
         else:
-            logger.error(f"Error in run_main_process: {message}")
             raise HTTPException(status_code=500, detail=message)
 
+    except ValueError as ve:
+        logger.error(f"ValueError in generate_content: {str(ve)}")
+        raise HTTPException(status_code=400, detail=str(ve))
+    except HTTPException as he:
+        logger.error(f"HTTPException in generate_content: {str(he)}")
+        raise
     except Exception as e:
-        logger.exception(f"Unexpected error in generate_content: {str(e)}")
-        raise HTTPException(status_code=500, detail=str(e))
+        logger.error(f"Unexpected error in generate_content: {str(e)}")
+        logger.error(traceback.format_exc())
+        raise HTTPException(status_code=500, detail="Internal server error")
