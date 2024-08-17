@@ -52,12 +52,24 @@ async def generate_tweet(
 
 async def generate_precta_tweet(text: str, account_profile: AccountProfile) -> str:
     instruction = "First, go through this newsletter and isolate the main story. Then, turn the following newsletter into a super catchy, intriguing pre-newsletter CTA TWEET (so never more than 280 characters) encouraging people on social media to read the newly published newsletter. Example: `How to get newsletter subscribers -- for free. That's the topic of my newsletter tomorrow. I'm breaking down all the best ways to grow your email list organically without a large social following. Get access below:` but combine this content type with the writer's actual social media style (tone, syntax, punctuation, etc)"
-    return await generate_tweet(text, instruction, account_profile)
+    main_tweet = await generate_tweet(text, instruction, account_profile)
+    reply_tweet = f"If this sounds interesting, subscribe for free to get it in your inbox! {account_profile.subscribe_url}"
+    return [
+        {"type": "main_tweet", "text": main_tweet},
+        {"type": "reply_tweet", "text": reply_tweet},
+    ]
 
 
-async def generate_postcta_tweet(text: str, account_profile: AccountProfile) -> str:
+async def generate_postcta_tweet(
+    text: str, account_profile: AccountProfile, web_url: str
+) -> list:
     instruction = "First, go through this newsletter and isolate the main story. Then, turn the following newsletter into a super catchy, intriguing post-newsletter CTA TWEET (so never more than 280 characters) encouraging people on social media to read the newly published newsletter. Example: `Paid recommendations are the easiest way to monetize subscribers instantly. Luckily, there are 3 simple ways to set them up. Today's newsletter breaks these down step-by-step to help you take advantage.` but combine this content type with the writer's actual social media style (tone, syntax, punctuation, etc)."
-    return await generate_tweet(text, instruction, account_profile)
+    main_tweet = await generate_tweet(text, instruction, account_profile)
+    reply_tweet = f"Check out the full thing online now! {web_url}"
+    return [
+        {"type": "main_tweet", "text": main_tweet},
+        {"type": "reply_tweet", "text": reply_tweet},
+    ]
 
 
 async def generate_thread_tweet(

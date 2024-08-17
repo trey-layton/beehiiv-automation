@@ -22,33 +22,50 @@ async def run_main_process(
         logger.info(f"Fetching Beehiiv content for Post: {post_id}")
         content_data = await fetch_beehiiv_content(account_profile, post_id)
         original_content = content_data.get("free_content")
+        web_url = content_data.get("web_url")
 
-        if not original_content:
-            logger.error("Failed to fetch content from Beehiiv")
-            return False, "Failed to fetch content from Beehiiv", {}
+        if not original_content or not web_url:
+            logger.error("Failed to fetch content or web URL from Beehiiv")
+            return False, "Failed to fetch content or web URL from Beehiiv", {}
 
         generated_content = {}
 
         if content_type == "precta_tweet":
-            precta_tweet = await generate_precta_tweet(
+            precta_tweets = await generate_precta_tweet(
                 original_content, account_profile
             )
-            edited_tweet = await edit_content(precta_tweet, "pre-CTA tweet")
+            edited_tweets = [
+                {
+                    "type": tweet["type"],
+                    "text": await edit_content(
+                        tweet["text"], f"pre-CTA {tweet['type']}"
+                    ),
+                }
+                for tweet in precta_tweets
+            ]
             generated_content = {
                 "provider": "twitter",
                 "type": "precta_tweet",
-                "content": [{"type": "post", "text": edited_tweet}],
+                "content": edited_tweets,
             }
 
         elif content_type == "postcta_tweet":
-            postcta_tweet = await generate_postcta_tweet(
-                original_content, account_profile
+            postcta_tweets = await generate_postcta_tweet(
+                original_content, account_profile, web_url
             )
-            edited_tweet = await edit_content(postcta_tweet, "post-CTA tweet")
+            edited_tweets = [
+                {
+                    "type": tweet["type"],
+                    "text": await edit_content(
+                        tweet["text"], f"post-CTA {tweet['type']}"
+                    ),
+                }
+                for tweet in postcta_tweets
+            ]
             generated_content = {
                 "provider": "twitter",
                 "type": "postcta_tweet",
-                "content": [{"type": "post", "text": edited_tweet}],
+                "content": edited_tweets,
             }
 
         if content_type == "thread_tweet":
