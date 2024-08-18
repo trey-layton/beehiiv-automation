@@ -17,7 +17,7 @@ security = HTTPBearer()
 
 
 def authenticate(
-    credentials: HTTPAuthorizationCredentials = Depends(HTTPBearer()),
+    credentials: HTTPAuthorizationCredentials = Depends(security),
 ) -> tuple[Client, dict]:
     try:
         if credentials.scheme != "Bearer":
