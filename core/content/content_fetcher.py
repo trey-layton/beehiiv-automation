@@ -7,9 +7,7 @@ logger = logging.getLogger(__name__)
 
 async def fetch_beehiiv_content(account_profile: AccountProfile, post_id: str) -> dict:
     try:
-        logger.info(
-            f"Fetching Beehiiv content for user {account_profile.account_id}"
-        )
+        logger.info(f"Fetching Beehiiv content for user {account_profile.account_id}")
 
         if not account_profile.beehiiv_api_key:
             raise ValueError("Missing Beehiiv API key")
