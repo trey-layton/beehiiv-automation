@@ -10,7 +10,7 @@ class AccountProfileService:
 
     async def get_account_profile(self, account_profile: str):
         response = (
-            await self.supabase.table("account_profiles")
+            self.supabase.table("account_profiles")
             .select("*")
             .eq("account_id", account_profile)
             .execute()

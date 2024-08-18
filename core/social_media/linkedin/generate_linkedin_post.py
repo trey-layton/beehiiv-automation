@@ -10,6 +10,7 @@ async def generate_linkedin_post(text: str, account_profile: AccountProfile):
     logger.info("Generating LinkedIn post")
     logger.info(f"Content passed to language model (first 500 chars): {text[:500]}")
     try:
+        # Use custom prompt if available, otherwise use the default example
         example_post = (
             account_profile.custom_prompt
             if account_profile.custom_prompt
@@ -125,6 +126,7 @@ Be the first to get more details about this (BIG) new project here → https://l
         response_content = await call_language_model(system_message, user_message)
         logger.info(f"Raw API response: {response_content}")
 
+        # Extract post text from the response
         if isinstance(response_content, dict):
             post_text = (
                 response_content.get("post") or response_content.get("text") or ""
@@ -135,6 +137,7 @@ Be the first to get more details about this (BIG) new project here → https://l
             logger.error(f"Unexpected response format: {response_content}")
             raise ValueError("Invalid response format from language model API")
 
+        # Clean up the post text
         post_text = post_text.strip().strip('"')
         post_text = post_text.replace("\n", "<br>")
         post_text = post_text.replace("<br><br>", "<br>")
