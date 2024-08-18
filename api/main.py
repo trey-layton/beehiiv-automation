@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi import FastAPI, Depends, HTTPException, Request, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from pydantic import BaseModel
 from typing import Literal
@@ -8,6 +8,8 @@ import os
 from core.services.account_profile_service import AccountProfileService
 import logging
 from dotenv import load_dotenv
+from starlette.background import BackgroundTask
+import asyncio
 
 logger = logging.getLogger(__name__)
 load_dotenv()
@@ -16,8 +18,8 @@ app = FastAPI()
 security = HTTPBearer()
 
 
-def authenticate(
-    credentials: HTTPAuthorizationCredentials = Depends(HTTPBearer()),
+async def authenticate(
+    credentials: HTTPAuthorizationCredentials = Depends(security),
 ) -> tuple[Client, dict]:
     try:
         if credentials.scheme != "Bearer":
@@ -31,7 +33,7 @@ def authenticate(
             ),
         )
 
-        user_response = supabase.auth.get_user(credentials.credentials)
+        user_response = await supabase.auth.get_user(credentials.credentials)
 
         if not user_response or not user_response.user:
             raise ValueError("User not found")
@@ -61,33 +63,38 @@ async def root():
 
 @app.post("/generate_content")
 async def generate_content(
-    request: ContentGenerationRequest,
+    request: Request,
+    content_request: ContentGenerationRequest,
     client_user: tuple[Client, dict] = Depends(authenticate),
 ):
-    try:
-        account_profile_service = AccountProfileService(client_user[0])
-        account_profile = await account_profile_service.get_account_profile(
-            request.account_id
-        )
-        success, message, generated_content = await run_main_process(
-            account_profile, request.post_id, request.content_type
-        )
-        logger.info(
-            f"run_main_process result: success={success}, message={message}, content={generated_content}"
-        )
+    async def process_content():
+        try:
+            account_profile_service = AccountProfileService(client_user[0])
+            account_profile = await account_profile_service.get_account_profile(
+                content_request.account_id
+            )
+            success, message, generated_content = await run_main_process(
+                account_profile, content_request.post_id, content_request.content_type
+            )
+            logger.info(
+                f"run_main_process result: success={success}, message={message}, content={generated_content}"
+            )
 
-        if success:
-            return {
-                "status": "success",
-                "message": message,
-                "provider": generated_content["provider"],
-                "type": generated_content["type"],
-                "content": generated_content["content"],
-            }
-        else:
-            logger.error(f"Error in run_main_process: {message}")
-            raise HTTPException(status_code=500, detail=message)
+            if success:
+                return {
+                    "status": "success",
+                    "message": message,
+                    "provider": generated_content["provider"],
+                    "type": generated_content["type"],
+                    "content": generated_content["content"],
+                }
+            else:
+                logger.error(f"Error in run_main_process: {message}")
+                raise HTTPException(status_code=500, detail=message)
 
-    except Exception as e:
-        logger.exception(f"Unexpected error in generate_content: {str(e)}")
-        raise HTTPException(status_code=500, detail=str(e))
+        except Exception as e:
+            logger.exception(f"Unexpected error in generate_content: {str(e)}")
+            raise HTTPException(status_code=500, detail=str(e))
+
+    background_task = BackgroundTask(process_content)
+    return {"message": "Content generation started"}, background_task

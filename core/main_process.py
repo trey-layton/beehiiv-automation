@@ -87,12 +87,20 @@ async def run_main_process(
             }
 
         elif content_type == "linkedin":
+            logger.info("Generating LinkedIn post")
             linkedin_post = await generate_linkedin_post(
                 original_content, account_profile
             )
+            logger.info(f"LinkedIn post generated. Length: {len(linkedin_post)}")
+
+            logger.info("Editing LinkedIn post")
             edited_post = await edit_content(
                 [{"type": "post", "text": linkedin_post}], "LinkedIn post"
             )
+            logger.info(
+                f"LinkedIn post edited. Final length: {len(edited_post[0]['text'])}"
+            )
+
             generated_content = {
                 "provider": "linkedin",
                 "type": "linkedin_post",
