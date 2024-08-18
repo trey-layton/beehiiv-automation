@@ -34,15 +34,7 @@ async def run_main_process(
             precta_tweets = await generate_precta_tweet(
                 original_content, account_profile
             )
-            edited_tweets = [
-                {
-                    "type": tweet["type"],
-                    "text": await edit_content(
-                        tweet["text"], f"pre-CTA {tweet['type']}"
-                    ),
-                }
-                for tweet in precta_tweets
-            ]
+            edited_tweets = await edit_content(precta_tweets, "pre-CTA tweet")
             generated_content = {
                 "provider": "twitter",
                 "type": "precta_tweet",
@@ -53,76 +45,60 @@ async def run_main_process(
             postcta_tweets = await generate_postcta_tweet(
                 original_content, account_profile, web_url
             )
-            edited_tweets = [
-                {
-                    "type": tweet["type"],
-                    "text": await edit_content(
-                        tweet["text"], f"post-CTA {tweet['type']}"
-                    ),
-                }
-                for tweet in postcta_tweets
-            ]
+            edited_tweets = await edit_content(postcta_tweets, "post-CTA tweet")
             generated_content = {
                 "provider": "twitter",
                 "type": "postcta_tweet",
                 "content": edited_tweets,
             }
 
-        if content_type == "thread_tweet":
-            from core.social_media.twitter.generate_tweets import generate_thread_tweet
-
-            thread_tweet = await generate_thread_tweet(
-                original_content, content_data.get("web_url"), account_profile
+        elif content_type == "thread_tweet":
+            thread_tweets = await generate_thread_tweet(
+                original_content, web_url, account_profile
             )
-
-            # Edit the entire thread as a single piece of content
-            thread_text = "\n\n".join([tweet["text"] for tweet in thread_tweet])
-            edited_thread_text = await edit_content(thread_text, "thread tweet")
-
-            # Split the edited thread back into individual tweets
-            edited_tweets = edited_thread_text.split("\n\n")
-
-            edited_thread = []
-            for i, tweet_text in enumerate(edited_tweets):
-                if i < len(thread_tweet):
-                    edited_thread.append(
-                        {"type": thread_tweet[i]["type"], "text": tweet_text.strip()}
-                    )
-                else:
-                    edited_thread.append(
-                        {"type": "content", "text": tweet_text.strip()}
-                    )
-
+            edited_tweets = await edit_content(thread_tweets, "thread tweet")
             generated_content = {
                 "provider": "twitter",
                 "type": "thread_tweet",
-                "content": edited_thread,
+                "content": edited_tweets,
             }
 
         elif content_type == "long_form_tweet":
             long_form_tweet = await generate_long_form_tweet(
                 original_content, account_profile
             )
-            edited_tweet = await edit_content(long_form_tweet, "long-form tweet")
+            edited_tweet = await edit_content(
+                [{"type": "long_post", "text": long_form_tweet}], "long-form tweet"
+            )
             generated_content = {
                 "provider": "twitter",
                 "type": "long_form_tweet",
-                "content": [{"type": "long_post", "text": edited_tweet}],
+                "content": edited_tweet,
             }
 
         elif content_type == "linkedin":
             linkedin_post = await generate_linkedin_post(
                 original_content, account_profile
             )
-            edited_post = await edit_content(linkedin_post, "LinkedIn post")
+            edited_post = await edit_content(
+                [{"type": "post", "text": linkedin_post}], "LinkedIn post"
+            )
             generated_content = {
                 "provider": "linkedin",
-                "type": "linkedin",
-                "content": [{"type": "post", "text": edited_post}],
+                "type": "linkedin_post",
+                "content": edited_post,
             }
 
-        logger.info("Content generation and editing completed successfully")
-        return True, "Content generated and edited successfully", generated_content
+        else:
+            logger.error(f"Unsupported content type: {content_type}")
+            return False, f"Unsupported content type: {content_type}", {}
+
+        logger.info(f"Content generation and editing completed for {content_type}")
+        return (
+            True,
+            f"Content generated and edited successfully for {content_type}",
+            generated_content,
+        )
 
     except Exception as e:
         logger.exception(f"Error in run_main_process: {str(e)}")

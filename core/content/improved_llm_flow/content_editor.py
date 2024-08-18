@@ -1,43 +1,101 @@
-# core/content/content_editor.py
-
+import json
+import re
 import logging
+from typing import Union, List, Dict
 from core.content.language_model_client import call_language_model
 
 logger = logging.getLogger(__name__)
 
 
-async def edit_content(content: str, content_type: str) -> str:
+def parse_content(content: str) -> List[Dict[str, str]]:
+    # Split the content based on the *n* markers
+    parts = re.split(r"\*\d+\*", content)
+
+    # Remove any leading/trailing whitespace and empty parts
+    parts = [part.strip() for part in parts if part.strip()]
+
+    # Create a list of dictionaries
+    result = []
+    for i, part in enumerate(parts):
+        if i == 0:
+            result.append({"type": "main_tweet", "text": part})
+        else:
+            result.append({"type": "reply_tweet", "text": part})
+
+    return result
+
+
+async def edit_content(
+    content: Union[str, list], content_type: str
+) -> Union[str, list]:
     logger.info(f"Editing {content_type} content")
 
     system_message = {
         "role": "system",
-        "content": """You are an expert social media copywriter specializing in creating engaging, natural-sounding posts. Your task is to improve the given post by:
-- First, determine if this is a tweet or not. If it's <280 characters, it's a tweet, so make sure that the revised version you generate is also shorter than 280 characters.
-- Improving the hook by keeping it to 8 words max, and make it something bold (emulate Mr. Beast... massive numbers, "how to", bold statements followed by sentences that start with "but" and contradict the first sentence, etc)... really cater this to what makes the most sense for this specific post
-- Adding smooth transitions between tweets so that it sounds like a single, coherent narrative
-- Avoiding phrases commonly associated with AI-generated content ("revolutionizing", "landscape is shifting", "paradise", "rollercoaster", "dive in", "shifting dynamics", "breakthroughs")
-- Getting rid of fragments and choppy points which seem incoherent or unnatural. The final should be concise, but NEVER CHOPPY.
-- Avoiding too many colons to start tweets (come off as AI-generated)
-- Maintain the core message, details, and key points of each post while making these improvements. 
-- Make sure the hook stays strong.
-If it is a Twitter Thread, keep it as a Twitter thread and make sure each individual tweet complies with limits.
-If the post was already under 280 characters, keep the revised and edited one under this length as well.
-If it is a long-form post, keep the same length.
-Critical note: keep the exact same plain text structure that you received the post in. (single for long-form, multiple objects for threads, etc). EXACTLY THE SAME STRUCTURE. Do not add any extra fields or change the structure. 
-And do not include any intro or filler text beyond the actual post content. This gives you a few more characters in each individual post. Just get straight into the post content
-DO NOT USE line break characters
-Again, if the original post was under 280 character, THIS ONE HAS TO BE UNDER 280 ALSO. MAKE SURE TO DOUBLE CHECK THIS CHARACTER COUNT AND REVISE IF YOU NEED TO""",
+        "content": """You are an expert social media copywriter specializing in creating engaging, natural-sounding posts. Your task is to improve the given content based on its type:
+
+1. For all content types:
+   - Make the hook super catchy. Make it something bold and daring, throw a big number in, start with "How to" or something that will really make people stop and want to read on.
+   - Avoid phrases commonly associated with AI-generated content such as "revolutionizing", "democratizing", "changing the game"
+   - Maintain the core message and key points while improving clarity and engagement potential
+   - Ensure the content flows naturally and is never choppy, both between subsequent individual posts as part of a larger post and within posts so as to avoid fragments
+
+2. For pre-CTA, post-CTA, and thread tweets:
+   - Respect the 280-character limit for individual tweets while making the group of posts more comprehensive and detailed.
+   - For pre-CTA and post-CTA, ensure the main tweet and reply tweet (only two tweets) work together cohesively (the first tweet should never have a link, and the second tweet should be super short and primarily about the CTA to check out the link. Always include the provided link in the second tweet). The first tweet should contain the hook and the teaser content (don't just make it the hook, and don't add any additional detail beyond the link in the reply tweet)
+   - For threads, maintain a logical flow between tweets, trying to strengthen the flow between them as much as you can.
+
+3. For LinkedIn posts:
+   - Optimize for professional tone while maintaining engagement.
+   - Structure the content for easy readability on the LinkedIn platform (line break between every sentence with an extra blank line between lines of text, use numbering and bullets)
+
+4. For long-form content:
+   - Break up large text blocks into more digestible sections (line break between every sentence with an extra blank line between lines of text)
+   - Use formatting (like bullet points or numbered lists) where appropriate to improve readability.
+
+Important: Mark the beginning of each tweet with *1*, *2*, etc. For example:
+
+'*1* This is the main tweet content. It's engaging and within 280 characters.
+
+*2* This is the first reply tweet. It continues the thought from the main tweet.'
+
+Do not include any text except for the actual post content, so no intro text like 'Here's an improved version', etc""",
     }
+
+    if isinstance(content, list):
+        content_for_editing = "\n\n".join(
+            [f"*{i+1}* {item['text']}" for i, item in enumerate(content)]
+        )
+    else:
+        content_for_editing = f"*1* {content}"
 
     user_message = {
         "role": "user",
-        "content": f"Please review and improve the following {content}",
+        "content": f"Please review and improve the following {content_type} content:\n\n{content_for_editing}",
     }
 
     try:
         edited_content = await call_language_model(system_message, user_message)
-        logger.info(f"Content editing completed for {content_type}")
-        return edited_content
+        logger.info(f"Raw edited content for {content_type}: {edited_content}")
+
+        parsed_content = parse_content(edited_content)
+
+        if not parsed_content:
+            logger.warning(
+                f"Failed to parse edited content for {content_type}. Returning original content."
+            )
+            return (
+                content
+                if isinstance(content, list)
+                else [{"type": "post", "text": content}]
+            )
+
+        return parsed_content
+
     except Exception as e:
         logger.error(f"Error in content editing: {str(e)}")
-        raise
+        return (
+            content
+            if isinstance(content, list)
+            else [{"type": "post", "text": content}]
+        )
