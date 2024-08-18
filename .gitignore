@@ -6,6 +6,7 @@ user_config.db
 
 # Vercel
 .vercel
+.vercel/
 
 # Next.js build output
 stack-auth-nextjs/.next/
@@ -22,6 +23,7 @@ node_modules/
 
 # Python-specific ignores
 __pycache__/
+**/__pycache__/
 *.py[cod]
 *$py.class
 *.so
@@ -93,11 +95,8 @@ post-once-web-app-new/
 airflow/logs/
 airflow/dags/example_dags/
 
-# Vercel
-.vercel/
-
-# macOS
-.DS_Store
+# Logs
+*.log
 
 # Submodules (if they're not meant to be part of this repo)
 post-once-web-app-backup/
