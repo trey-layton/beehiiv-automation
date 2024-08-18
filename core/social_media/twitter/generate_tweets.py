@@ -13,6 +13,27 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
+def format_tweet_with_link(tweet_text: str, link: str) -> str:
+    # Remove any existing URLs from the tweet text
+    tweet_text = re.sub(
+        r"http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+",
+        "",
+        tweet_text,
+    )
+
+    # Trim any whitespace
+    tweet_text = tweet_text.strip()
+
+    # Ensure there's a space before the link
+    if not tweet_text.endswith(" "):
+        tweet_text += " "
+
+    # Add the link
+    tweet_text += link
+
+    return tweet_text
+
+
 async def generate_tweet(
     text: str, instruction: str, account_profile: AccountProfile
 ) -> str:

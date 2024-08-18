@@ -8,6 +8,7 @@ from core.social_media.twitter.generate_tweets import (
     generate_postcta_tweet,
     generate_thread_tweet,
     generate_long_form_tweet,
+    format_tweet_with_link,
 )
 from core.social_media.linkedin.generate_linkedin_post import generate_linkedin_post
 
@@ -35,6 +36,9 @@ async def run_main_process(
                 original_content, account_profile
             )
             edited_tweets = await edit_content(precta_tweets, "pre-CTA tweet")
+            edited_tweets[1]["text"] = format_tweet_with_link(
+                edited_tweets[1]["text"], account_profile.subscribe_url
+            )
             generated_content = {
                 "provider": "twitter",
                 "type": "precta_tweet",
@@ -46,6 +50,9 @@ async def run_main_process(
                 original_content, account_profile, web_url
             )
             edited_tweets = await edit_content(postcta_tweets, "post-CTA tweet")
+            edited_tweets[1]["text"] = format_tweet_with_link(
+                edited_tweets[1]["text"], web_url
+            )
             generated_content = {
                 "provider": "twitter",
                 "type": "postcta_tweet",
@@ -57,6 +64,9 @@ async def run_main_process(
                 original_content, web_url, account_profile
             )
             edited_tweets = await edit_content(thread_tweets, "thread tweet")
+            edited_tweets[-1]["text"] = format_tweet_with_link(
+                edited_tweets[1]["text"], account_profile.subscribe_url
+            )
             generated_content = {
                 "provider": "twitter",
                 "type": "thread_tweet",
