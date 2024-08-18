@@ -6,6 +6,7 @@ from core.main_process import run_main_process
 from supabase import create_client, Client, ClientOptions
 import os
 from core.services.account_profile_service import AccountProfileService
+from tasks import generate_content_task
 import logging
 from dotenv import load_dotenv
 
@@ -59,6 +60,9 @@ async def root():
     return {"message": "PostOnce API is running"}
 
 
+from tasks import generate_content_task
+
+
 @app.post("/generate_content")
 async def generate_content(
     request: ContentGenerationRequest,
@@ -69,25 +73,33 @@ async def generate_content(
         account_profile = await account_profile_service.get_account_profile(
             request.account_id
         )
-        success, message, generated_content = await run_main_process(
-            account_profile, request.post_id, request.content_type
-        )
-        logger.info(
-            f"run_main_process result: success={success}, message={message}, content={generated_content}"
+
+        # Convert AccountProfile to dict for serialization
+        account_profile_dict = account_profile.dict()
+
+        task = generate_content_task.delay(
+            account_profile_dict, request.post_id, request.content_type
         )
 
-        if success:
-            return {
-                "status": "success",
-                "message": message,
-                "provider": generated_content["provider"],
-                "type": generated_content["type"],
-                "content": generated_content["content"],
-            }
-        else:
-            logger.error(f"Error in run_main_process: {message}")
-            raise HTTPException(status_code=500, detail=message)
-
+        return {
+            "status": "success",
+            "message": "Content generation task submitted successfully",
+            "task_id": task.id,
+        }
     except Exception as e:
         logger.exception(f"Unexpected error in generate_content: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/task_status/{task_id}")
+async def task_status(task_id: str):
+    task = generate_content_task.AsyncResult(task_id)
+    if task.state == "PENDING":
+        response = {"state": task.state, "status": "Task is waiting for execution"}
+    elif task.state != "FAILURE":
+        response = {"state": task.state, "status": task.info.get("status", "")}
+        if "result" in task.info:
+            response["result"] = task.info["result"]
+    else:
+        response = {"state": task.state, "status": str(task.info)}
+    return response

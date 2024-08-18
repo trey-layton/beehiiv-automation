@@ -18,6 +18,7 @@ logger = logging.getLogger(__name__)
 async def run_main_process(
     account_profile: AccountProfile, post_id: str, content_type: str
 ) -> Tuple[bool, str, Dict[str, Any]]:
+    profile = AccountProfile(**account_profile)
     logger.info(f"run_main_process started for user {account_profile.account_id}")
     try:
         logger.info(f"Fetching Beehiiv content for Post: {post_id}")
