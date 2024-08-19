@@ -1,20 +1,23 @@
 # core/auth/supabase_auth.py
-
 import os
 from supabase import create_client, Client
 import jwt
-from fastapi import HTTPException
+from fastapi import HTTPException, Depends
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from core.models.account_profile import AccountProfile
 from dotenv import load_dotenv
 
-# Load environment variables
 load_dotenv()
 
 supabase_url = os.environ.get("SUPABASE_URL")
 supabase_key = os.environ.get("SUPABASE_KEY")
 supabase: Client = create_client(supabase_url, supabase_key)
 
+security = HTTPBearer()
 
-def verify_token(token: str):
+
+def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
+    token = credentials.credentials
     try:
         # Decode the JWT token
         decoded_token = jwt.decode(token, supabase_key, algorithms=["HS256"])
@@ -30,8 +33,3 @@ def verify_token(token: str):
         raise HTTPException(status_code=401, detail="Token has expired")
     except jwt.InvalidTokenError:
         raise HTTPException(status_code=401, detail="Invalid token")
-
-
-def get_user_id(token: str):
-    user = verify_token(token)
-    return user.id

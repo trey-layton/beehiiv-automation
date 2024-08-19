@@ -15,3 +15,5 @@ psycopg2-binary
 cachetools
 jwt
 tenacity
+aioredis
+flower
