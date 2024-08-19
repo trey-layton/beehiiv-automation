@@ -49,6 +49,11 @@ class ContentGenerationRequest(BaseModel):
     ]
 
 
+@api_app.get("/")
+async def root():
+    return {"message": "PostOnce API is running"}
+
+
 @api_app.post("/generate_content")
 async def generate_content_endpoint(
     request: ContentGenerationRequest,
