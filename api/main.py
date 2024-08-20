@@ -6,8 +6,8 @@ from celery.result import AsyncResult
 import os
 import logging
 from supabase import create_client, Client, ClientOptions
-from celery_app import celery_app
-from tasks import generate_content, test_redis
+from ..celery_app import celery_app
+from ..tasks import generate_content, test_redis
 from core.services.account_profile_service import AccountProfileService
 
 logger = logging.getLogger(__name__)
@@ -101,3 +101,9 @@ async def test_redis_endpoint(
 ):
     task = test_redis.delay()
     return {"task_id": task.id}
+
+
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run(api_app, host="0.0.0.0", port=8000)
