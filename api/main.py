@@ -6,8 +6,8 @@ from celery.result import AsyncResult
 import os
 import logging
 from supabase import create_client, Client, ClientOptions
-from ..celery_app import celery_app
-from ..tasks import generate_content, test_redis
+from celery_app import celery_app
+from tasks import generate_content, test_redis
 from core.services.account_profile_service import AccountProfileService
 
 logger = logging.getLogger(__name__)
