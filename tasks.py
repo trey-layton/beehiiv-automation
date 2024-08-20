@@ -1,5 +1,5 @@
 import asyncio
-from celery_app import app
+from celery_app import celery_app
 from core.models.account_profile import AccountProfile
 from core.content.content_fetcher import fetch_beehiiv_content
 from core.social_media.twitter.generate_tweets import (
@@ -11,7 +11,7 @@ from core.social_media.twitter.generate_tweets import (
 from core.social_media.linkedin.generate_linkedin_post import generate_linkedin_post
 
 
-@app.task
+@celery_app.task
 def generate_content(account_profile: dict, post_id: str, content_type: str):
     account_profile = AccountProfile(**account_profile)
 
@@ -52,6 +52,6 @@ def generate_content(account_profile: dict, post_id: str, content_type: str):
         raise ValueError(f"Unsupported content type: {content_type}")
 
 
-@app.task
+@celery_app.task
 def test_redis():
     return "Redis test successful"

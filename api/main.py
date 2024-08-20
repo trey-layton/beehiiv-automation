@@ -6,7 +6,7 @@ from celery.result import AsyncResult
 import os
 import logging
 from supabase import create_client, Client, ClientOptions
-from celery_app import app
+from celery_app import celery_app
 from tasks import generate_content, test_redis
 from core.services.account_profile_service import AccountProfileService
 
@@ -83,7 +83,7 @@ async def get_content_status(
     client_user: tuple[Client, dict] = Depends(authenticate),
 ):
     try:
-        task_result = AsyncResult(task_id, app=app)
+        task_result = AsyncResult(task_id, app=celery_app)
         if task_result.state == "PENDING":
             return {"status": "processing"}
         elif task_result.state == "SUCCESS":
