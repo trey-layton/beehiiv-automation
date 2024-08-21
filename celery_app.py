@@ -1,9 +1,17 @@
+import os
+from dotenv import load_dotenv
 from celery import Celery
+
+# Load environment variables from .env file
+load_dotenv()
+
+# Get Redis URL from environment variable, with a fallback
+redis_url = os.getenv("REDIS_URL")
 
 celery_app = Celery(
     "proj",
-    broker="redis://localhost:6379/0",
-    backend="redis://localhost:6379/0",
+    broker=redis_url,
+    backend=redis_url,
     include=["tasks"],
 )
 

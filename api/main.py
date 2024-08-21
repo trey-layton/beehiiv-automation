@@ -93,17 +93,3 @@ async def get_content_status(
     except Exception as e:
         logger.exception(f"Error in get_content_status: {str(e)}")
         return {"status": "error", "message": str(e)}
-
-
-@api_app.get("/test_redis")
-async def test_redis_endpoint(
-    client_user: tuple[Client, dict] = Depends(authenticate),
-):
-    task = test_redis.delay()
-    return {"task_id": task.id}
-
-
-if __name__ == "__main__":
-    import uvicorn
-
-    uvicorn.run(api_app, host="0.0.0.0", port=8000)
