@@ -8,7 +8,6 @@ from pydantic import BaseModel
 from typing import Literal, AsyncGenerator
 from core.content.content_fetcher import fetch_beehiiv_content
 from core.content.improved_llm_flow.content_editor import edit_content
-from core.main_process import run_main_process
 from supabase import create_client, Client, ClientOptions
 import os
 from core.models.account_profile import AccountProfile

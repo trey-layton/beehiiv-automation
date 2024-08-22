@@ -1,9 +1,7 @@
 BEEHIIV_PROJECT/
 │
-├── .vscode/
-│   └── settings.json
-│
 ├── api/
+│   ├── .vercel/
 │   ├── get_token.py
 │   └── main.py
 │
@@ -18,17 +16,16 @@ BEEHIIV_PROJECT/
 │   ├── config/
 │   │   ├── __init__.py
 │   │   ├── environment.py
-│   │   ├── feature_toggle.py
-│   │   ├── feature_toggles.json
-│   │   ├── secret.key
 │   │   └── user_config.py
 │   │
 │   ├── content/
+│   │   ├── improved_llm_flow/
+│   │   │   ├── __init__.py
+│   │   │   └── content_editor.py
 │   │   ├── __init__.py
 │   │   ├── beehiiv_content.py
 │   │   ├── content_extraction.py
 │   │   ├── content_fetcher.py
-│   │   ├── content_quality_check.py
 │   │   ├── language_model_client.py
 │   │   └── text_utils.py
 │   │
@@ -37,31 +34,36 @@ BEEHIIV_PROJECT/
 │   │   └── encryption.py
 │   │
 │   ├── models/
-│   │   └── user.py
+│   │   └── account_profile.py
+│   │
+│   ├── services/
+│   │   └── account_profile_service.py
 │   │
 │   └── social_media/
 │       ├── linkedin/
 │       │   ├── generate_linkedin_post.py
 │       │   └── testlinkedin.py
-│       │
+│       ├── threads/
+│       │   └── generate_threads.py
 │       └── twitter/
 │           ├── __init__.py
-│           ├── generate_tweets.py
-│           ├── media_upload.py
-│           └── tweet_handler.py
+│           └── generate_tweets.py
 │
-├── js_utils/
-│   └── twitter_text_util.js
-│
-├── tests/
-│   ├── __init__.py
-│   ├── mocks.py
-│   └── test_api.py
-│
+├── post-once-web-app/
+├── post-once-web-app-backup/
+├── post-once-web-app-new/
+├── static/
+│   └── images/
+│       └── linkedin/
+├── venv/
 ├── .env
-├── .env.staging
 ├── .gitignore
+├── generate_test_jwt.py
 ├── main_process.py
+├── poetry.lock
 ├── PROJECT_STRUCTURE.md
+├── pyproject.toml
+├── requirements_full.txt
 ├── requirements.txt
+├── run.py
 └── vercel.json

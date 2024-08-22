@@ -96,7 +96,6 @@ async def generate_postcta_tweet(
 async def generate_thread_tweet(
     text: str, article_link: str, account_profile: AccountProfile
 ) -> list:
-
     example_tweet = """tweet 1: "A professional sports gambler used analytics to turn a $700,000 loan into more than $300 million.
 
 This is the wild story 👇👇👇"

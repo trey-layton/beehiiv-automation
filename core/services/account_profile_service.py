@@ -1,6 +1,5 @@
 from pydantic import ValidationError
 from core.models.account_profile import AccountProfile
-from fastapi import HTTPException
 from supabase import Client
 
 

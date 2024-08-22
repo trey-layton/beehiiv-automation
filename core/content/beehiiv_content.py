@@ -1,4 +1,3 @@
-import re
 import http.client
 import json
 import logging

@@ -8,7 +8,6 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, project_root)
 
 from core.main_process import run_main_process
-from core.config.user_config import DB_PATH
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
