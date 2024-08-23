@@ -185,8 +185,21 @@ async def content_generator(
             {"status": "in_progress", "message": "Content editing completed"}
         ) + "\n"
 
+        if content_type == "precta_tweet":
+            provider = "twitter"
+        elif content_type == "postcta_tweet":
+            provider = "twitter"
+        elif content_type == "thread_tweet":
+            provider = "twitter"
+        elif content_type == "long_form_tweet":
+            provider = "twitter"
+        elif content_type == "linkedin":
+            provider = "linkedin"
+        else:
+            provider = "unknown"  # This could be logged as an error
+
         result = {
-            "provider": "twitter",
+            "provider": provider,
             "type": content_type,
             "content": edited_content,
             "thumbnail_url": content_data.get("thumbnail_url"),

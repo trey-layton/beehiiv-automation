@@ -46,7 +46,6 @@ async def fetch_beehiiv_content(
                                 )
             except Exception as e:
                 logger.error(f"Error processing thumbnail: {str(e)}")
-                logger.error(f"Full error details: {e.__dict__}")
 
         content_data = {
             "subscribe_url": account_profile.subscribe_url,
