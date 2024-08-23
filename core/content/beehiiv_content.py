@@ -72,6 +72,7 @@ def get_beehiiv_post_content(
             data = json_data["data"]
             content = data.get("content", {})
             free_content = content.get("free", {}).get("web")
+            thumbnail_url = data.get("thumbnail_url")  # Add this line
 
             if not free_content:
                 logger.warning(f"No free content found for post {post_id}")
@@ -79,13 +80,12 @@ def get_beehiiv_post_content(
                 free_content = clean_html_content(free_content)
 
             web_url = data.get("web_url")
-            thumbnail_url = data.get("thumbnail_url")
 
             result = {
                 "post_id": post_id,
                 "free_content": free_content,
                 "web_url": web_url,
-                "thumbnail_url": thumbnail_url,
+                "thumbnail_url": thumbnail_url,  # Add this line
             }
             logger.info(f"Extracted post content: {result}")
             return result
