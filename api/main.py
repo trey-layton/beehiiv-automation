@@ -14,14 +14,22 @@ from core.models.account_profile import AccountProfile
 from core.services.account_profile_service import AccountProfileService
 import logging
 from dotenv import load_dotenv
-
-from core.social_media.twitter.generate_tweets import generate_thread_tweet
+from core.social_media.twitter.generate_tweets import (
+    generate_precta_tweet,
+    generate_postcta_tweet,
+    generate_thread_tweet,
+    generate_long_form_tweet,
+)
+from core.social_media.linkedin.generate_linkedin_post import generate_linkedin_post
 
 logger = logging.getLogger(__name__)
 load_dotenv()
 
 app = FastAPI()
 security = HTTPBearer()
+
+# Initialize Supabase client
+supabase: Client = create_client(os.getenv("SUPABASE_URL"), os.getenv("SUPABASE_KEY"))
 
 
 def authenticate(
@@ -86,7 +94,10 @@ async def generate_content_endpoint(
 
         return StreamingResponse(
             content_generator(
-                account_profile.dict(), request.post_id, request.content_type
+                account_profile.dict(),
+                request.post_id,
+                request.content_type,
+                client_user[0],
             ),
             media_type="text/event-stream",
         )
@@ -96,10 +107,22 @@ async def generate_content_endpoint(
 
 
 async def content_generator(
-    account_profile: dict, post_id: str, content_type: str
+    account_profile: dict, post_id: str, content_type: str, supabase: Client
 ) -> AsyncGenerator[str, None]:
     start_time = time.time()
+
+    async def heartbeat():
+        while True:
+            await asyncio.sleep(5)
+            yield json.dumps(
+                {"status": "heartbeat", "message": "Still processing..."}
+            ) + "\n"
+
+    heartbeat_task = None
+
     try:
+        heartbeat_task = asyncio.create_task(heartbeat().__anext__())
+
         yield json.dumps(
             {"status": "started", "message": "Initializing content generation"}
         ) + "\n"
@@ -111,7 +134,9 @@ async def content_generator(
         yield json.dumps(
             {"status": "in_progress", "message": "Fetching content from Beehiiv"}
         ) + "\n"
-        content_data = await fetch_beehiiv_content(account_profile_obj, post_id)
+        content_data = await fetch_beehiiv_content(
+            account_profile_obj, post_id, supabase
+        )
         yield json.dumps(
             {"status": "in_progress", "message": "Content fetched successfully"}
         ) + "\n"
@@ -119,13 +144,33 @@ async def content_generator(
         yield json.dumps(
             {"status": "in_progress", "message": "Generating initial content"}
         ) + "\n"
-        if content_type == "thread_tweet":
+
+        if content_type == "precta_tweet":
+            initial_content = await generate_precta_tweet(
+                content_data["free_content"], account_profile_obj
+            )
+        elif content_type == "postcta_tweet":
+            initial_content = await generate_postcta_tweet(
+                content_data["free_content"],
+                account_profile_obj,
+                content_data["web_url"],
+            )
+        elif content_type == "thread_tweet":
             initial_content = await generate_thread_tweet(
                 content_data["free_content"],
                 content_data["web_url"],
                 account_profile_obj,
             )
-        # Add other content types here...
+        elif content_type == "long_form_tweet":
+            initial_content = await generate_long_form_tweet(
+                content_data["free_content"], account_profile_obj
+            )
+        elif content_type == "linkedin":
+            initial_content = await generate_linkedin_post(
+                content_data["free_content"], account_profile_obj
+            )
+        else:
+            raise ValueError(f"Unsupported content type: {content_type}")
 
         yield json.dumps(
             {"status": "in_progress", "message": "Initial content generated"}
@@ -144,48 +189,22 @@ async def content_generator(
             "provider": "twitter",
             "type": content_type,
             "content": edited_content,
+            "thumbnail_url": content_data.get("thumbnail_url"),
         }
 
-        for i, tweet in enumerate(edited_content):
-            yield json.dumps(
-                {
-                    "status": "in_progress",
-                    "message": f"Preparing tweet {i+1} of {len(edited_content)}",
-                    "tweet": tweet,
-                }
-            ) + "\n"
-            await asyncio.sleep(0.1)
-
-        total_time = time.time() - start_time
         yield json.dumps(
             {
                 "status": "completed",
                 "result": result,
-                "total_time": f"{total_time:.2f} seconds",
+                "total_time": f"{time.time() - start_time:.2f} seconds",
             }
         ) + "\n"
-        print("Content generation completed")
-        yield json.dumps(
-            {
-                "status": "completed",
-                "result": result,
-                "total_time": f"{total_time:.2f} seconds",
-            }
-        ) + "\n"
-        await asyncio.sleep(
-            0.5
-        )  # Add a small delay to ensure the client receives the last message
 
     except Exception as e:
         print("Error in content_generator:", str(e))
         yield json.dumps({"status": "failed", "error": str(e)}) + "\n"
+    finally:
+        if heartbeat_task:
+            heartbeat_task.cancel()
 
-    async def heartbeat():
-        while True:
-            await asyncio.sleep(5)  # Send a heartbeat every 5 seconds
-            yield json.dumps(
-                {"status": "heartbeat", "message": "Still processing..."}
-            ) + "\n"
-
-    # Run the heartbeat concurrently with the main process
-    asyncio.create_task(heartbeat())
+    print("Content generation completed")

@@ -43,6 +43,7 @@ async def run_main_process(
                 "provider": "twitter",
                 "type": "precta_tweet",
                 "content": edited_tweets,
+                "thumbnail_url": content_data.get("thumbnail_url"),  # Add this line
             }
 
         elif content_type == "postcta_tweet":
@@ -57,6 +58,7 @@ async def run_main_process(
                 "provider": "twitter",
                 "type": "postcta_tweet",
                 "content": edited_tweets,
+                "thumbnail_url": content_data.get("thumbnail_url"),
             }
 
         elif content_type == "thread_tweet":
@@ -71,6 +73,7 @@ async def run_main_process(
                 "provider": "twitter",
                 "type": "thread_tweet",
                 "content": edited_tweets,
+                "thumbnail_url": content_data.get("thumbnail_url"),
             }
 
         elif content_type == "long_form_tweet":
@@ -84,6 +87,7 @@ async def run_main_process(
                 "provider": "twitter",
                 "type": "long_form_tweet",
                 "content": edited_tweet,
+                "thumbnail_url": content_data.get("thumbnail_url"),
             }
 
         elif content_type == "linkedin":
@@ -97,6 +101,7 @@ async def run_main_process(
                 "provider": "linkedin",
                 "type": "linkedin_post",
                 "content": edited_post,
+                "thumbnail_url": content_data.get("thumbnail_url"),
             }
 
         else:
