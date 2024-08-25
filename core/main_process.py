@@ -1,5 +1,7 @@
 import logging
 from typing import Any, Dict, Tuple
+import os
+import supabase
 from core.content.content_fetcher import fetch_beehiiv_content
 from core.models.account_profile import AccountProfile
 from core.content.improved_llm_flow.content_editor import edit_content
@@ -11,17 +13,25 @@ from core.social_media.twitter.generate_tweets import (
     format_tweet_with_link,
 )
 from core.social_media.linkedin.generate_linkedin_post import generate_linkedin_post
+from core.content.image_generator import generate_image_list, edit_image_list_content
+
+from core.utils.storage_utils import upload_to_supabase
 
 logger = logging.getLogger(__name__)
 
 
 async def run_main_process(
-    account_profile: AccountProfile, post_id: str, content_type: str
+    account_profile: AccountProfile,
+    post_id: str,
+    content_type: str,
+    supabase: supabase.Client,
 ) -> Tuple[bool, str, Dict[str, Any]]:
-    logger.info(f"run_main_process started for user {account_profile.account_id}")
+    logger.info(
+        f"run_main_process started for user {account_profile.account_id} with content_type: {content_type}"
+    )
     try:
         logger.info(f"Fetching Beehiiv content for Post: {post_id}")
-        content_data = await fetch_beehiiv_content(account_profile, post_id)
+        content_data = await fetch_beehiiv_content(account_profile, post_id, supabase)
         original_content = content_data.get("free_content")
         web_url = content_data.get("web_url")
 
@@ -30,8 +40,43 @@ async def run_main_process(
             return False, "Failed to fetch content or web URL from Beehiiv", {}
 
         generated_content = {}
+        if content_type == "image_list":
+            logger.info(f"Generating image list content for post {post_id}")
+            image_list_content = await generate_image_list(
+                original_content, account_profile
+            )
+            logger.info(f"Generated image list content: {image_list_content}")
 
-        if content_type == "precta_tweet":
+            logger.info("Editing image list content")
+            edited_content = await edit_image_list_content(image_list_content)
+            logger.info(f"Edited image list content: {edited_content}")
+
+            try:
+                logger.info("Generating image")
+                image = generate_image_list(
+                    edited_content,
+                    save_locally=os.getenv("ENVIRONMENT") == "development",
+                )
+                logger.info("Image generated successfully")
+
+                logger.info("Uploading image to Supabase")
+                file_name = f"image_list_{post_id}.png"
+                image_url = upload_to_supabase(supabase, image, "images", file_name)
+                logger.info(f"Image uploaded successfully. URL: {image_url}")
+
+                generated_content = {
+                    "provider": "twitter",
+                    "type": "image_list",
+                    "content": edited_content,
+                    "image_url": image_url,
+                    "thumbnail_url": content_data.get("thumbnail_url"),
+                }
+                return True, "Content generated successfully", generated_content
+            except Exception as e:
+                logger.error(f"Error in image generation or upload: {str(e)}")
+                return False, f"Error in image generation or upload: {str(e)}", {}
+
+        elif content_type == "precta_tweet":
             precta_tweets = await generate_precta_tweet(
                 original_content, account_profile
             )
@@ -103,10 +148,6 @@ async def run_main_process(
                 "content": edited_post,
                 "thumbnail_url": content_data.get("thumbnail_url"),
             }
-
-        else:
-            logger.error(f"Unsupported content type: {content_type}")
-            return False, f"Unsupported content type: {content_type}", {}
 
         logger.info(f"Content generation and editing completed for {content_type}")
         return (

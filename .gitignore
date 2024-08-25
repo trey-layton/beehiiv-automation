@@ -102,3 +102,5 @@ airflow/dags/example_dags/
 # Submodules (if they're not meant to be part of this repo)
 post-once-web-app-backup/
 post-once-web-app-new/
+
+temp_images

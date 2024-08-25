@@ -1,6 +1,7 @@
 import json
 import asyncio
 import time
+import os
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.responses import StreamingResponse
@@ -9,7 +10,6 @@ from typing import Literal, AsyncGenerator
 from core.content.content_fetcher import fetch_beehiiv_content
 from core.content.improved_llm_flow.content_editor import edit_content
 from supabase import create_client, Client, ClientOptions
-import os
 from core.models.account_profile import AccountProfile
 from core.services.account_profile_service import AccountProfileService
 import logging
@@ -21,6 +21,11 @@ from core.social_media.twitter.generate_tweets import (
     generate_long_form_tweet,
 )
 from core.social_media.linkedin.generate_linkedin_post import generate_linkedin_post
+from core.content.image_generator import (
+    generate_image_list_content,
+    generate_image_list as generate_image,
+)
+from core.utils.storage_utils import upload_to_supabase
 
 logger = logging.getLogger(__name__)
 load_dotenv()
@@ -71,7 +76,12 @@ class ContentGenerationRequest(BaseModel):
     account_id: str
     post_id: str
     content_type: Literal[
-        "precta_tweet", "postcta_tweet", "thread_tweet", "long_form_tweet", "linkedin"
+        "precta_tweet",
+        "postcta_tweet",
+        "thread_tweet",
+        "long_form_tweet",
+        "linkedin",
+        "image_list",
     ]
 
 
@@ -81,7 +91,7 @@ async def generate_content_endpoint(
     client_user: tuple[Client, dict] = Depends(authenticate),
 ):
     try:
-        print("Received request:", request)
+        logger.info(f"Received request: {request}")
         account_profile_service = AccountProfileService(client_user[0])
         account_profile = await account_profile_service.get_account_profile(
             request.account_id
@@ -90,7 +100,7 @@ async def generate_content_endpoint(
         if not account_profile:
             raise HTTPException(status_code=404, detail="Account profile not found")
 
-        print("Account profile found:", account_profile)
+        logger.info(f"Account profile found: {account_profile}")
 
         return StreamingResponse(
             content_generator(
@@ -102,7 +112,7 @@ async def generate_content_endpoint(
             media_type="text/event-stream",
         )
     except Exception as e:
-        print("Error in generate_content_endpoint:", str(e))
+        logger.error(f"Error in generate_content_endpoint: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -128,7 +138,7 @@ async def content_generator(
         ) + "\n"
         await asyncio.sleep(0.1)
 
-        print("Content generation started")
+        logger.info("Content generation started")
         account_profile_obj = AccountProfile(**account_profile)
 
         yield json.dumps(
@@ -145,65 +155,108 @@ async def content_generator(
             {"status": "in_progress", "message": "Generating initial content"}
         ) + "\n"
 
-        if content_type == "precta_tweet":
-            initial_content = await generate_precta_tweet(
-                content_data["free_content"], account_profile_obj
+        if content_type == "image_list":
+            yield json.dumps(
+                {"status": "in_progress", "message": "Generating image list content"}
+            ) + "\n"
+            initial_content = await generate_image_list_content(
+                content_data["free_content"], AccountProfile(**account_profile)
             )
-        elif content_type == "postcta_tweet":
-            initial_content = await generate_postcta_tweet(
-                content_data["free_content"],
-                account_profile_obj,
-                content_data["web_url"],
-            )
-        elif content_type == "thread_tweet":
-            initial_content = await generate_thread_tweet(
-                content_data["free_content"],
-                content_data["web_url"],
-                account_profile_obj,
-            )
-        elif content_type == "long_form_tweet":
-            initial_content = await generate_long_form_tweet(
-                content_data["free_content"], account_profile_obj
-            )
-        elif content_type == "linkedin":
-            initial_content = await generate_linkedin_post(
-                content_data["free_content"], account_profile_obj
-            )
+
+            yield json.dumps(
+                {"status": "in_progress", "message": "Generating image"}
+            ) + "\n"
+            try:
+                image = generate_image(
+                    initial_content,
+                    save_locally=os.getenv("ENVIRONMENT") == "development",
+                )
+
+                yield json.dumps(
+                    {"status": "in_progress", "message": "Uploading image to Supabase"}
+                ) + "\n"
+                file_name = f"image_list_{post_id}.png"
+                image_url = upload_to_supabase(supabase, image, "images", file_name)
+                # Add a timestamp to create a unique filename
+                unique_id = f"{post_id}_{int(time.time() * 1000)}"  # Use milliseconds for more uniqueness
+                file_name = f"image_list_{unique_id}.png"
+                image_url = upload_to_supabase(supabase, image, "images", file_name)
+                result = {
+                    "provider": "twitter",
+                    "type": "image_list",
+                    "content": initial_content,
+                    "image_url": image_url,
+                    "thumbnail_url": content_data.get("thumbnail_url"),
+                }
+            except Exception as e:
+                logger.error(f"Error in image generation or upload: {str(e)}")
+                yield json.dumps(
+                    {
+                        "status": "failed",
+                        "error": f"Error in image generation or upload: {str(e)}",
+                    }
+                ) + "\n"
+                return
         else:
-            raise ValueError(f"Unsupported content type: {content_type}")
+            if content_type == "precta_tweet":
+                initial_content = await generate_precta_tweet(
+                    content_data["free_content"], account_profile_obj
+                )
+            elif content_type == "postcta_tweet":
+                initial_content = await generate_postcta_tweet(
+                    content_data["free_content"],
+                    account_profile_obj,
+                    content_data["web_url"],
+                )
+            elif content_type == "thread_tweet":
+                initial_content = await generate_thread_tweet(
+                    content_data["free_content"],
+                    content_data["web_url"],
+                    account_profile_obj,
+                )
+            elif content_type == "long_form_tweet":
+                initial_content = await generate_long_form_tweet(
+                    content_data["free_content"], account_profile_obj
+                )
+            elif content_type == "linkedin":
+                initial_content = await generate_linkedin_post(
+                    content_data["free_content"], account_profile_obj
+                )
+            else:
+                raise ValueError(f"Unsupported content type: {content_type}")
 
-        yield json.dumps(
-            {"status": "in_progress", "message": "Initial content generated"}
-        ) + "\n"
+            yield json.dumps(
+                {"status": "in_progress", "message": "Initial content generated"}
+            ) + "\n"
 
-        yield json.dumps(
-            {"status": "in_progress", "message": "Editing and refining content"}
-        ) + "\n"
-        edited_content = await edit_content(initial_content, content_type)
+            yield json.dumps(
+                {"status": "in_progress", "message": "Editing and refining content"}
+            ) + "\n"
+            edited_content = await edit_content(initial_content, content_type)
 
-        yield json.dumps(
-            {"status": "in_progress", "message": "Content editing completed"}
-        ) + "\n"
+            yield json.dumps(
+                {"status": "in_progress", "message": "Content editing completed"}
+            ) + "\n"
 
-        if content_type == "precta_tweet":
-            provider = "twitter"
-        elif content_type == "postcta_tweet":
-            provider = "twitter"
-        elif content_type == "thread_tweet":
-            provider = "twitter"
-        elif content_type == "long_form_tweet":
-            provider = "twitter"
-        elif content_type == "linkedin":
-            provider = "linkedin"
-        else:
-            provider = "unknown"  # This could be logged as an error
+            if content_type in [
+                "precta_tweet",
+                "postcta_tweet",
+                "thread_tweet",
+                "long_form_tweet",
+            ]:
+                provider = "twitter"
+            elif content_type == "linkedin":
+                provider = "linkedin"
+            else:
+                provider = "unknown"
+                logger.error(f"Unknown content type: {content_type}")
 
-        result = {
-            "provider": provider,
-            "type": content_type,
-            "content": edited_content,
-            "thumbnail_url": content_data.get("thumbnail_url"),
-        }
+            result = {
+                "provider": provider,
+                "type": content_type,
+                "content": edited_content,
+                "thumbnail_url": content_data.get("thumbnail_url"),
+            }
 
         yield json.dumps(
             {
@@ -214,10 +267,10 @@ async def content_generator(
         ) + "\n"
 
     except Exception as e:
-        print("Error in content_generator:", str(e))
+        logger.error(f"Error in content_generator: {str(e)}")
         yield json.dumps({"status": "failed", "error": str(e)}) + "\n"
     finally:
         if heartbeat_task:
             heartbeat_task.cancel()
 
-    print("Content generation completed")
+    logger.info("Content generation completed")
