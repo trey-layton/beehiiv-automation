@@ -21,15 +21,15 @@ async def generate_image_list_content(
     }
     user_message = {
         "role": "user",
-        "content": f"""Take the following newsletter and turn it into a super catchy, viral visual list that hits the key points of the newsletter. 
+        "content": f"""Take the following newsletter and turn it into a super catchy, viral visual list that hits the key points of the newsletter. It should be specific to this newsletter, not a general list of tips or advice unless it is including specifics from this edition.
         
         1. If the article is a list or guide, include every single item. If it's an analysis or essay, include every key point. If it is a news story, include the key details in punchy, numbered bullet-form. 
         
         2. Give the list/post a title with 30 or fewer characters, ideally that has some sort of number in it like '7 Reasons You Should...' or '5 Tips for...'. The title MUST be under 31 characters. If it is not under 31 characters, then the whole things fails and you get fired. 
         
-        3. Keep each point in the body to 100 characters or fewer. 
+        3. Keep each point in the body to 100 characters or fewer. Never use more than 7 items in a list.
         
-        Here's the content to summarize:\n{text} Return your post content with the title prefixed by '*1*' and each body point on a new line.""",
+        Here's the content to summarize:\n{text} Return your post content with the title prefixed by '*1*' and each body point on a new line. Return only the content in the requested format, no intro or filler text.""",
     }
 
     logger.info(f"Generating image list content for text: {text[:100]}...")
@@ -90,54 +90,32 @@ def draw_mixed_text(
 ):
     x, y = position
     words = text.split()
-    space_width = (
-        draw.textbbox((0, 0), " ", font=font)[2]
-        - draw.textbbox((0, 0), " ", font=font)[0]
-    )
-    bold_mode = True
+    space_width = font.getlength(" ")
     line = ""
+    line_height = max(font.size, bold_font.size)
+
     for word in words:
-        word_width = (
-            draw.textbbox((0, 0), word, font=bold_font if bold_mode else font)[2]
-            - draw.textbbox((0, 0), word, font=bold_font if bold_mode else font)[0]
-        )
-        if ":" in word:
-            before, after = word.split(":", 1)
+        word_width = font.getlength(word)
+
+        if x - position[0] + word_width > max_width:
             if line:
-                draw.text(
-                    (x, y), line, font=bold_font if bold_mode else font, fill=fill
-                )
-                y += font.size + line_spacing
+                draw.text((position[0], y), line.strip(), font=font, fill=fill)
+                y += line_height + line_spacing
+                line = word + " "
+                x = position[0] + word_width + space_width
+            else:
+                # If a single word is too long, force it to break
+                draw.text((position[0], y), word, font=font, fill=fill)
+                y += line_height + line_spacing
                 x = position[0]
-                line = ""
-            draw.text((x, y), before + ":", font=bold_font, fill=fill)
-            x += (
-                draw.textbbox((0, 0), before + ":", font=bold_font)[2]
-                - draw.textbbox((0, 0), before + ":", font=bold_font)[0]
-            )
-            bold_mode = False
-            if after:
-                line = after + " "
-                x += (
-                    draw.textbbox((0, 0), after + " ", font=font)[2]
-                    - draw.textbbox((0, 0), after + " ", font=font)[0]
-                )
-        elif x + word_width <= max_width:
+        else:
             line += word + " "
             x += word_width + space_width
-        else:
-            draw.text(
-                (position[0], y), line, font=bold_font if bold_mode else font, fill=fill
-            )
-            y += font.size + line_spacing
-            x = position[0]
-            line = word + " "
-            x += word_width + space_width
+
     if line:
-        draw.text(
-            (position[0], y), line, font=bold_font if bold_mode else font, fill=fill
-        )
-        y += font.size + line_spacing
+        draw.text((position[0], y), line.strip(), font=font, fill=fill)
+        y += line_height + line_spacing
+
     return y
 
 
@@ -180,7 +158,7 @@ def generate_image_list(
         paragraph_spacing = 40
         content_width = image_size[0] - 2 * margin
 
-        total_content_height = 1400
+        total_content_height = 1300
         y_start = (image_size[1] - total_content_height) // 2
 
         # Draw title
