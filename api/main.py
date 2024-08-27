@@ -38,7 +38,7 @@ supabase: Client = create_client(os.getenv("SUPABASE_URL"), os.getenv("SUPABASE_
 
 
 def authenticate(
-    credentials: HTTPAuthorizationCredentials = Depends(security),
+        credentials: HTTPAuthorizationCredentials = Depends(security),
 ) -> tuple[Client, dict]:
     try:
         if credentials.scheme != "Bearer":
@@ -87,8 +87,8 @@ class ContentGenerationRequest(BaseModel):
 
 @app.post("/generate_content")
 async def generate_content_endpoint(
-    request: ContentGenerationRequest,
-    client_user: tuple[Client, dict] = Depends(authenticate),
+        request: ContentGenerationRequest,
+        client_user: tuple[Client, dict] = Depends(authenticate),
 ):
     try:
         logger.info(f"Received request: {request}")
@@ -117,7 +117,7 @@ async def generate_content_endpoint(
 
 
 async def content_generator(
-    account_profile: dict, post_id: str, content_type: str, supabase: Client
+        account_profile: dict, post_id: str, content_type: str, supabase: Client
 ) -> AsyncGenerator[str, None]:
     start_time = time.time()
 
@@ -184,8 +184,13 @@ async def content_generator(
                 result = {
                     "provider": "twitter",
                     "type": "image_list",
-                    "content": initial_content,
-                    "image_url": image_url,
+                    "content": [
+                        {
+                            "type": "image",
+                            "text": "",
+                            "image_url": image_url,
+                        }
+                    ],
                     "thumbnail_url": content_data.get("thumbnail_url"),
                 }
             except Exception as e:
