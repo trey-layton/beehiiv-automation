@@ -38,7 +38,7 @@ supabase: Client = create_client(os.getenv("SUPABASE_URL"), os.getenv("SUPABASE_
 
 
 def authenticate(
-        credentials: HTTPAuthorizationCredentials = Depends(security),
+    credentials: HTTPAuthorizationCredentials = Depends(security),
 ) -> tuple[Client, dict]:
     try:
         if credentials.scheme != "Bearer":
@@ -87,17 +87,21 @@ class ContentGenerationRequest(BaseModel):
 
 @app.post("/generate_content")
 async def generate_content_endpoint(
-        request: ContentGenerationRequest,
-        client_user: tuple[Client, dict] = Depends(authenticate),
+    request: ContentGenerationRequest,
+    client_user: tuple[Client, dict] = Depends(authenticate),
 ):
     try:
         logger.info(f"Received request: {request}")
         account_profile_service = AccountProfileService(client_user[0])
+        logger.info(f"Fetching account profile for account_id: {request.account_id}")
         account_profile = await account_profile_service.get_account_profile(
             request.account_id
         )
 
         if not account_profile:
+            logger.error(
+                f"Account profile not found for account_id: {request.account_id}"
+            )
             raise HTTPException(status_code=404, detail="Account profile not found")
 
         logger.info(f"Account profile found: {account_profile}")
@@ -117,7 +121,7 @@ async def generate_content_endpoint(
 
 
 async def content_generator(
-        account_profile: dict, post_id: str, content_type: str, supabase: Client
+    account_profile: dict, post_id: str, content_type: str, supabase: Client
 ) -> AsyncGenerator[str, None]:
     start_time = time.time()
 

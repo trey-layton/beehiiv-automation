@@ -14,7 +14,7 @@ from core.social_media.twitter.generate_tweets import (
 )
 from core.social_media.linkedin.generate_linkedin_post import generate_linkedin_post
 from core.content.image_generator import generate_image_list, edit_image_list_content
-
+from core.social_media.twitter.thread_utils import restructure_thread
 from core.utils.storage_utils import upload_to_supabase
 
 logger = logging.getLogger(__name__)
@@ -111,13 +111,16 @@ async def run_main_process(
                 original_content, web_url, account_profile
             )
             edited_tweets = await edit_content(thread_tweets, "thread tweet")
-            edited_tweets[-1]["text"] = format_tweet_with_link(
-                edited_tweets[1]["text"], account_profile.subscribe_url
+
+            # Restructure the thread
+            restructured_tweets = restructure_thread(
+                edited_tweets, web_url, account_profile.subscribe_url
             )
+
             generated_content = {
                 "provider": "twitter",
                 "type": "thread_tweet",
-                "content": edited_tweets,
+                "content": restructured_tweets,
                 "thumbnail_url": content_data.get("thumbnail_url"),
             }
 

@@ -13,178 +13,65 @@ load_dotenv()
 
 # Include the newsletter content directly in the script
 NEWSLETTER_CONTENT = """
-Jenna Ortega Exposes the Dark Side of AI 😳
-PLUS: Google in warfare, $1b AI boom in coding, and India’s Secret Weapon in the AI Race
-AuthorAuthor
-Ihtesham Haider & Hasan Toor
-August 26, 2024
+I'm Heartbroken...
+Actions we can take, and a whole bunch of awesome resources!
+Author
+Bonnie Dilber
+September 04, 2024
 
-In partnership with
 
+If you enjoy the free content each week, please take a second to click on the link and support our sponsors each week! It costs you nothing, but is a good way to support those who help keep this newsletter free!
 
+Resources of the Week
+Over 500 jobs on the job board here!
 
-Welcome, Prohumans.
+This post from Hailley Griffis who leads Communications and Content at Buffer has some top notch advice on what helped folks stand out in a a pool of 1500 applicants.
 
-This issue uncovers some of the most controversial and groundbreaking AI developments to date.
+How public should you be on social media around your layoff? Check out some considerations here.
 
-From Google DeepMind employees pushing back against military contracts to AI-powered coding becoming a billion-dollar industry, we’ve got the stories you need to know.
+Workfolk launched a newsletter where they are highlighting various networking events and other opportunities in the startup space. I shared some tips for growing on LinkedIn as part of the first issue - check it out on LinkedIn!
 
-And if you thought AI couldn’t get darker, wait until you read about Jenna Ortega’s shocking experience with AI-generated images.
+I was heartbroken to hear about yet another school shooting…this time just about an hour outside of Atlanta where I grew up. Of course there’s a complex network of things that contribute to gun violence in this country including a lack of social safety nets, poverty, lack of mental health supports, etc. But the number one thing that separates the US from the rest of the world in this area is that we have more guns per capita than any other country.
 
-In today’s post:
+We have politicians, most of whom have never stepped foot inside of a school, trying to “fix” education by banning books, preventing any sort of education or discussion rooted in DEI, fighting against teaching critical race theory, working to arm teachers in classrooms…anything but addressing the actual issues leading to unprecedented levels of gun violence.
 
-Google AI warfare
+Here’s a list of actions we can all take as citizens to combat gun violence courtesy of Sandy Hook Promise, and Everytown is also a great resource.
 
-$1B AI Coding Surge
+What might falling interest rates mean for the job market?!
+You’ve probably heard that there’s a correlation between interest rates and job creation. Here’s a high level overview of how that works and what the upcoming drop in interest rates might mean for the market.
 
-Jenna Ortega AI Scandal
+When interest rates fall, it’s cheaper to borrow money which fuels growth and expansion.
 
-India’s Voice Bots
+On top of that, there’s less incentive for companies or investors to keep cash on hand when interest rates are lower so it makes more sense for them to focus on investment as a way of expanding their wealth. This can help launch new startups as well who have struggled with raising capital.
 
+People make bigger purchases that require loans when interest rates are lower which can spur job creation in fields like real estate, banking, construction, and the automotive industry.
 
-Google AI revolt 🔫 
+So should we expect a big surge in the market?
 
-The growing unrest at Google DeepMind has surfaced, as over 100 employees penned an open letter urging Google to cease its military contracts, particularly with the Israeli military. They argue that such involvement directly conflicts with Google's AI Principles.
+Honestly, I still don’t think so. We’re seeing just a small drop and I suspect the powers that be will want to see how things shake out over the next few months with the economy and the election.
 
-In short:
+All that said, hopefully this will help us move in the right direction - the workforce deserves it!!
 
-Over 100 employees signed the letter.
+P.S. For those who are interested in more on how the job market might impact the election, here’s an analysis in Reuters based on Goldman Sachs and a fascinating look at how different scenarios may play out from Moody’s Analytics.
 
-Focus on Google’s Project Nimbus with the Israeli military.
 
-Concerns about AI being used for warfare and surveillance.
+Decided to check out the cherry blossoms this week 🙂 
 
-Employees demand an end to military contracts.
+Secta is rolling out cool new backgrounds every week it seems! This week, I decided to give cherry blossoms a try - hopefully one day I’ll actually find myself among the cherry blossoms in Japan but until that day, thanks AI! Reminder that they offer us a community discount so if you need new headshots, check them out!
 
-Google has yet to respond meaningfully.
+🙋Answering Your Questions🙋
+Each week, I’ll answer one (or more!) of your questions in this section. You can submit your questions here.
 
-Google faces a pivotal moment—will it adhere to its ethical guidelines, or continue down a path fraught with controversy?
+How specific do recruiters and hiring managers actually want you to be during interviews? If I’m telling a story to highlight my work while answering a question, how much background context and detail should I give?
 
-Thoughts on this:
+This is a tough balance because some will ask questions to get what they need and others won’t. Some prefer lots of details and may see higher level stories as vague, while others will call too much detail “rambling”. So this makes it tough for sure.
 
-Google, Amazon, and other AI giants should remain neutral and doesn’t help any military whatsoever.
+Personally, I think sharing a bit of context is important, but you don’t need to give them a play by play of how you got the situation. For example, “We realized we needed functionality that our existing CRM did not offer so I was charged with evaluating options, selecting, and driving the implementation of a new CRM” should be sufficient (vs. going into details of all the issues you were facing with the existing CRM.)
 
-Because its new and we don’t if the it’s providing the military is correct if so then who is there to oversee.
+One thing you can do is frame up that you welcome questions. For example, you can say, “I’ll try to stay high level here, but I am happy to dive into more specifics around any of these areas” before you share the story, or you can say, “I know I gave just a quick overview, but let me know what specifics I can expand upon.” This increases the likelihood that they’ll dive in and get what they need if they didn’t!
 
-What you think about this?
-
-Let me know.
-
-🧑‍💻 AI Coding Raises Nearly $1 Billion, Claiming ‘Killer App’ Status
-
-The AI coding assistants are changing software engineering, pulling in close to $1 billion in funding since last year.
-
-This surge signals the emergence of coding as the first “killer app” for generative AI.
-
-In short:
-
-Companies like Replit, Anysphere, and Magic are leading the charge.
-
-$433 million raised this year alone, totaling $906 million since January 2023.
-
-AI’s impact on coding is becoming indispensable in tech circles.
-
-Giants like Microsoft and Amazon are competing fiercely in this space.
-
-AI coding assistants are not just tools—they’re revolutionizing how software is built, marking the dawn of a new era in programming.
-
-Jenna Ortega say no to AI explicit images and delete 𝕏/Twitter
-
-Jenna Ortega, the young star, revealed that she deleted her Twitter account after encountering disturbing AI-generated explicit images of herself as a minor.
-
-The details you need to know:
-
-Ortega was 14 when she first saw edited explicit content.
-
-The issue worsened after her role in "Wednesday" in 2022.
-
-AI-generated deepfakes have targeted her and other celebrities.
-
-Ortega’s experience highlights the darker side of AI technology.
-
-The Dark Side of AI:
-
-As AI tools advance, the line between innovation and violation blurs—Ortega’s story is a chilling reminder of the need for ethical boundaries.
-
-I think we should regulate such softwares as quickly as possible.
-
-What if they use our family members pictures to create such images and publish them online?
-
-Penny-a-Minute Voice Bots Drive India’s AI Boom
-
-India’s AI startups are leveraging voice technology to bridge the language divide, offering voice bots at just a rupee per minute.
-
-This innovation could reshape how AI is used across the country.
-
-The Details:
-
-Sarvam AI launched a new voice bot product for businesses.
-
-Bots are built using data from 10 native Indian languages.
-
-Startups like Gnani AI and CoRover are tapping into diverse Indian markets.
-
-Applications range from customer service to booking train tickets.
-
-A Voice for the Future:
-
-In a nation as diverse as India, voice bots are not just a technological advancement—they’re a key to unlocking AI’s full potential for all.
-
-Read the stories in detail here:
-Google AI warfare
-
-$1B AI Coding Surge
-
-Jenna Ortega AI Scandal
-
-India’s Voice Bots
-
-Together with PGA:
-Writers making less than $5,000 per month:
-
-Feeling underpaid and overworked?
-
-Still charging per month (or worse, per hour)?
-
-Tired of spinning on the freelancer hamster wheel?
-
-Become a Premium Ghostwriter here.
-
-
-Whenever you’re ready, there are 2 ways we can help you:
-
-Help you promote your product and service to 150k+ engineers, AI enthusiasts, entrepreneurs, creators, and founders. Sponsor us
-
-Help you build a irresistible brand on 𝕏/Twitter and LinkedIn in less than 6 months. We’ve helped 100+ creators from YouTube, entrepreneurs, founders, executives, and people like yourself. Contact us here: theprohumanai@gmail.com
-
-Thanks for reading…
-That’s a wrap.
-
-typing typewriter GIF
-What's on your mind?
-
-Share your best ideas with us at theprohumanai@gmail.com.
-
-We'll bring your ideas to life. Send them our way, and we'll get to work on making them a reality.
-
-Did you find value in our newsletter today?
-Your feedback can help us create better content for you!
-❤️ Loved It!
-😳 It was great!
-😢 It was bad!
-Login or Subscribe to participate in polls.
-
-
-
-I hope this was useful…
-
-If you want to learn more then visit this website.
-
-Get your brand, product, or service in front of 150,000+ professionals here.
-
-Follow us on 𝕏/Twitter to learn more about AI:
-
-@hasantoxr & @ihteshamit
+For more resources to support you in your search, check out my Linktree.
+My content is seen by over 8 million people each month. Need help getting the word out about your brand? Let’s connect!
 """
 
 

@@ -42,7 +42,7 @@ async def edit_content(
 2. For pre-CTA, post-CTA, and thread tweets:
    - Respect the 280-character limit for individual tweets while making the group of posts more comprehensive and detailed.
    - For pre-CTA and post-CTA, ensure the main tweet and reply tweet (only two tweets) work together cohesively (the first tweet should never have a link, and the second tweet should be super short and primarily about the CTA to check out the link. Always include the provided link in the second tweet). The first tweet should contain the hook and the teaser content (don't just make it the hook, and don't add any additional detail beyond the link in the reply tweet)
-   - For threads, maintain a logical flow between tweets, trying to strengthen the flow between them as much as you can.
+   - For threads, maintain a logical flow between tweets, trying to strengthen the flow between them as much as you can. Also, make sure you preserve the tweet type (reply_tweet, quote_tweet, etc)
 
 3. For LinkedIn posts:
    - Optimize for professional tone while maintaining engagement.
