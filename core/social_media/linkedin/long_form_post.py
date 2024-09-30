@@ -1,5 +1,5 @@
 import re
-from content.language_model_client import call_language_model
+from core.content.language_model_client import call_language_model
 from core.models.account_profile import AccountProfile
 
 
