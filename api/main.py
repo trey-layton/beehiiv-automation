@@ -25,6 +25,10 @@ from core.content.image_generator import (
 )
 from core.utils.storage_utils import upload_to_supabase
 
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
+
 logger = logging.getLogger(__name__)
 load_dotenv()
 

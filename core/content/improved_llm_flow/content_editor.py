@@ -27,7 +27,7 @@ def parse_content(content: str) -> List[Dict[str, str]]:
 async def edit_content(
     content: Union[str, list], content_type: str
 ) -> Union[str, list]:
-    logger.info(f"Editing {content_type} content")
+    logger.info(f"Editing content for content_type: {content_type}")
 
     system_message = {
         "role": "system",
