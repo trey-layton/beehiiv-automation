@@ -114,7 +114,9 @@ Be the first to get more details about this (BIG) new project here → https://l
             "content": f"Create a LinkedIn post summarizing this newsletter content. Use a professional style similar to this example, but adapted for LinkedIn: {example_post}\n\nHere's the newsletter content:\n{text}.  The first piece of content that I provided you was the example tweet. DO NOT WRITE ABOUT THE CONTENT OF IT. This example post is ONLY for structure replication, but the contents of the second piece of custom content you were provided are the actual newsletter contents, so write the post about the actual subject matter in this second piece of content.",
         }
 
-        response_content = await call_language_model(system_message, user_message)
+        response_content = await call_language_model(
+            system_message, user_message, tier="high"
+        )
 
         # Extract post text from the response
         if isinstance(response_content, dict):

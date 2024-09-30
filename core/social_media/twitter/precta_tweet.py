@@ -13,7 +13,7 @@ async def generate_precta_tweet(text: str, account_profile: AccountProfile) -> l
         "role": "user",
         "content": f"{instruction} Here's the newsletter content:\n{text}",
     }
-    main_tweet = await call_language_model(system_message, user_message)
+    main_tweet = await call_language_model(system_message, user_message, tier="high")
     reply_tweet = f"If this sounds interesting, subscribe for free to get it in your inbox! {account_profile.subscribe_url}"
 
     return [

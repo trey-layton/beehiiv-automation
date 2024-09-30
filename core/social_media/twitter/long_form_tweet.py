@@ -88,7 +88,9 @@ If you found this helpful - give me a retweet or a comment - it helps me spread 
     }
 
     try:
-        response_content = await call_language_model(system_message, user_message)
+        response_content = await call_language_model(
+            system_message, user_message, tier="high"
+        )
 
         if isinstance(response_content, dict):
             tweet_text = (

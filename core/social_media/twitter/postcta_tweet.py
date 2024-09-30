@@ -15,7 +15,7 @@ async def generate_postcta_tweet(
         "role": "user",
         "content": f"{instruction} Here's the newsletter content:\n{text}",
     }
-    main_tweet = await call_language_model(system_message, user_message)
+    main_tweet = await call_language_model(system_message, user_message, tier="high")
     reply_tweet = f"Check out the full thing online now! {web_url}"
     return [
         {"type": "main_tweet", "text": main_tweet},

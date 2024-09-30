@@ -53,7 +53,9 @@ Benham consulted clients using the same algorithms, statistics & data research t
     }
 
     try:
-        response_content = await call_language_model(system_message, user_message)
+        response_content = await call_language_model(
+            system_message, user_message, tier="high"
+        )
         print(f"\nRaw LLM response: {json.dumps(response_content, indent=2)}")
 
         tweets = []
