@@ -74,7 +74,9 @@ Do not include any text except for the actual post content, so no intro text lik
     }
 
     try:
-        edited_content = await call_language_model(system_message, user_message)
+        edited_content = await call_language_model(
+            system_message, user_message, tier="high"
+        )
         logger.info(f"Raw edited content for {content_type}: {edited_content}")
 
         parsed_content = parse_content(edited_content)

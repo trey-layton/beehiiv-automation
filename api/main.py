@@ -14,13 +14,11 @@ from core.models.account_profile import AccountProfile
 from core.services.account_profile_service import AccountProfileService
 import logging
 from dotenv import load_dotenv
-from core.social_media.twitter.generate_tweets import (
-    generate_precta_tweet,
-    generate_postcta_tweet,
-    generate_thread_tweet,
-    generate_long_form_tweet,
-)
-from core.social_media.linkedin.generate_linkedin_post import generate_linkedin_post
+from core.social_media.twitter.precta_tweet import generate_precta_tweet
+from core.social_media.twitter.postcta_tweet import generate_postcta_tweet
+from core.social_media.twitter.thread_tweet import generate_thread_tweet
+from core.social_media.twitter.long_form_tweet import generate_long_form_tweet
+from core.social_media.linkedin.long_form_post import generate_linkedin_post
 from core.content.image_generator import (
     generate_image_list_content,
     generate_image_list as generate_image,

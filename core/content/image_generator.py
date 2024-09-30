@@ -33,7 +33,7 @@ async def generate_image_list_content(
     }
 
     logger.info(f"Generating image list content for text: {text[:100]}...")
-    content = await call_language_model(system_message, user_message)
+    content = await call_language_model(system_message, user_message, tier="high")
     logger.info(f"Raw LLM response: {content}")
 
     # Edit the content before parsing
@@ -233,7 +233,9 @@ async def edit_image_list_content(content: str) -> Dict[str, Union[str, List[str
     }
 
     try:
-        response_content = await call_language_model(system_message, user_message)
+        response_content = await call_language_model(
+            system_message, user_message, tier="high"
+        )
 
         if isinstance(response_content, str):
             parsed_content = json.loads(response_content)
