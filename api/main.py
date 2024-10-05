@@ -14,16 +14,11 @@ from core.models.account_profile import AccountProfile
 from core.services.account_profile_service import AccountProfileService
 import logging
 from dotenv import load_dotenv
-from core.social_media.twitter.precta_tweet import generate_precta_tweet
-from core.social_media.twitter.postcta_tweet import generate_postcta_tweet
-from core.social_media.twitter.thread_tweet import generate_thread_tweet
-from core.social_media.twitter.long_form_tweet import generate_long_form_tweet
-from core.social_media.linkedin.long_form_post import generate_linkedin_post
-from core.content.image_generator import (
-    generate_image_list_content,
-    generate_image_list as generate_image,
-)
-from core.utils.storage_utils import upload_to_supabase
+from core.llm_steps.structure_analysis import analyze_structure
+from core.llm_steps.content_strategy import determine_content_strategy
+from core.llm_steps.content_generator import generate_content
+from core.content.content_type_loader import get_instructions_for_content_type
+from core.models.content import Content, Post, ContentSegment
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
@@ -67,6 +62,18 @@ def authenticate(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Failed to authenticate",
         )
+
+
+def content_to_dict(content: Content) -> dict:
+    return {
+        "segments": [segment.dict() for segment in content.segments],
+        "strategy": [strategy.dict() for strategy in content.strategy],
+        "posts": [post.dict() for post in content.posts],
+        "original_content": content.original_content,
+        "content_type": content.content_type,
+        "account_id": content.account_id,
+        "metadata": content.metadata,
+    }
 
 
 @app.get("/")
@@ -154,120 +161,103 @@ async def content_generator(
             account_profile_obj, post_id, supabase
         )
         yield json.dumps(
-            {"status": "in_progress", "message": "Content fetched successfully"}
+            {
+                "status": "in_progress",
+                "message": "Content fetched successfully",
+                "data": content_data,
+            }
         ) + "\n"
 
         yield json.dumps(
-            {"status": "in_progress", "message": "Generating initial content"}
+            {"status": "in_progress", "message": "Analyzing content structure"}
+        ) + "\n"
+        structured_content = await analyze_structure(content_data["free_content"])
+        yield json.dumps(
+            {
+                "status": "in_progress",
+                "message": "Content structure analyzed",
+                "data": [segment.dict() for segment in structured_content],
+            }
         ) + "\n"
 
-        if content_type == "image_list":
-            yield json.dumps(
-                {"status": "in_progress", "message": "Generating image list content"}
-            ) + "\n"
-            initial_content = await generate_image_list_content(
-                content_data["free_content"], AccountProfile(**account_profile)
-            )
+        yield json.dumps(
+            {"status": "in_progress", "message": "Determining content strategy"}
+        ) + "\n"
+        content_strategy = await determine_content_strategy(structured_content)
+        yield json.dumps(
+            {
+                "status": "in_progress",
+                "message": "Content strategy determined",
+                "data": [strategy.dict() for strategy in content_strategy],
+            }
+        ) + "\n"
 
-            yield json.dumps(
-                {"status": "in_progress", "message": "Generating image"}
-            ) + "\n"
-            try:
-                image = generate_image(
-                    initial_content,
-                    save_locally=os.getenv("ENVIRONMENT") == "development",
-                )
+        initial_content = Content(
+            segments=structured_content,
+            strategy=content_strategy,
+            posts=[],
+            original_content=content_data["free_content"],
+            content_type=content_type,
+            account_id=account_profile_obj.account_id,
+            metadata={"web_url": content_data["web_url"], "post_id": post_id},
+        )
 
-                yield json.dumps(
-                    {"status": "in_progress", "message": "Uploading image to Supabase"}
-                ) + "\n"
-                file_name = f"image_list_{post_id}.png"
-                image_url = upload_to_supabase(supabase, image, "images", file_name)
-                # Add a timestamp to create a unique filename
-                unique_id = f"{post_id}_{int(time.time() * 1000)}"  # Use milliseconds for more uniqueness
-                file_name = f"image_list_{unique_id}.png"
-                image_url = upload_to_supabase(supabase, image, "images", file_name)
-                result = {
-                    "provider": "twitter",
-                    "type": "image_list",
-                    "content": [
-                        {
-                            "type": "image",
-                            "text": "",
-                            "image_url": image_url,
-                        }
-                    ],
-                    "thumbnail_url": content_data.get("thumbnail_url"),
-                }
-            except Exception as e:
-                logger.error(f"Error in image generation or upload: {str(e)}")
-                yield json.dumps(
-                    {
-                        "status": "failed",
-                        "error": f"Error in image generation or upload: {str(e)}",
-                    }
-                ) + "\n"
-                return
-        else:
-            if content_type == "precta_tweet":
-                initial_content = await generate_precta_tweet(
-                    content_data["free_content"], account_profile_obj
-                )
-            elif content_type == "postcta_tweet":
-                initial_content = await generate_postcta_tweet(
-                    content_data["free_content"],
-                    account_profile_obj,
-                    content_data["web_url"],
-                )
-            elif content_type == "thread_tweet":
-                initial_content = await generate_thread_tweet(
-                    content_data["free_content"],
-                    content_data["web_url"],
-                    account_profile_obj,
-                )
-            elif content_type == "long_form_tweet":
-                initial_content = await generate_long_form_tweet(
-                    content_data["free_content"], account_profile_obj
-                )
-            elif content_type == "linkedin":
-                initial_content = await generate_linkedin_post(
-                    content_data["free_content"], account_profile_obj
-                )
-            else:
-                raise ValueError(f"Unsupported content type: {content_type}")
+        instructions = get_instructions_for_content_type(content_type)
 
-            yield json.dumps(
-                {"status": "in_progress", "message": "Initial content generated"}
-            ) + "\n"
+        yield json.dumps(
+            {"status": "in_progress", "message": "Generating content"}
+        ) + "\n"
+        generated_content = await generate_content(
+            initial_content,
+            instructions,
+            account_profile_obj,
+            supabase,
+            save_locally=os.getenv("ENVIRONMENT") == "development",
+        )
+        yield json.dumps(
+            {
+                "status": "in_progress",
+                "message": "Content generated",
+                "data": content_to_dict(generated_content),
+            }
+        ) + "\n"
 
+        if content_type != "image_list":
             yield json.dumps(
                 {"status": "in_progress", "message": "Editing and refining content"}
             ) + "\n"
-            edited_content = await edit_content(initial_content, content_type)
-
+            edited_content = await edit_content(generated_content, content_type)
             yield json.dumps(
-                {"status": "in_progress", "message": "Content editing completed"}
+                {
+                    "status": "in_progress",
+                    "message": "Content editing completed",
+                    "data": content_to_dict(edited_content),
+                }
             ) + "\n"
+        else:
+            edited_content = generated_content
 
-            if content_type in [
-                "precta_tweet",
-                "postcta_tweet",
-                "thread_tweet",
-                "long_form_tweet",
-            ]:
-                provider = "twitter"
-            elif content_type == "linkedin":
-                provider = "linkedin"
-            else:
-                provider = "unknown"
-                logger.error(f"Unknown content type: {content_type}")
+        provider = (
+            "twitter"
+            if content_type.endswith("tweet") or content_type == "image_list"
+            else "linkedin"
+        )
 
-            result = {
-                "provider": provider,
-                "type": content_type,
-                "content": edited_content,
-                "thumbnail_url": content_data.get("thumbnail_url"),
-            }
+        result = {
+            "provider": provider,
+            "type": content_type,
+            "content": content_to_dict(edited_content),
+            "thumbnail_url": content_data.get("thumbnail_url"),
+        }
+
+        if content_type == "image_list":
+            image_url = (
+                edited_content.posts[0].metadata.get("image_url")
+                if edited_content.posts
+                else None
+            )
+            if image_url:
+                result["image_url"] = image_url
 
         yield json.dumps(
             {
