@@ -1,11 +1,20 @@
 import re
+import logging
 from core.content.language_model_client import call_language_model
 from core.models.account_profile import AccountProfile
+from core.utils.llm_response_handler import LLMResponseHandler
+
+logger = logging.getLogger(__name__)
 
 
-async def generate_linkedin_post(text: str, account_profile: AccountProfile) -> str:
+async def generate(
+    main_content: str,
+    strategy_note: str,
+    instructions: dict,
+    account_profile: AccountProfile,
+    **kwargs,
+) -> str:
     try:
-        # Use custom prompt if available, otherwise use the default example
         example_post = """
 How to build a holding company (without millions $$$): 
  
@@ -39,7 +48,7 @@ First you buy a studio → then a 1 bedroom → Townhouse → House → Multi-fa
  
 Same in business. 
  
-You buy what you can. But you don't bankrupt yourself as you’re learning the game. 
+You buy what you can. But you don't bankrupt yourself as you're learning the game. 
  
 Then here's the magic: 
  
@@ -107,27 +116,20 @@ Be the first to get more details about this (BIG) new project here → https://l
         """
         system_message = {
             "role": "system",
-            "content": "You are a skilled content creator specializing in LinkedIn posts. Generate a post of approximately 1000 characters that summarizes the main points of the given content. The post should be informative, engaging, and have a 'thought leadership' tone. Do not use emojis. If the example post provided breaks these guidelines, override them with the example post instead as this was chosen specifically for the person. Each sentence or key point should be on a new line, separated by <br>. The post should be ready to publish on LinkedIn. Do not include any additional text, formatting, or placeholders beyond the <br> separators.",
+            "content": f"You are a skilled content creator specializing in LinkedIn posts. {instructions.get('content_generation', '')} Generate a post of approximately 1000 characters that summarizes the main points of the given content. The post should be informative, engaging, and have a 'thought leadership' tone. Do not use emojis. If the example post provided breaks these guidelines, override them with the example post instead as this was chosen specifically for the person. Each sentence or key point should be on a new line, separated by <br>. The post should be ready to publish on LinkedIn. Do not include any additional text, formatting, or placeholders beyond the <br> separators.",
         }
         user_message = {
             "role": "user",
-            "content": f"Create a LinkedIn post summarizing this newsletter content. Use a professional style similar to this example, but adapted for LinkedIn: {example_post}\n\nHere's the newsletter content:\n{text}.  The first piece of content that I provided you was the example tweet. DO NOT WRITE ABOUT THE CONTENT OF IT. This example post is ONLY for structure replication, but the contents of the second piece of custom content you were provided are the actual newsletter contents, so write the post about the actual subject matter in this second piece of content.",
+            "content": f"Create a LinkedIn post summarizing this newsletter content. Use a professional style similar to this example, but adapted for LinkedIn: {example_post}\n\nHere's the newsletter content:\n{main_content}\n\n DO NOT WRITE ABOUT A HOLDING COMPANY",
         }
 
         response_content = await call_language_model(
             system_message, user_message, tier="high"
         )
 
-        # Extract post text from the response
-        if isinstance(response_content, dict):
-            post_text = (
-                response_content.get("post") or response_content.get("text") or ""
-            )
-        elif isinstance(response_content, str):
-            post_text = response_content
-        else:
-            print(f"Unexpected response format: {response_content}")
-            raise ValueError("Invalid response format from language model API")
+        logger.debug(f"Raw LLM response: {response_content}")
+
+        post_text = LLMResponseHandler.process_llm_response(response_content, "content")
 
         # Clean up the post text
         post_text = post_text.strip().strip('"')
@@ -135,8 +137,10 @@ Be the first to get more details about this (BIG) new project here → https://l
         post_text = post_text.replace("<br><br>", "<br>")
         post_text = re.sub(r"^(Post:?\s*)", "", post_text, flags=re.IGNORECASE)
 
-        print(f"Final LinkedIn post text (length {len(post_text)}):\n{post_text}")
+        logger.info(
+            f"Final LinkedIn post text (length {len(post_text)}):\n{post_text[:100]}..."
+        )
         return post_text
     except Exception as e:
-        print(f"Unexpected error in generate_linkedin_post: {str(e)}")
+        logger.error(f"Unexpected error in generate_linkedin_post: {str(e)}")
         raise

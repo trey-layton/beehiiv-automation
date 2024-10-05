@@ -2,6 +2,7 @@ import re
 import logging
 from typing import Union, List, Dict
 from core.content.language_model_client import call_language_model
+from core.models.content import Content, Post
 
 logger = logging.getLogger(__name__)
 
@@ -24,7 +25,7 @@ def parse_content(content: str) -> List[Dict[str, str]]:
     return result
 
 
-async def edit_content(
+async def edit_single_post(
     content: Union[str, list], content_type: str
 ) -> Union[str, list]:
     logger.info(f"Editing content for content_type: {content_type}")
@@ -87,10 +88,19 @@ Do not include any text except for the actual post content, so no intro text lik
             )
             return (
                 content
-                if isinstance(content, list)
-                else [{"type": "post", "text": content}]
+                if isinstance(content, str)
+                else [{"type": "post", "text": str(content)}]
             )
 
+        return parsed_content
+
+    except Exception as e:
+        logger.error(f"Error in content editing: {str(e)}")
+        return (
+            content
+            if isinstance(content, str)
+            else [{"type": "post", "text": str(content)}]
+        )
         return parsed_content
 
     except Exception as e:
@@ -100,3 +110,48 @@ Do not include any text except for the actual post content, so no intro text lik
             if isinstance(content, list)
             else [{"type": "post", "text": content}]
         )
+
+
+async def edit_content(content: Content, content_type: str) -> Content:
+    logger.info(f"Editing content for content_type: {content_type}")
+    edited_posts = []
+
+    for post in content.posts:
+        try:
+            edited_content = await edit_single_post(post.content, content_type)
+
+            # Check if edited_content is a list (multiple posts) or a single string
+            if isinstance(edited_content, list):
+                for i, item in enumerate(edited_content):
+                    edited_posts.append(
+                        Post(
+                            post_number=post.post_number + i,
+                            section_type=post.section_type,
+                            content=item["text"],
+                            metadata=post.metadata,
+                        )
+                    )
+            else:
+                edited_posts.append(
+                    Post(
+                        post_number=post.post_number,
+                        section_type=post.section_type,
+                        content=edited_content,
+                        metadata=post.metadata,
+                    )
+                )
+        except Exception as e:
+            logger.error(f"Error editing post {post.post_number}: {str(e)}")
+            logger.exception("Traceback:")
+            # If editing fails, keep the original content
+            edited_posts.append(post)
+
+    return Content(
+        segments=content.segments,
+        strategy=content.strategy,
+        posts=edited_posts,
+        original_content=content.original_content,
+        content_type=content.content_type,
+        account_id=content.account_id,
+        metadata=content.metadata,
+    )

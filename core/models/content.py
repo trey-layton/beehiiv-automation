@@ -7,20 +7,25 @@ class ContentSegment(BaseModel):
     content: str
 
 
+class ContentStrategy(BaseModel):
+    post_number: int
+    section_type: str
+    content: str
+    strategy_note: str = ""
+
+
 class Post(BaseModel):
     post_number: int
-    segments: List[ContentSegment]
+    section_type: str
+    content: str
+    metadata: Dict[str, Any] = {}
 
 
 class Content(BaseModel):
+    segments: Optional[List[ContentSegment]] = []
+    strategy: Optional[List[ContentStrategy]] = []
     posts: List[Post]
     original_content: str
     content_type: str
     account_id: str
     metadata: Dict[str, Any] = {}
-
-
-class ContentGenerationRequest(BaseModel):
-    account_id: str
-    post_id: str
-    content_type: str

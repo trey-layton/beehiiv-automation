@@ -1,13 +1,15 @@
 import logging
 from typing import Any, Dict, Tuple
 import os
-import supabase
+from supabase import Client as SupabaseClient
 from core.content.content_fetcher import fetch_beehiiv_content
 from core.models.account_profile import AccountProfile
 from core.content.improved_llm_flow.content_editor import edit_content
 from core.llm_steps.content_generator import generate_content
-from core.models.content import Content, Post, ContentSegment
+from core.models.content import Content, Post, ContentSegment, ContentStrategy
 from core.content.content_type_loader import get_instructions_for_content_type
+from core.llm_steps.structure_analysis import analyze_structure
+from core.llm_steps.content_strategy import determine_content_strategy
 
 logger = logging.getLogger(__name__)
 
@@ -16,68 +18,47 @@ async def run_main_process(
     account_profile: AccountProfile,
     post_id: str,
     content_type: str,
-    supabase: supabase.Client,
+    supabase: SupabaseClient,
 ) -> Tuple[bool, str, Dict[str, Any]]:
-    logger.info(
-        f"Starting main process for post_id: {post_id}, content_type: {content_type}"
-    )
     try:
-        logger.info("Fetching content from Beehiiv")
         content_data = await fetch_beehiiv_content(account_profile, post_id, supabase)
         original_content = content_data.get("free_content")
         web_url = content_data.get("web_url")
 
-        if not original_content or not web_url:
-            logger.error("Failed to fetch content or web URL from Beehiiv")
-            return False, "Failed to fetch content or web URL from Beehiiv", {}
+        content_segments = await analyze_structure(content_data["free_content"])
+        content_strategy = await determine_content_strategy(content_segments)
 
-        logger.info("Creating initial Content object")
-        initial_content = Content(
-            posts=[
-                Post(
-                    post_number=1,
-                    segments=[
-                        ContentSegment(type="main_content", content=original_content)
-                    ],
-                )
-            ],
-            original_content=original_content,
-            content_type=content_type,
-            account_id=account_profile.account_id,
-            metadata={"web_url": web_url, "post_id": post_id},
-        )
-
-        logger.info(f"Getting instructions for content type: {content_type}")
-        instructions = get_instructions_for_content_type(content_type)
-        logger.debug(f"Instructions: {instructions}")
-
-        logger.info("Generating content")
-        generated_content = await generate_content(
-            initial_content,
-            instructions,
-            account_profile,
-            supabase,
-            save_locally=os.getenv("ENVIRONMENT") == "development",
-        )
-        logger.debug(f"Generated content: {generated_content}")
-
-        if content_type != "image_list":
-            logger.info("Editing content")
-            edited_content = await edit_content(generated_content, content_type)
-            logger.debug(f"Edited content: {edited_content}")
-        else:
-            logger.info("Extracting content for image_list")
-            edited_content = next(
-                (
-                    seg.content
-                    for seg in generated_content.posts[0].segments
-                    if seg.type == "content"
-                ),
-                None,
+        generated_posts = []
+        for strategy in content_strategy:
+            initial_content = Content(
+                segments=[
+                    ContentSegment(type=strategy.section_type, content=strategy.content)
+                ],
+                strategy=[strategy],
+                posts=[],
+                original_content=original_content,
+                content_type=content_type,
+                account_id=account_profile.account_id,
+                metadata={"web_url": web_url, "post_id": post_id},
             )
-            logger.debug(f"Extracted content: {edited_content}")
 
-        logger.info("Preparing result")
+            instructions = get_instructions_for_content_type(content_type)
+
+            generated_content = await generate_content(
+                initial_content,
+                instructions,
+                account_profile,
+                supabase,
+                save_locally=os.getenv("ENVIRONMENT") == "development",
+            )
+
+            if content_type != "image_list":
+                edited_content = await edit_content(generated_content, content_type)
+            else:
+                edited_content = generated_content
+
+            generated_posts.extend(edited_content.posts)
+
         result = {
             "provider": (
                 "twitter"
@@ -85,24 +66,27 @@ async def run_main_process(
                 else "linkedin"
             ),
             "type": content_type,
-            "content": edited_content,
+            "posts": [
+                {
+                    "post_number": post.post_number,
+                    "section_type": post.section_type,
+                    "content": post.content,
+                    "metadata": post.metadata,
+                }
+                for post in generated_posts
+            ],
             "thumbnail_url": content_data.get("thumbnail_url"),
+            "original_content": original_content,
+            "content_type": content_type,
+            "account_id": account_profile.account_id,
+            "metadata": {"web_url": web_url, "post_id": post_id},
         }
 
-        if content_type == "image_list":
-            image_url = next(
-                (
-                    seg.content
-                    for seg in generated_content.posts[0].segments
-                    if seg.type == "image_url"
-                ),
-                None,
-            )
+        if content_type == "image_list" and generated_posts:
+            image_url = generated_posts[0].metadata.get("image_url")
             if image_url:
                 result["image_url"] = image_url
-                logger.info(f"Image URL added to result: {image_url}")
 
-        logger.info("Main process completed successfully")
         return True, "Content generated and edited successfully", result
 
     except Exception as e:

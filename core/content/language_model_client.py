@@ -18,24 +18,20 @@ MODEL_TIERS = {
     "high": {
         "anthropic": {
             "model": "claude-3-5-sonnet-20240620",
-            "max_tokens": 200000,  # 200K tokens
+            "max_tokens": 200000,
             "max_output_tokens": 8192,
         },
-        "openai": {
-            "model": "gpt-4o",
-            "max_tokens": 128000,  # 128K tokens
-            "max_output_tokens": 4096,
-        },
+        "openai": {"model": "gpt-4o", "max_tokens": 128000, "max_output_tokens": 4096},
     },
     "medium": {
         "anthropic": {
             "model": "claude-3-haiku-20240307",
-            "max_tokens": 200000,  # 200K tokens
+            "max_tokens": 200000,
             "max_output_tokens": 4096,
         },
         "openai": {
             "model": "gpt-4o-mini",
-            "max_tokens": 128000,  # 128K tokens
+            "max_tokens": 128000,
             "max_output_tokens": 4096,
         },
     },
@@ -105,7 +101,7 @@ async def call_openai(system_message: dict, user_message: dict, model_config: di
         )
         logger.info("OpenAI API call successful")
         logger.debug(
-            f"OpenAI API response preview: {completion.choices[0].message.content[0][:200]}..."
+            f"OpenAI API response preview: {completion.choices[0].message.content[:200]}..."
         )
         return completion.choices[0].message.content
     except asyncio.TimeoutError:
