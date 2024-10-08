@@ -1,22 +1,20 @@
-import re
-import logging
-from core.content.language_model_client import call_language_model
-from core.models.account_profile import AccountProfile
-from core.utils.llm_response_handler import LLMResponseHandler
+instructions = {
+    "content_generation": """
+        You are a skilled ghostwriter creating an engaging long-form LinkedIn post for a top professional.
+        Generate a LinkedIn post of approximately 850 characters that summarizes the main points of the provided content.
+        
+        Follow these guidelines:
+        1. Structure the post with a strong hook at the beginning to capture attention.
+        2. Maintain the reader's engagement with short, informative paragraphs.
+        3. Keep the tone professional yet approachable, reflecting the professional's unique voice.
+        4. Do not use any emojis, excessive punctuation, or overly enthusiastic phrases. Avoid cliches and generic statements.
+        5. Focus on providing value, insights, and actionable takeaways based on the content provided.
+        6. Ensure that the post flows naturally, keeping the reader interested throughout.
+        7. Separate each sentence or paragraph with a blank line to enhance readability.
 
-logger = logging.getLogger(__name__)
-
-
-async def generate(
-    main_content: str,
-    strategy_note: str,
-    instructions: dict,
-    account_profile: AccountProfile,
-    **kwargs,
-) -> str:
-    try:
-        example_post = """
-How to build a holding company (without millions $$$): 
+        Example of style (content NOT to be used):
+        
+        How to build a holding company (without millions $$$): 
  
 Everyone thinks you need millions of dollars to build a holding company. 
  
@@ -112,35 +110,17 @@ We're also working on something (BIG) that's going to make YOUR holding company 
  
 Buy your dream & build back Main Street..
 
-Be the first to get more details about this (BIG) new project here → https://lnkd.in/eHwd3tXr
+Be the first to get more details about this (BIG) new project here → https://lnkd.in/eHwd3tXr"
+
+
+
+        Return the post in this EXACT format:
+
+        {
+            "type": "long_form_post",
+            "content": [
+                {"type": "main_post", "content": "Main post content here"}
+            ]
+        }
         """
-        system_message = {
-            "role": "system",
-            "content": f"You are a skilled content creator specializing in LinkedIn posts. {instructions.get('content_generation', '')} Generate a post of approximately 1000 characters that summarizes the main points of the given content. The post should be informative, engaging, and have a 'thought leadership' tone. Do not use emojis. If the example post provided breaks these guidelines, override them with the example post instead as this was chosen specifically for the person. Each sentence or key point should be on a new line, separated by <br>. The post should be ready to publish on LinkedIn. Do not include any additional text, formatting, or placeholders beyond the <br> separators.",
-        }
-        user_message = {
-            "role": "user",
-            "content": f"Create a LinkedIn post summarizing this newsletter content. Use a professional style similar to this example, but adapted for LinkedIn: {example_post}\n\nHere's the newsletter content:\n{main_content}\n\n DO NOT WRITE ABOUT A HOLDING COMPANY",
-        }
-
-        response_content = await call_language_model(
-            system_message, user_message, tier="high"
-        )
-
-        logger.debug(f"Raw LLM response: {response_content}")
-
-        post_text = LLMResponseHandler.process_llm_response(response_content, "content")
-
-        # Clean up the post text
-        post_text = post_text.strip().strip('"')
-        post_text = post_text.replace("\n", "<br>")
-        post_text = post_text.replace("<br><br>", "<br>")
-        post_text = re.sub(r"^(Post:?\s*)", "", post_text, flags=re.IGNORECASE)
-
-        logger.info(
-            f"Final LinkedIn post text (length {len(post_text)}):\n{post_text[:100]}..."
-        )
-        return post_text
-    except Exception as e:
-        logger.error(f"Unexpected error in generate_linkedin_post: {str(e)}")
-        raise
+}
