@@ -23,6 +23,8 @@ async def analyze_structure(content: str) -> str:
 7. Recognize common newsletter elements such as introductions, main stories, conclusions, etc.
 8. Do not include intros, headers, footers, or sponsored content in your output. These are the only sections you're allowed to leave out, and you should simply not include them in your json output.
 
+I cannot stress enough how important it is for you to return the entire content of the newsletter. Do not cut sections off or try to summarize them.
+
 Your job is to return a JSON object with clearly defined sections and titles from the newsletter provided. These should be the only content in your final response. The JSON should have the following format:
     
     {"section_1": "Full content of section 1",
