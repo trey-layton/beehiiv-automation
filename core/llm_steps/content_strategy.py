@@ -25,6 +25,10 @@ For "single-section" newsletters (example: a list of reasons why coffee is good 
 For newsletters with various parts (like a few quick news stories, a jobs postings alert, an events tab, shorter secondary stories, etc), each of these sections should be its own section.
 However, a main story can only count as a main story if it is noticeably longer than the other parts of the newsletter, not always just the first section of the newsletter... if they are all about the same length, this should be treated as a secondary post.
 
+When making your posts, prioritize richer sections with adequate content. So rather than include just the title section or a fun "what I'm listening to", choose sections with more density of valuable information.
+
+Again, I need you to provide the ENTIRE section as it is passed to you. Do not cut any of it off or summarize it in any way.
+
 Format your response exactly as follows:
 [
     {"post_number": 1, "section_title": "main_story", "section_content": "Full content of main story..."},
