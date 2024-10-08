@@ -37,9 +37,6 @@ async def fetch_beehiiv_content(
                                     "thumbnails"
                                 ).get_public_url(file_name)
                                 supabase_thumbnail_url = public_url_result
-                                logger.info(
-                                    f"Thumbnail uploaded successfully: {supabase_thumbnail_url}"
-                                )
                             else:
                                 logger.error(
                                     f"Error uploading thumbnail: {upload_result}"

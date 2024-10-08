@@ -1,15 +1,12 @@
+import json
 import logging
-from typing import Any, Dict, Tuple
-import os
+from typing import Dict, Any, List
 from supabase import Client as SupabaseClient
 from core.content.content_fetcher import fetch_beehiiv_content
 from core.models.account_profile import AccountProfile
-from core.content.improved_llm_flow.content_editor import edit_content
-from core.llm_steps.content_generator import generate_content
-from core.models.content import Content, Post, ContentSegment, ContentStrategy
-from core.content.content_type_loader import get_instructions_for_content_type
 from core.llm_steps.structure_analysis import analyze_structure
 from core.llm_steps.content_strategy import determine_content_strategy
+from core.llm_steps.content_generator import generate_content
 
 logger = logging.getLogger(__name__)
 
@@ -19,76 +16,69 @@ async def run_main_process(
     post_id: str,
     content_type: str,
     supabase: SupabaseClient,
-) -> Tuple[bool, str, Dict[str, Any]]:
+) -> Dict[str, Any]:
     try:
+        # Step 1: Fetch the content from the newsletter source (beehiiv)
         content_data = await fetch_beehiiv_content(account_profile, post_id, supabase)
         original_content = content_data.get("free_content")
         web_url = content_data.get("web_url")
+        thumbnail_url = content_data.get("thumbnail_url")
 
-        content_segments = await analyze_structure(content_data["free_content"])
-        content_strategy = await determine_content_strategy(content_segments)
+        # Step 2: Analyze the structure of the content
+        newsletter_structure: str = await analyze_structure(original_content)
 
-        generated_posts = []
-        for strategy in content_strategy:
-            initial_content = Content(
-                segments=[
-                    ContentSegment(type=strategy.section_type, content=strategy.content)
-                ],
-                strategy=[strategy],
-                posts=[],
-                original_content=original_content,
-                content_type=content_type,
-                account_id=account_profile.account_id,
-                metadata={"web_url": web_url, "post_id": post_id},
-            )
+        # Step 3: Determine the content strategy based on the structure
+        content_strategy: str = await determine_content_strategy(newsletter_structure)
 
-            instructions = get_instructions_for_content_type(content_type)
+        # Step 4: Parse the content strategy (ensure it's valid JSON directly from the LLM output)
+        try:
+            strategy_list = json.loads(content_strategy)  # Ensure it's parsed as JSON
+        except json.JSONDecodeError as e:
+            logger.error(f"Failed to parse content strategy JSON: {str(e)}")
+            return {"error": "Failed to parse content strategy", "success": False}
 
-            generated_content = await generate_content(
-                initial_content,
-                instructions,
-                account_profile,
-                supabase,
-                save_locally=os.getenv("ENVIRONMENT") == "development",
-            )
+        # Step 5: Process each section of the content strategy as its own independent entity
+        generated_contents: List[Dict[str, Any]] = []
+        for strategy in strategy_list:
+            post_number = strategy.get(
+                "post_number", "unknown"
+            )  # Retrieve post number from strategy
+            section_title = strategy.get("section_title", "unknown")
 
-            if content_type != "image_list":
-                edited_content = await edit_content(generated_content, content_type)
-            else:
-                edited_content = generated_content
+            try:
+                post_content = await generate_content(
+                    strategy,
+                    content_type,
+                    account_profile,
+                    web_url,
+                    post_number,  # Pass the post_number to generate_content
+                )
 
-            generated_posts.extend(edited_content.posts)
+                if isinstance(post_content, dict) and "content" in post_content:
+                    generated_contents.append(post_content)
+                else:
+                    logger.error(f"Invalid post content format for post {post_number}")
+                    return {"error": "Invalid post content format", "success": False}
 
-        result = {
-            "provider": (
-                "twitter"
-                if content_type.endswith("tweet") or content_type == "image_list"
-                else "linkedin"
-            ),
+            except Exception as e:
+                logger.error(
+                    f"Error generating content for post {post_number}: {str(e)}"
+                )
+                return {"error": str(e), "success": False}
+
+        final_content = {
+            "provider": "twitter" if "tweet" in content_type else "linkedin",
             "type": content_type,
-            "posts": [
-                {
-                    "post_number": post.post_number,
-                    "section_type": post.section_type,
-                    "content": post.content,
-                    "metadata": post.metadata,
-                }
-                for post in generated_posts
-            ],
-            "thumbnail_url": content_data.get("thumbnail_url"),
-            "original_content": original_content,
-            "content_type": content_type,
-            "account_id": account_profile.account_id,
+            "content": generated_contents,
+            "thumbnail_url": thumbnail_url,
             "metadata": {"web_url": web_url, "post_id": post_id},
         }
-
-        if content_type == "image_list" and generated_posts:
-            image_url = generated_posts[0].metadata.get("image_url")
-            if image_url:
-                result["image_url"] = image_url
-
-        return True, "Content generated and edited successfully", result
+        logger.info(final_content)
+        return final_content
 
     except Exception as e:
-        logger.exception(f"Error in run_main_process: {str(e)}")
-        return False, f"An unexpected error occurred: {str(e)}", {}
+        logger.error(f"Error in run_main_process for post_id {post_id}: {str(e)}")
+        return {
+            "error": str(e),
+            "success": False,
+        }

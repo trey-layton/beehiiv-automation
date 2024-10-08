@@ -48,13 +48,13 @@ def get_beehiiv_post_content(
         }
 
         # Log the headers for debugging
-        logger.info(f"Headers: {headers}")
+        # logger.info(f"Headers: {headers}")
 
         params = urlencode({"expand[]": "free_web_content"})
         url = f"/v2/publications/{account_profile.publication_id}/posts/{post_id}?{params}"
 
         # Log the URL for debugging
-        logger.info(f"Constructed URL: {url}")
+        # logger.info(f"Constructed URL: {url}")
 
         conn.request("GET", url, headers=headers)
         res = conn.getresponse()
@@ -87,7 +87,7 @@ def get_beehiiv_post_content(
                 "web_url": web_url,
                 "thumbnail_url": thumbnail_url,  # Add this line
             }
-            logger.info(f"Extracted post content: {result}")
+            # logger.info(f"Extracted post content: {result}")
             return result
         else:
             logger.error("Invalid response structure: 'data' key not found")

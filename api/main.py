@@ -19,6 +19,7 @@ from core.llm_steps.content_strategy import determine_content_strategy
 from core.llm_steps.content_generator import generate_content
 from core.content.content_type_loader import get_instructions_for_content_type
 from core.models.content import Content, Post, ContentSegment
+from core.main_process import run_main_process
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
@@ -64,18 +65,6 @@ def authenticate(
         )
 
 
-def content_to_dict(content: Content) -> dict:
-    return {
-        "segments": [segment.dict() for segment in content.segments],
-        "strategy": [strategy.dict() for strategy in content.strategy],
-        "posts": [post.dict() for post in content.posts],
-        "original_content": content.original_content,
-        "content_type": content.content_type,
-        "account_id": content.account_id,
-        "metadata": content.metadata,
-    }
-
-
 @app.get("/")
 async def root():
     return {"message": "PostOnce API is running"}
@@ -89,7 +78,7 @@ class ContentGenerationRequest(BaseModel):
         "postcta_tweet",
         "thread_tweet",
         "long_form_tweet",
-        "linkedin",
+        "linkedin_long_form_post",
         "image_list",
     ]
 
@@ -117,10 +106,7 @@ async def generate_content_endpoint(
 
         return StreamingResponse(
             content_generator(
-                account_profile.dict(),
-                request.post_id,
-                request.content_type,
-                client_user[0],
+                account_profile, request.post_id, request.content_type, client_user[0]
             ),
             media_type="text/event-stream",
         )
@@ -130,148 +116,58 @@ async def generate_content_endpoint(
 
 
 async def content_generator(
-    account_profile: dict, post_id: str, content_type: str, supabase: Client
-) -> AsyncGenerator[str, None]:
+    account_profile: AccountProfile, post_id: str, content_type: str, supabase: Client
+):
     start_time = time.time()
 
     async def heartbeat():
-        while True:
-            await asyncio.sleep(5)
-            yield json.dumps(
-                {"status": "heartbeat", "message": "Still processing..."}
-            ) + "\n"
+        # Wrapping the async generator to yield as a coroutine
+        try:
+            while True:
+                await asyncio.sleep(5)
+                yield json.dumps(
+                    {"status": "heartbeat", "message": "Still processing..."}
+                ) + "\n"
+        except asyncio.CancelledError:
+            logger.info("Heartbeat cancelled")
 
-    heartbeat_task = None
-
+    # Use an async generator directly with StreamingResponse instead of creating a task
     try:
-        heartbeat_task = asyncio.create_task(heartbeat().__anext__())
-
         yield json.dumps(
             {"status": "started", "message": "Initializing content generation"}
         ) + "\n"
         await asyncio.sleep(0.1)
 
         logger.info("Content generation started")
-        account_profile_obj = AccountProfile(**account_profile)
 
-        yield json.dumps(
-            {"status": "in_progress", "message": "Fetching content from Beehiiv"}
-        ) + "\n"
-        content_data = await fetch_beehiiv_content(
-            account_profile_obj, post_id, supabase
-        )
-        yield json.dumps(
-            {
-                "status": "in_progress",
-                "message": "Content fetched successfully",
-                "data": content_data,
-            }
-        ) + "\n"
-
-        yield json.dumps(
-            {"status": "in_progress", "message": "Analyzing content structure"}
-        ) + "\n"
-        structured_content = await analyze_structure(content_data["free_content"])
-        yield json.dumps(
-            {
-                "status": "in_progress",
-                "message": "Content structure analyzed",
-                "data": [segment.dict() for segment in structured_content],
-            }
-        ) + "\n"
-
-        yield json.dumps(
-            {"status": "in_progress", "message": "Determining content strategy"}
-        ) + "\n"
-        content_strategy = await determine_content_strategy(structured_content)
-        yield json.dumps(
-            {
-                "status": "in_progress",
-                "message": "Content strategy determined",
-                "data": [strategy.dict() for strategy in content_strategy],
-            }
-        ) + "\n"
-
-        initial_content = Content(
-            segments=structured_content,
-            strategy=content_strategy,
-            posts=[],
-            original_content=content_data["free_content"],
-            content_type=content_type,
-            account_id=account_profile_obj.account_id,
-            metadata={"web_url": content_data["web_url"], "post_id": post_id},
+        # Run the main content generation process
+        result = await run_main_process(
+            account_profile, post_id, content_type, supabase
         )
 
-        instructions = get_instructions_for_content_type(content_type)
-
-        yield json.dumps(
-            {"status": "in_progress", "message": "Generating content"}
-        ) + "\n"
-        generated_content = await generate_content(
-            initial_content,
-            instructions,
-            account_profile_obj,
-            supabase,
-            save_locally=os.getenv("ENVIRONMENT") == "development",
-        )
-        yield json.dumps(
-            {
-                "status": "in_progress",
-                "message": "Content generated",
-                "data": content_to_dict(generated_content),
-            }
-        ) + "\n"
-
-        if content_type != "image_list":
-            yield json.dumps(
-                {"status": "in_progress", "message": "Editing and refining content"}
-            ) + "\n"
-            edited_content = await edit_content(generated_content, content_type)
+        if result.get("success", False):
             yield json.dumps(
                 {
-                    "status": "in_progress",
-                    "message": "Content editing completed",
-                    "data": content_to_dict(edited_content),
+                    "status": "completed",
+                    "result": result,
+                    "total_time": f"{time.time() - start_time:.2f} seconds",
                 }
             ) + "\n"
         else:
-            edited_content = generated_content
-
-        provider = (
-            "twitter"
-            if content_type.endswith("tweet") or content_type == "image_list"
-            else "linkedin"
-        )
-
-        result = {
-            "provider": provider,
-            "type": content_type,
-            "content": content_to_dict(edited_content),
-            "thumbnail_url": content_data.get("thumbnail_url"),
-        }
-
-        if content_type == "image_list":
-            image_url = (
-                edited_content.posts[0].metadata.get("image_url")
-                if edited_content.posts
-                else None
-            )
-            if image_url:
-                result["image_url"] = image_url
-
-        yield json.dumps(
-            {
-                "status": "completed",
-                "result": result,
-                "total_time": f"{time.time() - start_time:.2f} seconds",
-            }
-        ) + "\n"
+            yield json.dumps(
+                {
+                    "status": "failed",
+                    "error": result.get("error", "Unknown error occurred"),
+                    "total_time": f"{time.time() - start_time:.2f} seconds",
+                }
+            ) + "\n"
 
     except Exception as e:
         logger.error(f"Error in content_generator: {str(e)}")
         yield json.dumps({"status": "failed", "error": str(e)}) + "\n"
-    finally:
-        if heartbeat_task:
-            heartbeat_task.cancel()
 
-    logger.info("Content generation completed")
+
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run(app, host="0.0.0.0", port=8000)
