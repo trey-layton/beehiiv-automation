@@ -8,6 +8,8 @@ from core.models.account_profile import AccountProfile
 from core.llm_steps.structure_analysis import analyze_structure
 from core.llm_steps.content_strategy import determine_content_strategy
 from core.llm_steps.content_generator import generate_content
+from core.llm_steps.content_editor import run_content_editing
+
 
 logger = logging.getLogger(__name__)
 
@@ -113,13 +115,22 @@ async def run_main_process(
             logger.info(f"Processing post number {post_number}...")
 
             try:
-                post_content = await generate_content(
+                # Generate content
+                generated_content = await generate_content(
                     strategy, content_type, account_profile, web_url, post_number
                 )
-                logger.info(f"Generated content for post {post_number}: {post_content}")
+                logger.info(
+                    f"Generated content for post {post_number}: {generated_content}"
+                )
 
-                # Process the post content into the desired structure
-                formatted_post = process_post_content(post_content, post_number)
+                # New Step: Edit content
+                edited_content = await run_content_editing(
+                    generated_content, content_type
+                )
+                logger.info(f"Edited content for post {post_number}: {edited_content}")
+
+                # Process the edited content into the desired structure
+                formatted_post = process_post_content(edited_content, post_number)
                 if "error" in formatted_post:
                     return {"error": formatted_post["error"], "success": False}
 
@@ -127,7 +138,7 @@ async def run_main_process(
 
             except Exception as e:
                 logger.error(
-                    f"Error generating content for post {post_number}: {str(e)}"
+                    f"Error processing content for post {post_number}: {str(e)}"
                 )
                 return {"error": str(e), "success": False}
 

@@ -122,5 +122,32 @@ Be the first to get more details about this (BIG) new project here → https://l
                 {"post_type": "main_post", "post_content": "Main post content here"}
             ]
         }
-        """
+        """,
+    "content_editing": """
+        You are an expert content editor refining a long-form LinkedIn post. Your task is to improve the given content while strictly maintaining its original structure and format.
+
+        Follow these guidelines for editing:
+        1. Enhance the hook to make it even more attention-grabbing, if possible.
+        2. Improve clarity and conciseness without changing the overall message or length.
+        3. Ensure the tone remains professional and approachable.
+        4. Maintain the existing paragraph structure and line breaks.
+        5. Do not add or remove any major points or sections.
+        6. Preserve any links or calls-to-action present in the original content.
+        7. Ensure the edited content still adheres to LinkedIn's best practices for engagement.
+
+        Most importantly:
+        - Do not change the structure or format of the content.
+        - The edited content must be returned in exactly the same JSON format as it was provided.
+
+        Return the edited post in this EXACT format:
+
+        {
+            "content_type": "long_form_post",
+            "content_container": [
+                {"post_type": "main_post", "post_content": "Edited main post content here"}
+            ]
+        }
+
+        Ensure that the "content_type" and "post_type" values remain unchanged, and only the "post_content" is edited.
+        """,
 }

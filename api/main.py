@@ -6,19 +6,12 @@ from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
-from typing import Literal, AsyncGenerator
-from core.content.content_fetcher import fetch_beehiiv_content
-from core.content.improved_llm_flow.content_editor import edit_content
+from typing import Literal
 from supabase import create_client, Client, ClientOptions
 from core.models.account_profile import AccountProfile
 from core.services.account_profile_service import AccountProfileService
 import logging
 from dotenv import load_dotenv
-from core.llm_steps.structure_analysis import analyze_structure
-from core.llm_steps.content_strategy import determine_content_strategy
-from core.llm_steps.content_generator import generate_content
-from core.content.content_type_loader import get_instructions_for_content_type
-from core.models.content import Content, Post, ContentSegment
 from core.main_process import run_main_process
 
 logging.basicConfig(
@@ -133,13 +126,16 @@ async def content_generator(
     # Start streaming the response
     try:
         yield json.dumps(
-            {"status": "started", "message": "Initializing content generation"}
+            {
+                "status": "started",
+                "message": "Initializing content generation and editing",
+            }
         ) + "\n"
         await asyncio.sleep(0.1)
 
-        logger.info("Content generation started")
+        logger.info("Content generation and editing process started")
 
-        # Run the main content generation process
+        # Run the main content generation and editing process
         result = await run_main_process(
             account_profile, post_id, content_type, supabase
         )
@@ -158,7 +154,7 @@ async def content_generator(
 
         # Check for success key in result
         if result.get("success", False):
-            logger.info(f"Content generation succeeded: {result}")
+            logger.info(f"Content generation and editing succeeded: {result}")
             yield json.dumps(
                 {
                     "status": "completed",
@@ -167,17 +163,20 @@ async def content_generator(
                 }
             ) + "\n"
         else:
-            logger.error(f"Content generation failed: {result}")
+            logger.error(f"Content generation or editing failed: {result}")
             yield json.dumps(
                 {
                     "status": "failed",
-                    "error": result.get("error", "Unknown error occurred"),
+                    "error": result.get(
+                        "error",
+                        "Unknown error occurred during content generation or editing",
+                    ),
                     "total_time": f"{time.time() - start_time:.2f} seconds",
                 }
             ) + "\n"
 
     except Exception as e:
-        logger.error(f"Error in content_generator: {str(e)}")
+        logger.error(f"Error in content generation or editing process: {str(e)}")
         yield json.dumps({"status": "failed", "error": str(e)}) + "\n"
 
 
