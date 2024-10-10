@@ -7,10 +7,10 @@ instructions = {
 
         Return the post in this EXACT format with no additional text:
         
-            ["type": "precta_tweet",
-            "content": [
-                {"type": "main_tweet", "content": "Main post content here"},
-                {"type": "reply_tweet", "content": "If this sounds interesting, subscribe for free to get it in your inbox! {account_profile.subscribe_url}"},
+            ["content_type": "precta_tweet",
+            "content_container": [
+                {"post_type": "main_tweet", "post_content": "Main post content here"},
+                {"post_type": "reply_tweet", "post_content": "If this sounds interesting, subscribe for free to get it in your inbox! {account_profile.subscribe_url}"},
             ]
         """
 }

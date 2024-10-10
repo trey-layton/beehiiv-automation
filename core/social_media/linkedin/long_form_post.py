@@ -117,9 +117,9 @@ Be the first to get more details about this (BIG) new project here → https://l
         Return the post in this EXACT format:
 
         {
-            "type": "long_form_post",
-            "content": [
-                {"type": "main_post", "content": "Main post content here"}
+            "content_type": "long_form_post",
+            "content_container": [
+                {"post_type": "main_post", "post_content": "Main post content here"}
             ]
         }
         """

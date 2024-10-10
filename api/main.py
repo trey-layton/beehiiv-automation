@@ -121,7 +121,6 @@ async def content_generator(
     start_time = time.time()
 
     async def heartbeat():
-        # Wrapping the async generator to yield as a coroutine
         try:
             while True:
                 await asyncio.sleep(5)
@@ -131,7 +130,7 @@ async def content_generator(
         except asyncio.CancelledError:
             logger.info("Heartbeat cancelled")
 
-    # Use an async generator directly with StreamingResponse instead of creating a task
+    # Start streaming the response
     try:
         yield json.dumps(
             {"status": "started", "message": "Initializing content generation"}
@@ -145,7 +144,21 @@ async def content_generator(
             account_profile, post_id, content_type, supabase
         )
 
+        # Validate the result to ensure proper structure
+        if not isinstance(result, dict):
+            logger.error(f"Invalid result format returned: {result}")
+            yield json.dumps(
+                {
+                    "status": "failed",
+                    "error": "Invalid result format",
+                    "total_time": f"{time.time() - start_time:.2f} seconds",
+                }
+            ) + "\n"
+            return
+
+        # Check for success key in result
         if result.get("success", False):
+            logger.info(f"Content generation succeeded: {result}")
             yield json.dumps(
                 {
                     "status": "completed",
@@ -154,6 +167,7 @@ async def content_generator(
                 }
             ) + "\n"
         else:
+            logger.error(f"Content generation failed: {result}")
             yield json.dumps(
                 {
                     "status": "failed",

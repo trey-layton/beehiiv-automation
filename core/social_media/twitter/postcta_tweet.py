@@ -5,9 +5,9 @@ instructions = {
                 For this reply tweet, this is only a single post, not a thread or anything, so don't use language suggesting otherwise. Also, the link is to subscribe as the newsletter has not gone out yet.
                Return the post in this EXACT format:
         
-            ["type": "postcta_tweet",
-            "content": [
-                {"type": "main_tweet", "content": "Main post content here"},
-                {"type": "reply_tweet", "content": "If this sounds interesting, check out the full article online now! {web_url}"},
+            ["content_type": "postcta_tweet",
+            "content_container": [
+                {"post_type": "main_tweet", "post_content": "Main post content here"},
+                {"post_type": "reply_tweet", "post_content": "If this sounds interesting, check out the full article online now! {web_url}"},
             ] """
 }

@@ -44,13 +44,13 @@ Benham consulted clients using the same algorithms, statistics & data research t
         Here is an example of how it should be structured:
         Example:
         {
-            "type": "thread_tweet",
-            "content": [
-                {"type": "main_tweet", "content": "Main post content here"},
-                {"type": "reply_tweet", "content": "Reply content here"},
-                {"type": "reply_tweet", "content": "Reply content here"},
-                {"type": "article_url", "content": "If you want to go even deeper, check out the full article! [article_url]"},
-                {"type": "quote_tweet", "content": "If you found value in this thread, please give it a like and share!"},
+            "content_type": "thread_tweet",
+            "content_container": [
+                {"post_type": "main_tweet", "post_content": "Main post content here"},
+                {"post_type": "reply_tweet", "post_ontent": "Reply content here"},
+                {"post_type": "reply_tweet", "post_ontent": "Reply content here"},
+                {"post_type": "article_url", "post_content": "If you want to go even deeper, check out the full article! [article_url]"},
+                {"post_type": "quote_tweet", "post_content": "If you found value in this thread, please give it a like and share!"},
             ]
 
         }

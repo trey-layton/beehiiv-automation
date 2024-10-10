@@ -25,9 +25,35 @@ CONTENT_TYPE_MAP = {
 }
 
 
+def clean_llm_response(response: str) -> str:
+    """
+    Cleans and ensures that the LLM response is properly escaped
+    for safe JSON parsing.
+    """
+    try:
+        clean_response = json.loads(response)
+        logger.info("Successfully parsed JSON response without modification.")
+        return clean_response
+
+    except json.JSONDecodeError:
+        logger.error(f"Raw LLM Response: {response}")
+        logger.error("JSON parsing failed. Attempting to clean the response.")
+        match = re.search(r"(\{.*\}|\[.*\])", response, re.DOTALL)
+        if match:
+            try:
+                cleaned_json_str = match.group(0)
+                cleaned_json = json.loads(cleaned_json_str)
+                logger.info(f"Manually cleaned and parsed response: {cleaned_json}")
+                return cleaned_json
+            except json.JSONDecodeError as e:
+                logger.error(f"Failed to parse manually extracted content: {str(e)}")
+                raise ValueError("Manually extracted content is not valid JSON.")
+        else:
+            raise ValueError("Unable to extract valid JSON from LLM response.")
+
+
 def get_instructions_for_content_type(content_type: str) -> Dict[str, Any]:
     try:
-        # Fetch the instructions module for the given content type
         module = CONTENT_TYPE_MAP.get(content_type)
         if not module:
             raise ModuleNotFoundError(f"Content type '{content_type}' not found.")
@@ -35,7 +61,15 @@ def get_instructions_for_content_type(content_type: str) -> Dict[str, Any]:
 
     except ModuleNotFoundError as e:
         logging.error(f"Error fetching instructions for {content_type}: {e}")
-        return {"content_generation": ""}  # Empty instructions as fallback
+        return {"content_generation": ""}
+
+
+def escape_special_characters(text: str) -> str:
+    try:
+        return json.dumps(text)[1:-1]  # [1:-1] to remove extra quotes added by dumps
+    except Exception as e:
+        logger.error(f"Failed to escape special characters: {str(e)}")
+        return text  # Fallback to original text in case of failure
 
 
 async def generate_content(
@@ -82,56 +116,101 @@ async def generate_content(
     try:
         # Call the language model and get the raw response
         response = await call_language_model(system_message, user_message)
+        logger.info(f"Full Raw LLM response: {response}")
 
-        # Log the raw response for inspection
-        logger.info(f"Raw LLM response: {response}")
-
-        # Step 1: Try parsing as JSON normally
         try:
             response_json = json.loads(response)
             logger.info("Parsed JSON successfully.")
         except json.JSONDecodeError:
-            logger.error("Failed to parse JSON normally, attempting manual extraction.")
+            logger.error(
+                "Failed to parse JSON normally, attempting to clean the response."
+            )
+            response_json = clean_llm_response(response)
 
-            # Step 2: Use a fallback approach to extract the type and content manually
-            response_json = {}
-            type_match = re.search(r'"type":\s*"([^"]+)"', response)
-            content_match = re.search(r'"content":\s*\[(.*)\]', response, re.DOTALL)
-
-            if type_match and content_match:
-                response_json["type"] = type_match.group(1)
-                response_json["content"] = [
-                    {
-                        "type": response_json["type"],
-                        "content": content_match.group(1).strip(),
-                    }
-                ]
-                logger.info("Manually extracted type and content.")
-            else:
-                raise ValueError("Unable to extract type or content from the response.")
-
-        # Step 3: Validate the structure of the parsed response
-        if "content" not in response_json or not isinstance(
-            response_json["content"], list
+        if "content_container" not in response_json or not isinstance(
+            response_json["content_container"], list
         ):
             logger.error(f"Invalid response format: {response_json}")
             return {"error": "Invalid response format", "success": False}
 
         # Step 4: Extract formatted posts
         formatted_posts = []
-        for post in response_json["content"]:
-            post_type = post.get("type", "")
-            post_content = post.get("content", "").strip()
-            if post_content:
-                formatted_posts.append({"type": post_type, "content": post_content})
+        logger.info(f"Response JSON content_container: {response_json}")
+
+        for post in response_json["content_container"]:
+            post_type = post.get("post_type", "")
+            post_content = post.get(
+                "post_content", ""
+            )  # Update key to post_content as per the raw LLM response
+
+            logger.info(
+                f"Processing post number {post_number}, type: {post_type}, post content: {post_content}"
+            )
+            logger.info(f"Post content type: {type(post_content)}")
+
+            if isinstance(post_content, str):
+                logger.info(
+                    f"Post content is a string. Wrapping it in a list: {post_content}"
+                )
+                post_content = [post_content]  # Convert to list to maintain consistency
+            elif isinstance(post_content, list):
+                logger.info(f"Post content is already a list: {post_content}")
+            else:
+                logger.error(f"Unexpected type for post_content: {type(post_content)}")
+
+            if isinstance(post_content, list):
+                sub_posts = []
+                for sub_post in post_content:
+                    logger.info(
+                        f"Processing sub_post: {sub_post}, sub_post type: {type(sub_post)}"
+                    )
+
+                    if isinstance(sub_post, dict):
+                        logger.info(
+                            f"Sub-post is a valid dict. Adding to sub_posts: {sub_post}"
+                        )
+                        sub_posts.append(sub_post)
+                    elif isinstance(sub_post, str):
+                        logger.info(
+                            f"Sub-post is a string. Converting to JSON object with type {post_type}"
+                        )
+                        sub_posts.append(
+                            {"post_type": post_type, "content_text": sub_post.strip()}
+                        )
+                    else:
+                        logger.error(
+                            f"Unexpected sub-post type: {type(sub_post)}. Converting to string."
+                        )
+                        sub_posts.append(
+                            {
+                                "post_type": post_type,
+                                "content_text": str(sub_post).strip(),
+                            }
+                        )
+
+                formatted_posts.append(
+                    {
+                        "content_type": post_type,
+                        "content_container": sub_posts,  # Add the array of sub-posts for this main post
+                    }
+                )
+                logger.info(f"Formatted post: {formatted_posts[-1]}")
+            else:
+                logger.error(f"Unexpected content type for post: {type(post_content)}")
+                post_content = [str(post_content)]
+                formatted_posts.append(
+                    {"content_type": post_type, "content_container": post_content}
+                )
+                logger.info(
+                    f"Added post with unexpected content type: {formatted_posts[-1]}"
+                )
 
         logger.info(
             f"Extracted {len(formatted_posts)} posts for post number {post_number}"
         )
-
         return {
             "post_number": post_number,
-            "content": formatted_posts,
+            "content_container": formatted_posts,
         }
 
     except Exception as e:
