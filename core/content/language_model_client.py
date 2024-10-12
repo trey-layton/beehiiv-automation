@@ -42,7 +42,7 @@ MODEL_TIERS = {
 async def call_language_model(
     system_message: dict, user_message: dict, tier: str = "high"
 ):
-    logger.info(f"Calling language model with tier: {tier}")
+    # logger.info(f"Calling language model with tier: {tier}")
     model_config = MODEL_TIERS[tier][LANGUAGE_MODEL_PROVIDER]
 
     if LANGUAGE_MODEL_PROVIDER == "anthropic":
@@ -56,7 +56,7 @@ async def call_language_model(
 
 
 async def call_anthropic(system_message: dict, user_message: dict, model_config: dict):
-    logger.info("Calling Anthropic API")
+    # logger.info("Calling Anthropic API")
     client = anthropic.AsyncAnthropic(api_key=ANTHROPIC_API_KEY)
     try:
         response = await asyncio.wait_for(
@@ -69,7 +69,7 @@ async def call_anthropic(system_message: dict, user_message: dict, model_config:
             ),
             timeout=300,  # 5 minutes timeout
         )
-        logger.info("Anthropic API call successful")
+        # logger.info("Anthropic API call successful")
         logger.debug(
             f"Anthropic API response preview: {response.content[0].text[:200]}..."
         )
@@ -83,7 +83,7 @@ async def call_anthropic(system_message: dict, user_message: dict, model_config:
 
 
 async def call_openai(system_message: dict, user_message: dict, model_config: dict):
-    logger.info("Calling OpenAI API")
+    #  logger.info("Calling OpenAI API")
     client = openai.AsyncOpenAI(api_key=OPENAI_API_KEY)
     try:
         completion = await asyncio.wait_for(
@@ -99,7 +99,7 @@ async def call_openai(system_message: dict, user_message: dict, model_config: di
             ),
             timeout=300,  # 5 minutes timeout
         )
-        logger.info("OpenAI API call successful")
+        #  logger.info("OpenAI API call successful")
         logger.debug(
             f"OpenAI API response preview: {completion.choices[0].message.content[:200]}..."
         )

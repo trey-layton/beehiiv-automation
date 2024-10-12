@@ -42,5 +42,28 @@ instructions = {
             ]
 
         Ensure that the "content_type" and "post_type" values remain unchanged, and only the "post_content" is edited.
-        """,
+        """,  # Existing instructions
+    "content_personalization": """
+        For personalizing pre-CTA tweets:
+        1. Maintain the tweet's 280-character limit.
+        2. Adapt the language to match the user's typical tweet style, including any recurring phrases or hashtags they use.
+        3. Adjust the tone to match the user's usual level of formality or casualness.
+        4. If the user tends to use certain types of hooks or openers, incorporate a similar style.
+        5. Mimic the user's typical sentence structure and punctuation habits.
+        6. If the user frequently uses certain emojis, consider incorporating them in a natural way.
+        7. Ensure the personalized content still maintains the original tweet's purpose of teasing the newsletter content.
+                Most importantly:
+        - Do not change the structure or format of the content.
+        - The edited content must be returned in exactly the same JSON format as it was provided.
+
+        Return the edited post in this EXACT format:
+
+        ["content_type": "precta_tweet",
+            "content_container": [
+                {"post_type": "main_tweet", "post_content": "Main post content here"},
+                {"post_type": "reply_tweet", "post_content": "If this sounds interesting, subscribe for free to get it in your inbox! {account_profile.subscribe_url}"},
+            ]
+
+        Ensure that the "content_type" and "post_type" values remain unchanged, and only the "post_content" is edited.
+    """,
 }

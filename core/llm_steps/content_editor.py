@@ -56,7 +56,7 @@ async def edit_content(
    - Avoid phrases commonly associated with AI-generated content such as "revolutionizing", "democratizing", "changing the game"
    - Maintain the core message and key points while improving clarity and engagement potential
    - Ensure the content flows naturally and is never choppy, both between subsequent individual posts as part of a larger post and within posts so as to avoid fragments
-
+This has to be proper json, so all key and values MUST BE IN DOUBLE QUOTES
 {content_editing_instructions}""",
     }
 

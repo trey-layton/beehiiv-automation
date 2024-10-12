@@ -17,7 +17,6 @@ def handle_response(response_content):
     # First, try to parse as JSON
     try:
         parsed_response = json.loads(response_content)
-        # logger.info("Successfully parsed response as JSON")
         return parsed_response
     except json.JSONDecodeError:
         logger.warning("Response is not valid JSON, processing as raw string")
@@ -27,13 +26,11 @@ def handle_response(response_content):
     if json_str:
         try:
             parsed_response = json.loads(json_str.group())
-            # logger.info("Successfully extracted JSON from raw string")
             return parsed_response
         except json.JSONDecodeError:
             logger.warning("Failed to extract valid JSON from string")
 
     # If no valid JSON found, return the raw response as-is
-    # logger.info("Returning raw string content")
     return response_content
 
 
@@ -57,12 +54,11 @@ class LLMResponseHandler:
                 )
                 return LLMResponseHandler._extract_from_string(response, stage)
         else:
-            # logger.error(f"Unsupported response type: {type(response)}")
+            logger.error(f"Unsupported response type: {type(response)}")
             return {}
 
     @staticmethod
     def _extract_from_list(response_list: List[Any], stage: str) -> Any:
-        # logger.info(f"Processing response as a list for stage: {stage}")
         if stage == "content_strategy":
             return [ContentStrategy(**item) for item in response_list]
         else:
@@ -70,7 +66,6 @@ class LLMResponseHandler:
 
     @staticmethod
     def _extract_from_dict(response_dict: Dict[str, Any], stage: str) -> Any:
-        # logger.info(f"Processing response as a dict for stage: {stage}")
         if stage == "structure_analysis":
             return response_dict.get("sections", {})
         elif stage == "content_strategy":
@@ -84,6 +79,41 @@ class LLMResponseHandler:
     def _extract_from_string(
         response: str, stage: str
     ) -> Union[Dict[str, str], List[Dict[str, Any]]]:
-        # Implement string parsing for different stages if needed
         logger.warning(f"String parsing not implemented for stage: {stage}")
         return {}
+
+    @staticmethod
+    def clean_llm_response(response: str) -> dict:
+        """
+        Cleans and ensures that the LLM response is properly escaped for safe JSON parsing.
+        """
+        try:
+            logger.info(
+                f"Raw LLM Response before cleaning: {response[:100]}"
+            )  # Log the raw response
+            clean_response = json.loads(response)  # Attempt parsing
+            logger.info("Successfully parsed JSON response without modification.")
+            return clean_response
+
+        except json.JSONDecodeError:
+            logger.error(f"Raw LLM Response: {response}")
+            logger.error("JSON parsing failed. Attempting to clean the response.")
+
+            # Now try cleaning the response
+            match = re.search(r"(\{.*\}|\[.*\])", response, re.DOTALL)
+            if match:
+                try:
+                    cleaned_json_str = match.group(0)
+                    logger.info(
+                        f"Extracted JSON string: {cleaned_json_str[:100]}"
+                    )  # Log cleaned string
+                    cleaned_json = json.loads(cleaned_json_str)
+                    logger.info(f"Manually cleaned and parsed response: {cleaned_json}")
+                    return cleaned_json
+                except json.JSONDecodeError as e:
+                    logger.error(
+                        f"Failed to parse manually extracted content: {str(e)}"
+                    )
+                    raise ValueError("Manually extracted content is not valid JSON.")
+            else:
+                raise ValueError("Unable to extract valid JSON from LLM response.")

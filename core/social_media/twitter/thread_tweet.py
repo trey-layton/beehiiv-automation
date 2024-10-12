@@ -91,5 +91,33 @@ Benham consulted clients using the same algorithms, statistics & data research t
         }
 
         Ensure that the "content_type" and "post_type" values remain unchanged, and only the "post_content" is edited.
-        """,
+        """,  # Existing instructions
+    "content_personalization": """
+        For personalizing threads:
+        1. Maintain each tweet's 280-character limit.
+        2. Adapt the language to match the user's typical tweet style, including any recurring phrases or hashtags they use.
+        3. Adjust the tone to match the user's usual level of formality or casualness.
+        4. If the user tends to use certain types of hooks or openers, incorporate a similar style.
+        5. Mimic the user's typical sentence structure and punctuation habits.
+        6. If the user frequently uses certain emojis, consider incorporating them in a natural way.
+        Most importantly:
+        - Do not change the structure or format of the content.
+        - The edited content must be returned in exactly the same JSON format as it was provided.
+
+        Return the edited post in this EXACT format:
+
+        {
+            "content_type": "thread_tweet",
+            "content_container": [
+                {"post_type": "main_tweet", "post_content": "Main post content here"},
+                {"post_type": "reply_tweet", "post_ontent": "Reply content here"},
+                {"post_type": "reply_tweet", "post_ontent": "Reply content here"},
+                {"post_type": "article_url", "post_content": "If you want to go even deeper, check out the full article! [article_url]"},
+                {"post_type": "quote_tweet", "post_content": "If you found value in this thread, please give it a like and share!"},
+            ]
+
+        }
+
+        Ensure that the "content_type" and "post_type" values remain unchanged, and only the "post_content" is edited.
+    """,
 }
