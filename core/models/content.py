@@ -27,3 +27,6 @@ class Content(BaseModel):
 
 class NewsletterStructure(BaseModel):
     sections: Dict[str, str]
+
+
+#
