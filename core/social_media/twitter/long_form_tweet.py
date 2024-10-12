@@ -111,5 +111,21 @@ Never add anything besides the brackets and everything which is supposed to be i
             }
 
         Ensure that the "content_type" and "post_type" values remain unchanged, and only the "post_content" is edited.
-        """,
+        """,  # Existing instructions
+    "content_personalization": """
+        For personalizing long-form tweets:
+        1. Adapt the language to match the user's typical post style, including any recurring phrases or hashtags they use.
+        2. Adjust the tone to match the user's usual level of formality or casualness.
+        3. If the user tends to use certain types of hooks or openers, incorporate a similar style.
+        4. Mimic the user's typical sentence structure and punctuation habits.
+        5. If the user frequently uses certain emojis, consider incorporating them in a natural way.
+                Return the edited post in this EXACT format:
+
+        {"content_type": "long_form_tweet",
+            "content_container": [
+                {"post_type": "main_tweet", "post_content": "Main post content here"}
+            }
+
+        Ensure that the "content_type" and "post_type" values remain unchanged, and only the "post_content" is edited.
+    """,
 }

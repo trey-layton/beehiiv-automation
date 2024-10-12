@@ -1,4 +1,3 @@
-import importlib
 import logging
 import re
 import json
@@ -125,7 +124,7 @@ async def generate_content(
             logger.error(
                 "Failed to parse JSON normally, attempting to clean the response."
             )
-            response_json = clean_llm_response(response)
+            response_json = LLMResponseHandler.clean_llm_response(response)
 
         if "content_container" not in response_json or not isinstance(
             response_json["content_container"], list
@@ -175,7 +174,7 @@ async def generate_content(
                             f"Sub-post is a string. Converting to JSON object with type {post_type}"
                         )
                         sub_posts.append(
-                            {"post_type": post_type, "content_text": sub_post.strip()}
+                            {"post_type": post_type, "post_content": sub_post.strip()}
                         )
                     else:
                         logger.error(
@@ -184,7 +183,7 @@ async def generate_content(
                         sub_posts.append(
                             {
                                 "post_type": post_type,
-                                "content_text": str(sub_post).strip(),
+                                "post_content": str(sub_post).strip(),
                             }
                         )
 

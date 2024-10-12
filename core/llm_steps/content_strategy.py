@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 
 async def determine_content_strategy(newsletter_structure: str) -> str:
     # Log the input newsletter structure (first 100 characters for brevity)
-    logger.info(f"Input newsletter structure: {newsletter_structure[:100]}...")
+    # logger.info(f"Input newsletter structure: {newsletter_structure[:100]}...")
     system_message = {
         "role": "system",
         "content": """You are an expert content strategist specializing in repurposing newsletter content for social media. Your task is to analyze the structure and content of a newsletter and develop a strategic plan for social media posts. Follow these guidelines:
@@ -48,7 +48,7 @@ Do not include any additional text or formatting beyond what's inside the array.
 
         # Log the raw response from the LLM
         response_str = str(response)
-        logger.info(f"Raw LLM Response: {response_str}")
+        #  logger.info(f"Raw LLM Response: {response_str}")
 
         # Extract the JSON content directly without converting it to string with delimiters
         post_pattern = r'\{\s*"post_number"\s*:\s*(\d+),\s*"section_title"\s*:\s*"([^"]+)",\s*"section_content"\s*:\s*"(.*?)"\s*\}'
@@ -75,7 +75,7 @@ Do not include any additional text or formatting beyond what's inside the array.
 
         # Return the formatted response as JSON string
         formatted_response_str = json.dumps(formatted_response, indent=4)
-        logger.info(f"Formatted Content Strategy Response: {formatted_response_str}")
+        #  logger.info(f"Formatted Content Strategy Response: {formatted_response_str}")
 
         return formatted_response_str
 
