@@ -120,11 +120,13 @@ async def content_generator(
                 yield json.dumps(
                     {"status": "heartbeat", "message": "Still processing..."}
                 ) + "\n"
+                logger.info("Sent heartbeat to keep connection alive")
         except asyncio.CancelledError:
             logger.info("Heartbeat cancelled")
 
     # Start streaming the response
     try:
+        logger.info(f"Starting content generation for post_id: {post_id}")
         yield json.dumps(
             {
                 "status": "started",
@@ -133,14 +135,13 @@ async def content_generator(
         ) + "\n"
         await asyncio.sleep(0.1)
 
-        logger.info("Content generation and editing process started")
-
-        # Run the main content generation and editing process
+        # Run the main content generation process
         result = await run_main_process(
             account_profile, post_id, content_type, supabase
         )
+        logger.info(f"Result from run_main_process: {result}")
 
-        # Validate the result to ensure proper structure
+        # Validate the result format
         if not isinstance(result, dict):
             logger.error(f"Invalid result format returned: {result}")
             yield json.dumps(
@@ -152,9 +153,9 @@ async def content_generator(
             ) + "\n"
             return
 
-        # Check for success key in result
+        # Check if content generation was successful
         if result.get("success", False):
-            logger.info(f"Content generation and editing succeeded: {result}")
+            logger.info(f"Content generation succeeded: {result}")
             yield json.dumps(
                 {
                     "status": "completed",
@@ -163,13 +164,12 @@ async def content_generator(
                 }
             ) + "\n"
         else:
-            logger.error(f"Content generation or editing failed: {result}")
+            logger.error(f"Content generation failed: {result}")
             yield json.dumps(
                 {
                     "status": "failed",
                     "error": result.get(
-                        "error",
-                        "Unknown error occurred during content generation or editing",
+                        "error", "Unknown error during content generation"
                     ),
                     "total_time": f"{time.time() - start_time:.2f} seconds",
                 }

@@ -85,7 +85,7 @@ async def generate_content(
         logger.info("Making LLM call with system and user message...")
         response = await call_language_model(system_message, user_message)
 
-        # Log the full LLM response for debugging
+        # Log the raw LLM response for debugging purposes
         logger.info(f"LLM raw response: {response}")
 
         # Extract the JSON content between delimiters ~! and !~
@@ -94,11 +94,22 @@ async def generate_content(
             extracted_content = match.group(1).strip()
             logger.info(f"Extracted content: {extracted_content}")
 
+            # Apply further cleaning to remove hidden characters and control characters
+            cleaned_content = re.sub(
+                r"\s+", " ", extracted_content
+            )  # Strip excess whitespace
+            cleaned_content = cleaned_content.encode("utf-8", "ignore").decode(
+                "utf-8"
+            )  # Remove invalid characters
+            logger.info(f"Cleaned content: {cleaned_content}")
+
             try:
-                response_json = json.loads(extracted_content)
+                # Attempt to parse the cleaned JSON content
+                response_json = json.loads(cleaned_content)
+                logger.info(f"Parsed JSON response: {response_json}")
             except json.JSONDecodeError as e:
-                logger.error(f"Error parsing extracted content as JSON: {e}")
-                return {"error": "Failed to parse extracted content", "success": False}
+                logger.error(f"Error parsing cleaned content as JSON: {e}")
+                return {"error": "Failed to parse cleaned content", "success": False}
         else:
             logger.error("No content found between delimiters in response.")
             return {
@@ -134,6 +145,6 @@ async def generate_content(
         return result
 
     except Exception as e:
-        # Log the full stack trace of the TypeError to debug the issue
+        # Log the full stack trace of the TypeError or other exceptions to debug the issue
         logger.error(f"Error during content generation: {str(e)}", exc_info=True)
         return {"error": str(e), "success": False}
