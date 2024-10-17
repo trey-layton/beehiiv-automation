@@ -159,6 +159,7 @@ async def content_generator(
 
             # Log the final result before yielding
             logger.info(f"Final result that will be sent to client: {result}")
+            print(f"Final result being sent to client: {result}")
 
             yield json.dumps(
                 {
