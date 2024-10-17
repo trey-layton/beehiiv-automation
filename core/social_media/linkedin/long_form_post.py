@@ -116,12 +116,12 @@ Be the first to get more details about this (BIG) new project here → https://l
 
         Return the post in this EXACT format:
 
-        {
+        ~!{
             "content_type": "long_form_post",
             "content_container": [
                 {"post_type": "main_post", "post_content": "Main post content here"}
             ]
-        }
+        }!~
         """,
     "content_editing": """
         You are an expert content editor refining a long-form LinkedIn post. Your task is to improve the given content while strictly maintaining its original structure and format.
@@ -141,12 +141,12 @@ Be the first to get more details about this (BIG) new project here → https://l
 
         Return the edited post in this EXACT format:
 
-        {
+        ~!{
             "content_type": "long_form_post",
             "content_container": [
                 {"post_type": "main_post", "post_content": "Edited main post content here"}
             ]
-        }
+        }!~
 
         Ensure that the "content_type" and "post_type" values remain unchanged, and only the "post_content" is edited.
         """,  # Existing instructions
@@ -163,12 +163,12 @@ Be the first to get more details about this (BIG) new project here → https://l
 
         Return the edited post in this EXACT format:
 
-        {
+        ~!{
             "content_type": "long_form_post",
             "content_container": [
                 {"post_type": "main_post", "post_content": "Edited main post content here"}
             ]
-        }
+        }!~
 
         Ensure that the "content_type" and "post_type" values remain unchanged, and only the "post_content" is edited.
     """,

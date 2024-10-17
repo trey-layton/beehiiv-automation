@@ -1,74 +1,40 @@
 import logging
-import re
 import json
+import re
 from typing import Dict, Any
 from core.models.account_profile import AccountProfile
-from core.utils.llm_response_handler import LLMResponseHandler
 from core.content.language_model_client import call_language_model
 
 logger = logging.getLogger(__name__)
-from core.social_media.twitter import (
-    precta_tweet,
-    postcta_tweet,
-    thread_tweet,
-    long_form_tweet,
-)
-from core.social_media.linkedin import long_form_post
 
+# Static mapping for content type modules
 CONTENT_TYPE_MAP = {
-    "precta_tweet": precta_tweet,
-    "postcta_tweet": postcta_tweet,
-    "thread_tweet": thread_tweet,
-    "long_form_tweet": long_form_tweet,
-    "linkedin_long_form_post": long_form_post,
+    "precta_tweet": "core.social_media.twitter",
+    "postcta_tweet": "core.social_media.twitter",
+    "thread_tweet": "core.social_media.twitter",
+    "long_form_tweet": "core.social_media.twitter",
+    "linkedin_long_form_post": "core.social_media.linkedin",
 }
-
-
-def clean_llm_response(response: str) -> str:
-    """
-    Cleans and ensures that the LLM response is properly escaped
-    for safe JSON parsing.
-    """
-    try:
-        clean_response = json.loads(response)
-        logger.info("Successfully parsed JSON response without modification.")
-        return clean_response
-
-    except json.JSONDecodeError:
-        logger.error(f"Raw LLM Response: {response}")
-        logger.error("JSON parsing failed. Attempting to clean the response.")
-        match = re.search(r"(\{.*\}|\[.*\])", response, re.DOTALL)
-        if match:
-            try:
-                cleaned_json_str = match.group(0)
-                cleaned_json = json.loads(cleaned_json_str)
-                logger.info(f"Manually cleaned and parsed response: {cleaned_json}")
-                return cleaned_json
-            except json.JSONDecodeError as e:
-                logger.error(f"Failed to parse manually extracted content: {str(e)}")
-                raise ValueError("Manually extracted content is not valid JSON.")
-        else:
-            raise ValueError("Unable to extract valid JSON from LLM response.")
 
 
 def get_instructions_for_content_type(content_type: str) -> Dict[str, Any]:
     try:
-        module = CONTENT_TYPE_MAP.get(content_type)
-        if not module:
+        module_name = CONTENT_TYPE_MAP.get(content_type)
+        if not module_name:
             raise ModuleNotFoundError(f"Content type '{content_type}' not found.")
-        return module.instructions
-
+        module = __import__(module_name, fromlist=[content_type])
+        instructions = getattr(module, content_type).instructions
+        if not instructions.get("content_generation"):
+            raise ValueError(
+                f"No content_generation instructions found for {content_type}"
+            )
+        return instructions
     except ModuleNotFoundError as e:
-        logging.error(f"Error fetching instructions for {content_type}: {e}")
+        logger.error(f"Error fetching instructions for {content_type}: {e}")
         return {"content_generation": ""}
-
-
-def escape_special_characters(text: str) -> str:
-    try:
-        return json.dumps(text)[1:-1]  # [1:-1] to remove extra quotes added by dumps
     except Exception as e:
-        logger.error(f"Failed to escape special characters: {str(e)}")
-        return text  # Fallback to original text in case of failure
+        logger.error(f"Unexpected error loading instructions for {content_type}: {e}")
+        return {"content_generation": ""}
 
 
 async def generate_content(
@@ -77,16 +43,18 @@ async def generate_content(
     account_profile: AccountProfile,
     web_url: str,
     post_number: int,
-    instructions: Dict[str, Any] = None,
 ) -> Dict[str, Any]:
     logger.info(
         f"Starting content generation for: {content_type}, post number: {post_number}"
     )
 
-    if instructions is None:
-        instructions = get_instructions_for_content_type(content_type)
-
+    # Load instructions for this content type
+    instructions = get_instructions_for_content_type(content_type)
     content_generation_instructions = instructions.get("content_generation", "")
+
+    if not content_generation_instructions:
+        logger.error(f"Missing content generation instructions for {content_type}")
+        return {"error": "Missing content generation instructions", "success": False}
     system_message = {
         "role": "system",
         "content": f"""
@@ -99,6 +67,7 @@ async def generate_content(
         4. {content_generation_instructions}
         
         Format your response as a JSON object with 'type' and 'content' keys. The 'content' should be a list of post objects.
+        Wrap your response with the delimiters ~! and !~ to ensure correct parsing as shown in the example format.
         """,
     }
 
@@ -113,105 +82,58 @@ async def generate_content(
     }
 
     try:
-        # Call the language model and get the raw response
+        logger.info("Making LLM call with system and user message...")
         response = await call_language_model(system_message, user_message)
-        logger.info(f"Full Raw LLM response: {response}")
 
-        try:
-            response_json = json.loads(response)
-            logger.info("Parsed JSON successfully.")
-        except json.JSONDecodeError:
-            logger.error(
-                "Failed to parse JSON normally, attempting to clean the response."
-            )
-            response_json = LLMResponseHandler.clean_llm_response(response)
+        # Log the full LLM response for debugging
+        logger.info(f"LLM raw response: {response}")
 
-        if "content_container" not in response_json or not isinstance(
-            response_json["content_container"], list
-        ):
-            logger.error(f"Invalid response format: {response_json}")
-            return {"error": "Invalid response format", "success": False}
+        # Extract the JSON content between delimiters ~! and !~
+        match = re.search(r"~!(.*?)!~", response, re.DOTALL)
+        if match:
+            extracted_content = match.group(1).strip()
+            logger.info(f"Extracted content: {extracted_content}")
 
-        # Step 4: Extract formatted posts
-        formatted_posts = []
-        logger.info(f"Response JSON content_container: {response_json}")
+            try:
+                response_json = json.loads(extracted_content)
+            except json.JSONDecodeError as e:
+                logger.error(f"Error parsing extracted content as JSON: {e}")
+                return {"error": "Failed to parse extracted content", "success": False}
+        else:
+            logger.error("No content found between delimiters in response.")
+            return {
+                "error": "No content found between delimiters",
+                "llm_raw_response": response,
+                "success": False,
+            }
 
-        for post in response_json["content_container"]:
-            post_type = post.get("post_type", "")
-            post_content = post.get(
-                "post_content", ""
-            )  # Update key to post_content as per the raw LLM response
+        # Validate response_json structure
+        if "content_container" not in response_json:
+            logger.error(f"'content_container' missing in response: {response_json}")
+            return {"error": "'content_container' missing", "success": False}
 
-            logger.info(
-                f"Processing post number {post_number}, type: {post_type}, post content: {post_content}"
-            )
-            logger.info(f"Post content type: {type(post_content)}")
+        if not isinstance(response_json["content_container"], list):
+            logger.error("content_container is not a list")
+            return {"error": "Invalid content_container format", "success": False}
 
-            if isinstance(post_content, str):
-                logger.info(
-                    f"Post content is a string. Wrapping it in a list: {post_content}"
-                )
-                post_content = [post_content]  # Convert to list to maintain consistency
-            elif isinstance(post_content, list):
-                logger.info(f"Post content is already a list: {post_content}")
-            else:
-                logger.error(f"Unexpected type for post_content: {type(post_content)}")
+        for item in response_json["content_container"]:
+            if "post_type" not in item or "post_content" not in item:
+                logger.error(f"Invalid item in content_container: {item}")
+                return {
+                    "error": "Invalid content_container item format",
+                    "success": False,
+                }
 
-            if isinstance(post_content, list):
-                sub_posts = []
-                for sub_post in post_content:
-                    logger.info(
-                        f"Processing sub_post: {sub_post}, sub_post type: {type(sub_post)}"
-                    )
-
-                    if isinstance(sub_post, dict):
-                        logger.info(
-                            f"Sub-post is a valid dict. Adding to sub_posts: {sub_post}"
-                        )
-                        sub_posts.append(sub_post)
-                    elif isinstance(sub_post, str):
-                        logger.info(
-                            f"Sub-post is a string. Converting to JSON object with type {post_type}"
-                        )
-                        sub_posts.append(
-                            {"post_type": post_type, "post_content": sub_post.strip()}
-                        )
-                    else:
-                        logger.error(
-                            f"Unexpected sub-post type: {type(sub_post)}. Converting to string."
-                        )
-                        sub_posts.append(
-                            {
-                                "post_type": post_type,
-                                "post_content": str(sub_post).strip(),
-                            }
-                        )
-
-                formatted_posts.append(
-                    {
-                        "content_type": post_type,
-                        "content_container": sub_posts,  # Add the array of sub-posts for this main post
-                    }
-                )
-                logger.info(f"Formatted post: {formatted_posts[-1]}")
-            else:
-                logger.error(f"Unexpected content type for post: {type(post_content)}")
-                post_content = [str(post_content)]
-                formatted_posts.append(
-                    {"content_type": post_type, "content_container": post_content}
-                )
-                logger.info(
-                    f"Added post with unexpected content type: {formatted_posts[-1]}"
-                )
-
-        logger.info(
-            f"Extracted {len(formatted_posts)} posts for post number {post_number}"
-        )
-        return {
+        result = {
             "post_number": post_number,
-            "content_container": formatted_posts,
+            "content_type": response_json.get("content_type", content_type),
+            "content_container": response_json["content_container"],
         }
 
+        logger.info(f"Successfully generated content for post number {post_number}")
+        return result
+
     except Exception as e:
-        logger.error(f"Error during content generation: {e}")
+        # Log the full stack trace of the TypeError to debug the issue
+        logger.error(f"Error during content generation: {str(e)}", exc_info=True)
         return {"error": str(e), "success": False}

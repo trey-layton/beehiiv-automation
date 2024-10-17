@@ -1,6 +1,5 @@
 import json
 import logging
-import re
 from typing import Dict, Any, List
 from supabase import Client as SupabaseClient
 from core.content.content_fetcher import fetch_beehiiv_content
@@ -8,86 +7,8 @@ from core.models.account_profile import AccountProfile
 from core.llm_steps.structure_analysis import analyze_structure
 from core.llm_steps.content_strategy import determine_content_strategy
 from core.llm_steps.content_generator import generate_content
-from core.llm_steps.content_editor import run_content_editing
-from core.llm_steps.content_personalization import personalize_content
 
 logger = logging.getLogger(__name__)
-
-
-def validate_content_structure(content: dict) -> bool:
-    logger.info(f"Validating content structure: {content}")  # Log the entire content
-
-    if "content_container" not in content or not isinstance(
-        content["content_container"], list
-    ):
-        logger.error(f"Invalid content: Missing or malformed 'content_container'")
-        return False
-
-    for item in content["content_container"]:
-        if not isinstance(item, dict):
-            logger.error(f"Invalid content item: Expected dict, got {type(item)}")
-            return False
-        if "post_type" not in item or "post_content" not in item:
-            logger.error(f"Invalid item structure: {item}")
-            return False
-
-    return True
-
-
-def clean_and_validate_json(response: str) -> dict:
-    try:
-        logger.info(f"Raw response for cleaning: {response[:100]}...")
-        # Remove any text before the actual JSON starts (if LLM adds text)
-        cleaned_response = re.search(r"(\{.*\}|\[.*\])", response, re.DOTALL).group(0)
-        logger.info(f"Cleaned JSON string: {cleaned_response[:100]}...")
-        # Attempt to parse the cleaned response as JSON
-        parsed_response = json.loads(cleaned_response)
-        logger.info(f"Parsed JSON response: {parsed_response}")
-        return parsed_response
-    except (json.JSONDecodeError, AttributeError) as e:
-        logger.error(f"Failed to clean and parse LLM response: {str(e)}")
-        return {"error": "Malformed response"}
-
-
-def process_post_content(post_content: dict, post_number: int) -> dict:
-    """
-    Process and structure the content for each post, ensuring that it follows the expected format.
-    """
-    # logger.info(f"Processing post number {post_number}, post content: {post_content}")
-
-    formatted_posts = []
-    if "content_container" in post_content and isinstance(
-        post_content["content_container"], list
-    ):
-        for post in post_content["content_container"]:
-            if isinstance(post, dict) and "content_container" in post:
-                for sub_post in post["content_container"]:
-                    post_type = sub_post.get("post_type", "")
-                    post_text = sub_post.get("post_content", "")
-
-                    if isinstance(post_text, str):
-                        formatted_posts.append(
-                            {"post_type": post_type, "post_content": post_text.strip()}
-                        )
-                    else:
-                        logger.error(
-                            f"Invalid post content type: {type(post_text)}. Converting to string."
-                        )
-                        formatted_posts.append(
-                            {
-                                "post_type": post_type,
-                                "post_content": str(post_text).strip(),
-                            }
-                        )
-            else:
-                logger.error(f"Invalid post structure: {post}")
-
-        return {"post_number": post_number, "post_content": formatted_posts}
-
-    logger.error(
-        f"Invalid post structure for post number {post_number}: {post_content}"
-    )
-    return {"error": "Invalid post structure", "post_number": post_number}
 
 
 async def run_main_process(
@@ -97,102 +18,129 @@ async def run_main_process(
     supabase: SupabaseClient,
 ) -> Dict[str, Any]:
     try:
-        # Step 1: Fetch the content from the newsletter source (beehiiv)
-        # logger.info(f"Fetching content for post_id: {post_id}")
+        # Step 1: Fetch the content from the newsletter source
+        # logger.info(f"Fetching content for post ID: {post_id}")
         content_data = await fetch_beehiiv_content(account_profile, post_id, supabase)
-        # logger.info(f"Fetched content data: {content_data}")
+        # logger.info(f"Content fetched: {content_data}")
 
         original_content = content_data.get("free_content")
         web_url = content_data.get("web_url")
         thumbnail_url = content_data.get("thumbnail_url")
 
-        # logger.info(f"Original content: {original_content[:100]}...")
-        # logger.info(f"web_url: {web_url}, thumbnail_url: {thumbnail_url}")
+        # Defensive check for missing original content
+        if not original_content:
+            logger.error(f"No content found for post ID: {post_id}")
+            return {"error": "No content found", "success": False}
 
         # Step 2: Analyze the structure of the content
         # logger.info("Analyzing content structure...")
         newsletter_structure: str = await analyze_structure(original_content)
-        # logger.info(f"Newsletter structure: {newsletter_structure[:100]}...")
+        # logger.info(f"Content structure analysis result: {newsletter_structure}")
 
         # Step 3: Determine the content strategy
         # logger.info("Determining content strategy...")
         content_strategy: str = await determine_content_strategy(newsletter_structure)
-        # logger.info(f"Content strategy: {content_strategy[:100]}...")
+        # logger.info(f"Content strategy determined: {content_strategy}")
 
-        # Step 4: Parse the content strategy
+        # Step 4: Parse the content strategy into a list of sections
         try:
             strategy_list = json.loads(content_strategy)
-            # logger.info(f"Parsed content strategy: {strategy_list}")
+            logger.info(f"Parsed strategy list: {strategy_list}")
         except json.JSONDecodeError as e:
             logger.error(f"Failed to parse content strategy JSON: {str(e)}")
             return {"error": "Failed to parse content strategy", "success": False}
 
-        # Step 5: Process each section of the content strategy
+        # Step 5: Process each section independently for content generation
         generated_contents: List[dict] = []
-
         for strategy in strategy_list:
             post_number = strategy.get("post_number", "unknown")
-            # logger.info(f"Processing post number {post_number}...")
+            logger.info(f"Processing section for post number: {post_number}")
 
             try:
-                # Generate content
+                # Generate content for this section
                 generated_content = await generate_content(
                     strategy, content_type, account_profile, web_url, post_number
                 )
-                # logger.info(f"Generated content for post {post_number}: {generated_content}")
-
-                # New Step: Edit content
-                edited_content = await run_content_editing(
-                    generated_content, content_type
+                logger.info(
+                    f"Generated content for post {post_number}: {generated_content}"
                 )
-                logger.info(f"Edited content for post {post_number}: {edited_content}")
 
-                # Validate structure of edited content
-                if not validate_content_structure(edited_content):
+                # Check if content_container is present and valid
+                if (
+                    not generated_content
+                    or "content_container" not in generated_content
+                ):
                     logger.error(
-                        f"Invalid structure from content editing: {edited_content}"
+                        f"'content_container' missing or invalid for post {post_number}: {generated_content}"
                     )
-                    logger.error(f"Actual structure: {edited_content}")
+                    continue
+
+                # Add the processed section content to the result list
+                generated_contents.append(
+                    {
+                        "post_number": post_number,
+                        "post_content": generated_content["content_container"],
+                    }
+                )
+            except Exception as e:
+                logger.error(
+                    f"Error generating content for post {post_number}: {str(e)}"
+                )
+                continue  # Continue to next section instead of breaking
+
+        # Step 6: Fallback to the entire content if no valid content was generated
+        if not generated_contents:
+            logger.warning(
+                "No valid content generated, falling back to full newsletter content."
+            )
+            try:
+                fallback_content = await generate_content(
+                    {
+                        "post_number": "1",
+                        "section_title": "Full Newsletter",
+                        "section_content": newsletter_structure,
+                    },
+                    content_type,
+                    account_profile,
+                    web_url,
+                    "1",
+                )
+                logger.info(f"Fallback content generated: {fallback_content}")
+
+                if not fallback_content or "content_container" not in fallback_content:
+                    logger.error(
+                        "Fallback content generation failed, 'content_container' missing"
+                    )
                     return {
-                        "error": "Invalid structure from content editing",
+                        "error": "Failed to generate any valid content",
                         "success": False,
                     }
 
-                # Process the edited content into the desired structure
-                formatted_post = process_post_content(edited_content, post_number)
-                if "error" in formatted_post:
-                    return {"error": formatted_post["error"], "success": False}
-
-                generated_contents.append(formatted_post)
-
-                # After content editing and before constructing the final payload
-                personalized_content = await personalize_content(
-                    edited_content, account_profile, content_type
-                )
-                logger.info(
-                    f"Personalized content for post {post_number}: {personalized_content}"
-                )
-
+                generated_contents = [
+                    {
+                        "post_number": "1",
+                        "post_content": fallback_content["content_container"],
+                    }
+                ]
             except Exception as e:
-                logger.error(
-                    f"Error processing content for post {post_number}: {str(e)}"
-                )
-                return {"error": str(e), "success": False}
+                logger.error(f"Error generating fallback content: {str(e)}")
+                return {
+                    "error": "Failed to generate fallback content",
+                    "success": False,
+                }
 
-        # Step 6: Construct the final payload
-        logger.info("Constructing final payload...")
+        # Step 7: Construct the final payload
         final_content = {
             "provider": "twitter" if "tweet" in content_type else "linkedin",
             "type": content_type,
-            "content": generated_contents,
+            "content": generated_contents,  # List of all generated sections or fallback content
             "thumbnail_url": thumbnail_url,
             "metadata": {"web_url": web_url, "post_id": post_id},
             "success": True,
         }
-
-        logger.info(f"Final content payload: {final_content}")
+        logger.info(f"Final content payload constructed: {final_content}")
         return final_content
 
     except Exception as e:
-        logger.error(f"Error in run_main_process for post_id {post_id}: {str(e)}")
+        logger.error(f"Error in run_main_process: {str(e)}")
         return {"error": str(e), "success": False}

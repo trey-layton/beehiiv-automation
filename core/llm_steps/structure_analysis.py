@@ -27,9 +27,12 @@ I cannot stress enough how important it is for you to return the entire content 
 
 Your job is to return a JSON object with clearly defined sections and titles from the newsletter provided. These should be the only content in your final response. The JSON should have the following format:
     
-    {"section_1": "Full content of section 1",
-    "section_2": "Full content of section 2",
-    ...}    
+~!{
+  "Section Title 1": "Full content of section 1",
+  "Section Title 2": "Full content of section 2",
+  ...
+}!~
+Use these delimiters (~! and !~) as the rest of the code depends on their inclusion for processing. 
 Do not return anything other than valid JSON. Get rid of header, sponsored, and footer sections. Simply remove them from your final object before returning it.""",
     }
 
@@ -37,12 +40,20 @@ Do not return anything other than valid JSON. Get rid of header, sponsored, and 
         "role": "user",
         "content": f"Analyze the structure of the following newsletter content:\n\n{content}",
     }
-    # logger.info("Calling language model with newsletter content")
     response = await call_language_model(system_message, user_message, "medium")
 
-    # Step 2: Convert the response to a plain string and log the entire raw output
-    response_str = str(response)
-    # logger.info(f"Raw response from LLM: {response_str}")
+    # Extract JSON content between delimiters
+    match = re.search(r"~!\s*(.*?)\s*!~", response, re.DOTALL)
+    if match:
+        json_str = match.group(1).strip()
+        try:
+            parsed_response = json.loads(json_str)
+            return json.dumps(parsed_response, indent=2)
+        except json.JSONDecodeError as e:
+            logger.error(f"Failed to parse extracted content as JSON: {e}")
+    else:
+        logger.error("Failed to find response between delimiters")
 
-    # Simply return the structured JSON response without any further formatting
-    return response_str
+    # Fallback: Pass the raw response to the next step if parsing fails
+    logger.warning("Falling back to passing the raw LLM response to the next step")
+    return response

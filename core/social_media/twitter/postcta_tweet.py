@@ -5,11 +5,11 @@ instructions = {
                 For this reply tweet, this is only a single post, not a thread or anything, so don't use language suggesting otherwise. Also, the link is to subscribe as the newsletter has not gone out yet.
                Return the post in this EXACT format:
         
-            ["content_type": "postcta_tweet",
+        ~!{"content_type": "postcta_tweet",
             "content_container": [
                 {"post_type": "main_tweet", "post_content": "Main post content here"},
                 {"post_type": "reply_tweet", "post_content": "If this sounds interesting, check out the full article online now! {web_url}"},
-            ] """,
+        }!~ """,
     "content_editing": """
         You are an expert content editor refining a post-newsletter teaser Twitter post. Your task is to improve the given content while strictly maintaining its original structure and format.
 
@@ -32,11 +32,11 @@ instructions = {
 
         Return the edited post in this EXACT format:
 
-        ["content_type": "postcta_tweet",
+        ~!{"content_type": "postcta_tweet",
             "content_container": [
                 {"post_type": "main_tweet", "post_content": "Main post content here"},
                 {"post_type": "reply_tweet", "post_content": "If this sounds interesting, check out the full article online now! {web_url}"},
-            ]
+        }!~
 
         Ensure that the "content_type" and "post_type" values remain unchanged, and only the "post_content" is edited.
         """,  # Existing instructions
@@ -55,11 +55,11 @@ instructions = {
 
         Return the edited post in this EXACT format:
 
-        ["content_type": "postcta_tweet",
+        ~!{"content_type": "postcta_tweet",
             "content_container": [
                 {"post_type": "main_tweet", "post_content": "Main post content here"},
                 {"post_type": "reply_tweet", "post_content": "If this sounds interesting, check out the full article online now! {web_url}"},
-            ]
+        }!~
 
         Ensure that the "content_type" and "post_type" values remain unchanged, and only the "post_content" is edited.
     """,

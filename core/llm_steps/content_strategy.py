@@ -30,10 +30,13 @@ When making your posts, prioritize richer sections with adequate content. So rat
 Again, I need you to provide the ENTIRE section as it is passed to you. Do not cut any of it off or summarize it in any way.
 
 Format your response exactly as follows:
+~!
 [
-    {"post_number": 1, "section_title": "main_story", "section_content": "Full content of main story..."},
-    {"post_number": 2, "section_title": "job_postings", "section_content": "Full content of job postings..."}
+    {"post_number": 1, "section_title": "main_story", "section_content": "Full content..."},
+    {"post_number": 2, "section_title": "job_postings", "section_content": "Full content..."}
 ]
+!~
+Make sure to use these delimiters (~! and !~) to directly bracket the actual structured content as the rest of the code relies on this for parsing.
 Do not include any additional text or formatting beyond what's inside the array.""",
     }
 
@@ -43,42 +46,25 @@ Do not include any additional text or formatting beyond what's inside the array.
         "content": f"Determine the content strategy for these newsletter sections:\n\n{newsletter_structure} Avoid suggesting multiple posts on the same topic.",
     }
     try:
-        # Call the language model with the system message and user message
+        # Call the language model
         response = await call_language_model(system_message, user_message, "medium")
 
-        # Log the raw response from the LLM
-        response_str = str(response)
-        #  logger.info(f"Raw LLM Response: {response_str}")
-
-        # Extract the JSON content directly without converting it to string with delimiters
-        post_pattern = r'\{\s*"post_number"\s*:\s*(\d+),\s*"section_title"\s*:\s*"([^"]+)",\s*"section_content"\s*:\s*"(.*?)"\s*\}'
-        matches = re.findall(post_pattern, response_str, re.DOTALL | re.MULTILINE)
-
-        if not matches:
-            logger.warning("No posts extracted from content strategy response.")
-            return json.dumps([])  # Return empty list if no matches
-
-        # Format the extracted sections into the required output format
-        formatted_response = []
-        for match in matches:
-            post_number, section_title, section_content = match
-            section_content = (
-                section_content.replace("\n", " ").replace("\r", "").strip()
-            )  # Clean up newlines, etc.
-            formatted_response.append(
-                {
-                    "post_number": int(post_number),
-                    "section_title": section_title.strip(),
-                    "section_content": section_content,
-                }
-            )
-
-        # Return the formatted response as JSON string
-        formatted_response_str = json.dumps(formatted_response, indent=4)
-        #  logger.info(f"Formatted Content Strategy Response: {formatted_response_str}")
-
-        return formatted_response_str
-
+        # Extract content between delimiters
+        match = re.search(r"~!(.*?)!~", response, re.DOTALL)
+        if match:
+            extracted_content = match.group(1).strip()
+            try:
+                # Parse and return the content as a list of sections
+                parsed_response = json.loads(extracted_content)
+                return json.dumps(parsed_response, indent=2)  # Return the clean array
+            except json.JSONDecodeError:
+                logger.warning(
+                    "Failed to parse extracted content as JSON. Returning empty list."
+                )
+                return json.dumps([])
+        else:
+            logger.warning("No content found between delimiters. Returning empty list.")
+            return json.dumps([])
     except Exception as e:
         logger.error(f"Error during content strategy processing: {str(e)}")
         return json.dumps({"error": str(e)})

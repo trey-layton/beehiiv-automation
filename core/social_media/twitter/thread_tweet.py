@@ -43,7 +43,7 @@ Benham consulted clients using the same algorithms, statistics & data research t
         Each thread should be no less than 5 posts per thread. Do not return any additional text other than the JSON object.
         Here is an example of how it should be structured:
         Example:
-        {
+        ~!{
             "content_type": "thread_tweet",
             "content_container": [
                 {"post_type": "main_tweet", "post_content": "Main post content here"},
@@ -53,7 +53,7 @@ Benham consulted clients using the same algorithms, statistics & data research t
                 {"post_type": "quote_tweet", "post_content": "If you found value in this thread, please give it a like and share!"},
             ]
 
-        }
+        }!~
         """,
     "content_editing": """
         You are an expert content editor refining a Twitter thread. Your task is to improve the given content while strictly maintaining its original structure and format.
@@ -78,7 +78,7 @@ Benham consulted clients using the same algorithms, statistics & data research t
 
         Return the edited post in this EXACT format:
 
-        {
+        ~!{
             "content_type": "thread_tweet",
             "content_container": [
                 {"post_type": "main_tweet", "post_content": "Main post content here"},
@@ -88,7 +88,7 @@ Benham consulted clients using the same algorithms, statistics & data research t
                 {"post_type": "quote_tweet", "post_content": "If you found value in this thread, please give it a like and share!"},
             ]
 
-        }
+        }!~
 
         Ensure that the "content_type" and "post_type" values remain unchanged, and only the "post_content" is edited.
         """,  # Existing instructions
@@ -106,7 +106,7 @@ Benham consulted clients using the same algorithms, statistics & data research t
 
         Return the edited post in this EXACT format:
 
-        {
+        ~!{
             "content_type": "thread_tweet",
             "content_container": [
                 {"post_type": "main_tweet", "post_content": "Main post content here"},
@@ -116,7 +116,7 @@ Benham consulted clients using the same algorithms, statistics & data research t
                 {"post_type": "quote_tweet", "post_content": "If you found value in this thread, please give it a like and share!"},
             ]
 
-        }
+        }!~
 
         Ensure that the "content_type" and "post_type" values remain unchanged, and only the "post_content" is edited.
     """,

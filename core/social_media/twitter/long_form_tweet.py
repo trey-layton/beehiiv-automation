@@ -80,10 +80,10 @@ If you found this helpful - give me a retweet or a comment - it helps me spread 
 
                Return the post in this EXACT format:
         
-            {"content_type": "long_form_tweet",
+            ~!{"content_type": "long_form_tweet",
             "content_container": [
                 {"post_type": "main_tweet", "post_content": "Main post content here"}
-            }
+            }!~
 Never add anything besides the brackets and everything which is supposed to be inside of them (don't add intro text, target length, etc)
             """,
     "content_editing": """
@@ -105,10 +105,10 @@ Never add anything besides the brackets and everything which is supposed to be i
 
         Return the edited post in this EXACT format:
 
-        {"content_type": "long_form_tweet",
+        ~!{"content_type": "long_form_tweet",
             "content_container": [
                 {"post_type": "main_tweet", "post_content": "Main post content here"}
-            }
+            }!~
 
         Ensure that the "content_type" and "post_type" values remain unchanged, and only the "post_content" is edited.
         """,  # Existing instructions
@@ -121,10 +121,10 @@ Never add anything besides the brackets and everything which is supposed to be i
         5. If the user frequently uses certain emojis, consider incorporating them in a natural way.
                 Return the edited post in this EXACT format:
 
-        {"content_type": "long_form_tweet",
+        ~!{"content_type": "long_form_tweet",
             "content_container": [
                 {"post_type": "main_tweet", "post_content": "Main post content here"}
-            }
+            }!~
 
         Ensure that the "content_type" and "post_type" values remain unchanged, and only the "post_content" is edited.
     """,

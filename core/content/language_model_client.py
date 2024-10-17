@@ -42,21 +42,27 @@ MODEL_TIERS = {
 async def call_language_model(
     system_message: dict, user_message: dict, tier: str = "high"
 ):
-    # logger.info(f"Calling language model with tier: {tier}")
     model_config = MODEL_TIERS[tier][LANGUAGE_MODEL_PROVIDER]
 
+    # Convert the content fields to strings if not already
+    system_content = str(system_message.get("content", ""))
+    user_content = str(user_message.get("content", ""))
+
+    logger.info(f"Calling language model ({LANGUAGE_MODEL_PROVIDER}) with tier: {tier}")
+    logger.debug(f"System message content: {system_content}")
+    logger.debug(f"User message content: {user_content}")
+
     if LANGUAGE_MODEL_PROVIDER == "anthropic":
-        return await call_anthropic(system_message, user_message, model_config)
+        return await call_anthropic(system_content, user_content, model_config)
     elif LANGUAGE_MODEL_PROVIDER == "openai":
-        return await call_openai(system_message, user_message, model_config)
+        return await call_openai(system_content, user_content, model_config)
     else:
         raise ValueError(
             f"Unsupported language model provider: {LANGUAGE_MODEL_PROVIDER}"
         )
 
 
-async def call_anthropic(system_message: dict, user_message: dict, model_config: dict):
-    # logger.info("Calling Anthropic API")
+async def call_anthropic(system_content: str, user_content: str, model_config: dict):
     client = anthropic.AsyncAnthropic(api_key=ANTHROPIC_API_KEY)
     try:
         response = await asyncio.wait_for(
@@ -64,12 +70,12 @@ async def call_anthropic(system_message: dict, user_message: dict, model_config:
                 model=model_config["model"],
                 max_tokens=model_config["max_output_tokens"],
                 temperature=0.7,
-                system=system_message["content"],
-                messages=[{"role": "user", "content": user_message["content"]}],
+                system=system_content,
+                messages=[{"role": "user", "content": user_content}],
             ),
             timeout=300,  # 5 minutes timeout
         )
-        # logger.info("Anthropic API call successful")
+        logger.debug(f"Anthropic API full response: {response}")
         logger.debug(
             f"Anthropic API response preview: {response.content[0].text[:200]}..."
         )
@@ -82,16 +88,15 @@ async def call_anthropic(system_message: dict, user_message: dict, model_config:
         raise
 
 
-async def call_openai(system_message: dict, user_message: dict, model_config: dict):
-    #  logger.info("Calling OpenAI API")
+async def call_openai(system_content: str, user_content: str, model_config: dict):
     client = openai.AsyncOpenAI(api_key=OPENAI_API_KEY)
     try:
         completion = await asyncio.wait_for(
             client.chat.completions.create(
                 model=model_config["model"],
                 messages=[
-                    {"role": "system", "content": system_message["content"]},
-                    {"role": "user", "content": user_message["content"]},
+                    {"role": "system", "content": system_content},
+                    {"role": "user", "content": user_content},
                 ],
                 max_tokens=model_config["max_output_tokens"],
                 n=1,
@@ -99,7 +104,7 @@ async def call_openai(system_message: dict, user_message: dict, model_config: di
             ),
             timeout=300,  # 5 minutes timeout
         )
-        #  logger.info("OpenAI API call successful")
+        logger.debug(f"OpenAI API full response: {completion}")
         logger.debug(
             f"OpenAI API response preview: {completion.choices[0].message.content[:200]}..."
         )
