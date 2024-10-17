@@ -156,6 +156,10 @@ async def content_generator(
         # Check if content generation was successful
         if result.get("success", False):
             logger.info(f"Content generation succeeded: {result}")
+
+            # Log the final result before yielding
+            logger.info(f"Final result that will be sent to client: {result}")
+
             yield json.dumps(
                 {
                     "status": "completed",
