@@ -84,9 +84,7 @@ async def generate_content(
 
     try:
         logger.info("Making LLM call with system and user message...")
-        response = await call_language_model(
-            system_message, user_message, tier="medium"
-        )
+        response = await call_language_model(system_message, user_message)
 
         # Log the raw LLM response for debugging purposes
         logger.info(f"LLM raw response: {response}")

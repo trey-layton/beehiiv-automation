@@ -108,7 +108,7 @@ Explanation: "This is a good example because it correctly notices that there is 
         "role": "user",
         "content": f"{content}",
     }
-    response = await call_language_model(system_message, user_message, "medium")
+    response = await call_language_model(system_message, user_message, "high")
 
     # Extract JSON content between delimiters
     match = re.search(r"~!\s*(.*?)\s*!~", response, re.DOTALL)
