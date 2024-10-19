@@ -71,7 +71,7 @@ class ContentGenerationRequest(BaseModel):
         "postcta_tweet",
         "thread_tweet",
         "long_form_tweet",
-        "long_form_post",
+        "linkedin_long_form_post",
         "image_list",
     ]
 
