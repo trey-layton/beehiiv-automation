@@ -13,7 +13,7 @@ CONTENT_TYPE_MAP = {
     "postcta_tweet": "core.social_media.twitter",
     "thread_tweet": "core.social_media.twitter",
     "long_form_tweet": "core.social_media.twitter",
-    "linkedin_long_form_post": "core.social_media.linkedin",
+    "long_form_post": "core.social_media.linkedin",
 }
 
 

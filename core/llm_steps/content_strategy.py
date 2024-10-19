@@ -53,13 +53,27 @@ Do not include any additional text or formatting beyond what's inside the array.
         match = re.search(r"~!(.*?)!~", response, re.DOTALL)
         if match:
             extracted_content = match.group(1).strip()
+            logger.debug(f"Extracted content: {extracted_content}")
+
+            # Sanitize the extracted content
+            sanitized_content = re.sub(r"[\x00-\x1f\x7f]", "", extracted_content)
+            logger.debug(f"Sanitized content: {sanitized_content}")
+
             try:
                 # Parse and return the content as a list of sections
-                parsed_response = json.loads(extracted_content)
-                return json.dumps(parsed_response, indent=2)  # Return the clean array
-            except json.JSONDecodeError:
+                parsed_response = json.loads(sanitized_content)
+                if isinstance(parsed_response, list):
+                    return json.dumps(
+                        parsed_response, indent=2
+                    )  # Return the clean array
+                else:
+                    logger.warning(
+                        "Parsed content is not a list. Returning empty list."
+                    )
+                    return json.dumps([])
+            except json.JSONDecodeError as e:
                 logger.warning(
-                    "Failed to parse extracted content as JSON. Returning empty list."
+                    f"Failed to parse extracted content as JSON: {e.msg} at line {e.lineno} column {e.colno} (char {e.pos})"
                 )
                 return json.dumps([])
         else:
@@ -67,4 +81,5 @@ Do not include any additional text or formatting beyond what's inside the array.
             return json.dumps([])
     except Exception as e:
         logger.error(f"Error during content strategy processing: {str(e)}")
-        return json.dumps({"error": str(e)})
+        # Return an empty list to maintain consistent return type
+        return json.dumps([])

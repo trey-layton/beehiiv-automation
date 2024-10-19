@@ -34,11 +34,18 @@ async def run_main_process(
         # Step 3: Determine the content strategy
         content_strategy: str = await determine_content_strategy(newsletter_structure)
 
+        logger.debug(f"Raw content_strategy: {content_strategy}")
+
         try:
             strategy_list = json.loads(content_strategy)
+            if not isinstance(strategy_list, list):
+                logger.error(f"Parsed content strategy is not a list: {strategy_list}")
+                return {"error": "Content strategy is not a list", "success": False}
             logger.info(f"Parsed strategy list: {strategy_list}")
         except json.JSONDecodeError as e:
-            logger.error(f"Failed to parse content strategy JSON: {str(e)}")
+            logger.error(
+                f"Failed to parse content strategy JSON: {e.msg} at line {e.lineno} column {e.colno} (char {e.pos})"
+            )
             return {"error": "Failed to parse content strategy", "success": False}
 
         # Step 5: Process each section independently for content generation
