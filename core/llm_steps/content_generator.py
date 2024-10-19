@@ -13,7 +13,7 @@ CONTENT_TYPE_MAP = {
     "postcta_tweet": "core.social_media.twitter",
     "thread_tweet": "core.social_media.twitter",
     "long_form_tweet": "core.social_media.twitter",
-    "long_form_post": "core.social_media.linkedin",
+    "long_form_post": "core.social_media.linkedin.long_form_post",
 }
 
 
@@ -22,8 +22,9 @@ def get_instructions_for_content_type(content_type: str) -> Dict[str, Any]:
         module_name = CONTENT_TYPE_MAP.get(content_type)
         if not module_name:
             raise ModuleNotFoundError(f"Content type '{content_type}' not found.")
-        module = __import__(module_name, fromlist=[content_type])
-        instructions = getattr(module, content_type).instructions
+        module = __import__(module_name, fromlist=["instructions"])
+        instructions = getattr(module, "instructions")
+        logger.info(f"Module name fetched: {module_name}")
         if not instructions.get("content_generation"):
             raise ValueError(
                 f"No content_generation instructions found for {content_type}"
