@@ -9,10 +9,10 @@ logger = logging.getLogger(__name__)
 
 # Static mapping for content type modules
 CONTENT_TYPE_MAP = {
-    "precta_tweet": "core.social_media.twitter",
-    "postcta_tweet": "core.social_media.twitter",
-    "thread_tweet": "core.social_media.twitter",
-    "long_form_tweet": "core.social_media.twitter",
+    "precta_tweet": "core.social_media.twitter.precta_tweet",
+    "postcta_tweet": "core.social_media.twitter.postcta_tweet",
+    "thread_tweet": "core.social_media.twitter.thread_tweet",
+    "long_form_tweet": "core.social_media.twitter.long_form_tweet",
     "long_form_post": "core.social_media.linkedin.long_form_post",
 }
 
@@ -84,7 +84,9 @@ async def generate_content(
 
     try:
         logger.info("Making LLM call with system and user message...")
-        response = await call_language_model(system_message, user_message)
+        response = await call_language_model(
+            system_message, user_message, tier="medium"
+        )
 
         # Log the raw LLM response for debugging purposes
         logger.info(f"LLM raw response: {response}")
