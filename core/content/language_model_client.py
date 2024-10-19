@@ -69,7 +69,7 @@ async def call_anthropic(system_content: str, user_content: str, model_config: d
             client.messages.create(
                 model=model_config["model"],
                 max_tokens=model_config["max_output_tokens"],
-                temperature=0.7,
+                temperature=0.5,
                 system=system_content,
                 messages=[{"role": "user", "content": user_content}],
             ),

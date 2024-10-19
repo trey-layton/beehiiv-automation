@@ -1,4 +1,6 @@
+import json
 import logging
+import re
 from typing import Dict, Any
 from core.content.language_model_client import call_language_model
 from core.utils.llm_response_handler import LLMResponseHandler
@@ -48,6 +50,7 @@ async def personalize_content(
 ) -> Dict[str, Any]:
     logger.info(f"Starting content personalization for: {content_type}")
 
+    # Step 1: Fetch the personalization instructions for the given content type
     if instructions is None:
         instructions = get_instructions_for_content_type(content_type)
 
@@ -55,9 +58,11 @@ async def personalize_content(
         "content_personalization", ""
     )
 
+    # Step 2: Prepare the platform-specific example style
     platform = get_platform_from_content_type(content_type)
     style_example = getattr(account_profile, f"example_{platform}", "")
 
+    # If no specific style example is found, use the newsletter content as a fallback
     if not style_example:
         logger.info(f"No {platform} style example found. Using newsletter content.")
         style_example = account_profile.newsletter_content
@@ -115,19 +120,75 @@ This has to be proper json, so all key and values MUST BE IN DOUBLE QUOTES
     }
 
     try:
+        # Step 4: Make the LLM call with the system and user messages
+        logger.info("Making LLM call for content personalization...")
         response = await call_language_model(system_message, user_message, tier="high")
-        logger.info(f"Raw personalized content for {content_type}: {response}")
+        logger.info(f"Raw personalized content response: {response}")
 
-        personalized_content = LLMResponseHandler.clean_llm_response(response)
+        # Step 5: Extract the JSON content between delimiters ~! and !~
+        match = re.search(r"~!(.*?)!~", response, re.DOTALL)
+        if match:
+            extracted_content = match.group(1).strip()
+            logger.info(f"Extracted personalized content: {extracted_content}")
 
-        if not personalized_content or not isinstance(personalized_content, dict):
-            logger.warning(
-                f"Invalid personalized content for {content_type}. Returning original content."
+            # Apply further cleaning to remove hidden characters and control characters
+            cleaned_content = re.sub(
+                r"\s+", " ", extracted_content
+            )  # Strip excess whitespace
+            cleaned_content = cleaned_content.encode("utf-8", "ignore").decode(
+                "utf-8"
+            )  # Remove invalid characters
+            logger.info(f"Cleaned personalized content: {cleaned_content}")
+
+            try:
+                # Attempt to parse the cleaned JSON content
+                response_json = json.loads(cleaned_content)
+                logger.info(f"Parsed JSON personalized content: {response_json}")
+            except json.JSONDecodeError as e:
+                logger.error(f"Error parsing cleaned content as JSON: {e}")
+                return {"error": "Failed to parse cleaned content", "success": False}
+        else:
+            logger.error(
+                "No content found between delimiters in personalized response."
             )
-            return generated_content
+            return {
+                "error": "No content found between delimiters",
+                "llm_raw_response": response,
+                "success": False,
+            }
 
-        return personalized_content
+        # Validate response_json structure
+        if "content_container" not in response_json:
+            logger.error(
+                f"'content_container' missing in personalized response: {response_json}"
+            )
+            return {"error": "'content_container' missing", "success": False}
+
+        if not isinstance(response_json["content_container"], list):
+            logger.error("content_container in personalized response is not a list")
+            return {"error": "Invalid content_container format", "success": False}
+
+        for item in response_json["content_container"]:
+            if "post_type" not in item or "post_content" not in item:
+                logger.error(f"Invalid item in personalized content_container: {item}")
+                return {
+                    "error": "Invalid content_container item format",
+                    "success": False,
+                }
+
+        # Return the personalized content in the exact same structure
+        result = {
+            "post_number": generated_content.get("post_number"),
+            "content_type": response_json.get("content_type", content_type),
+            "content_container": response_json["content_container"],
+        }
+
+        logger.info(
+            f"Successfully personalized content for post number {generated_content.get('post_number')}"
+        )
+        return result
 
     except Exception as e:
-        logger.error(f"Error in content personalization: {str(e)}")
-        return generated_content
+        # Log the full stack trace of the TypeError or other exceptions to debug the issue
+        logger.error(f"Error during content personalization: {str(e)}", exc_info=True)
+        return {"error": str(e), "success": False}

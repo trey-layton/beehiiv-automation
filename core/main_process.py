@@ -19,30 +19,21 @@ async def run_main_process(
 ) -> Dict[str, Any]:
     try:
         # Step 1: Fetch the content from the newsletter source
-        # logger.info(f"Fetching content for post ID: {post_id}")
         content_data = await fetch_beehiiv_content(account_profile, post_id, supabase)
-        # logger.info(f"Content fetched: {content_data}")
-
         original_content = content_data.get("free_content")
         web_url = content_data.get("web_url")
         thumbnail_url = content_data.get("thumbnail_url")
 
-        # Defensive check for missing original content
         if not original_content:
             logger.error(f"No content found for post ID: {post_id}")
             return {"error": "No content found", "success": False}
 
         # Step 2: Analyze the structure of the content
-        # logger.info("Analyzing content structure...")
         newsletter_structure: str = await analyze_structure(original_content)
-        # logger.info(f"Content structure analysis result: {newsletter_structure}")
 
         # Step 3: Determine the content strategy
-        # logger.info("Determining content strategy...")
         content_strategy: str = await determine_content_strategy(newsletter_structure)
-        # logger.info(f"Content strategy determined: {content_strategy}")
 
-        # Step 4: Parse the content strategy into a list of sections
         try:
             strategy_list = json.loads(content_strategy)
             logger.info(f"Parsed strategy list: {strategy_list}")
@@ -57,7 +48,7 @@ async def run_main_process(
             logger.info(f"Processing section for post number: {post_number}")
 
             try:
-                # Generate content for this section
+                # Step 6: Generate content for this section
                 generated_content = await generate_content(
                     strategy, content_type, account_profile, web_url, post_number
                 )
@@ -65,7 +56,6 @@ async def run_main_process(
                     f"Generated content for post {post_number}: {generated_content}"
                 )
 
-                # Check if content_container is present and valid
                 if (
                     not generated_content
                     or "content_container" not in generated_content
@@ -75,20 +65,21 @@ async def run_main_process(
                     )
                     continue
 
-                # Add the processed section content to the result list
+                # Add the generated section content to the result list
                 generated_contents.append(
                     {
                         "post_number": post_number,
                         "post_content": generated_content["content_container"],
                     }
                 )
+
             except Exception as e:
                 logger.error(
                     f"Error generating content for post {post_number}: {str(e)}"
                 )
                 continue  # Continue to next section instead of breaking
 
-        # Step 6: Fallback to the entire content if no valid content was generated
+        # Step 8: Fallback to the entire content if no valid content was generated
         if not generated_contents:
             logger.warning(
                 "No valid content generated, falling back to full newsletter content."
@@ -129,7 +120,7 @@ async def run_main_process(
                     "success": False,
                 }
 
-        # Step 7: Construct the final payload
+        # Step 9: Construct the final payload
         final_content = {
             "provider": "twitter" if "tweet" in content_type else "linkedin",
             "type": content_type,
