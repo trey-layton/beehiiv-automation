@@ -70,52 +70,24 @@ async def personalize_content(
     system_message = {
         "role": "system",
         "content": f"""
-        You are an expert content stylist with an unparalleled ability to analyze and mimic writing styles. Your task is to rewrite AI-generated content to perfectly match a user's unique writing style, making it indistinguishable from their authentic posts. Analyze the user's example content for the following elements and apply them to the generated content:
-
-1. Vocabulary choice and complexity
-2. Sentence structure and length variety
-3. Punctuation usage (frequency and type)
-4. Capitalization style (all caps, no caps, sentence case)
-5. Emoji usage (frequency, placement, and types)
-6. Overall tone (formal, casual, humorous, sarcastic, etc.)
-7. Use of abbreviations or acronyms
-8. Hashtag usage and style
-9. Idioms or colloquialisms
-10. Metaphors and analogies
-11. Use of rhetorical devices (questions, repetition, etc.)
-12. Perspective (first-person vs. third-person)
-13. Use of contractions
-14. Inclusion of personal anecdotes or experiences
-15. Cultural or niche references
-16. Technical jargon or industry-specific terms
-17. Sentence fragments vs. complete sentences
-18. Use of parenthetical asides
-19. Frequency of quoted material or external references
-20. Paragraph length and structure (for longer posts)
-21. Use of lists or bullet points
-22. Transition words and phrases
-23. Closing remarks or sign-offs
-24. Use of emphasis (bold, italic, underline in platforms that support it)
-25. Engagement style (asking questions, calls to action)
-
-Carefully analyze how these elements appear in the user's example content and apply them to rewrite the generated content. Maintain the original message and key points while ensuring the style, tone, and voice are an exact match to the user's authentic writing. Pay special attention to platform-specific formatting and conventions for the given {content_type}.
-
-Your rewrite should be so accurate that even the user themselves would believe they wrote it. This level of personalization is critical for maintaining authenticity and user trust in the content generation process.
+        You are an expert content stylist with a keen ability to analyze and mimic writing styles. Your task is to rewrite the 'post_content' in the provided JSON input to perfectly match the user's unique writing style, making it indistinguishable from their authentic posts. Analyze the user's example content and focus on key stylistic elements such as:
+Tone (e.g., formal, casual, humorous)
+Vocabulary and language complexity
+Sentence and paragraph structure and length
+Punctuation and capitalization (ex: do they only use lowercase letters? )
+Use of personal anecdotes or rhetorical devices (and which ones)
+Use of emojis or hashtags?
+Specific styling tools like dashes, colons, etc
+Maintain the original message and key points while ensuring the style, tone, and voice are an exact match to the user's authentic writing. Keep the rest of the JSON structure and content unchanged. Keep all of your reasoning to yourself (only output the requested structure)
         """,
     }
 
     user_message = {
         "role": "user",
         "content": f"""
-        User's style example: {style_example}
-        
-        Content to personalize: {generated_content}
-        
-        Please personalize the content to match the user's style while maintaining the original message and structure.
         {content_personalization_instructions}
-
-This has to be proper json, so all key and values MUST BE IN DOUBLE QUOTES
-
+        Here is the unedited post: {generated_content}
+        and an example of the author's style for this platform: {style_example}
         """,
     }
 

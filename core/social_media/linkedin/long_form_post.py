@@ -152,14 +152,10 @@ Be the first to get more details about this (BIG) new project here → https://l
         """,  # Existing instructions
     "content_personalization": """
         For personalizing pre-CTA tweets:
-        1. Adapt the language to match the user's typical tweet style, including any recurring phrases or hashtags they use.
-        2. Adjust the tone to match the user's usual level of formality or casualness.
-        3. If the user tends to use certain types of hooks or openers, incorporate a similar style.
-        4. Mimic the user's typical sentence structure and punctuation habits.
-        5. If the user frequently uses certain emojis, consider incorporating them in a natural way.
-        Most importantly:
+        - If the user tends to use certain types of hooks or openers, incorporate a similar style.
         - Do not change the structure or format of the content.
         - The edited content must be returned in exactly the same JSON format as it was provided.
+        - Pay attention to how they handle intros and conclusions, if at all. Some have recaps or CTAs or links. Others are more factual and to-the-point and simply end on content. Replicate this if the information is available (don't include links if you don't have an actual link given to you).
 
         Return the edited post in this EXACT format:
 

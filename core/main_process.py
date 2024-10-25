@@ -7,6 +7,10 @@ from core.models.account_profile import AccountProfile
 from core.llm_steps.structure_analysis import analyze_structure
 from core.llm_steps.content_strategy import determine_content_strategy
 from core.llm_steps.content_generator import generate_content
+from core.llm_steps.content_personalization import (
+    personalize_content,
+    get_instructions_for_content_type,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -48,6 +52,9 @@ async def run_main_process(
             )
             return {"error": "Failed to parse content strategy", "success": False}
 
+        # Get content type instructions once for all personalization
+        content_type_instructions = get_instructions_for_content_type(content_type)
+
         # Step 5: Process each section independently for content generation
         generated_contents: List[dict] = []
         for strategy in strategy_list:
@@ -72,11 +79,40 @@ async def run_main_process(
                     )
                     continue
 
-                # Add the generated section content to the result list
+                # Step 7: Personalize the generated content
+                try:
+                    personalized_content = await personalize_content(
+                        generated_content,
+                        account_profile,
+                        content_type,
+                        content_type_instructions,
+                    )
+                    logger.info(
+                        f"Personalized content for post {post_number}: {personalized_content}"
+                    )
+
+                    if (
+                        not personalized_content
+                        or "content_container" not in personalized_content
+                    ):
+                        logger.error(
+                            f"Personalization failed for post {post_number}, using non-personalized content"
+                        )
+                        content_to_use = generated_content["content_container"]
+                    else:
+                        content_to_use = personalized_content["content_container"]
+
+                except Exception as e:
+                    logger.error(
+                        f"Error during personalization for post {post_number}: {str(e)}"
+                    )
+                    content_to_use = generated_content["content_container"]
+
+                # Add the final content to the result list
                 generated_contents.append(
                     {
                         "post_number": post_number,
-                        "post_content": generated_content["content_container"],
+                        "post_content": content_to_use,
                     }
                 )
 
@@ -84,7 +120,7 @@ async def run_main_process(
                 logger.error(
                     f"Error generating content for post {post_number}: {str(e)}"
                 )
-                continue  # Continue to next section instead of breaking
+                continue
 
         # Step 8: Fallback to the entire content if no valid content was generated
         if not generated_contents:
@@ -114,10 +150,29 @@ async def run_main_process(
                         "success": False,
                     }
 
+                # Personalize the fallback content
+                try:
+                    personalized_fallback = await personalize_content(
+                        fallback_content,
+                        account_profile,
+                        content_type,
+                        content_type_instructions,
+                    )
+                    if (
+                        personalized_fallback
+                        and "content_container" in personalized_fallback
+                    ):
+                        content_to_use = personalized_fallback["content_container"]
+                    else:
+                        content_to_use = fallback_content["content_container"]
+                except Exception as e:
+                    logger.error(f"Error personalizing fallback content: {str(e)}")
+                    content_to_use = fallback_content["content_container"]
+
                 generated_contents = [
                     {
                         "post_number": "1",
-                        "post_content": fallback_content["content_container"],
+                        "post_content": content_to_use,
                     }
                 ]
             except Exception as e:
@@ -131,7 +186,7 @@ async def run_main_process(
         final_content = {
             "provider": "twitter" if "tweet" in content_type else "linkedin",
             "type": content_type,
-            "content": generated_contents,  # List of all generated sections or fallback content
+            "content": generated_contents,
             "thumbnail_url": thumbnail_url,
             "metadata": {"web_url": web_url, "post_id": post_id},
             "success": True,
