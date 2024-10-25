@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 MODEL_TIERS = {
     "high": {
         "anthropic": {
-            "model": "claude-3-5-sonnet-20240620",
+            "model": "claude-3-5-sonnet-20241022",
             "max_tokens": 200000,
             "max_output_tokens": 8192,
         },

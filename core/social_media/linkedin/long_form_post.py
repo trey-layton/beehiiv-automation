@@ -151,12 +151,35 @@ Be the first to get more details about this (BIG) new project here → https://l
         Ensure that the "content_type" and "post_type" values remain unchanged, and only the "post_content" is edited.
         """,  # Existing instructions
     "content_personalization": """
-        For personalizing pre-CTA tweets:
         - If the user tends to use certain types of hooks or openers, incorporate a similar style.
         - Do not change the structure or format of the content.
         - The edited content must be returned in exactly the same JSON format as it was provided.
         - Pay attention to how they handle intros and conclusions, if at all. Some have recaps or CTAs or links. Others are more factual and to-the-point and simply end on content. Replicate this if the information is available (don't include links if you don't have an actual link given to you).
 
+        Return the edited post in this EXACT format:
+
+        ~!{
+            "content_type": "long_form_post",
+            "content_container": [
+                {"post_type": "main_post", "post_content": "Edited main post content here"}
+            ]
+        }!~
+
+        Ensure that the "content_type" and "post_type" values remain unchanged, and only the "post_content" is edited.
+    """,
+    "hook_writing": """
+        Return the edited post in this EXACT format:
+
+        ~!{
+            "content_type": "long_form_post",
+            "content_container": [
+                {"post_type": "main_post", "post_content": "Edited main post content here"}
+            ]
+        }!~
+
+        Ensure that the "content_type" and "post_type" values remain unchanged, and only the "post_content" is edited.
+    """,
+    "ai_polish": """
         Return the edited post in this EXACT format:
 
         ~!{

@@ -120,4 +120,38 @@ Benham consulted clients using the same algorithms, statistics & data research t
 
         Ensure that the "content_type" and "post_type" values remain unchanged, and only the "post_content" is edited.
     """,
+    "hook_writing": """
+        Return the edited post in this EXACT format:
+
+        ~!{
+            "content_type": "thread_tweet",
+            "content_container": [
+                {"post_type": "main_tweet", "post_content": "Main post content here"},
+                {"post_type": "reply_tweet", "post_ontent": "Reply content here"},
+                {"post_type": "reply_tweet", "post_ontent": "Reply content here"},
+                {"post_type": "article_url", "post_content": "If you want to go even deeper, check out the full article! [article_url]"},
+                {"post_type": "quote_tweet", "post_content": "If you found value in this thread, please give it a like and share!"},
+            ]
+
+        }!~
+
+        Ensure that the "content_type" and "post_type" values remain unchanged, and only the "post_content" is edited.
+    """,
+    "ai_polish": """
+        Return the edited post in this EXACT format:
+
+        ~!{
+            "content_type": "thread_tweet",
+            "content_container": [
+                {"post_type": "main_tweet", "post_content": "Main post content here"},
+                {"post_type": "reply_tweet", "post_ontent": "Reply content here"},
+                {"post_type": "reply_tweet", "post_ontent": "Reply content here"},
+                {"post_type": "article_url", "post_content": "If you want to go even deeper, check out the full article! [article_url]"},
+                {"post_type": "quote_tweet", "post_content": "If you found value in this thread, please give it a like and share!"},
+            ]
+
+        }!~
+
+        Ensure that the "content_type" and "post_type" values remain unchanged, and only the "post_content" is edited.
+    """,
 }

@@ -66,4 +66,26 @@ instructions = {
 
         Ensure that the "content_type" and "post_type" values remain unchanged, and only the "post_content" is edited.
     """,
+    "hook_writing": """
+        Return the edited post in this EXACT format:
+
+        ~!{"content_type": "precta_tweet",
+            "content_container": [
+                {"post_type": "main_tweet", "post_content": "Main post content here"},
+                {"post_type": "reply_tweet", "post_content": "If this sounds interesting, subscribe for free to get it in your inbox! {account_profile.subscribe_url}"},
+            }!~
+
+        Ensure that the "content_type" and "post_type" values remain unchanged, and only the "post_content" is edited.
+    """,
+    "ai_polish": """
+        Return the edited post in this EXACT format:
+
+        ~!{"content_type": "precta_tweet",
+            "content_container": [
+                {"post_type": "main_tweet", "post_content": "Main post content here"},
+                {"post_type": "reply_tweet", "post_content": "If this sounds interesting, subscribe for free to get it in your inbox! {account_profile.subscribe_url}"},
+            }!~
+
+        Ensure that the "content_type" and "post_type" values remain unchanged, and only the "post_content" is edited.
+    """,
 }

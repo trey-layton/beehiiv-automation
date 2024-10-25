@@ -11,6 +11,8 @@ from core.llm_steps.content_personalization import (
     personalize_content,
     get_instructions_for_content_type,
 )
+from core.llm_steps.hook_writer import write_hooks
+from core.llm_steps.ai_polisher import ai_polish  # Add this import
 
 logger = logging.getLogger(__name__)
 
@@ -102,17 +104,83 @@ async def run_main_process(
                     else:
                         content_to_use = personalized_content["content_container"]
 
+                    # Step 8: Generate hooks for the content
+                    try:
+                        content_with_hooks = await write_hooks(
+                            {
+                                "post_number": post_number,
+                                "content_container": content_to_use,
+                            },
+                            account_profile,
+                            content_type,
+                            content_type_instructions,
+                        )
+                        logger.info(
+                            f"Generated hooks for post {post_number}: {content_with_hooks}"
+                        )
+
+                        if (
+                            not content_with_hooks
+                            or "content_container" not in content_with_hooks
+                        ):
+                            logger.error(
+                                f"Hook generation failed for post {post_number}, using content without hooks"
+                            )
+                            content_for_polish = content_to_use
+                        else:
+                            content_for_polish = content_with_hooks["content_container"]
+
+                        # Step 9: Apply AI Polish
+                        try:
+                            polished_content = await ai_polish(
+                                {
+                                    "post_number": post_number,
+                                    "content_container": content_for_polish,
+                                },
+                                account_profile,
+                                content_type,
+                                content_type_instructions,
+                            )
+                            logger.info(
+                                f"Applied AI polish for post {post_number}: {polished_content}"
+                            )
+
+                            if (
+                                not polished_content
+                                or "content_container" not in polished_content
+                            ):
+                                logger.error(
+                                    f"AI polish failed for post {post_number}, using unpolished content"
+                                )
+                                final_content_to_use = content_for_polish
+                            else:
+                                final_content_to_use = polished_content[
+                                    "content_container"
+                                ]
+
+                        except Exception as e:
+                            logger.error(
+                                f"Error during AI polish for post {post_number}: {str(e)}"
+                            )
+                            final_content_to_use = content_for_polish
+
+                    except Exception as e:
+                        logger.error(
+                            f"Error during hook generation for post {post_number}: {str(e)}"
+                        )
+                        final_content_to_use = content_to_use
+
                 except Exception as e:
                     logger.error(
                         f"Error during personalization for post {post_number}: {str(e)}"
                     )
-                    content_to_use = generated_content["content_container"]
+                    final_content_to_use = generated_content["content_container"]
 
                 # Add the final content to the result list
                 generated_contents.append(
                     {
                         "post_number": post_number,
-                        "post_content": content_to_use,
+                        "post_content": final_content_to_use,
                     }
                 )
 
@@ -122,7 +190,7 @@ async def run_main_process(
                 )
                 continue
 
-        # Step 8: Fallback to the entire content if no valid content was generated
+        # Fallback handling section - update to include AI polish in fallback flow
         if not generated_contents:
             logger.warning(
                 "No valid content generated, falling back to full newsletter content."
@@ -150,7 +218,7 @@ async def run_main_process(
                         "success": False,
                     }
 
-                # Personalize the fallback content
+                # Process fallback content through the same pipeline
                 try:
                     personalized_fallback = await personalize_content(
                         fallback_content,
@@ -165,14 +233,61 @@ async def run_main_process(
                         content_to_use = personalized_fallback["content_container"]
                     else:
                         content_to_use = fallback_content["content_container"]
+
+                    # Add hook generation to fallback
+                    try:
+                        fallback_with_hooks = await write_hooks(
+                            {"post_number": "1", "content_container": content_to_use},
+                            account_profile,
+                            content_type,
+                            content_type_instructions,
+                        )
+                        if (
+                            fallback_with_hooks
+                            and "content_container" in fallback_with_hooks
+                        ):
+                            content_for_polish = fallback_with_hooks[
+                                "content_container"
+                            ]
+                        else:
+                            content_for_polish = content_to_use
+
+                        # Add AI polish to fallback
+                        try:
+                            polished_fallback = await ai_polish(
+                                {
+                                    "post_number": "1",
+                                    "content_container": content_for_polish,
+                                },
+                                account_profile,
+                                content_type,
+                                content_type_instructions,
+                            )
+                            if (
+                                polished_fallback
+                                and "content_container" in polished_fallback
+                            ):
+                                final_content_to_use = polished_fallback[
+                                    "content_container"
+                                ]
+                            else:
+                                final_content_to_use = content_for_polish
+                        except Exception as e:
+                            logger.error(f"Error polishing fallback content: {str(e)}")
+                            final_content_to_use = content_for_polish
+                    except Exception as e:
+                        logger.error(
+                            f"Error adding hooks to fallback content: {str(e)}"
+                        )
+                        final_content_to_use = content_to_use
                 except Exception as e:
                     logger.error(f"Error personalizing fallback content: {str(e)}")
-                    content_to_use = fallback_content["content_container"]
+                    final_content_to_use = fallback_content["content_container"]
 
                 generated_contents = [
                     {
                         "post_number": "1",
-                        "post_content": content_to_use,
+                        "post_content": final_content_to_use,
                     }
                 ]
             except Exception as e:
@@ -182,7 +297,7 @@ async def run_main_process(
                     "success": False,
                 }
 
-        # Step 9: Construct the final payload
+        # Construct the final payload
         final_content = {
             "provider": "twitter" if "tweet" in content_type else "linkedin",
             "type": content_type,
