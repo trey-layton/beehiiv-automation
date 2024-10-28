@@ -26,7 +26,7 @@ async def analyze_structure(content: str) -> str:
 
 **Example Output Format:**
 
-~!{"Section Header":"Section content"},{"Section Header":"Section content"}!~
+{"section_title": "descriptive_header", "section_content": "full section content"}
 
 Example 1:
 
@@ -46,7 +46,7 @@ Update your email preferences or unsubscribe here
 © 2024 Psychology Today XYZ
 228 Park Ave S, #29976, New York, New York 10003, United States"
 
-Output: "~!{"main_story":"7 Common Psychological Manipulation Techniques You Face Every Day. Manipulation is something we all encounter in our daily lives. It often flies under the radar, masked in normal conversations, advertisements, or interactions with others. At its core, manipulation is the act of influencing someone’s thoughts, emotions, or actions for personal gain. When people use psychological manipulation, they are tapping into the intricacies of the human mind, making subtle moves that often go unnoticed but lead to powerful outcomes. Understanding these techniques is crucial not only for protecting yourself but also for recognizing when you might be influenced in ways that aren’t aligned with your best interests. Below, we will explore some of the most common manipulation techniques used in everyday life. 1. The Foot-in-the-Door Technique. One of the most common psychological manipulation techniques is the foot-in-the-door method… (continued for 6 more numbered paragraphs)"},{"Suggested Readings: - 4 Important Messages Adults Need to Hear From Their Parents… (continued for 15 more bullets)"}!~"
+Output: "{"sections":[{"section_title":"Main Story","section_content":"7 Common Psychological Manipulation Techniques You Face Every Day. Manipulation is something we all encounter in our daily lives. It often flies under the radar, masked in normal conversations, advertisements, or interactions with others. At its core, manipulation is the act of influencing someone's thoughts, emotions, or actions for personal gain. When people use psychological manipulation, they are tapping into the intricacies of the human mind, making subtle moves that often go unnoticed but lead to powerful outcomes. Understanding these techniques is crucial not only for protecting yourself but also for recognizing when you might be influenced in ways that aren't aligned with your best interests. Below, we will explore some of the most common manipulation techniques used in everyday life. 1. The Foot-in-the-Door Technique. One of the most common psychological manipulation techniques is the foot-in-the-door method... (continued for 6 more numbered paragraphs)"},{"section_title":"Suggested Readings","section_content":"- 4 Important Messages Adults Need to Hear From Their Parents... (continued for 15 more bullets)"}]}"
 
 Explanation: "This is a perfect example because it correctly identifies the main story and returns it in full (this example was cut off for demonstration purposes). It also correctly identifies the only other section with genuine content (the reading list) and returns it in full. It correctly chose not to include any titles, footers, or sponsored content like the randomly placed 5 reasons we love wayfare link. Note that this example used cut off content for demonstration purposes, but in production, always include the full content for that section."
 
@@ -86,19 +86,7 @@ We can feature an article or AI tool, or simply offer a discount to our subscrib
 Update your email preferences or unsubscribe here
 © 2024 AiNews.com"
 
-Output: "~!{"headlines":"Today’s Headlines: - Virginia Candidate Hosts Debate Against Incumbent’s AI Chatbot - Bentley Hensel, an independent congressional candidate in Virginia, has created an AI chatbot named DonBot to stand in for Democratic incumbent Don Beyer in a recent debate.
-- Elon Musk’s X Allows… (continued with 6 more one-sentence stories)"},{"ai_tutorial":"AI In Action: Quick Tutorials
-In this section, you'll find short, practical tutorials that walk you through using the latest AI tools, helping you quickly unlock their full potential.
-Today’s AI in Action: Kling AI, one of the most popular AI video generators, now lets you add strategic movement to specific elements in AI video, providing more control in your generated clips.
-Step-by-step:... (continues with implementation steps and tips)"},{"ai_tools":"AI Tools:
-- ObjectRemover: Remove any object from your photos quickly and accurately with an AI-driven tool.
-- EditApp: … (continues with several other AI tools)
-Get in touch with us to feature your AI Tool in our newsletter!"}{"job_postings":"Careers in AI: Top Picks
-Explore leading career opportunities in the artificial intelligence industry. 'Careers in AI: Top Picks' brings you the latest job openings from top companies, helping you advance your career in AI. We will update this section as we discover new career opportunities from reputable companies.
-- OpenAI Careers… (several other bullets for job postings)"},{"courses":"Master AI: Courses & Resources
-Explore the world of artificial intelligence with our curated selection of courses and resources designed to elevate your skills and expertise in AI. We will update this section as we discover new courses in AI.
-- Google AI Essentials: With Google AI Essentials, you’ll learn how to use generative AI tools to help speed up daily tasks, make more informed decisions, and develop new ideas and content. Receive a sharable certificate to add to your LinkedIn profile.
-- Google Cloud Skills Boost: … (continues with several other courses)"}!~"
+Output: "{"sections":[{"section_title":"Headlines","section_content":"Today's Headlines: - Virginia Candidate Hosts Debate Against Incumbent's AI Chatbot - Bentley Hensel, an independent congressional candidate in Virginia, has created an AI chatbot named DonBot to stand in for Democratic incumbent Don Beyer in a recent debate. - Elon Musk's X Allows... (continued with 6 more one-sentence stories)"},{"section_title":"AI Tutorial","section_content":"AI In Action: Quick Tutorials In this section, you'll find short, practical tutorials that walk you through using the latest AI tools, helping you quickly unlock their full potential. Today's AI in Action: Kling AI, one of the most popular AI video generators, now lets you add strategic movement to specific elements in AI video, providing more control in your generated clips. Step-by-step:... (continues with implementation steps and tips)"},{"section_title":"AI Tools","section_content":"AI Tools: - ObjectRemover: Remove any object from your photos quickly and accurately with an AI-driven tool. - EditApp: ... (continues with several other AI tools) Get in touch with us to feature your AI Tool in our newsletter!"},{"section_title":"Job Postings","section_content":"Careers in AI: Top Picks Explore leading career opportunities in the artificial intelligence industry. 'Careers in AI: Top Picks' brings you the latest job openings from top companies, helping you advance your career in AI. We will update this section as we discover new career opportunities from reputable companies. - OpenAI Careers... (several other bullets for job postings)"},{"section_title":"Courses","section_content":"Master AI: Courses & Resources Explore the world of artificial intelligence with our curated selection of courses and resources designed to elevate your skills and expertise in AI. We will update this section as we discover new courses in AI. - Google AI Essentials: With Google AI Essentials, you'll learn how to use generative AI tools to help speed up daily tasks, make more informed decisions, and develop new ideas and content. Receive a sharable certificate to add to your LinkedIn profile. - Google Cloud Skills Boost: ... (continues with several other courses)"}]}"
 
 Explanation: "This is a good example because it correctly notices that there is no main story but rather a series of short secondary stories all under one "headlines" section. It also correctly deciphers the content from the sponsored posts, including the tutorial, job postings, ai tools, and ai courses and including these in full, and recognizing the sponsor/promotional content like the newsletter and linkedin community plugs and the sponsored list at the end. It also included the full content of each section, not truncating or summarizing any of it."
 """,
@@ -109,6 +97,7 @@ Explanation: "This is a good example because it correctly notices that there is 
         "content": f"{content}",
     }
     response = await call_language_model(system_message, user_message, "high")
+    logger.info(f"Raw response from AI assistant: {response}")
 
     # Extract JSON content between delimiters
     match = re.search(r"~!\s*(.*?)\s*!~", response, re.DOTALL)

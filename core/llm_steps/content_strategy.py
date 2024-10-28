@@ -36,10 +36,10 @@ When making your posts, prioritize richer sections with adequate content. So rat
 Again, I need you to provide the ENTIRE section as it is passed to you. Do not cut any of it off or summarize it in any way.
 
 Format your response exactly as follows:
-[
+~![
     {"post_number": 1, "section_title": "main_story", "section_content": "Full content..."},
     {"post_number": 2, "section_title": "job_postings", "section_content": "Full content..."}
-]
+]!~
 
 Do not include any additional text or formatting beyond what's inside the array.""",
     }
@@ -52,6 +52,7 @@ Do not include any additional text or formatting beyond what's inside the array.
     try:
         # Call the language model
         response = await call_language_model(system_message, user_message, "high")
+        logger.info(f"Raw response from AI assistant: {response}")
 
         # Extract content between delimiters
         match = re.search(r"~!(.*?)!~", response, re.DOTALL)
