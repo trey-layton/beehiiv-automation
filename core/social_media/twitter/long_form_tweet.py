@@ -83,6 +83,7 @@ If you found this helpful - give me a retweet or a comment - it helps me spread 
             ~!{"content_type": "long_form_tweet",
             "content_container": [
                 {"post_type": "main_tweet", "post_content": "Main post content here"}
+                ]
             }!~
 Never add anything besides the brackets and everything which is supposed to be inside of them (don't add intro text, target length, etc)
             """,
@@ -108,6 +109,7 @@ Never add anything besides the brackets and everything which is supposed to be i
         ~!{"content_type": "long_form_tweet",
             "content_container": [
                 {"post_type": "main_tweet", "post_content": "Main post content here"}
+                ]
             }!~
 
         Ensure that the "content_type" and "post_type" values remain unchanged, and only the "post_content" is edited.
@@ -124,6 +126,7 @@ Never add anything besides the brackets and everything which is supposed to be i
         ~!{"content_type": "long_form_tweet",
             "content_container": [
                 {"post_type": "main_tweet", "post_content": "Main post content here"}
+                ]
             }!~
 
         Ensure that the "content_type" and "post_type" values remain unchanged, and only the "post_content" is edited.
@@ -133,6 +136,7 @@ Never add anything besides the brackets and everything which is supposed to be i
         ~!{"content_type": "long_form_tweet",
             "content_container": [
                 {"post_type": "main_tweet", "post_content": "Main post content here"}
+                ]
             }!~
 
         Ensure that the "content_type" and "post_type" values remain unchanged, and only the "post_content" is edited.
@@ -143,6 +147,7 @@ Never add anything besides the brackets and everything which is supposed to be i
         ~!{"content_type": "long_form_tweet",
             "content_container": [
                 {"post_type": "main_tweet", "post_content": "Main post content here"}
+                ]
             }!~
 
         Ensure that the "content_type" and "post_type" values remain unchanged, and only the "post_content" is edited.
