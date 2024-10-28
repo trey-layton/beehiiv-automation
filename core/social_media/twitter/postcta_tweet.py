@@ -8,7 +8,7 @@ instructions = {
         ~!{"content_type": "postcta_tweet",
             "content_container": [
                 {"post_type": "main_tweet", "post_content": "Main post content here"},
-                {"post_type": "reply_tweet", "post_content": "If this sounds interesting, check out the full article online now! {web_url}"},
+                {"post_type": "reply_tweet", "post_content": "If this sounds interesting, check out the full article online now! {web_url}"}
         }!~ """,
     "content_editing": """
         You are an expert content editor refining a post-newsletter teaser Twitter post. Your task is to improve the given content while strictly maintaining its original structure and format.
@@ -35,7 +35,7 @@ instructions = {
         ~!{"content_type": "postcta_tweet",
             "content_container": [
                 {"post_type": "main_tweet", "post_content": "Main post content here"},
-                {"post_type": "reply_tweet", "post_content": "If this sounds interesting, check out the full article online now! {web_url}"},
+                {"post_type": "reply_tweet", "post_content": "If this sounds interesting, check out the full article online now! {web_url}"}
         }!~
 
         Ensure that the "content_type" and "post_type" values remain unchanged, and only the "post_content" is edited.
@@ -58,7 +58,7 @@ instructions = {
         ~!{"content_type": "postcta_tweet",
             "content_container": [
                 {"post_type": "main_tweet", "post_content": "Main post content here"},
-                {"post_type": "reply_tweet", "post_content": "If this sounds interesting, check out the full article online now! {web_url}"},
+                {"post_type": "reply_tweet", "post_content": "If this sounds interesting, check out the full article online now! {web_url}"}
         }!~
 
         Ensure that the "content_type" and "post_type" values remain unchanged, and only the "post_content" is edited.
@@ -69,7 +69,7 @@ instructions = {
         ~!{"content_type": "postcta_tweet",
             "content_container": [
                 {"post_type": "main_tweet", "post_content": "Main post content here"},
-                {"post_type": "reply_tweet", "post_content": "If this sounds interesting, check out the full article online now! {web_url}"},
+                {"post_type": "reply_tweet", "post_content": "If this sounds interesting, check out the full article online now! {web_url}"}
         }!~
 
         Ensure that the "content_type" and "post_type" values remain unchanged, and only the "post_content" is edited.
@@ -80,7 +80,7 @@ instructions = {
         ~!{"content_type": "postcta_tweet",
             "content_container": [
                 {"post_type": "main_tweet", "post_content": "Main post content here"},
-                {"post_type": "reply_tweet", "post_content": "If this sounds interesting, check out the full article online now! {web_url}"},
+                {"post_type": "reply_tweet", "post_content": "If this sounds interesting, check out the full article online now! {web_url}"}
         }!~
 
         Ensure that the "content_type" and "post_type" values remain unchanged, and only the "post_content" is edited.

@@ -50,7 +50,7 @@ Benham consulted clients using the same algorithms, statistics & data research t
                 {"post_type": "reply_tweet", "post_ontent": "Reply content here"},
                 {"post_type": "reply_tweet", "post_ontent": "Reply content here"},
                 {"post_type": "article_url", "post_content": "If you want to go even deeper, check out the full article! [article_url]"},
-                {"post_type": "quote_tweet", "post_content": "If you found value in this thread, please give it a like and share!"},
+                {"post_type": "quote_tweet", "post_content": "If you found value in this thread, please give it a like and share!"}
             ]
 
         }!~
@@ -85,7 +85,7 @@ Benham consulted clients using the same algorithms, statistics & data research t
                 {"post_type": "reply_tweet", "post_ontent": "Reply content here"},
                 {"post_type": "reply_tweet", "post_ontent": "Reply content here"},
                 {"post_type": "article_url", "post_content": "If you want to go even deeper, check out the full article! [article_url]"},
-                {"post_type": "quote_tweet", "post_content": "If you found value in this thread, please give it a like and share!"},
+                {"post_type": "quote_tweet", "post_content": "If you found value in this thread, please give it a like and share!"}
             ]
 
         }!~
@@ -113,7 +113,7 @@ Benham consulted clients using the same algorithms, statistics & data research t
                 {"post_type": "reply_tweet", "post_ontent": "Reply content here"},
                 {"post_type": "reply_tweet", "post_ontent": "Reply content here"},
                 {"post_type": "article_url", "post_content": "If you want to go even deeper, check out the full article! [article_url]"},
-                {"post_type": "quote_tweet", "post_content": "If you found value in this thread, please give it a like and share!"},
+                {"post_type": "quote_tweet", "post_content": "If you found value in this thread, please give it a like and share!"}
             ]
 
         }!~
@@ -130,7 +130,7 @@ Benham consulted clients using the same algorithms, statistics & data research t
                 {"post_type": "reply_tweet", "post_ontent": "Reply content here"},
                 {"post_type": "reply_tweet", "post_ontent": "Reply content here"},
                 {"post_type": "article_url", "post_content": "If you want to go even deeper, check out the full article! [article_url]"},
-                {"post_type": "quote_tweet", "post_content": "If you found value in this thread, please give it a like and share!"},
+                {"post_type": "quote_tweet", "post_content": "If you found value in this thread, please give it a like and share!"}
             ]
 
         }!~
@@ -147,7 +147,7 @@ Benham consulted clients using the same algorithms, statistics & data research t
                 {"post_type": "reply_tweet", "post_ontent": "Reply content here"},
                 {"post_type": "reply_tweet", "post_ontent": "Reply content here"},
                 {"post_type": "article_url", "post_content": "If you want to go even deeper, check out the full article! [article_url]"},
-                {"post_type": "quote_tweet", "post_content": "If you found value in this thread, please give it a like and share!"},
+                {"post_type": "quote_tweet", "post_content": "If you found value in this thread, please give it a like and share!"}
             ]
 
         }!~
