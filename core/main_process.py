@@ -1,6 +1,6 @@
 import json
 import logging
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 from supabase import Client as SupabaseClient
 from core.content.content_fetcher import fetch_beehiiv_content
 from core.models.account_profile import AccountProfile
@@ -19,16 +19,25 @@ logger = logging.getLogger(__name__)
 
 async def run_main_process(
     account_profile: AccountProfile,
-    post_id: str,
+    post_id: Optional[str],
     content_type: str,
     supabase: SupabaseClient,
+    content: Optional[str] = None,
 ) -> Dict[str, Any]:
     try:
         # Step 1: Fetch the content from the newsletter source
-        content_data = await fetch_beehiiv_content(account_profile, post_id, supabase)
-        original_content = content_data.get("free_content")
-        web_url = content_data.get("web_url")
-        thumbnail_url = content_data.get("thumbnail_url")
+        if post_id:
+            content_data = await fetch_beehiiv_content(
+                account_profile, post_id, supabase
+            )
+            original_content = content_data.get("free_content")
+            web_url = content_data.get("web_url")
+            thumbnail_url = content_data.get("thumbnail_url")
+        else:
+            original_content = content
+            web_url = None
+            thumbnail_url = None
+            post_id = "pasted-content"
 
         if not original_content:
             logger.error(f"No content found for post ID: {post_id}")
