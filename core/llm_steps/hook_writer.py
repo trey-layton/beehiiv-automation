@@ -107,6 +107,8 @@ Hook Templates (Use as Guide):
 
 Refer to the provided hook templates to structure your hook, but ensure it feels natural within the author's style and the content of the post. The new hook must flow naturally into the rest of the content, matching the author's writing style perfectly.
 
+Don't get rid of any links that are already in the post but never add any more.
+
 No Additional Content: Do not add explanations, comments, or any additional content to your response.
 
 Your output must be identical to the input in every way except for the first sentence. This is critical for the rest of the content generation pipeline to function correctly.

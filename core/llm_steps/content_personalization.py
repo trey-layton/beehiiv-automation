@@ -86,7 +86,8 @@ Maintain the original message and key points while ensuring the style, tone, and
         "content": f"""
         {content_personalization_instructions}
         Here is the unedited post: {generated_content}
-        and an example of the author's style for this platform: {style_example}
+        and an example of the author's style for this platform: {style_example}.
+        Don't get rid of any links that are already in the post but never add any more.
         """,
     }
 

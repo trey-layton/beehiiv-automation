@@ -1,7 +1,7 @@
 import logging
 import json
 import re
-from typing import Dict, Any
+from typing import Dict, Any, List
 from core.models.account_profile import AccountProfile
 from core.content.language_model_client import call_language_model
 
@@ -38,6 +38,38 @@ def get_instructions_for_content_type(content_type: str) -> Dict[str, Any]:
         return {"content_generation": ""}
 
 
+def replace_urls_in_content(
+    content: str, account_profile: AccountProfile, web_url: str
+) -> str:
+    """
+    Replace URL template variables in content with actual values.
+
+    Args:
+        content: String containing template variables
+        account_profile: AccountProfile object containing replacement values
+        web_url: String containing the article URL
+
+    Returns:
+        String with template variables replaced with actual values
+    """
+    replacements = {
+        "{account_profile.subscribe_url}": account_profile.subscribe_url,
+        "{web_url}": web_url,
+        # Add any other URL template variables here
+    }
+
+    result = content
+    for template, value in replacements.items():
+        if value:  # Only replace if we have a non-None value
+            result = result.replace(template, value)
+        else:
+            logger.warning(f"Missing value for URL template: {template}")
+            # Optionally handle missing URLs - could remove the template or replace with a default
+            result = result.replace(template, "")
+
+    return result
+
+
 async def generate_content(
     strategy: Dict[str, Any],
     content_type: str,
@@ -65,7 +97,9 @@ async def generate_content(
         1. Maintain the original meaning and key information from the source content.
         2. Adapt the style to suit the {content_type} format and the account's preferences.
         3. Ensure the content is engaging and suited for the target platform.
-        4. {content_generation_instructions}
+        4. Replace {account_profile.subscribe_url} (including the brackets) with the actual subscription link.
+        5. Replace {web_url} (including the brackets) with the actual article link.
+        6. {content_generation_instructions}
         
         Format your response as a JSON object with 'type' and 'content' keys. The 'content' should be a list of post objects.
         Wrap your response with the delimiters ~! and !~ to ensure correct parsing as shown in the example format.
@@ -130,6 +164,7 @@ async def generate_content(
             logger.error("content_container is not a list")
             return {"error": "Invalid content_container format", "success": False}
 
+        # Validate and replace URLs in each content item
         for item in response_json["content_container"]:
             if "post_type" not in item or "post_content" not in item:
                 logger.error(f"Invalid item in content_container: {item}")
@@ -137,6 +172,11 @@ async def generate_content(
                     "error": "Invalid content_container item format",
                     "success": False,
                 }
+
+            # Replace URL templates in the post content
+            item["post_content"] = replace_urls_in_content(
+                item["post_content"], account_profile, web_url
+            )
 
         result = {
             "post_number": post_number,
