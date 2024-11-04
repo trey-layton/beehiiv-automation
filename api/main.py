@@ -6,7 +6,7 @@ from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
-from typing import Literal
+from typing import Literal, Optional
 from supabase import create_client, Client, ClientOptions
 from core.models.account_profile import AccountProfile
 from core.services.account_profile_service import AccountProfileService
@@ -65,7 +65,8 @@ async def root():
 
 class ContentGenerationRequest(BaseModel):
     account_id: str
-    post_id: str
+    post_id: Optional[str] = None
+    content: Optional[str] = None
     content_type: Literal[
         "precta_tweet",
         "postcta_tweet",
@@ -75,6 +76,11 @@ class ContentGenerationRequest(BaseModel):
         "image_list",
     ]
 
+    def validate_request(self):
+        """Validate that either post_id or content is provided, but not both."""
+        if bool(self.post_id) == bool(self.content):
+            raise ValueError("Exactly one of post_id or content must be provided")
+
 
 @app.post("/generate_content")
 async def generate_content_endpoint(
@@ -83,6 +89,10 @@ async def generate_content_endpoint(
 ):
     try:
         logger.info(f"Received request: {request}")
+
+        # Validate request format
+        request.validate_request()
+
         account_profile_service = AccountProfileService(client_user[0])
         logger.info(f"Fetching account profile for account_id: {request.account_id}")
         account_profile = await account_profile_service.get_account_profile(
@@ -99,17 +109,28 @@ async def generate_content_endpoint(
 
         return StreamingResponse(
             content_generator(
-                account_profile, request.post_id, request.content_type, client_user[0]
+                account_profile,
+                request.post_id,
+                request.content_type,
+                client_user[0],
+                request.content,
             ),
             media_type="text/event-stream",
         )
+    except ValueError as e:
+        logger.error(f"Validation error in generate_content_endpoint: {str(e)}")
+        raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
         logger.error(f"Error in generate_content_endpoint: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 
 async def content_generator(
-    account_profile: AccountProfile, post_id: str, content_type: str, supabase: Client
+    account_profile: AccountProfile,
+    post_id: Optional[str],
+    content_type: str,
+    supabase: Client,
+    content: Optional[str] = None,
 ):
     start_time = time.time()
 
@@ -124,9 +145,10 @@ async def content_generator(
         except asyncio.CancelledError:
             logger.info("Heartbeat cancelled")
 
-    # Start streaming the response
     try:
-        logger.info(f"Starting content generation for post_id: {post_id}")
+        logger.info(
+            f"Starting content generation for {'post_id: ' + post_id if post_id else 'pasted content'}"
+        )
         yield json.dumps(
             {
                 "status": "started",
@@ -135,13 +157,12 @@ async def content_generator(
         ) + "\n"
         await asyncio.sleep(0.1)
 
-        # Run the main content generation process
+        # Run the main content generation process with the new content parameter
         result = await run_main_process(
-            account_profile, post_id, content_type, supabase
+            account_profile, post_id, content_type, supabase, content
         )
         logger.info(f"Result from run_main_process: {result}")
 
-        # Validate the result format
         if not isinstance(result, dict):
             logger.error(f"Invalid result format returned: {result}")
             yield json.dumps(
@@ -153,11 +174,8 @@ async def content_generator(
             ) + "\n"
             return
 
-        # Check if content generation was successful
         if result.get("success", False):
             logger.info(f"Content generation succeeded: {result}")
-
-            # Log the final result before yielding
             logger.info(f"Final result that will be sent to client: {result}")
             print(f"Final result being sent to client: {result}")
 
