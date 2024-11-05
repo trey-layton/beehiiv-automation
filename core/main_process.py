@@ -315,6 +315,14 @@ async def run_main_process(
             "metadata": {"web_url": web_url, "post_id": post_id},
             "success": True,
         }
+        # Ensure thumbnail_url is a string
+        if final_content["thumbnail_url"] is None:
+            final_content["thumbnail_url"] = ""
+
+        # Ensure metadata.web_url is a string
+        if final_content["metadata"]["web_url"] is None:
+            final_content["metadata"]["web_url"] = ""
+
         logger.info(f"Final content payload constructed: {final_content}")
         return final_content
 
