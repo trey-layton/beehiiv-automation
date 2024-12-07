@@ -1,5 +1,6 @@
 # Sensitive files
 .env
+.env.development
 .env.staging
 core/config/secret.key
 user_config.db

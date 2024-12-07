@@ -13,19 +13,24 @@ from core.services.account_profile_service import AccountProfileService
 import logging
 from dotenv import load_dotenv
 from core.main_process import run_main_process
+from core.services.status_updates import StatusService
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 
 logger = logging.getLogger(__name__)
-load_dotenv()
+os.environ.clear()
+load_dotenv()  # Force reload from .env
 
 app = FastAPI()
 security = HTTPBearer()
 
-# Initialize Supabase client
-supabase: Client = create_client(os.getenv("SUPABASE_URL"), os.getenv("SUPABASE_KEY"))
+# Global setup - use service role key
+supabase: Client = create_client(
+    os.getenv("SUPABASE_URL"),
+    os.getenv("SUPABASE_SERVICE_ROLE_KEY"),
+)
 
 
 def authenticate(
@@ -34,28 +39,20 @@ def authenticate(
     try:
         if credentials.scheme != "Bearer":
             raise ValueError("Invalid authorization scheme")
-
         supabase = create_client(
             os.getenv("SUPABASE_URL"),
-            os.getenv("SUPABASE_KEY"),
+            os.getenv("SUPABASE_SERVICE_ROLE_KEY"),
             options=ClientOptions(
                 headers={"Authorization": f"Bearer {credentials.credentials}"}
             ),
         )
-
         user_response = supabase.auth.get_user(credentials.credentials)
-
         if not user_response or not user_response.user:
             raise ValueError("User not found")
-
         return supabase, user_response.user
-
     except Exception as e:
         logger.error(f"Authentication error: {str(e)}")
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Failed to authenticate",
-        )
+        raise HTTPException(status_code=401, detail="Failed to authenticate")
 
 
 @app.get("/")
@@ -65,6 +62,7 @@ async def root():
 
 class ContentGenerationRequest(BaseModel):
     account_id: str
+    content_id: str  # Add this
     post_id: Optional[str] = None
     content: Optional[str] = None
     content_type: Literal[
@@ -110,6 +108,7 @@ async def generate_content_endpoint(
         return StreamingResponse(
             content_generator(
                 account_profile,
+                request.content_id,  # Add this
                 request.post_id,
                 request.content_type,
                 client_user[0],
@@ -127,20 +126,25 @@ async def generate_content_endpoint(
 
 async def content_generator(
     account_profile: AccountProfile,
+    content_id: str,
     post_id: Optional[str],
     content_type: str,
     supabase: Client,
     content: Optional[str] = None,
 ):
     start_time = time.time()
+    status_service = StatusService(supabase)
 
     async def heartbeat():
         try:
             while True:
                 await asyncio.sleep(5)
-                yield json.dumps(
-                    {"status": "heartbeat", "message": "Still processing..."}
-                ) + "\n"
+                heartbeat_message = {
+                    "status": "heartbeat",
+                    "message": "Still processing...",
+                }
+                logger.info(f"Sending heartbeat message: {heartbeat_message}")
+                yield json.dumps(heartbeat_message) + "\n"
                 logger.info("Sent heartbeat to keep connection alive")
         except asyncio.CancelledError:
             logger.info("Heartbeat cancelled")
@@ -149,58 +153,75 @@ async def content_generator(
         logger.info(
             f"Starting content generation for {'post_id: ' + post_id if post_id else 'pasted content'}"
         )
-        yield json.dumps(
-            {
-                "status": "started",
-                "message": "Initializing content generation and editing",
-            }
-        ) + "\n"
+        start_message = {
+            "status": "started",
+            "message": "Initializing content generation and editing",
+        }
+        logger.info(f"Sending start message: {start_message}")
+        yield json.dumps(start_message) + "\n"
+        logger.info("Start message sent")
         await asyncio.sleep(0.1)
 
-        # Run the main content generation process with the new content parameter
+        # Run the main content generation process
         result = await run_main_process(
-            account_profile, post_id, content_type, supabase, content
+            account_profile,
+            content_id,
+            post_id,
+            content_type,
+            supabase,
+            content,
         )
         logger.info(f"Result from run_main_process: {result}")
 
         if not isinstance(result, dict):
             logger.error(f"Invalid result format returned: {result}")
-            yield json.dumps(
-                {
-                    "status": "failed",
-                    "error": "Invalid result format",
-                    "total_time": f"{time.time() - start_time:.2f} seconds",
-                }
-            ) + "\n"
+            await status_service.update_status(content_id, "failed")
+            error_message = {
+                "status": "failed",
+                "error": "Invalid result format",
+                "total_time": f"{time.time() - start_time:.2f} seconds",
+            }
+            logger.info(f"Sending error message for invalid format: {error_message}")
+            yield json.dumps(error_message) + "\n"
+            logger.info("Error message sent")
             return
 
         if result.get("success", False):
             logger.info(f"Content generation succeeded: {result}")
-            logger.info(f"Final result that will be sent to client: {result}")
-            print(f"Final result being sent to client: {result}")
-
-            yield json.dumps(
-                {
-                    "status": "completed",
-                    "result": result,
-                    "total_time": f"{time.time() - start_time:.2f} seconds",
-                }
-            ) + "\n"
+            await status_service.update_status(content_id, "generated")
+            success_message = {
+                "status": "completed",
+                "result": result,
+                "total_time": f"{time.time() - start_time:.2f} seconds",
+            }
+            logger.info(f"Sending success message: {success_message}")
+            yield json.dumps(success_message) + "\n"
+            logger.info("Success message sent")
         else:
-            logger.error(f"Content generation failed: {result}")
-            yield json.dumps(
-                {
-                    "status": "failed",
-                    "error": result.get(
-                        "error", "Unknown error during content generation"
-                    ),
-                    "total_time": f"{time.time() - start_time:.2f} seconds",
-                }
-            ) + "\n"
+            error_msg = result.get("error", "Unknown error during content generation")
+            logger.error(f"Content generation failed: {error_msg}")
+            await status_service.update_status(content_id, "failed")
+            error_message = {
+                "status": "failed",
+                "error": error_msg,
+                "total_time": f"{time.time() - start_time:.2f} seconds",
+            }
+            logger.info(f"Sending error message for failed generation: {error_message}")
+            yield json.dumps(error_message) + "\n"
+            logger.info("Error message sent")
 
     except Exception as e:
-        logger.error(f"Error in content generation or editing process: {str(e)}")
-        yield json.dumps({"status": "failed", "error": str(e)}) + "\n"
+        error_msg = str(e)
+        logger.error(f"Error in content generation process: {error_msg}")
+        await status_service.update_status(content_id, "failed")
+        exception_message = {
+            "status": "failed",
+            "error": error_msg,
+            "total_time": f"{time.time() - start_time:.2f} seconds",
+        }
+        logger.info(f"Sending exception message: {exception_message}")
+        yield json.dumps(exception_message) + "\n"
+        logger.info("Exception message sent")
 
 
 if __name__ == "__main__":
