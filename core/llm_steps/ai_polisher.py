@@ -17,11 +17,14 @@ from core.social_media.twitter import (
 from core.social_media.linkedin import long_form_post
 
 CONTENT_TYPE_MAP = {
-    "precta_tweet": precta_tweet,
-    "postcta_tweet": postcta_tweet,
-    "thread_tweet": thread_tweet,
-    "long_form_tweet": long_form_tweet,
-    "linkedin_long_form_post": long_form_post,
+    "precta_tweet": "core.social_media.twitter.precta_tweet",
+    "postcta_tweet": "core.social_media.twitter.postcta_tweet",
+    "thread_tweet": "core.social_media.twitter.thread_tweet",
+    "long_form_tweet": "core.social_media.twitter.long_form_tweet",
+    "long_form_post": "core.social_media.linkedin.long_form_post",
+    "image_list": "core.social_media.image_list",
+    "carousel_tweet": "core.social_media.twitter.carousel_tweet",
+    "carousel_post": "core.social_media.linkedin.carousel_post",
 }
 
 
