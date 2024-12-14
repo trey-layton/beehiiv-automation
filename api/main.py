@@ -20,7 +20,6 @@ logging.basicConfig(
 )
 
 logger = logging.getLogger(__name__)
-os.environ.clear()
 load_dotenv()  # Force reload from .env
 
 app = FastAPI()
