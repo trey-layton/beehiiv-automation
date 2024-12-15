@@ -12,7 +12,7 @@ BUCKET_CONFIGS = {
     },
     "carousels": {
         "public": True,
-        "allowedMimeTypes": ["image/*"],
+        "allowedMimeTypes": ["image/*", "application/pdf"],
         "fileSizeLimit": "2MB",
     },
 }

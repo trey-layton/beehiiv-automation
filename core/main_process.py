@@ -186,7 +186,10 @@ async def run_main_process(
 
         # Add carousel images if present
         if carousel_images:
-            final_content["carousel_images"] = carousel_images
+            if content_type == "linkedin_carousel":
+                final_content["carousel_pdf"] = carousel_images[0]  # Single PDF URL
+            else:
+                final_content["carousel_images"] = carousel_images  # List of image URLs
 
         await status_service.update_status(content_id, "generated")
         return final_content
