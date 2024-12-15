@@ -1,3 +1,9 @@
+import logging
+
+
+logger = logging.getLogger(__name__)
+logger.info(f"Loading {__name__} module")
+
 instructions = {
     "content_generation": """
         You are an expert social media content creator specializing in carousel posts for Twitter.
@@ -16,12 +22,13 @@ instructions = {
         Return the post in this EXACT format with no additional text:
         
         ~!{
-            "content_type": "carousel_tweet",
+            "content_type": "twitter_carousel",
             "content_container": [
-                {"slide_number": 1, "content": "First slide content here"},
-                {"slide_number": 2, "content": "Second slide content here"},
-                {"slide_number": 3, "content": "Third slide content here"},
-                {"slide_number": 4, "content": "Fourth slide content here"}
+                {
+                    "heading": "Main heading text",
+                    "subheading": "Optional smaller text below"
+                },
+                ...
             ]
         }!~
     """,
@@ -40,12 +47,13 @@ instructions = {
         Return the edited post in this EXACT format:
 
         ~!{
-            "content_type": "carousel_tweet",
+            "content_type": "twitter_carousel",
             "content_container": [
-                {"slide_number": 1, "content": "First slide content here"},
-                {"slide_number": 2, "content": "Second slide content here"},
-                {"slide_number": 3, "content": "Third slide content here"},
-                {"slide_number": 4, "content": "Fourth slide content here"}
+                {
+                    "heading": "Main heading text",
+                    "subheading": "Optional smaller text below"
+                },
+                ...
             ]
         }!~
     """,
@@ -60,12 +68,13 @@ instructions = {
         Return the edited post in this EXACT format:
 
         ~!{
-            "content_type": "carousel_tweet",
+            "content_type": "twitter_carousel",
             "content_container": [
-                {"slide_number": 1, "content": "First slide content here"},
-                {"slide_number": 2, "content": "Second slide content here"},
-                {"slide_number": 3, "content": "Third slide content here"},
-                {"slide_number": 4, "content": "Fourth slide content here"}
+                {
+                    "heading": "Main heading text",
+                    "subheading": "Optional smaller text below"
+                },
+                ...
             ]
         }!~
     """,
@@ -80,12 +89,13 @@ instructions = {
         Return the edited post in this EXACT format:
 
         ~!{
-            "content_type": "carousel_tweet",
+            "content_type": "twitter_carousel",
             "content_container": [
-                {"slide_number": 1, "content": "First slide content here"},
-                {"slide_number": 2, "content": "Second slide content here"},
-                {"slide_number": 3, "content": "Third slide content here"},
-                {"slide_number": 4, "content": "Fourth slide content here"}
+                {
+                    "heading": "Main heading text",
+                    "subheading": "Optional smaller text below"
+                },
+                ...
             ]
         }!~
     """,
@@ -101,12 +111,13 @@ instructions = {
         Return the edited post in this EXACT format:
 
         ~!{
-            "content_type": "carousel_tweet",
+            "content_type": "twitter_carousel",
             "content_container": [
-                {"slide_number": 1, "content": "First slide content here"},
-                {"slide_number": 2, "content": "Second slide content here"},
-                {"slide_number": 3, "content": "Third slide content here"},
-                {"slide_number": 4, "content": "Fourth slide content here"}
+                {
+                    "heading": "Main heading text",
+                    "subheading": "Optional smaller text below"
+                },
+                ...
             ]
         }!~
     """,

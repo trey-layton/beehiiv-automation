@@ -7,15 +7,6 @@ from core.models.account_profile import AccountProfile
 
 logger = logging.getLogger(__name__)
 
-# Import the content type modules
-from core.social_media.twitter import (
-    precta_tweet,
-    postcta_tweet,
-    thread_tweet,
-    long_form_tweet,
-)
-from core.social_media.linkedin import long_form_post
-
 CONTENT_TYPE_MAP = {
     "precta_tweet": "core.social_media.twitter.precta_tweet",
     "postcta_tweet": "core.social_media.twitter.postcta_tweet",
@@ -23,8 +14,8 @@ CONTENT_TYPE_MAP = {
     "long_form_tweet": "core.social_media.twitter.long_form_tweet",
     "long_form_post": "core.social_media.linkedin.long_form_post",
     "image_list": "core.social_media.image_list",
-    "carousel_tweet": "core.social_media.twitter.carousel_tweet",
-    "carousel_post": "core.social_media.linkedin.carousel_post",
+    "twitter_carousel": "core.social_media.twitter.carousel_tweet",
+    "linkedin_carousel": "core.social_media.linkedin.carousel_post",
 }
 
 
@@ -130,13 +121,11 @@ No Additional Changes: Do not add any new information, explanations, or comments
         response = await call_language_model(system_message, user_message, tier="high")
         logger.info(f"Raw AI polish generation response: {response}")
 
-        # Extract the JSON content between delimiters ~! and !~
         match = re.search(r"~!(.*?)!~", response, re.DOTALL)
         if match:
             extracted_content = match.group(1).strip()
             logger.info(f"Extracted polished content: {extracted_content}")
 
-            # Apply cleaning to remove hidden characters and control characters
             cleaned_content = re.sub(r"\s+", " ", extracted_content)
             cleaned_content = cleaned_content.encode("utf-8", "ignore").decode("utf-8")
             logger.info(f"Polished content: {cleaned_content}")
@@ -166,15 +155,35 @@ No Additional Changes: Do not add any new information, explanations, or comments
             logger.error("content_container in AI polish response is not a list")
             return {"error": "Invalid content_container format", "success": False}
 
-        for item in response_json["content_container"]:
-            if "post_type" not in item or "post_content" not in item:
-                logger.error(f"Invalid item in AI polish content_container: {item}")
-                return {
-                    "error": "Invalid content_container item format",
-                    "success": False,
-                }
+        # Validate content based on type
+        if content_type in ["twitter_carousel", "linkedin_carousel"]:
+            for item in response_json["content_container"]:
+                if "heading" not in item:
+                    logger.error(f"Missing heading in carousel slide: {item}")
+                    return {
+                        "error": "Invalid carousel content format",
+                        "success": False,
+                    }
 
-        # Return the hooks in the exact same structure
+                # Validate lengths
+                if len(item["heading"]) > 50:
+                    logger.warning(f"Heading too long, truncating: {item['heading']}")
+                    item["heading"] = item["heading"][:47] + "..."
+
+                if "subheading" in item and len(item["subheading"]) > 100:
+                    logger.warning(
+                        f"Subheading too long, truncating: {item['subheading']}"
+                    )
+                    item["subheading"] = item["subheading"][:97] + "..."
+        else:
+            for item in response_json["content_container"]:
+                if "post_type" not in item or "post_content" not in item:
+                    logger.error(f"Invalid item in AI polish content_container: {item}")
+                    return {
+                        "error": "Invalid content_container item format",
+                        "success": False,
+                    }
+
         result = {
             "post_number": generated_content.get("post_number"),
             "content_type": response_json.get("content_type", content_type),

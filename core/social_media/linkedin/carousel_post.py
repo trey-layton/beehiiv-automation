@@ -1,3 +1,9 @@
+import logging
+
+
+logger = logging.getLogger(__name__)
+logger.info(f"Loading {__name__} module")
+
 instructions = {
     "content_generation": """
        You are an expert social media content creator specializing in carousel posts for LinkedIn.
@@ -17,19 +23,16 @@ instructions = {
        
        Return the post in this EXACT format with no additional text:
        
-       ~!{
-           "content_type": "carousel_linkedin",
-           "content_container": [
-               {"slide_number": 1, "content": "First slide content here"},
-               {"slide_number": 2, "content": "Second slide content here"},
-               {"slide_number": 3, "content": "Third slide content here"},
-               {"slide_number": 4, "content": "Fourth slide content here"},
-               {"slide_number": 5, "content": "Fifth slide content here"},
-               {"slide_number": 6, "content": "Sixth slide content here"},
-               {"slide_number": 7, "content": "Seventh slide content here"},
-               {"slide_number": 8, "content": "Eighth slide content here"}
-           ]
-       }!~
+        ~!{
+            "content_type": "linkedin_carousel",
+            "content_container": [
+                {
+                    "heading": "Main heading text",
+                    "subheading": "Optional smaller text below"
+                },
+                ...
+            ]
+        }!~
    """,
     "content_editing": """
        You are an expert editor refining LinkedIn carousel content. Your task is to improve the given content while maintaining its original structure and format.
@@ -45,19 +48,16 @@ instructions = {
 
        Return the edited post in this EXACT format:
 
-       ~!{
-           "content_type": "carousel_linkedin",
-           "content_container": [
-               {"slide_number": 1, "content": "First slide content here"},
-               {"slide_number": 2, "content": "Second slide content here"},
-               {"slide_number": 3, "content": "Third slide content here"},
-               {"slide_number": 4, "content": "Fourth slide content here"},
-               {"slide_number": 5, "content": "Fifth slide content here"},
-               {"slide_number": 6, "content": "Sixth slide content here"},
-               {"slide_number": 7, "content": "Seventh slide content here"},
-               {"slide_number": 8, "content": "Eighth slide content here"}
-           ]
-       }!~
+        ~!{
+            "content_type": "linkedin_carousel",
+            "content_container": [
+                {
+                    "heading": "Main heading text",
+                    "subheading": "Optional smaller text below"
+                },
+                ...
+            ]
+        }!~
    """,
     "content_personalization": """
        For personalizing LinkedIn carousel content:
@@ -71,19 +71,16 @@ instructions = {
 
        Return the edited post in this EXACT format:
 
-       ~!{
-           "content_type": "carousel_linkedin",
-           "content_container": [
-               {"slide_number": 1, "content": "First slide content here"},
-               {"slide_number": 2, "content": "Second slide content here"},
-               {"slide_number": 3, "content": "Third slide content here"},
-               {"slide_number": 4, "content": "Fourth slide content here"},
-               {"slide_number": 5, "content": "Fifth slide content here"},
-               {"slide_number": 6, "content": "Sixth slide content here"},
-               {"slide_number": 7, "content": "Seventh slide content here"},
-               {"slide_number": 8, "content": "Eighth slide content here"}
-           ]
-       }!~
+        ~!{
+            "content_type": "linkedin_carousel",
+            "content_container": [
+                {
+                    "heading": "Main heading text",
+                    "subheading": "Optional smaller text below"
+                },
+                ...
+            ]
+        }!~
    """,
     "hook_writing": """
        For LinkedIn carousel first slides:
@@ -97,19 +94,16 @@ instructions = {
 
        Return the edited post in this EXACT format:
 
-       ~!{
-           "content_type": "carousel_linkedin",
-           "content_container": [
-               {"slide_number": 1, "content": "First slide content here"},
-               {"slide_number": 2, "content": "Second slide content here"},
-               {"slide_number": 3, "content": "Third slide content here"},
-               {"slide_number": 4, "content": "Fourth slide content here"},
-               {"slide_number": 5, "content": "Fifth slide content here"},
-               {"slide_number": 6, "content": "Sixth slide content here"},
-               {"slide_number": 7, "content": "Seventh slide content here"},
-               {"slide_number": 8, "content": "Eighth slide content here"}
-           ]
-       }!~
+        ~!{
+            "content_type": "linkedin_carousel",
+            "content_container": [
+                {
+                    "heading": "Main heading text",
+                    "subheading": "Optional smaller text below"
+                },
+                ...
+            ]
+        }!~
    """,
     "ai_polish": """
        Polish LinkedIn carousel content by:
@@ -123,18 +117,15 @@ instructions = {
 
        Return the edited post in this EXACT format:
 
-       ~!{
-           "content_type": "carousel_linkedin",
-           "content_container": [
-               {"slide_number": 1, "content": "First slide content here"},
-               {"slide_number": 2, "content": "Second slide content here"},
-               {"slide_number": 3, "content": "Third slide content here"},
-               {"slide_number": 4, "content": "Fourth slide content here"},
-               {"slide_number": 5, "content": "Fifth slide content here"},
-               {"slide_number": 6, "content": "Sixth slide content here"},
-               {"slide_number": 7, "content": "Seventh slide content here"},
-               {"slide_number": 8, "content": "Eighth slide content here"}
-           ]
-       }!~
+        ~!{
+            "content_type": "linkedin_carousel",
+            "content_container": [
+                {
+                    "heading": "Main heading text",
+                    "subheading": "Optional smaller text below"
+                },
+                ...
+            ]
+        }!~
    """,
 }

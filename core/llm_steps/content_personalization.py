@@ -7,15 +7,6 @@ from core.models.account_profile import AccountProfile
 
 logger = logging.getLogger(__name__)
 
-# Import the content type modules
-from core.social_media.twitter import (
-    precta_tweet,
-    postcta_tweet,
-    thread_tweet,
-    long_form_tweet,
-)
-from core.social_media.linkedin import long_form_post
-
 CONTENT_TYPE_MAP = {
     "precta_tweet": "core.social_media.twitter.precta_tweet",
     "postcta_tweet": "core.social_media.twitter.postcta_tweet",
@@ -23,17 +14,25 @@ CONTENT_TYPE_MAP = {
     "long_form_tweet": "core.social_media.twitter.long_form_tweet",
     "long_form_post": "core.social_media.linkedin.long_form_post",
     "image_list": "core.social_media.image_list",
-    "carousel_tweet": "core.social_media.twitter.carousel_tweet",
-    "carousel_post": "core.social_media.linkedin.carousel_post",
+    "twitter_carousel": "core.social_media.twitter.carousel_tweet",
+    "linkedin_carousel": "core.social_media.linkedin.carousel_post",
 }
 
 
 def get_instructions_for_content_type(content_type: str) -> Dict[str, Any]:
+    logger.info(
+        "get_instructions_for_content_type called in content_personalization.py"
+    )
     try:
-        module = CONTENT_TYPE_MAP.get(content_type)
-        if not module:
+        module_name = CONTENT_TYPE_MAP.get(content_type)
+        logger.info(f"Getting instructions for module: {module_name}")
+
+        if not module_name:
             raise ModuleNotFoundError(f"Content type '{content_type}' not found.")
-        return module.instructions
+
+        # Import the module first, then get instructions
+        module = __import__(module_name, fromlist=["instructions"])
+        return getattr(module, "instructions")
 
     except ModuleNotFoundError as e:
         logging.error(f"Error fetching instructions for {content_type}: {e}")
@@ -95,28 +94,20 @@ Maintain the original message and key points while ensuring the style, tone, and
     }
 
     try:
-        # Step 4: Make the LLM call with the system and user messages
         logger.info("Making LLM call for content personalization...")
         response = await call_language_model(system_message, user_message, tier="high")
         logger.info(f"Raw personalized content response: {response}")
 
-        # Step 5: Extract the JSON content between delimiters ~! and !~
         match = re.search(r"~!(.*?)!~", response, re.DOTALL)
         if match:
             extracted_content = match.group(1).strip()
             logger.info(f"Extracted personalized content: {extracted_content}")
 
-            # Apply further cleaning to remove hidden characters and control characters
-            cleaned_content = re.sub(
-                r"\s+", " ", extracted_content
-            )  # Strip excess whitespace
-            cleaned_content = cleaned_content.encode("utf-8", "ignore").decode(
-                "utf-8"
-            )  # Remove invalid characters
+            cleaned_content = re.sub(r"\s+", " ", extracted_content)
+            cleaned_content = cleaned_content.encode("utf-8", "ignore").decode("utf-8")
             logger.info(f"Cleaned personalized content: {cleaned_content}")
 
             try:
-                # Attempt to parse the cleaned JSON content
                 response_json = json.loads(cleaned_content)
                 logger.info(f"Parsed JSON personalized content: {response_json}")
             except json.JSONDecodeError as e:
@@ -132,7 +123,6 @@ Maintain the original message and key points while ensuring the style, tone, and
                 "success": False,
             }
 
-        # Validate response_json structure
         if "content_container" not in response_json:
             logger.error(
                 f"'content_container' missing in personalized response: {response_json}"
@@ -143,15 +133,44 @@ Maintain the original message and key points while ensuring the style, tone, and
             logger.error("content_container in personalized response is not a list")
             return {"error": "Invalid content_container format", "success": False}
 
-        for item in response_json["content_container"]:
-            if "post_type" not in item or "post_content" not in item:
-                logger.error(f"Invalid item in personalized content_container: {item}")
-                return {
-                    "error": "Invalid content_container item format",
-                    "success": False,
-                }
+        # Validate based on content type
+        if content_type in ["twitter_carousel", "linkedin_carousel"]:
+            max_slides = 8 if content_type == "linkedin_carousel" else 4
+            if len(response_json["content_container"]) > max_slides:
+                logger.warning(
+                    f"Too many slides ({len(response_json['content_container'])}), truncating to {max_slides}"
+                )
+                response_json["content_container"] = response_json["content_container"][
+                    :max_slides
+                ]
 
-        # Return the personalized content in the exact same structure
+            for idx, item in enumerate(response_json["content_container"]):
+                if "heading" not in item:
+                    logger.error(f"Missing heading in slide {idx}")
+                    return {
+                        "error": f"Missing heading in slide {idx}",
+                        "success": False,
+                    }
+
+                # Validate content lengths
+                if len(item["heading"]) > 50:
+                    logger.warning(f"Heading too long in slide {idx}, truncating")
+                    item["heading"] = item["heading"][:47] + "..."
+
+                if "subheading" in item and len(item["subheading"]) > 100:
+                    logger.warning(f"Subheading too long in slide {idx}, truncating")
+                    item["subheading"] = item["subheading"][:97] + "..."
+        else:
+            for item in response_json["content_container"]:
+                if "post_type" not in item or "post_content" not in item:
+                    logger.error(
+                        f"Invalid item in personalized content_container: {item}"
+                    )
+                    return {
+                        "error": "Invalid content_container item format",
+                        "success": False,
+                    }
+
         result = {
             "post_number": generated_content.get("post_number"),
             "content_type": response_json.get("content_type", content_type),
@@ -164,6 +183,5 @@ Maintain the original message and key points while ensuring the style, tone, and
         return result
 
     except Exception as e:
-        # Log the full stack trace of the TypeError or other exceptions to debug the issue
         logger.error(f"Error during content personalization: {str(e)}", exc_info=True)
         return {"error": str(e), "success": False}
