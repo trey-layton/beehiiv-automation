@@ -29,10 +29,8 @@ class CarouselGenerator:
         # For Linux: "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
 
         # Updated font sizes for new dimensions
-        self.heading_size = int(
-            self.image_size[1] * 0.064
-        )  # About 96px at 1500px height
-        self.subheading_size = int(self.image_size[1] * 0.032)
+        self.heading_size = 350  # For the main heading
+        self.subheading_size = 175
 
         # Arrow settings
         self.arrow_color = "#FFFFFF"

@@ -13,7 +13,7 @@ instructions = {
        
        Guidelines for each slide:
        - No emojis
-       - Maximum 400 characters per slide
+       - Roughly one paragraph per slide (more than just one bullet)
        - One clear main point or concept per slide 
        - Professional, business-focused tone
        - Progressive flow building expertise/authority

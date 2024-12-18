@@ -13,8 +13,8 @@ instructions = {
         
         Guidelines for each slide:
         - No emojis
-        - Maximum 400 characters per slide
-        - One clear main point per slide
+        - Roughly one paragraph per slide
+        - One clear main point per slide (more than just one bullet)
         - Progressive story flow from slide 1 to 4
         - First slide should hook the reader
         - Last slide should have a clear takeaway
