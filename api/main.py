@@ -22,6 +22,8 @@ logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 
+print("All env vars:", os.environ)
+print("Specific key:", os.getenv("SUPABASE_SERVICE_ROLE_KEY"))
 logger = logging.getLogger(__name__)
 load_dotenv()  # Force reload from .env
 
