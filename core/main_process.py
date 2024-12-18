@@ -104,7 +104,7 @@ async def run_main_process(
 
                 # Step 6: Hooks (skip for carousel types)
                 await status_service.update_status(content_id, "writing_hooks")
-                if content_type not in ["twitter_carousel", "linkedin_carousel"]:
+                if content_type not in ["carousel_tweet", "carousel_post"]:
                     content_with_hooks = await write_hooks(
                         {
                             "post_number": post_number,
@@ -136,9 +136,9 @@ async def run_main_process(
                 )
 
                 # Step 8: Generate carousel images if needed
-                if content_type in ["twitter_carousel", "linkedin_carousel"]:
+                if content_type in ["carousel_tweet", "carousel_post"]:
                     platform = (
-                        "linkedin" if content_type == "linkedin_carousel" else "twitter"
+                        "linkedin" if content_type == "carousel_post" else "twitter"
                     )
                     carousel_generator = CarouselGenerator(platform)
 
@@ -154,17 +154,59 @@ async def run_main_process(
                         if not image_urls:
                             raise Exception("Failed to generate carousel images")
                         carousel_images.extend(image_urls)
+
+                        # Add the carousel content with appropriate post_type
+                        post_type = (
+                            "main_post"
+                            if content_type == "carousel_post"
+                            else "main_tweet"
+                        )
+
+                        if content_type == "carousel_post":
+                            # For LinkedIn, use carousel_pdf_url
+                            generated_contents.append(
+                                {
+                                    "post_number": int(post_number),
+                                    "post_content": [
+                                        {
+                                            "post_type": post_type,
+                                            "post_content": "",
+                                            "carousel_pdf_url": image_urls[
+                                                0
+                                            ],  # LinkedIn expects single PDF
+                                        }
+                                    ],
+                                }
+                            )
+                        else:
+                            # For Twitter, use carousel_urls array
+                            carousel_images.extend(image_urls)
+                            generated_contents.append(
+                                {
+                                    "post_number": int(post_number),
+                                    "post_content": [
+                                        {
+                                            "post_type": post_type,
+                                            "post_content": "",
+                                            "carousel_urls": image_urls,
+                                        }
+                                    ],
+                                }
+                            )
+
                     except Exception as e:
                         logger.error(f"Carousel generation failed: {str(e)}")
                         await status_service.update_status(content_id, "failed")
                         return {"error": str(e), "success": False}
 
-                generated_contents.append(
-                    {
-                        "post_number": post_number,
-                        "post_content": final_content_to_use,
-                    }
-                )
+                else:
+                    # Handle non-carousel content types
+                    generated_contents.append(
+                        {
+                            "post_number": int(post_number),
+                            "post_content": final_content_to_use,
+                        }
+                    )
 
             except Exception as e:
                 logger.error(f"Error processing post {post_number}: {str(e)}")
@@ -183,13 +225,6 @@ async def run_main_process(
             "metadata": {"web_url": web_url or "", "post_id": post_id},
             "success": True,
         }
-
-        # Add carousel images if present
-        if carousel_images:
-            if content_type == "linkedin_carousel":
-                final_content["carousel_pdf"] = carousel_images[0]  # Single PDF URL
-            else:
-                final_content["carousel_images"] = carousel_images  # List of image URLs
 
         await status_service.update_status(content_id, "generated")
         return final_content

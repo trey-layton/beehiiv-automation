@@ -14,8 +14,8 @@ CONTENT_TYPE_MAP = {
     "long_form_tweet": "core.social_media.twitter.long_form_tweet",
     "long_form_post": "core.social_media.linkedin.long_form_post",
     "image_list": "core.social_media.image_list",
-    "twitter_carousel": "core.social_media.twitter.carousel_tweet",
-    "linkedin_carousel": "core.social_media.linkedin.carousel_post",
+    "carousel_tweet": "core.social_media.twitter.carousel_tweet",
+    "carousel_post": "core.social_media.linkedin.carousel_post",
 }
 
 
@@ -134,8 +134,8 @@ Maintain the original message and key points while ensuring the style, tone, and
             return {"error": "Invalid content_container format", "success": False}
 
         # Validate based on content type
-        if content_type in ["twitter_carousel", "linkedin_carousel"]:
-            max_slides = 8 if content_type == "linkedin_carousel" else 4
+        if content_type in ["carousel_tweet", "carousel_post"]:
+            max_slides = 8 if content_type == "carousel_post" else 4
             if len(response_json["content_container"]) > max_slides:
                 logger.warning(
                     f"Too many slides ({len(response_json['content_container'])}), truncating to {max_slides}"

@@ -14,8 +14,8 @@ CONTENT_TYPE_MAP = {
     "long_form_tweet": "core.social_media.twitter.long_form_tweet",
     "long_form_post": "core.social_media.linkedin.long_form_post",
     "image_list": "core.social_media.image_list",
-    "twitter_carousel": "core.social_media.twitter.carousel_tweet",
-    "linkedin_carousel": "core.social_media.linkedin.carousel_post",
+    "carousel_tweet": "core.social_media.twitter.carousel_tweet",
+    "carousel_post": "core.social_media.linkedin.carousel_post",
 }
 
 
@@ -156,7 +156,7 @@ No Additional Changes: Do not add any new information, explanations, or comments
             return {"error": "Invalid content_container format", "success": False}
 
         # Validate content based on type
-        if content_type in ["twitter_carousel", "linkedin_carousel"]:
+        if content_type in ["carousel_tweet", "carousel_post"]:
             for item in response_json["content_container"]:
                 if "heading" not in item:
                     logger.error(f"Missing heading in carousel slide: {item}")

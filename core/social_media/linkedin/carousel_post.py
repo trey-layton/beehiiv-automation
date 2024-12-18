@@ -24,7 +24,7 @@ instructions = {
        Return the post in this EXACT format with no additional text:
        
         ~!{
-            "content_type": "linkedin_carousel",
+            "content_type": "carousel_post",
             "content_container": [
                 {
                     "heading": "Main heading text",
@@ -49,7 +49,7 @@ instructions = {
        Return the edited post in this EXACT format:
 
         ~!{
-            "content_type": "linkedin_carousel",
+            "content_type": "carousel_post",
             "content_container": [
                 {
                     "heading": "Main heading text",
@@ -72,7 +72,7 @@ instructions = {
        Return the edited post in this EXACT format:
 
         ~!{
-            "content_type": "linkedin_carousel",
+            "content_type": "carousel_post",
             "content_container": [
                 {
                     "heading": "Main heading text",
@@ -95,7 +95,7 @@ instructions = {
        Return the edited post in this EXACT format:
 
         ~!{
-            "content_type": "linkedin_carousel",
+            "content_type": "carousel_post",
             "content_container": [
                 {
                     "heading": "Main heading text",
@@ -118,7 +118,7 @@ instructions = {
        Return the edited post in this EXACT format:
 
         ~!{
-            "content_type": "linkedin_carousel",
+            "content_type": "carousel_post",
             "content_container": [
                 {
                     "heading": "Main heading text",

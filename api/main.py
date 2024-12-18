@@ -94,8 +94,8 @@ class ContentGenerationRequest(BaseModel):
         "long_form_tweet",
         "long_form_post",
         "image_list",
-        "twitter_carousel",  # Add these two
-        "linkedin_carousel",
+        "carousel_tweet",  # Add these two
+        "carousel_post",
     ]
 
     def validate_request(self):
