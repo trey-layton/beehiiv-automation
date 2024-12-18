@@ -24,33 +24,19 @@ class CarouselGenerator:
         self.text_color = "#FFFFFF"  # White text
 
         # Use system fonts for fallback
-        self.font_path = "/System/Library/Fonts/HelveticaNeue.ttc"  # For Mac
+        self.font_path = "./fonts/Lora-VariableFont_wght.ttf"
         # For Windows: "C:\\Windows\\Fonts\\segoeui.ttf"
         # For Linux: "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
 
         # Updated font sizes for new dimensions
-        self.heading_size = 350  # For the main heading
-        self.subheading_size = 175
+        self.heading_size = 96
+        self.subheading_size = 48
 
         # Arrow settings
         self.arrow_color = "#FFFFFF"
         self.arrow_width = 3  # Thinner line
         self.arrow_size = (60, 30)
         self.arrow_margin = 60
-
-    def _get_default_font_path(self):
-        """Get default system font based on OS"""
-        import platform
-
-        system = platform.system()
-        if system == "Darwin":  # macOS
-            return "/System/Library/Fonts/Helvetica.ttc"
-        elif system == "Linux":
-            return "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
-        elif system == "Windows":
-            return "C:\\Windows\\Fonts\\arial.ttf"
-        else:
-            raise OSError(f"Unsupported operating system: {system}")
 
     def _create_arrow(self, draw: ImageDraw) -> None:
         """Draw a minimal arrow in bottom right corner"""
@@ -169,9 +155,6 @@ class CarouselGenerator:
                         "heading": slide.get("heading", slide.get("content", "")),
                         "subheading": slide.get("subheading", ""),
                     }
-                    logger.info(f"Image dimensions before upload: {image.size}")
-                    logger.info(f"Image mode: {image.mode}")
-                    logger.info(f"Image info: {image.info}")
                     image = self._create_slide(slide_content, idx)
                     post_images.append(image)
 
