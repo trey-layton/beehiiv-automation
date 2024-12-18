@@ -48,6 +48,22 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 security = HTTPBearer()
 
+logger.info("Environment check before client creation:")
+logger.info(f"SUPABASE_URL: {os.getenv('SUPABASE_URL')}")
+logger.info(
+    f"SUPABASE_SERVICE_ROLE_KEY present: {'Yes' if os.getenv('SUPABASE_SERVICE_ROLE_KEY') else 'No'}"
+)
+logger.info(f"All env vars: {dict(os.environ)}")
+
+supabase_url = os.getenv("SUPABASE_URL")
+supabase_key = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
+
+if not supabase_url or not supabase_key:
+    logger.error(
+        f"Missing required environment variables. URL present: {bool(supabase_url)}, Key present: {bool(supabase_key)}"
+    )
+    raise ValueError("Missing required Supabase environment variables")
+
 # Global setup - use service role key
 supabase: Client = create_client(
     os.getenv("SUPABASE_URL"),
