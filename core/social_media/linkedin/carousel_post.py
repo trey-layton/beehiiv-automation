@@ -12,7 +12,8 @@ instructions = {
        Each image should contain concise, engaging text that fits well within an image and is easy to read.
        
        Guidelines for each slide:
-       - Maximum 200 characters per slide
+       - No emojis
+       - Maximum 400 characters per slide
        - One clear main point or concept per slide 
        - Professional, business-focused tone
        - Progressive flow building expertise/authority
