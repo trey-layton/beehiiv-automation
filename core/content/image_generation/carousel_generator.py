@@ -169,6 +169,9 @@ class CarouselGenerator:
                         "heading": slide.get("heading", slide.get("content", "")),
                         "subheading": slide.get("subheading", ""),
                     }
+                    logger.info(f"Image dimensions before upload: {image.size}")
+                    logger.info(f"Image mode: {image.mode}")
+                    logger.info(f"Image info: {image.info}")
                     image = self._create_slide(slide_content, idx)
                     post_images.append(image)
 

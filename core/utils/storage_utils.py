@@ -11,12 +11,14 @@ logger = logging.getLogger(__name__)
 async def upload_to_supabase(
     supabase: Client, image: Image, bucket: str, file_name: str
 ) -> str:
+    logger.info(f"Original image size: {image.size}")
     """Upload an image to Supabase Storage and return its public URL."""
     try:
         # Convert PIL Image to bytes
         img_byte_arr = BytesIO()
         image.save(img_byte_arr, format="PNG")
         img_byte_arr = img_byte_arr.getvalue()
+        logger.info(f"Byte array size: {len(img_byte_arr.getvalue())}")
 
         # Generate unique filename using timestamp
         unique_file_name = f"{file_name.split('.')[0]}_{int(time.time() * 1000)}.png"
