@@ -58,6 +58,19 @@ instructions = {
             ]
         }!~
     """,
+    "image_relevance": """        
+        For this content type, we actually don't support images yet, so return the content EXACTLY like you received it:
+        ~!{
+            "content_type": "carousel_tweet",
+            "content_container": [
+                {
+                    "heading": "Main heading text",
+                    "subheading": "Optional smaller text below"
+                },
+                ...
+            ]
+        }!~
+        """,
     "content_personalization": """
         For personalizing carousel content:
         1. Adapt each slide to match the user's writing style

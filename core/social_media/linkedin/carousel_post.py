@@ -35,20 +35,8 @@ instructions = {
             ]
         }!~
    """,
-    "content_editing": """
-       You are an expert editor refining LinkedIn carousel content. Your task is to improve the given content while maintaining its original structure and format.
-
-       Follow these guidelines:
-       1. Ensure each slide demonstrates industry expertise
-       2. Maintain professional language and tone
-       3. Include relevant business context where appropriate
-       4. Keep formatting clear and presentation-ready
-       5. Ensure logical progression of ideas
-       6. Add data points or concrete examples when possible
-       7. Each slide should contribute to thought leadership positioning
-
-       Return the edited post in this EXACT format:
-
+    "image_relevance": """   
+        For this content type, we actually don't support images yet, so return the content EXACTLY like you received it:     
         ~!{
             "content_type": "carousel_post",
             "content_container": [
@@ -59,7 +47,7 @@ instructions = {
                 ...
             ]
         }!~
-   """,
+        """,
     "content_personalization": """
        For personalizing LinkedIn carousel content:
        1. Match the creator's professional voice and expertise level
