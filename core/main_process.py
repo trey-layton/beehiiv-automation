@@ -1,8 +1,12 @@
 import json
 import logging
+import re
 from typing import Dict, Any, List, Optional
 from supabase import Client as SupabaseClient
-from core.content.content_fetcher import fetch_beehiiv_content
+from core.content.beehiiv_handler import (
+    fetch_beehiiv_content,
+    transform_images_into_placeholders,
+)
 from core.models.account_profile import AccountProfile
 from core.llm_steps.structure_analysis import analyze_structure
 from core.llm_steps.content_strategy import determine_content_strategy
@@ -14,7 +18,7 @@ from core.llm_steps.content_personalization import (
 from core.llm_steps.hook_writer import write_hooks
 from core.llm_steps.ai_polisher import ai_polish
 from core.services.status_updates import StatusService
-from core.content.image_generation.carousel_generator import CarouselGenerator
+from core.llm_steps.image_relevance import check_image_relevance  # Add this import
 
 logger = logging.getLogger(__name__)
 
@@ -30,24 +34,29 @@ async def run_main_process(
     status_service = StatusService(supabase)
 
     try:
-        # Step 1: Fetch content
         await status_service.update_status(content_id, "analyzing")
+
         if post_id:
-            content_data = await fetch_beehiiv_content(
-                account_profile, post_id, supabase
-            )
-            original_content = content_data.get("free_content")
-            web_url = content_data.get("web_url")
-            thumbnail_url = content_data.get("thumbnail_url")
+            try:
+                content_data = await fetch_beehiiv_content(
+                    account_profile, post_id, supabase
+                )
+                original_content = content_data.get("free_content", "")
+                web_url = content_data.get("web_url")
+                thumbnail_url = content_data.get("thumbnail_url")
+
+            except Exception as e:
+                logger.error(f"Error fetching Beehiiv content: {str(e)}")
+                await status_service.update_status(content_id, "failed")
+                return {"error": "Failed to fetch content", "success": False}
         else:
             original_content = content
             web_url = None
             thumbnail_url = None
             post_id = "pasted-content"
 
-        if not original_content:
-            await status_service.update_status(content_id, "failed")
-            return {"error": "No content found", "success": False}
+        if original_content:
+            original_content = transform_images_into_placeholders(original_content)
 
         # Step 2: Analyze structure
         await status_service.update_status(content_id, "analyzing_structure")
@@ -62,25 +71,31 @@ async def run_main_process(
             if not isinstance(strategy_list, list):
                 await status_service.update_status(content_id, "failed")
                 return {"error": "Content strategy is not a list", "success": False}
-        except json.JSONDecodeError as e:
+        except json.JSONDecodeError:
             await status_service.update_status(content_id, "failed")
             return {"error": "Failed to parse content strategy", "success": False}
 
-        logger.info(
-            f"Content type being processed: {content_type}, type: {type(content_type)}"
-        )
-        logger.info(f"About to get instructions for content type: {content_type}")
         content_type_instructions = get_instructions_for_content_type(content_type)
-        logger.info(f"Instructions received: {type(content_type_instructions)}")
-        logger.info(f"Instructions content: {content_type_instructions}")
         generated_contents: List[dict] = []
-        carousel_images: List[str] = []
 
-        # Step 4: Generation loop
+        # Step 4: Generation and processing loop
         await status_service.update_status(content_id, "generating")
         for strategy in strategy_list:
             post_number = strategy.get("post_number", "unknown")
             try:
+                section_content = strategy.get("section_content", "")
+                image_pattern = r"\[image:(.*?)\]"
+                image_urls = [
+                    match.group(1)
+                    for match in re.finditer(image_pattern, section_content)
+                ]
+                logger.info(image_urls)
+
+                # Remove image placeholders from section_content before content generation
+                cleaned_section_content = re.sub(image_pattern, "", section_content)
+                strategy["section_content"] = cleaned_section_content
+
+                # Generate content
                 generated_content = await generate_content(
                     strategy, content_type, account_profile, web_url, post_number
                 )
@@ -90,14 +105,34 @@ async def run_main_process(
                 ):
                     continue
 
-                # Step 5: Personalization
-                await status_service.update_status(content_id, "personalizing")
+                # Check image relevance if we have image URLs
+                if image_urls:
+                    logger.info(
+                        f"Before image relevance, generated_content: {json.dumps(generated_content, indent=2)}"
+                    )
+                    updated_generated_content = await check_image_relevance(
+                        generated_content, image_urls, account_profile, content_type
+                    )
+                    logger.info(
+                        f"After image relevance, updated_generated_content: {json.dumps(updated_generated_content, indent=2)}"
+                    )
+                    if (
+                        updated_generated_content
+                        and "content_container" in updated_generated_content
+                    ):
+                        generated_content = updated_generated_content
+                        logger.info(
+                            f"After assignment, generated_content: {json.dumps(generated_content, indent=2)}"
+                        )
+
+                # Now personalize using the updated generated_content
                 personalized_content = await personalize_content(
                     generated_content,
                     account_profile,
                     content_type,
                     content_type_instructions,
                 )
+
                 content_to_use = personalized_content.get(
                     "content_container", generated_content["content_container"]
                 )
@@ -135,78 +170,13 @@ async def run_main_process(
                     "content_container", content_for_polish
                 )
 
-                # Step 8: Generate carousel images if needed
-                if content_type in ["carousel_tweet", "carousel_post"]:
-                    platform = (
-                        "linkedin" if content_type == "carousel_post" else "twitter"
-                    )
-                    carousel_generator = CarouselGenerator(platform)
-
-                    try:
-                        await status_service.update_status(content_id, "generating")
-                        image_urls = await carousel_generator.generate_carousel(
-                            {
-                                "post_number": post_number,
-                                "content_container": final_content_to_use,
-                            },
-                            supabase,
-                        )
-                        if not image_urls:
-                            raise Exception("Failed to generate carousel images")
-                        carousel_images.extend(image_urls)
-
-                        # Add the carousel content with appropriate post_type
-                        post_type = (
-                            "main_post"
-                            if content_type == "carousel_post"
-                            else "main_tweet"
-                        )
-
-                        if content_type == "carousel_post":
-                            # For LinkedIn, use carousel_pdf_url
-                            generated_contents.append(
-                                {
-                                    "post_number": int(post_number),
-                                    "post_content": [
-                                        {
-                                            "post_type": post_type,
-                                            "post_content": "",
-                                            "carousel_pdf_url": image_urls[
-                                                0
-                                            ],  # LinkedIn expects single PDF
-                                        }
-                                    ],
-                                }
-                            )
-                        else:
-                            # For Twitter, use carousel_urls array
-                            carousel_images.extend(image_urls)
-                            generated_contents.append(
-                                {
-                                    "post_number": int(post_number),
-                                    "post_content": [
-                                        {
-                                            "post_type": post_type,
-                                            "post_content": "",
-                                            "carousel_urls": image_urls,
-                                        }
-                                    ],
-                                }
-                            )
-
-                    except Exception as e:
-                        logger.error(f"Carousel generation failed: {str(e)}")
-                        await status_service.update_status(content_id, "failed")
-                        return {"error": str(e), "success": False}
-
-                else:
-                    # Handle non-carousel content types
-                    generated_contents.append(
-                        {
-                            "post_number": int(post_number),
-                            "post_content": final_content_to_use,
-                        }
-                    )
+                # Add to generated contents
+                generated_contents.append(
+                    {
+                        "post_number": int(post_number),
+                        "post_content": final_content_to_use,
+                    }
+                )
 
             except Exception as e:
                 logger.error(f"Error processing post {post_number}: {str(e)}")

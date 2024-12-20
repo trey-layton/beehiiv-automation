@@ -7,9 +7,6 @@ logger = logging.getLogger(__name__)
 
 
 async def analyze_structure(content: str) -> str:
-    # logger.info("Starting structure analysis")
-
-    # Define the system message to instruct the LLM
     system_message = {
         "role": "system",
         "content": """You are an AI assistant specialized in processing newsletters. Your task is to break down newsletters into logical sections and output them as JSON objects. Follow these guidelines:
@@ -17,12 +14,13 @@ async def analyze_structure(content: str) -> str:
 1. Divide the newsletter into coherent sections based on content, not formatting.
 2. Create a JSON object for each section in the format {"descriptive_header":"full section content"}.
 3. The descriptive_header should be a brief, content-based description of the section.
-4. Include the full, unmodified content of each section.
+4. Include the full, unmodified content of each section, including urls, links, image placeholders, and other formatting that was originally included.
 5. Exclude titles, sponsored content, intros (like where the author breaks the 4th wall to welcome new subscribers or talks about what the newsletter is going to talk about), outros (like where the author thanks the subscriber, asks for feedback, etc), headers, footers, and any promotional or sponsored material that aren't core content.
 6. If the newsletter is a single coherent piece (e.g., an essay), keep it as one section.
 7. For newsletters with multiple topics, group related content together ("around the web", "main stories" (this applies if there is no clear, long, main story but rather several shorter ones), "job postings", "events board", "around the web", etc)
 8. The number of sections should be dynamic and tailored to the newsletter's content.
 9. Output the result as a single line starting with "~!" and ending with "!~", with no line breaks within this structure.
+10. Be mindful of media/asset placeholders ([image: url: "www.site.com....]). We need these downstream, so ALWAYS INCLUDE them in your output, leaving them in exactly the same place as they were located.
 
 **Example Output Format:**
 

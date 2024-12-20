@@ -82,19 +82,22 @@ Specific styling tools like dashes, colons, etc
 Maintain the original message and key points while ensuring the style, tone, and voice are an exact match to the user's authentic writing. Keep the rest of the JSON structure and content unchanged. Keep all of your reasoning to yourself (only output the requested structure)
         """,
     }
-
+    logger.info(
+        f"Generated content being passed to personalization: {json.dumps(generated_content, indent=2)}"
+    )
     user_message = {
         "role": "user",
         "content": f"""
         {content_personalization_instructions}
-        Here is the unedited post: {generated_content}
+        Here is the unedited post: {json.dumps(generated_content)}
         and an example of the author's style for this platform: {style_example}.
-        Don't get rid of any links that are already in the post but never add any more.
+        Don't get rid of any links that are already in the post but never add any more. Don't get rid of any image arrays or other media/assets.
         """,
     }
 
     try:
         logger.info("Making LLM call for content personalization...")
+        logger.info(user_message)
         response = await call_language_model(system_message, user_message, tier="high")
         logger.info(f"Raw personalized content response: {response}")
 

@@ -105,7 +105,7 @@ Preserve the Original Content: Do not change anything else in the text. Maintain
 Maintain the Author's Voice: Ensure that any replacements or adjustments match the tone and voice of the original content.
 Don't get rid of any links that are already in the post but never add any more.
 
-No Additional Changes: Do not add any new information, explanations, or comments to the text.
+No Additional Changes: Do not add any new information, explanations, or comments to the text. Do not get rid of anything else in the post format/content container.
         """,
     }
 
