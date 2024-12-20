@@ -33,7 +33,9 @@ Exclude sections that are not suitable for content generation, such as:
 
 When making your posts, prioritize richer sections with adequate content. So rather than include just the title section or a fun "what I'm listening to", choose sections with more density of valuable information.
 
-Again, I need you to provide the ENTIRE section as it is passed to you. Do not cut any of it off or summarize it in any way.
+Again, I need you to provide the ENTIRE section as it is passed to you. Do not cut any of it off or summarize it in any way, including urls, links, image placeholders, and other formatting that was originally included.
+
+Be mindful of media/asset placeholders ([image: url: "www.site.com....]). We need these downstream, so ALWAYS INCLUDE them in your output, leaving them in exactly the same place as they were located.
 
 Format your response exactly as follows:
 ~![

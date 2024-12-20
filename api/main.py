@@ -4,26 +4,67 @@ import time
 import os
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from fastapi.responses import StreamingResponse
+from fastapi.responses import JSONResponse, StreamingResponse
 from pydantic import BaseModel
 from typing import Literal, Optional
 from supabase import create_client, Client, ClientOptions
+from core.config.init_storage import init_storage
 from core.models.account_profile import AccountProfile
 from core.services.account_profile_service import AccountProfileService
 import logging
+from contextlib import asynccontextmanager
 from dotenv import load_dotenv
 from core.main_process import run_main_process
 from core.services.status_updates import StatusService
+from core.content.image_generation.carousel_generator import CarouselGenerator
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 
+print("All env vars:", os.environ)
+print("Specific key:", os.getenv("SUPABASE_SERVICE_ROLE_KEY"))
 logger = logging.getLogger(__name__)
 load_dotenv()  # Force reload from .env
 
-app = FastAPI()
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup
+    logger.info("Initializing application...")
+    try:
+        await init_storage(supabase)
+        logger.info("Storage initialization completed")
+    except Exception as e:
+        logger.error(f"Failed to initialize storage: {str(e)}")
+        # We don't raise the exception here because we want the app to start
+        # even if bucket creation fails - they might already exist
+
+    yield
+
+    # Shutdown
+    logger.info("Shutting down application...")
+    # Add any cleanup code here if needed
+
+
+app = FastAPI(lifespan=lifespan)
 security = HTTPBearer()
+
+logger.info("Environment check before client creation:")
+logger.info(f"SUPABASE_URL: {os.getenv('SUPABASE_URL')}")
+logger.info(
+    f"SUPABASE_SERVICE_ROLE_KEY present: {'Yes' if os.getenv('SUPABASE_SERVICE_ROLE_KEY') else 'No'}"
+)
+logger.info(f"All env vars: {dict(os.environ)}")
+
+supabase_url = os.getenv("SUPABASE_URL")
+supabase_key = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
+
+if not supabase_url or not supabase_key:
+    logger.error(
+        f"Missing required environment variables. URL present: {bool(supabase_url)}, Key present: {bool(supabase_key)}"
+    )
+    raise ValueError("Missing required Supabase environment variables")
 
 # Global setup - use service role key
 supabase: Client = create_client(
@@ -71,6 +112,8 @@ class ContentGenerationRequest(BaseModel):
         "long_form_tweet",
         "long_form_post",
         "image_list",
+        "carousel_tweet",  # Add these two
+        "carousel_post",
     ]
 
     def validate_request(self):

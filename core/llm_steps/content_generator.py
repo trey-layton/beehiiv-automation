@@ -14,28 +14,46 @@ CONTENT_TYPE_MAP = {
     "thread_tweet": "core.social_media.twitter.thread_tweet",
     "long_form_tweet": "core.social_media.twitter.long_form_tweet",
     "long_form_post": "core.social_media.linkedin.long_form_post",
+    "image_list": "core.social_media.image_list",
+    "carousel_tweet": "core.social_media.twitter.carousel_tweet",
+    "carousel_post": "core.social_media.linkedin.carousel_post",
 }
+logger.info("Initializing CONTENT_TYPE_MAP with values:")
+for k, v in CONTENT_TYPE_MAP.items():
+    logger.info(f"{k}: {v}")
+
+try:
+    from core.social_media.twitter.carousel_tweet import (
+        instructions as twitter_carousel_instructions,
+    )
+    from core.social_media.linkedin.carousel_post import (
+        instructions as linkedin_carousel_instructions,
+    )
+
+    logger.info("Successfully imported carousel instruction modules")
+except Exception as e:
+    logger.error(f"Failed to import carousel modules: {str(e)}")
 
 
 def get_instructions_for_content_type(content_type: str) -> Dict[str, Any]:
+    logger.info("get_instructions_for_content_type called in content_generator.py")
     try:
         module_name = CONTENT_TYPE_MAP.get(content_type)
+        logger.info(f"Module name: {module_name}")
+
         if not module_name:
             raise ModuleNotFoundError(f"Content type '{content_type}' not found.")
+
         module = __import__(module_name, fromlist=["instructions"])
+        logger.info(f"Module imported: {module}")
         instructions = getattr(module, "instructions")
-        logger.info(f"Module name fetched: {module_name}")
-        if not instructions.get("content_generation"):
-            raise ValueError(
-                f"No content_generation instructions found for {content_type}"
-            )
+        logger.info(f"Instructions retrieved: {instructions}")
+
         return instructions
-    except ModuleNotFoundError as e:
-        logger.error(f"Error fetching instructions for {content_type}: {e}")
-        return {"content_generation": ""}
+
     except Exception as e:
-        logger.error(f"Unexpected error loading instructions for {content_type}: {e}")
-        return {"content_generation": ""}
+        logger.error(f"Error in content_generator.py get_instructions: {str(e)}")
+        raise
 
 
 def replace_urls_in_content(
@@ -121,33 +139,10 @@ async def generate_content(
         response = await call_language_model(
             system_message, user_message, tier="medium"
         )
-
-        # Log the raw LLM response for debugging purposes
         logger.info(f"LLM raw response: {response}")
 
-        # Extract the JSON content between delimiters ~! and !~
         match = re.search(r"~!(.*?)!~", response, re.DOTALL)
-        if match:
-            extracted_content = match.group(1).strip()
-            logger.info(f"Extracted content: {extracted_content}")
-
-            # Apply further cleaning to remove hidden characters and control characters
-            cleaned_content = re.sub(
-                r"\s+", " ", extracted_content
-            )  # Strip excess whitespace
-            cleaned_content = cleaned_content.encode("utf-8", "ignore").decode(
-                "utf-8"
-            )  # Remove invalid characters
-            logger.info(f"Cleaned content: {cleaned_content}")
-
-            try:
-                # Attempt to parse the cleaned JSON content
-                response_json = json.loads(cleaned_content)
-                logger.info(f"Parsed JSON response: {response_json}")
-            except json.JSONDecodeError as e:
-                logger.error(f"Error parsing cleaned content as JSON: {e}")
-                return {"error": "Failed to parse cleaned content", "success": False}
-        else:
+        if not match:
             logger.error("No content found between delimiters in response.")
             return {
                 "error": "No content found between delimiters",
@@ -155,7 +150,16 @@ async def generate_content(
                 "success": False,
             }
 
-        # Validate response_json structure
+        extracted_content = match.group(1).strip()
+        cleaned_content = re.sub(r"\s+", " ", extracted_content)
+        cleaned_content = cleaned_content.encode("utf-8", "ignore").decode("utf-8")
+
+        try:
+            response_json = json.loads(cleaned_content)
+        except json.JSONDecodeError as e:
+            logger.error(f"Error parsing cleaned content as JSON: {e}")
+            return {"error": "Failed to parse cleaned content", "success": False}
+
         if "content_container" not in response_json:
             logger.error(f"'content_container' missing in response: {response_json}")
             return {"error": "'content_container' missing", "success": False}
@@ -164,19 +168,55 @@ async def generate_content(
             logger.error("content_container is not a list")
             return {"error": "Invalid content_container format", "success": False}
 
-        # Validate and replace URLs in each content item
-        for item in response_json["content_container"]:
-            if "post_type" not in item or "post_content" not in item:
-                logger.error(f"Invalid item in content_container: {item}")
-                return {
-                    "error": "Invalid content_container item format",
-                    "success": False,
-                }
+        # Validate carousel content structure
+        if content_type in ["carousel_tweet", "carousel_post"]:
+            max_slides = 8 if content_type == "carousel_post" else 4
+            if len(response_json["content_container"]) > max_slides:
+                logger.warning(
+                    f"Too many slides ({len(response_json['content_container'])}), truncating to {max_slides}"
+                )
+                response_json["content_container"] = response_json["content_container"][
+                    :max_slides
+                ]
 
-            # Replace URL templates in the post content
-            item["post_content"] = replace_urls_in_content(
-                item["post_content"], account_profile, web_url
-            )
+            for idx, item in enumerate(response_json["content_container"]):
+                if "heading" not in item:
+                    logger.error(f"Missing heading in slide {idx}")
+                    return {
+                        "error": f"Missing heading in slide {idx}",
+                        "success": False,
+                    }
+
+                # Validate content lengths
+                if len(item["heading"]) > 50:
+                    logger.warning(f"Heading too long in slide {idx}, truncating")
+                    item["heading"] = item["heading"][:47] + "..."
+
+                if "subheading" in item and len(item["subheading"]) > 100:
+                    logger.warning(f"Subheading too long in slide {idx}, truncating")
+                    item["subheading"] = item["subheading"][:97] + "..."
+
+        # Replace URL templates
+        for item in response_json["content_container"]:
+            if content_type in ["carousel_tweet", "carousel_post"]:
+                if "heading" in item:
+                    item["heading"] = replace_urls_in_content(
+                        item["heading"], account_profile, web_url
+                    )
+                if "subheading" in item:
+                    item["subheading"] = replace_urls_in_content(
+                        item["subheading"], account_profile, web_url
+                    )
+            else:
+                if "post_type" not in item or "post_content" not in item:
+                    logger.error(f"Invalid item in content_container: {item}")
+                    return {
+                        "error": "Invalid content_container item format",
+                        "success": False,
+                    }
+                item["post_content"] = replace_urls_in_content(
+                    item["post_content"], account_profile, web_url
+                )
 
         result = {
             "post_number": post_number,
@@ -188,6 +228,5 @@ async def generate_content(
         return result
 
     except Exception as e:
-        # Log the full stack trace of the TypeError or other exceptions to debug the issue
         logger.error(f"Error during content generation: {str(e)}", exc_info=True)
         return {"error": str(e), "success": False}

@@ -111,7 +111,7 @@ Don't get rid of any links that are already in the post but never add any more.
 
 No Additional Content: Do not add explanations, comments, or any additional content to your response.
 
-Your output must be identical to the input in every way except for the first sentence. This is critical for the rest of the content generation pipeline to function correctly.
+Your output must be identical to the input in every way except for the first sentence. This is critical for the rest of the content generation pipeline to function correctly. Literally change nothing but the hook.
         """,
     }
 

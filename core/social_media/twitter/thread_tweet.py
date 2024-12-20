@@ -46,51 +46,40 @@ Benham consulted clients using the same algorithms, statistics & data research t
         ~!{
             "content_type": "thread_tweet",
             "content_container": [
-                {"post_type": "main_tweet", "post_content": "Main post content here"},
-                {"post_type": "reply_tweet", "post_ontent": "Reply content here"},
-                {"post_type": "reply_tweet", "post_ontent": "Reply content here"},
-                {"post_type": "article_url", "post_content": "If you want to go even deeper, check out the full article! [article_url]"},
-                {"post_type": "quote_tweet", "post_content": "If you found value in this thread, please give it a like and share!"}
+                {"post_type": "main_tweet", 
+                "post_content": "Main post content here"},
+                {"post_type": "reply_tweet", 
+                "post_ontent": "Reply content here"},
+                {"post_type": "reply_tweet", 
+                "post_ontent": "Reply content here"},
+                {"post_type": "article_url", 
+                "post_content": "If you want to go even deeper, check out the full article! [article_url]"},
+                {"post_type": "quote_tweet", 
+                "post_content": "If you found value in this thread, please give it a like and share!"}
             ]
-
         }!~
         """,
-    "content_editing": """
-        You are an expert content editor refining a Twitter thread. Your task is to improve the given content while strictly maintaining its original structure and format.
-
-        Follow these guidelines for editing:
-        1. Enhance the hook to make it even more attention-grabbing, if possible.
-        2. Improve clarity and conciseness without changing the overall message or length.
-        3. Ensure the tone remains informational yet approachable.
-        4. Maintain the existing paragraph structure and line breaks, and always add a line break between sentences.
-        5. Do not add or remove any major points or sections.
-        6. Preserve any links or calls-to-action present in the original content.
-        7. Ensure the edited content still adheres to Twitter's best practices for engagement.
-        8. Use formatting (like bullet points or numbered lists) where appropriate to improve readability.
-        9. Respect the 280-character limit for individual tweets while making the group of posts more comprehensive and detailed
-        10. For threads, maintain a logical flow between tweets, trying to strengthen the flow between them as much as you can. Also, make sure you preserve the tweet type (reply_tweet, quote_tweet, etc)
-
-
-
-        Most importantly:
-        - Do not change the structure or format of the content.
-        - The edited content must be returned in exactly the same JSON format as it was provided.
-
-        Return the edited post in this EXACT format:
-
+    "image_relevance": """        
         ~!{
             "content_type": "thread_tweet",
             "content_container": [
-                {"post_type": "main_tweet", "post_content": "Main post content here"},
-                {"post_type": "reply_tweet", "post_ontent": "Reply content here"},
-                {"post_type": "reply_tweet", "post_ontent": "Reply content here"},
-                {"post_type": "article_url", "post_content": "If you want to go even deeper, check out the full article! [article_url]"},
-                {"post_type": "quote_tweet", "post_content": "If you found value in this thread, please give it a like and share!"}
+                {"post_type": "main_tweet", 
+                "post_content": "Main post content here",
+                "images": ["image_url_1"]  # Optional field, omit if no images},
+                {"post_type": "reply_tweet", 
+                "post_ontent": "Reply content here",
+                "images": ["image_url_2", "image_url_3"]  # Optional field, omit if no images},
+                {"post_type": "reply_tweet", 
+                "post_ontent": "Reply content here",
+                # No images field needed if no images},
+                {"post_type": "article_url", 
+                "post_content": "If you want to go even deeper, check out the full article! [article_url]"},
+                {"post_type": "quote_tweet", 
+                "post_content": "If you found value in this thread, please give it a like and share!"}
             ]
-
         }!~
 
-        Ensure that the "content_type" and "post_type" values remain unchanged, and only the "post_content" is edited.
+        In addition to just choosing whether the image is relevant, you can also decide on which post it goes the best with. Always default to including it in the first post in the thread to be more visually appealing on a timeline, but after this, feel free to spread them around based on fit.
         """,  # Existing instructions
     "content_personalization": """
         For personalizing threads:
@@ -109,13 +98,20 @@ Benham consulted clients using the same algorithms, statistics & data research t
         ~!{
             "content_type": "thread_tweet",
             "content_container": [
-                {"post_type": "main_tweet", "post_content": "Main post content here"},
-                {"post_type": "reply_tweet", "post_ontent": "Reply content here"},
-                {"post_type": "reply_tweet", "post_ontent": "Reply content here"},
-                {"post_type": "article_url", "post_content": "If you want to go even deeper, check out the full article! [article_url]"},
-                {"post_type": "quote_tweet", "post_content": "If you found value in this thread, please give it a like and share!"}
+                {"post_type": "main_tweet", 
+                "post_content": "Main post content here",
+                "images": ["image_url_1"]  # Optional field, omit if no images},
+                {"post_type": "reply_tweet", 
+                "post_ontent": "Reply content here",
+                "images": ["image_url_2", "image_url_3"]  # Optional field, omit if no images},
+                {"post_type": "reply_tweet", 
+                "post_ontent": "Reply content here",
+                # No images field needed if no images},
+                {"post_type": "article_url", 
+                "post_content": "If you want to go even deeper, check out the full article! [article_url]"},
+                {"post_type": "quote_tweet", 
+                "post_content": "If you found value in this thread, please give it a like and share!"}
             ]
-
         }!~
 
         Ensure that the "content_type" and "post_type" values remain unchanged, and only the "post_content" is edited.
@@ -126,13 +122,20 @@ Benham consulted clients using the same algorithms, statistics & data research t
         ~!{
             "content_type": "thread_tweet",
             "content_container": [
-                {"post_type": "main_tweet", "post_content": "Main post content here"},
-                {"post_type": "reply_tweet", "post_ontent": "Reply content here"},
-                {"post_type": "reply_tweet", "post_ontent": "Reply content here"},
-                {"post_type": "article_url", "post_content": "If you want to go even deeper, check out the full article! [article_url]"},
-                {"post_type": "quote_tweet", "post_content": "If you found value in this thread, please give it a like and share!"}
+                {"post_type": "main_tweet", 
+                "post_content": "Main post content here",
+                "images": ["image_url_1"]  # Optional field, omit if no images},
+                {"post_type": "reply_tweet", 
+                "post_ontent": "Reply content here",
+                "images": ["image_url_2", "image_url_3"]  # Optional field, omit if no images},
+                {"post_type": "reply_tweet", 
+                "post_ontent": "Reply content here",
+                # No images field needed if no images},
+                {"post_type": "article_url", 
+                "post_content": "If you want to go even deeper, check out the full article! [article_url]"},
+                {"post_type": "quote_tweet", 
+                "post_content": "If you found value in this thread, please give it a like and share!"}
             ]
-
         }!~
 
         Ensure that the "content_type" and "post_type" values remain unchanged, and only the "post_content" is edited.
@@ -143,13 +146,20 @@ Benham consulted clients using the same algorithms, statistics & data research t
         ~!{
             "content_type": "thread_tweet",
             "content_container": [
-                {"post_type": "main_tweet", "post_content": "Main post content here"},
-                {"post_type": "reply_tweet", "post_ontent": "Reply content here"},
-                {"post_type": "reply_tweet", "post_ontent": "Reply content here"},
-                {"post_type": "article_url", "post_content": "If you want to go even deeper, check out the full article! [article_url]"},
-                {"post_type": "quote_tweet", "post_content": "If you found value in this thread, please give it a like and share!"}
+                {"post_type": "main_tweet", 
+                "post_content": "Main post content here",
+                "images": ["image_url_1"]  # Optional field, omit if no images},
+                {"post_type": "reply_tweet", 
+                "post_ontent": "Reply content here",
+                "images": ["image_url_2", "image_url_3"]  # Optional field, omit if no images},
+                {"post_type": "reply_tweet", 
+                "post_ontent": "Reply content here",
+                # No images field needed if no images},
+                {"post_type": "article_url", 
+                "post_content": "If you want to go even deeper, check out the full article! [article_url]"},
+                {"post_type": "quote_tweet", 
+                "post_content": "If you found value in this thread, please give it a like and share!"}
             ]
-
         }!~
 
         Ensure that the "content_type" and "post_type" values remain unchanged, and only the "post_content" is edited.
