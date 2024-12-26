@@ -23,6 +23,8 @@ Include sections that contain valuable content such as
 - guides
 - tutorials
 - or any informative material suitable for content generation
+- sections that contain links or references to external resources that add value or relevant context
+
 Exclude sections that are not suitable for content generation, such as:
 - Sponsored content or advertisements.
 - Calls to action, subscription prompts, or promotional material.
@@ -30,8 +32,11 @@ Exclude sections that are not suitable for content generation, such as:
 - Social media links, contact information, or unsubscribe instructions.
 - Repeat sections
 - Sections too short to generate a thread on.
+- Sections with links that are purely promotional or irrelevant to the main topic.
 
-When making your posts, prioritize richer sections with adequate content. So rather than include just the title section or a fun "what I'm listening to", choose sections with more density of valuable information.
+When making your posts, prioritize richer sections with adequate content. So rather than include just the title section or a fun "what I'm listening to", choose sections with more density of valuable information. 
+
+However, do not automatically discard a section just because it primarily includes links. If the links themselves provide useful resources, context, or interesting reading material, treat that section as valuable content. (e.g., a “Weekly Links” or “Further Reading” section can be its own post if it directs readers to relevant resources.)
 
 Again, I need you to provide the ENTIRE section as it is passed to you. Do not cut any of it off or summarize it in any way, including urls, links, image placeholders, and other formatting that was originally included.
 
@@ -46,13 +51,12 @@ Format your response exactly as follows:
 Do not include any additional text or formatting beyond what's inside the array.""",
     }
 
-    # Define the user message with the provided newsletter structure
     user_message = {
         "role": "user",
         "content": f"{newsletter_structure}",
     }
+
     try:
-        # Call the language model
         response = await call_language_model(system_message, user_message, "high")
         logger.info(f"Raw response from AI assistant: {response}")
 
@@ -62,17 +66,14 @@ Do not include any additional text or formatting beyond what's inside the array.
             extracted_content = match.group(1).strip()
             logger.debug(f"Extracted content: {extracted_content}")
 
-            # Sanitize the extracted content
+            # Remove any problematic control chars
             sanitized_content = re.sub(r"[\x00-\x1f\x7f]", "", extracted_content)
             logger.debug(f"Sanitized content: {sanitized_content}")
 
             try:
-                # Parse and return the content as a list of sections
                 parsed_response = json.loads(sanitized_content)
                 if isinstance(parsed_response, list):
-                    return json.dumps(
-                        parsed_response, indent=2
-                    )  # Return the clean array
+                    return json.dumps(parsed_response, indent=2)
                 else:
                     logger.warning(
                         "Parsed content is not a list. Returning empty list."
@@ -88,5 +89,4 @@ Do not include any additional text or formatting beyond what's inside the array.
             return json.dumps([])
     except Exception as e:
         logger.error(f"Error during content strategy processing: {str(e)}")
-        # Return an empty list to maintain consistent return type
         return json.dumps([])

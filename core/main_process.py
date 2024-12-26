@@ -18,7 +18,8 @@ from core.llm_steps.content_personalization import (
 from core.llm_steps.hook_writer import write_hooks
 from core.llm_steps.ai_polisher import ai_polish
 from core.services.status_updates import StatusService
-from core.llm_steps.image_relevance import check_image_relevance  # Add this import
+from core.llm_steps.image_relevance import check_image_relevance
+from core.llm_steps.link_relevance import check_link_relevance  # Add this import
 
 logger = logging.getLogger(__name__)
 
@@ -85,14 +86,23 @@ async def run_main_process(
             try:
                 section_content = strategy.get("section_content", "")
                 image_pattern = r"\[image:(.*?)\]"
+                link_pattern = r"\[link:(.*?)\](.*?)\[/link\]"
                 image_urls = [
                     match.group(1)
                     for match in re.finditer(image_pattern, section_content)
                 ]
+                links = [
+                    {"url": match.group(1), "text": match.group(2)}
+                    for match in re.finditer(link_pattern, section_content)
+                ]
                 logger.info(image_urls)
+                logger.info(links)
 
                 # Remove image placeholders from section_content before content generation
                 cleaned_section_content = re.sub(image_pattern, "", section_content)
+                cleaned_section_content = re.sub(
+                    link_pattern, r"\2", cleaned_section_content
+                )
                 strategy["section_content"] = cleaned_section_content
 
                 # Generate content
@@ -124,6 +134,10 @@ async def run_main_process(
                         logger.info(
                             f"After assignment, generated_content: {json.dumps(generated_content, indent=2)}"
                         )
+                if links:
+                    generated_content = await check_link_relevance(
+                        generated_content, links, content_type, account_profile
+                    )
 
                 # Now personalize using the updated generated_content
                 personalized_content = await personalize_content(

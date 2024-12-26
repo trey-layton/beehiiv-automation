@@ -79,7 +79,7 @@ Benham consulted clients using the same algorithms, statistics & data research t
             ]
         }!~
 
-        In addition to just choosing whether the image is relevant, you can also decide on which post it goes the best with. Always default to including it in the first post in the thread to be more visually appealing on a timeline, but after this, feel free to spread them around based on fit.
+        In addition to just choosing whether the image is relevant, you can also decide on which post it goes the best with. Always default to including it in the first post in the thread to be more visually appealing on a timeline, but after this, feel free to spread them around based on fit. In fact, ideally, we'd use multiple forms of media, starting with a general one like the thumbnail for the first post then other forms of media on the most relevant post.
         """,  # Existing instructions
     "content_personalization": """
         For personalizing threads:

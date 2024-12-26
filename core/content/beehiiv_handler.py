@@ -111,6 +111,19 @@ def transform_images_into_placeholders(html_str: str) -> str:
     return str(soup)
 
 
+def transform_links_into_placeholders(html_str: str) -> str:
+    """Convert <a> tags into placeholders like [link:<URL>]text[/link] to preserve through LLM steps."""
+    soup = BeautifulSoup(html_str, "html.parser")
+
+    for link_tag in soup.find_all("a"):
+        href = link_tag.get("href", "")
+        text = link_tag.get_text()
+        placeholder = f"[link:{href}]{text}[/link]"
+        link_tag.replace_with(placeholder)
+
+    return str(soup)
+
+
 def get_beehiiv_post_content(
     account_profile: AccountProfile, post_id: str
 ) -> Optional[Dict[str, Any]]:
@@ -152,6 +165,7 @@ def get_beehiiv_post_content(
         if free_content:
             free_content = clean_html_content(free_content)
             free_content = transform_images_into_placeholders(free_content)
+            free_content = transform_links_into_placeholders(free_content)
         else:
             logger.warning(f"No free content found for post {post_id}")
 
