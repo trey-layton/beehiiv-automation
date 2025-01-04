@@ -15,4 +15,4 @@ jwt
 tenacity
 Pillow
 reportlab
-newspaper
+newspaper3k
