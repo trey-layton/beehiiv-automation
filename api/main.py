@@ -26,6 +26,7 @@ print("All env vars:", os.environ)
 print("Specific key:", os.getenv("SUPABASE_SERVICE_ROLE_KEY"))
 logger = logging.getLogger(__name__)
 load_dotenv()  # Force reload from .env
+logger.setLevel(logging.DEBUG)
 
 
 @asynccontextmanager
