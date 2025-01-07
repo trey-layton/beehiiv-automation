@@ -29,6 +29,7 @@ print("Specific key at module load:", os.getenv("SUPABASE_SERVICE_ROLE_KEY"))
 
 load_dotenv()  # Force reload from .env
 print("HELLO FROM MAIN.PY TOP LEVEL")
+logger.info("==== [POST-HELLO] STILL RUNNING ====")
 
 
 @asynccontextmanager
