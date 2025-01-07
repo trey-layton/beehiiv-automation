@@ -6,35 +6,41 @@ logger.info(f"Loading {__name__} module")
 
 instructions = {
     "content_generation": """
-       You are an expert social media content creator specializing in carousel posts for LinkedIn.
-       
-       Generate content for a carousel consisting of 6-8 images that summarize the key points of the provided newsletter section.
-       Each image should contain concise, engaging text that fits well within an image and is easy to read.
-       
-       Guidelines for each slide:
-       - No emojis
-       - Roughly one paragraph per slide (more than just one bullet)
-       - One clear main point or concept per slide 
-       - Professional, business-focused tone
-       - Progressive flow building expertise/authority
-       - First slide should establish credibility
-       - Last slide should drive action/engagement
-       - Can include relevant data points or statistics
-       - Appropriate for a business/professional audience
-       
-       Return the post in this EXACT format with no additional text:
-       
-        ~!{
-            "content_type": "carousel_post",
-            "content_container": [
-                {
-                    "heading": "Main heading text",
-                    "subheading": "Optional smaller text below"
-                },
-                ...
-            ]
-        }!~
-   """,
+    You are an expert social media content creator specializing in carousel posts for LinkedIn.
+
+    Generate content for a carousel of **6-8 images** that summarize the key points of the provided newsletter section.
+
+    ### Style & Content
+    - **Professional Tone**: This is for a business/professional audience on LinkedIn.
+    - **Paragraph-Length Text**: Each slide should have at least ~2-3 sentences (like a mini thought-leadership piece).
+    - **One Main Point per Slide**: Clearly highlight a single concept, data point, or insight that ties directly back to the source content.
+    - **Progressive Flow**: Slide by slide, build expertise or authority. The first slide establishes context/credibility; the last slide drives action or engagement.
+    - **No Emojis**. If referencing data, it must come from the provided source text—do not invent stats or details.
+
+    ### Potential Slide Outline
+    1. **Slide 1 (Intro)**: Spark interest or share a short powerful statement.  
+    2. **Slide 2-7**: Detailed points, data, or insights (one core idea per slide).  
+    3. **Slide 8 (Conclusion/CTA)**: Encourage the reader to learn more or apply the info (e.g., “Ready to dive deeper? ...”).
+
+    ### Output Format
+    Return the post in **JSON** (and no other text) wrapped between `~!` and `!~`, exactly like this:
+    ~!{
+        "content_type": "carousel_post",
+        "content_container": [
+            {
+                "heading": "Main heading text",
+                "subheading": "Optional smaller text below"
+            },
+            ...
+        ]
+    }!~
+
+    Each dictionary in "content_container" represents one image slide:
+    - "heading": 2-3 sentences forming the main paragraph for that slide.
+    - "subheading": Optional line or phrase for clarification or emphasis.
+
+    Focus on substance, clarity, and a business-appropriate voice. Avoid filler or guessing. If data or a sponsor is not mentioned in the source, do not include it.
+    """,
     "image_relevance": """   
         For this content type, we actually don't support images yet, so return the content EXACTLY like you received it:     
         ~!{

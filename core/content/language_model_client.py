@@ -35,6 +35,14 @@ MODEL_TIERS = {
             "max_output_tokens": 4096,
         },
     },
+    "o1": {
+        "openai": {
+            # The new openAI model alias we want to use (e.g., "o1-preview").
+            "model": "o1-preview",
+            "max_tokens": 128000,
+            "max_output_tokens": 4096,
+        },
+    },
 }
 
 
