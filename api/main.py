@@ -11,7 +11,7 @@ from supabase import create_client, Client, ClientOptions
 from core.config.init_storage import init_storage
 from core.models.account_profile import AccountProfile
 from core.services.account_profile_service import AccountProfileService
-import logging
+import logging, logging.config
 from contextlib import asynccontextmanager
 from dotenv import load_dotenv
 from core.main_process import run_main_process
@@ -20,6 +20,19 @@ from core.content.image_generation.carousel_generator import CarouselGenerator
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
+logging.config.dictConfig(
+    {
+        "version": 1,
+        "disable_existing_loggers": False,
+        "handlers": {
+            "console": {
+                "class": "logging.StreamHandler",
+                "level": "INFO",
+            }
+        },
+        "root": {"level": "INFO", "handlers": ["console"]},
+    }
 )
 
 logger = logging.getLogger(__name__)
@@ -44,8 +57,8 @@ async def lifespan(app: FastAPI):
         await init_storage(supabase_for_init)
         logger.info("[LIFESPAN] init_storage() done.")
     except Exception as e:
-        logger.error("[LIFESPAN] CRASH", exc_info=True)
-        raise
+        logger.error("[LIFESPAN] Error during initialization", exc_info=True)
+        # Log but don't raise, allow the application to start with degraded functionality
     yield
     logger.info("==== [LIFESPAN] EXITING lifespan context ====")
 
