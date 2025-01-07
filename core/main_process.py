@@ -18,6 +18,7 @@ from core.llm_steps.content_personalization import (
 from core.llm_steps.hook_writer import write_hooks
 from core.llm_steps.ai_polisher import ai_polish
 from core.services.status_updates import StatusService
+from core.content.image_generation.carousel_generator import CarouselGenerator
 from core.llm_steps.image_relevance import check_image_relevance  # Add this import
 
 logger = logging.getLogger(__name__)
@@ -77,6 +78,7 @@ async def run_main_process(
 
         content_type_instructions = get_instructions_for_content_type(content_type)
         generated_contents: List[dict] = []
+        carousel_images: List[str] = []
 
         # Step 4: Generation and processing loop
         await status_service.update_status(content_id, "generating")
@@ -170,13 +172,78 @@ async def run_main_process(
                     "content_container", content_for_polish
                 )
 
-                # Add to generated contents
-                generated_contents.append(
-                    {
-                        "post_number": int(post_number),
-                        "post_content": final_content_to_use,
-                    }
-                )
+                # Step 8: Generate carousel images if needed
+                if content_type in ["carousel_tweet", "carousel_post"]:
+                    platform = (
+                        "linkedin" if content_type == "carousel_post" else "twitter"
+                    )
+                    carousel_generator = CarouselGenerator(platform)
+
+                    try:
+                        await status_service.update_status(content_id, "generating")
+                        image_urls = await carousel_generator.generate_carousel(
+                            {
+                                "post_number": post_number,
+                                "content_container": final_content_to_use,
+                            },
+                            supabase,
+                        )
+                        if not image_urls:
+                            raise Exception("Failed to generate carousel images")
+                        carousel_images.extend(image_urls)
+
+                        # Add the carousel content with appropriate post_type
+                        post_type = (
+                            "main_post"
+                            if content_type == "carousel_post"
+                            else "main_tweet"
+                        )
+
+                        if content_type == "carousel_post":
+                            # For LinkedIn, use carousel_pdf_url
+                            generated_contents.append(
+                                {
+                                    "post_number": int(post_number),
+                                    "post_content": [
+                                        {
+                                            "post_type": post_type,
+                                            "post_content": "",
+                                            "carousel_pdf_url": image_urls[
+                                                0
+                                            ],  # LinkedIn expects single PDF
+                                        }
+                                    ],
+                                }
+                            )
+                        else:
+                            # For Twitter, use carousel_urls array
+                            carousel_images.extend(image_urls)
+                            generated_contents.append(
+                                {
+                                    "post_number": int(post_number),
+                                    "post_content": [
+                                        {
+                                            "post_type": post_type,
+                                            "post_content": "",
+                                            "carousel_urls": image_urls,
+                                        }
+                                    ],
+                                }
+                            )
+
+                    except Exception as e:
+                        logger.error(f"Carousel generation failed: {str(e)}")
+                        await status_service.update_status(content_id, "failed")
+                        return {"error": str(e), "success": False}
+
+                else:
+                    # Handle non-carousel content types
+                    generated_contents.append(
+                        {
+                            "post_number": int(post_number),
+                            "post_content": final_content_to_use,
+                        }
+                    )
 
             except Exception as e:
                 logger.error(f"Error processing post {post_number}: {str(e)}")

@@ -106,7 +106,7 @@ async def generate_content(
     if not content_generation_instructions:
         logger.error(f"Missing content generation instructions for {content_type}")
         return {"error": "Missing content generation instructions", "success": False}
-    system_message = {
+    system_instructions = {
         "role": "system",
         "content": f"""
         You are an AI assistant specializing in creating engaging social media content.
@@ -117,7 +117,8 @@ async def generate_content(
         3. Ensure the content is engaging and suited for the target platform.
         4. Replace {account_profile.subscribe_url} (including the brackets) with the actual subscription link.
         5. Replace {web_url} (including the brackets) with the actual article link.
-        6. {content_generation_instructions}
+        6. For line breaks, always use "\n\n" (yes, it should be a double)
+        7. {content_generation_instructions}
         
         Format your response as a JSON object with 'type' and 'content' keys. The 'content' should be a list of post objects.
         Wrap your response with the delimiters ~! and !~ to ensure correct parsing as shown in the example format.
@@ -127,6 +128,7 @@ async def generate_content(
     user_message = {
         "role": "user",
         "content": f"""
+        {system_instructions}
         Generate a {content_type} based on this newsletter section:
         Content: {strategy}
         Account preferences: {account_profile.json()}
@@ -136,7 +138,9 @@ async def generate_content(
 
     try:
         logger.info("Making LLM call with system and user message...")
-        response = await call_language_model(system_message, user_message, tier="o1")
+        response = await call_language_model(
+            {}, user_message, "o1-preview", provider_override="openai"
+        )
         logger.info(f"LLM raw response: {response}")
 
         match = re.search(r"~!(.*?)!~", response, re.DOTALL)
@@ -184,15 +188,6 @@ async def generate_content(
                         "error": f"Missing heading in slide {idx}",
                         "success": False,
                     }
-
-                # Validate content lengths
-                if len(item["heading"]) > 50:
-                    logger.warning(f"Heading too long in slide {idx}, truncating")
-                    item["heading"] = item["heading"][:47] + "..."
-
-                if "subheading" in item and len(item["subheading"]) > 100:
-                    logger.warning(f"Subheading too long in slide {idx}, truncating")
-                    item["subheading"] = item["subheading"][:97] + "..."
 
         # Replace URL templates
         for item in response_json["content_container"]:

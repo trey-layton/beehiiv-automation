@@ -31,15 +31,15 @@ instructions = {
         "content_container": [
             {
                 "heading": "Main heading text",
-                "subheading": "Optional smaller text below"
+                "subheading": "Smaller text below"
             },
             ...
         ]
     }!~
-
+    These keys (content_type and content_container) are CRITICAL. If you deivate even slightly, our entire pipeline is ruined.
     Each dictionary in "content_container" represents one image slide:
-    - "heading": The main paragraph for that slide (~2-3 sentences).
-    - "subheading": Optional, shorter text (1 sentence or phrase) that complements the heading.
+    - "heading": 1 sentences forming the main paragraph for that slide.
+    - "subheading": 2-3 sentences expanding on this main point with evidence or support from the newsletter.
 
     Keep it engaging, professional, and factual. Do not insert any promotional or sponsored references unless explicitly provided in the source text.
     """,
@@ -62,7 +62,7 @@ instructions = {
             "content_container": [
                 {
                     "heading": "Main heading text",
-                    "subheading": "Optional smaller text below"
+                    "subheading": "Smaller text below"
                 },
                 ...
             ]
@@ -75,7 +75,7 @@ instructions = {
             "content_container": [
                 {
                     "heading": "Main heading text",
-                    "subheading": "Optional smaller text below"
+                    "subheading": "Smaller text below"
                 },
                 ...
             ]
@@ -96,7 +96,7 @@ instructions = {
             "content_container": [
                 {
                     "heading": "Main heading text",
-                    "subheading": "Optional smaller text below"
+                    "subheading": "Smaller text below"
                 },
                 ...
             ]
@@ -117,7 +117,7 @@ instructions = {
             "content_container": [
                 {
                     "heading": "Main heading text",
-                    "subheading": "Optional smaller text below"
+                    "subheading": "Smaller text below"
                 },
                 ...
             ]
@@ -139,7 +139,7 @@ instructions = {
             "content_container": [
                 {
                     "heading": "Main heading text",
-                    "subheading": "Optional smaller text below"
+                    "subheading": "Smaller text below"
                 },
                 ...
             ]

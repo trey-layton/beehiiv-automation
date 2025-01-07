@@ -7,7 +7,7 @@ logger = logging.getLogger(__name__)
 
 
 async def analyze_structure(content: str) -> str:
-    system_message = {
+    system_instructions = {
         "role": "system",
         "content": """You are an AI assistant specialized in breaking down newsletters into logical sections. Your goal is to output these sections as valid JSON, following these rules:
 
@@ -49,16 +49,27 @@ async def analyze_structure(content: str) -> str:
    - Always strive for **fewer, more meaningful sections**—don’t artificially subdivide one coherent story.  
    - If in doubt whether something is an ad or core content, try to infer from context. Ads are typically sponsor mentions, product plugs, discount offers, or subscription promos.
 
-**Output**  
-Return the final JSON in **one line**, surrounded by `~!` and `!~`, with **no** additional commentary, explanation, or text.
+Be mindful of media/asset placeholders ([image: url: "www.site.com....]). We need these downstream, so ALWAYS INCLUDE them in your output, leaving them in exactly the same place as they were located.
+
+Format your response exactly as follows:
+~![
+    {"post_number": 1, "section_title": "main_story", "section_content": "Full content..."},
+    {"post_number": 2, "section_title": "job_postings", "section_content": "Full content..."}
+]!~
+
+Do not include any additional text or formatting beyond what's inside the array.
 """,
     }
 
     user_message = {
         "role": "user",
-        "content": f"{content}",
+        "content": f"{system_instructions}\n\n{content}",
     }
-    response = await call_language_model(system_message, user_message, "o1")
+
+    response = await call_language_model(
+        {}, user_message, "o1-preview", provider_override="openai"
+    )
+
     logger.info(f"Raw response from AI assistant: {response}")
 
     # Extract JSON content between delimiters

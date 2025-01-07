@@ -35,9 +35,8 @@ MODEL_TIERS = {
             "max_output_tokens": 4096,
         },
     },
-    "o1": {
+    "o1-preview": {
         "openai": {
-            # The new openAI model alias we want to use (e.g., "o1-preview").
             "model": "o1-preview",
             "max_tokens": 128000,
             "max_output_tokens": 4096,
@@ -48,26 +47,28 @@ MODEL_TIERS = {
 
 @retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=4, max=10))
 async def call_language_model(
-    system_message: dict, user_message: dict, tier: str = "high"
+    system_message: dict,
+    user_message: dict,
+    tier: str = "high",
+    provider_override: str = None,
 ):
-    model_config = MODEL_TIERS[tier][LANGUAGE_MODEL_PROVIDER]
+    provider = provider_override if provider_override else LANGUAGE_MODEL_PROVIDER
+    model_config = MODEL_TIERS[tier][provider]
 
     # Convert the content fields to strings if not already
     system_content = str(system_message.get("content", ""))
     user_content = str(user_message.get("content", ""))
 
-    logger.info(f"Calling language model ({LANGUAGE_MODEL_PROVIDER}) with tier: {tier}")
+    logger.info(f"Calling language model ({provider}) with tier: {tier}")
     logger.debug(f"System message content: {system_content}")
     logger.debug(f"User message content: {user_content}")
 
-    if LANGUAGE_MODEL_PROVIDER == "anthropic":
+    if provider == "anthropic":
         return await call_anthropic(system_content, user_content, model_config)
-    elif LANGUAGE_MODEL_PROVIDER == "openai":
+    elif provider == "openai":
         return await call_openai(system_content, user_content, model_config)
     else:
-        raise ValueError(
-            f"Unsupported language model provider: {LANGUAGE_MODEL_PROVIDER}"
-        )
+        raise ValueError(f"Unsupported language model provider: {provider}")
 
 
 async def call_anthropic(system_content: str, user_content: str, model_config: dict):
@@ -99,27 +100,127 @@ async def call_anthropic(system_content: str, user_content: str, model_config: d
 async def call_openai(system_content: str, user_content: str, model_config: dict):
     client = openai.AsyncOpenAI(api_key=OPENAI_API_KEY)
     try:
+        # For o1 family models, combine system and user content into a single user message
+        if "o1" in model_config["model"]:
+            combined_content = (
+                f"{system_content}\n\n{user_content}"
+                if system_content
+                else user_content
+            )
+            messages = [{"role": "user", "content": combined_content}]
+            # o1 models have specific parameter requirements
+            # Use only the essential parameters for o1-preview
+            params = {
+                "model": model_config["model"],
+                "messages": messages,
+            }
+
+            # Log the exact request we're about to send
+            logger.info(f"O1 Request - Model: {model_config['model']}")
+            logger.info(f"O1 Request - Messages: {messages}")
+            logger.info(f"O1 Request - Parameters: {params}")
+
+            # Also log the combined content for inspection
+            logger.info(
+                f"O1 Request - Combined content length: {len(combined_content)}"
+            )
+            logger.info(
+                f"O1 Request - Combined content preview: {combined_content[:500]}..."
+            )
+        else:
+            messages = [
+                {
+                    "role": "developer",
+                    "content": [{"type": "text", "text": system_content}],
+                },
+                {"role": "user", "content": [{"type": "text", "text": user_content}]},
+            ]
+            params = {
+                "model": model_config["model"],
+                "messages": messages,
+                "max_tokens": model_config["max_output_tokens"],
+                "n": 1,
+                "temperature": 0.7,
+            }
+
+        # Add detailed logging before API call
+        logger.debug(f"OpenAI API request parameters: {params}")
+
         completion = await asyncio.wait_for(
-            client.chat.completions.create(
-                model=model_config["model"],
-                messages=[
-                    {"role": "system", "content": system_content},
-                    {"role": "user", "content": user_content},
-                ],
-                max_tokens=model_config["max_output_tokens"],
-                n=1,
-                temperature=0.7,
-            ),
+            client.chat.completions.create(**params),
             timeout=300,  # 5 minutes timeout
         )
-        logger.debug(f"OpenAI API full response: {completion}")
-        logger.debug(
-            f"OpenAI API response preview: {completion.choices[0].message.content[:200]}..."
-        )
-        return completion.choices[0].message.content
+
+        # Add more comprehensive logging of the response
+        logger.info(f"OpenAI API - Response type: {type(completion)}")
+        try:
+            response_dict = completion.model_dump()  # Try the newer .model_dump() first
+        except AttributeError:
+            try:
+                response_dict = (
+                    completion.dict()
+                )  # Fall back to .dict() for older versions
+            except AttributeError:
+                response_dict = str(completion)  # Last resort
+
+        logger.info(f"OpenAI API - Full response dict: {response_dict}")
+        logger.info(f"OpenAI API - Model used: {completion.model}")
+        logger.info(f"OpenAI API - Usage info: {completion.usage}")
+        logger.info(f"OpenAI API - Response ID: {completion.id}")
+
+        if not completion.choices:
+            logger.error("OpenAI API returned no choices in response")
+            raise ValueError("No content in OpenAI response")
+
+        message = completion.choices[0].message
+        logger.info(f"Message object details:")
+        logger.info(f"- Role: {message.role}")
+        logger.info(f"- Content: {message.content}")
+        logger.info(f"- Has tool_calls: {message.tool_calls is not None}")
+        logger.info(f"- Has function_call: {message.function_call is not None}")
+        logger.info(f"- Has refusal: {getattr(message, 'refusal', None) is not None}")
+
+        # Special handling for o1-preview
+        if "o1" in model_config["model"]:
+            # Check for refusal
+            refusal = getattr(message, "refusal", None)
+            if refusal:
+                logger.warning(f"O1 model refused to respond: {refusal}")
+                raise ValueError(f"O1 model refused to respond: {refusal}")
+
+            # Check other possible response fields
+            if message.tool_calls:
+                logger.info("Response contained tool_calls instead of content")
+                # Handle tool calls if needed
+
+            if message.function_call:
+                logger.info("Response contained function_call instead of content")
+                # Handle function calls if needed
+
+        response_content = message.content
+        if not response_content:
+            logger.error("OpenAI API returned empty content")
+            logger.error(f"Full message object for empty content: {message}")
+
+            # Add context about the request that led to this empty response
+            if "o1" in model_config["model"]:
+                logger.error("This was an o1-preview request. Request details:")
+                logger.error(
+                    f"System content length: {len(system_content) if system_content else 0}"
+                )
+                logger.error(
+                    f"User content length: {len(user_content) if user_content else 0}"
+                )
+
+            raise ValueError("Empty content in OpenAI response")
+
+        logger.info(f"OpenAI API response first 500 chars: {response_content[:500]}...")
+        return response_content
+
     except asyncio.TimeoutError:
         logger.error("OpenAI API call timed out")
         raise
     except Exception as e:
         logger.error(f"Error calling OpenAI API: {str(e)}")
+        logger.exception("Full traceback:")  # This will log the full stack trace
         raise
