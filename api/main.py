@@ -22,8 +22,6 @@ logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 
-print("All env vars:", os.environ)
-print("Specific key:", os.getenv("SUPABASE_SERVICE_ROLE_KEY"))
 logger = logging.getLogger(__name__)
 load_dotenv()  # Force reload from .env
 logger.setLevel(logging.DEBUG)
@@ -99,6 +97,13 @@ def authenticate(
 @app.get("/")
 async def root():
     return {"message": "PostOnce API is running"}
+
+
+@app.get("/dummy-test")
+def dummy_test():
+    print("=== Hello from dummy-test ===")
+    logger.info("=== Hello from dummy-test ===")
+    return {"status": "ok", "route": "dummy-test"}
 
 
 class ContentGenerationRequest(BaseModel):
