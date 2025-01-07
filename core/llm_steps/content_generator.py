@@ -139,7 +139,7 @@ async def generate_content(
     try:
         logger.info("Making LLM call with system and user message...")
         response = await call_language_model(
-            {}, user_message, "o1", provider_override="openai"
+            {}, user_message, "o1-preview", provider_override="openai"
         )
         logger.info(f"LLM raw response: {response}")
 
