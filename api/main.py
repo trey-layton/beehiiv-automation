@@ -22,29 +22,33 @@ logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 
-print("All env vars:", os.environ)
-print("Specific key:", os.getenv("SUPABASE_SERVICE_ROLE_KEY"))
 logger = logging.getLogger(__name__)
+
+print("All env vars at module load:", os.environ)
+print("Specific key at module load:", os.getenv("SUPABASE_SERVICE_ROLE_KEY"))
+
 load_dotenv()  # Force reload from .env
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup
-    logger.info("Initializing application...")
+    logger.info("Initializing application in lifespan startup...")
     try:
-        await init_storage(supabase)
+        logger.info("Creating initial Supabase client for storage init...")
+        supabase_for_init = create_client(
+            os.getenv("SUPABASE_URL"),
+            os.getenv("SUPABASE_SERVICE_ROLE_KEY"),
+        )
+        await init_storage(supabase_for_init)
         logger.info("Storage initialization completed")
     except Exception as e:
         logger.error(f"Failed to initialize storage: {str(e)}")
-        # We don't raise the exception here because we want the app to start
-        # even if bucket creation fails - they might already exist
 
     yield
 
     # Shutdown
     logger.info("Shutting down application...")
-    # Add any cleanup code here if needed
 
 
 app = FastAPI(lifespan=lifespan)
@@ -66,11 +70,12 @@ if not supabase_url or not supabase_key:
     )
     raise ValueError("Missing required Supabase environment variables")
 
-# Global setup - use service role key
+logger.info("Creating global Supabase client...")
 supabase: Client = create_client(
-    os.getenv("SUPABASE_URL"),
-    os.getenv("SUPABASE_SERVICE_ROLE_KEY"),
+    supabase_url,
+    supabase_key,
 )
+logger.info("Global Supabase client created successfully.")
 
 
 def authenticate(
@@ -79,17 +84,24 @@ def authenticate(
     try:
         if credentials.scheme != "Bearer":
             raise ValueError("Invalid authorization scheme")
-        supabase = create_client(
+
+        logger.info("Creating Supabase client in authenticate() with Bearer token...")
+        supabase_auth = create_client(
             os.getenv("SUPABASE_URL"),
             os.getenv("SUPABASE_SERVICE_ROLE_KEY"),
             options=ClientOptions(
                 headers={"Authorization": f"Bearer {credentials.credentials}"}
             ),
         )
-        user_response = supabase.auth.get_user(credentials.credentials)
+        logger.info("Supabase client created for user authentication. Checking user...")
+
+        user_response = supabase_auth.auth.get_user(credentials.credentials)
         if not user_response or not user_response.user:
             raise ValueError("User not found")
-        return supabase, user_response.user
+        logger.info(f"User authenticated successfully: {user_response.user}")
+
+        return supabase_auth, user_response.user
+
     except Exception as e:
         logger.error(f"Authentication error: {str(e)}")
         raise HTTPException(status_code=401, detail="Failed to authenticate")
@@ -97,12 +109,13 @@ def authenticate(
 
 @app.get("/")
 async def root():
+    logger.info("Root endpoint called.")
     return {"message": "PostOnce API is running"}
 
 
 class ContentGenerationRequest(BaseModel):
     account_id: str
-    content_id: str  # Add this
+    content_id: str
     post_id: Optional[str] = None
     content: Optional[str] = None
     content_type: Literal[
@@ -112,7 +125,7 @@ class ContentGenerationRequest(BaseModel):
         "long_form_tweet",
         "long_form_post",
         "image_list",
-        "carousel_tweet",  # Add these two
+        "carousel_tweet",
         "carousel_post",
     ]
 
@@ -128,11 +141,13 @@ async def generate_content_endpoint(
     client_user: tuple[Client, dict] = Depends(authenticate),
 ):
     try:
-        logger.info(f"Received request: {request}")
-
-        # Validate request format
+        logger.info(
+            f"Received request to /generate_content with body: {request.dict()}"
+        )
         request.validate_request()
+        logger.info("Request validated successfully.")
 
+        # client_user[0] is the authenticated Supabase client
         account_profile_service = AccountProfileService(client_user[0])
         logger.info(f"Fetching account profile for account_id: {request.account_id}")
         account_profile = await account_profile_service.get_account_profile(
@@ -140,9 +155,7 @@ async def generate_content_endpoint(
         )
 
         if not account_profile:
-            logger.error(
-                f"Account profile not found for account_id: {request.account_id}"
-            )
+            logger.error(f"Account profile not found for {request.account_id}")
             raise HTTPException(status_code=404, detail="Account profile not found")
 
         logger.info(f"Account profile found: {account_profile}")
@@ -150,7 +163,7 @@ async def generate_content_endpoint(
         return StreamingResponse(
             content_generator(
                 account_profile,
-                request.content_id,  # Add this
+                request.content_id,
                 request.post_id,
                 request.content_type,
                 client_user[0],
@@ -158,11 +171,12 @@ async def generate_content_endpoint(
             ),
             media_type="text/event-stream",
         )
+
     except ValueError as e:
         logger.error(f"Validation error in generate_content_endpoint: {str(e)}")
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
-        logger.error(f"Error in generate_content_endpoint: {str(e)}")
+        logger.error(f"Unhandled error in generate_content_endpoint: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -177,34 +191,19 @@ async def content_generator(
     start_time = time.time()
     status_service = StatusService(supabase)
 
-    async def heartbeat():
-        try:
-            while True:
-                await asyncio.sleep(5)
-                heartbeat_message = {
-                    "status": "heartbeat",
-                    "message": "Still processing...",
-                }
-                logger.info(f"Sending heartbeat message: {heartbeat_message}")
-                yield json.dumps(heartbeat_message) + "\n"
-                logger.info("Sent heartbeat to keep connection alive")
-        except asyncio.CancelledError:
-            logger.info("Heartbeat cancelled")
+    logger.info(
+        f"Entered content_generator for content_id: {content_id}, post_id: {post_id}"
+    )
 
     try:
-        logger.info(
-            f"Starting content generation for {'post_id: ' + post_id if post_id else 'pasted content'}"
-        )
+        logger.info(f"Sending start message for content_id: {content_id}")
         start_message = {
             "status": "started",
             "message": "Initializing content generation and editing",
         }
-        logger.info(f"Sending start message: {start_message}")
         yield json.dumps(start_message) + "\n"
-        logger.info("Start message sent")
-        await asyncio.sleep(0.1)
+        logger.info("Start message sent. Proceeding to run_main_process...")
 
-        # Run the main content generation process
         result = await run_main_process(
             account_profile,
             content_id,
@@ -213,32 +212,30 @@ async def content_generator(
             supabase,
             content,
         )
-        logger.info(f"Result from run_main_process: {result}")
+        logger.info(
+            f"Result from run_main_process for content_id={content_id}: {result}"
+        )
 
         if not isinstance(result, dict):
-            logger.error(f"Invalid result format returned: {result}")
+            logger.error("Invalid result format (expected dict).")
             await status_service.update_status(content_id, "failed")
             error_message = {
                 "status": "failed",
                 "error": "Invalid result format",
                 "total_time": f"{time.time() - start_time:.2f} seconds",
             }
-            logger.info(f"Sending error message for invalid format: {error_message}")
             yield json.dumps(error_message) + "\n"
-            logger.info("Error message sent")
             return
 
         if result.get("success", False):
-            logger.info(f"Content generation succeeded: {result}")
+            logger.info(f"Content generation succeeded for content_id={content_id}")
             await status_service.update_status(content_id, "generated")
             success_message = {
                 "status": "completed",
                 "result": result,
                 "total_time": f"{time.time() - start_time:.2f} seconds",
             }
-            logger.info(f"Sending success message: {success_message}")
             yield json.dumps(success_message) + "\n"
-            logger.info("Success message sent")
         else:
             error_msg = result.get("error", "Unknown error during content generation")
             logger.error(f"Content generation failed: {error_msg}")
@@ -248,25 +245,23 @@ async def content_generator(
                 "error": error_msg,
                 "total_time": f"{time.time() - start_time:.2f} seconds",
             }
-            logger.info(f"Sending error message for failed generation: {error_message}")
             yield json.dumps(error_message) + "\n"
-            logger.info("Error message sent")
 
     except Exception as e:
-        error_msg = str(e)
-        logger.error(f"Error in content generation process: {error_msg}")
+        logger.error(
+            f"Exception in content_generator for content_id={content_id}: {str(e)}"
+        )
         await status_service.update_status(content_id, "failed")
         exception_message = {
             "status": "failed",
-            "error": error_msg,
+            "error": str(e),
             "total_time": f"{time.time() - start_time:.2f} seconds",
         }
-        logger.info(f"Sending exception message: {exception_message}")
         yield json.dumps(exception_message) + "\n"
-        logger.info("Exception message sent")
 
 
 if __name__ == "__main__":
     import uvicorn
 
+    logger.info("Running main uvicorn server on 0.0.0.0:8000")
     uvicorn.run(app, host="0.0.0.0", port=8000)
