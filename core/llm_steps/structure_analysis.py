@@ -67,7 +67,7 @@ Do not include any additional text or formatting beyond what's inside the array.
     }
 
     response = await call_language_model(
-        {}, user_message, "o1-preview", provider_override="openai"
+        {}, user_message, "o1", provider_override="openai"
     )
 
     logger.info(f"Raw response from AI assistant: {response}")
