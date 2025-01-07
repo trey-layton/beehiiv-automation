@@ -259,10 +259,3 @@ async def content_generator(
             "total_time": f"{time.time() - start_time:.2f} seconds",
         }
         yield json.dumps(exception_message) + "\n"
-
-
-if __name__ == "__main__":
-    import uvicorn
-
-    logger.info("Running main uvicorn server on 0.0.0.0:8000")
-    uvicorn.run(app, host="0.0.0.0", port=8000)
