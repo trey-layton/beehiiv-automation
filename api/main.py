@@ -45,6 +45,7 @@ async def lifespan(app: FastAPI):
         logger.info("Storage initialization completed")
     except Exception as e:
         logger.error(f"Failed to initialize storage: {str(e)}")
+        raise e
 
     yield
 
