@@ -21,7 +21,7 @@ from core.llm_steps.ai_polisher import ai_polish
 from core.llm_steps.image_relevance import check_image_relevance
 from core.services.status_updates import StatusService
 
-# Import the CarouselGenerator for creating carousels
+# Import the CarouselGenerator for creating carousels.
 from core.content.image_generation.carousel_generator import CarouselGenerator
 
 logger = logging.getLogger(__name__)
