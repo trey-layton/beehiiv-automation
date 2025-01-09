@@ -2,6 +2,7 @@ import json
 import asyncio
 import time
 import os
+import sys
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.responses import JSONResponse, StreamingResponse
@@ -21,10 +22,10 @@ from core.content.image_generation.carousel_generator import CarouselGenerator
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
-
+logger = logging.getLogger(__name__)
+logger.info(f"Python version: {sys.version}")
 print("All env vars:", os.environ)
 print("Specific key:", os.getenv("SUPABASE_SERVICE_ROLE_KEY"))
-logger = logging.getLogger(__name__)
 load_dotenv()  # Force reload from .env
 
 
