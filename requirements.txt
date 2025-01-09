@@ -16,6 +16,3 @@ tenacity
 Pillow
 reportlab
 newspaper3k 
-sentry_sdk
-os
-sys
