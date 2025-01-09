@@ -14,4 +14,6 @@ cachetools
 jwt
 tenacity
 Pillow
-
+reportlab
+newspaper3k 
+psutil
