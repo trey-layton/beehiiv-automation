@@ -1,74 +1,65 @@
-import json
-import asyncio
-import time
-import os
 import sys
-import traceback
-from fastapi import FastAPI, Depends
-from fastapi.security import HTTPBearer
-from contextlib import asynccontextmanager
+import os
 import logging
+from fastapi import FastAPI
+from contextlib import asynccontextmanager
 
-# Enhanced logging setup
+# Force immediate flush of logging
 logging.basicConfig(
-    level=logging.DEBUG,  # Changed to DEBUG for more verbose logging
+    level=logging.DEBUG,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    force=True,
 )
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("vercel_app")
 
-# Add system information logging
+# Log at the module level
+logger.debug("=== Module initialization starting ===")
 logger.info(f"Python version: {sys.version}")
 logger.info(f"Current working directory: {os.getcwd()}")
 logger.info(f"PYTHONPATH: {sys.path}")
+logger.debug("=== Module initialization complete ===")
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Detailed startup logging
-    logger.info("=== Starting ASGI Application Initialization ===")
-
+    logger.debug("=== Lifespan context manager starting ===")
     try:
-        # Log environment state
-        logger.debug("Environment variables:")
-        for key, value in os.environ.items():
-            if "KEY" in key.upper() or "SECRET" in key.upper():
-                logger.debug(f"{key}: [REDACTED]")
-            else:
-                logger.debug(f"{key}: {value}")
-
-        # Initialize your services
-        logger.info("Initializing services...")
-        # Your initialization code here
-
-        logger.info("=== ASGI Application Initialization Complete ===")
         yield
-
-        # Shutdown logging
-        logger.info("=== Starting ASGI Application Shutdown ===")
-        logger.info("Cleaning up resources...")
-        logger.info("=== ASGI Application Shutdown Complete ===")
-
     except Exception as e:
-        logger.error("=== CRITICAL ERROR DURING INITIALIZATION ===")
-        logger.error(f"Error type: {type(e).__name__}")
-        logger.error(f"Error message: {str(e)}")
-        logger.error("Traceback:")
-        logger.error(traceback.format_exc())
+        logger.error(f"Lifespan error: {str(e)}", exc_info=True)
         raise
+    finally:
+        logger.debug("=== Lifespan context manager ending ===")
 
 
-app = FastAPI(lifespan=lifespan)
-security = HTTPBearer()
+# Create app instance with debug logging
+logger.debug("=== Creating FastAPI instance ===")
+app = FastAPI(lifespan=lifespan, debug=True)
+logger.debug("=== FastAPI instance created ===")
 
 
 @app.get("/")
 async def root():
-    logger.info("Handling root request")
+    logger.debug("=== Root endpoint called ===")
     return {"message": "API is running"}
+
+
+# Add explicit startup event handler
+@app.on_event("startup")
+async def startup_event():
+    logger.debug("=== FastAPI startup event triggered ===")
+
+
+# Add explicit shutdown event handler
+@app.on_event("shutdown")
+async def shutdown_event():
+    logger.debug("=== FastAPI shutdown event triggered ===")
 
 
 if __name__ == "__main__":
     import uvicorn
 
-    logger.info("=== Starting Development Server ===")
+    logger.debug("=== Starting Uvicorn server ===")
     uvicorn.run(app, host="0.0.0.0", port=8000)
+else:
+    logger.debug(f"=== Module imported as: {__name__} ===")
