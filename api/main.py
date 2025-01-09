@@ -2,6 +2,9 @@ import json
 import asyncio
 import time
 import os
+import sys
+import atexit
+import traceback
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.responses import JSONResponse, StreamingResponse
@@ -17,6 +20,7 @@ from dotenv import load_dotenv
 from core.main_process import run_main_process
 from core.services.status_updates import StatusService
 from core.content.image_generation.carousel_generator import CarouselGenerator
+import pkg_resources
 
 # Configure logging
 logging.basicConfig(
@@ -24,37 +28,65 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Log environment variables immediately upon module load
+
+# Set up exception hook to catch uncaught exceptions
+def handle_exception(exc_type, exc_value, exc_traceback):
+    if issubclass(exc_type, KeyboardInterrupt):
+        sys.__excepthook__(exc_type, exc_value, exc_traceback)
+        return
+    logger.error("Uncaught exception", exc_info=(exc_type, exc_value, exc_traceback))
+
+
+sys.excepthook = handle_exception
+
+
+# atexit handler to log process exit details
+def on_exit():
+    logger.info("==== Python process is exiting ====")
+    logger.info(f"Python version: {sys.version}")
+    # Log installed packages
+    try:
+        installed_packages = pkg_resources.working_set
+        packages_info = {pkg.key: pkg.version for pkg in installed_packages}
+        logger.info(f"Installed packages: {packages_info}")
+    except Exception as e:
+        logger.error(f"Error listing installed packages: {str(e)}")
+    logger.info("==== End of exit handler ====")
+
+
+atexit.register(on_exit)
+
 logger.info("==== Module Initialization: Start ====")
 logger.info(f"All env vars at import: {dict(os.environ)}")
 logger.info(
     f"SUPABASE_SERVICE_ROLE_KEY at import: {os.getenv('SUPABASE_SERVICE_ROLE_KEY')}"
 )
-
-# Force reload from .env file
 load_dotenv()
 logger.info("Loaded .env file contents")
 logger.info(f"All env vars after load_dotenv: {dict(os.environ)}")
 logger.info(
     f"SUPABASE_SERVICE_ROLE_KEY after load_dotenv: {os.getenv('SUPABASE_SERVICE_ROLE_KEY')}"
 )
+logger.info(f"Python version: {sys.version}")
+try:
+    installed_packages = pkg_resources.working_set
+    packages_info = {pkg.key: pkg.version for pkg in installed_packages}
+    logger.info(f"Installed packages at module init: {packages_info}")
+except Exception as e:
+    logger.error(f"Error listing installed packages at init: {str(e)}")
 logger.info("==== Module Initialization: End ====")
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     logger.info("==== Entering lifespan startup ====")
-    # Log a checkpoint before Supabase test query
     logger.info("Attempting Supabase connection test during startup...")
-
     try:
-        # Use the global supabase instance to make a harmless query
         test_response = supabase.table("content").select("*").limit(1).execute()
         logger.info(f"Supabase connection test successful, data: {test_response.data}")
     except Exception as e:
         logger.error(f"Supabase test query failed during startup: {e}")
 
-    # Initialize storage with verbose logging
     try:
         logger.info("Initializing storage with init_storage()...")
         await init_storage(supabase)
@@ -62,16 +94,12 @@ async def lifespan(app: FastAPI):
     except Exception as e:
         logger.error(f"Failed to initialize storage: {str(e)}")
 
-    # Small sleep to monitor ephemeral environment behavior
     logger.info("Sleeping for 2 seconds to observe environment stability...")
     await asyncio.sleep(2)
     logger.info("Sleep complete, continuing lifespan startup.")
-
     logger.info("==== Yielding lifespan to allow request handling ====")
     yield
-
     logger.info("==== Entering lifespan shutdown ====")
-    # Add any cleanup code here if needed
     logger.info("==== Lifespan shutdown complete ====")
 
 
@@ -88,7 +116,6 @@ logger.info(
 logger.info(f"All env vars before client creation: {dict(os.environ)}")
 logger.info("==== End of pre-client creation checks ====")
 
-# Fetch Supabase credentials from environment
 supabase_url = os.getenv("SUPABASE_URL")
 supabase_key = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
 
@@ -99,10 +126,15 @@ if not supabase_url or not supabase_key:
     raise ValueError("Missing required Supabase environment variables")
 
 logger.info("Creating global Supabase client instance...")
-supabase: Client = create_client(supabase_url, supabase_key)
-logger.info("Global Supabase client instance created successfully.")
+try:
+    supabase: Client = create_client(supabase_url, supabase_key)
+    logger.info("Global Supabase client instance created successfully.")
+except Exception as e:
+    logger.error(f"Failed to create global Supabase client: {e}")
+    raise
 
 
+# The rest of your FastAPI routes and functions remain unchanged...
 def authenticate(
     credentials: HTTPAuthorizationCredentials = Depends(security),
 ) -> tuple[Client, dict]:
