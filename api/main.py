@@ -61,6 +61,29 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 security = HTTPBearer()
 
+
+@app.on_event("startup")
+async def handle_startup():
+    logger.info("**** on_event: startup triggered ****")
+    try:
+        test_response = supabase.table("profiles").select("*").limit(1).execute()
+        logger.info(f"Startup: test query succeeded -> {test_response.data}")
+    except Exception as e:
+        logger.error(f"Startup: test query failed -> {e}")
+
+    try:
+        await init_storage(supabase)
+        logger.info("Startup: storage init done.")
+    except Exception as e:
+        logger.error(f"Startup: storage init failed -> {e}")
+
+
+@app.on_event("shutdown")
+async def handle_shutdown():
+    logger.info("**** on_event: shutdown triggered ****")
+    # Cleanup tasks if needed
+
+
 logger.info("Environment check before client creation:")
 logger.info(f"SUPABASE_URL: {os.getenv('SUPABASE_URL')}")
 logger.info(
