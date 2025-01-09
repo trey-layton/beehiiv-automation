@@ -30,21 +30,32 @@ load_dotenv()  # Force reload from .env
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Startup
-    logger.info("Initializing application...")
+    logger.info("==== Entering lifespan startup ====")
+    try:
+        # Attempt a simple query or network call to confirm readiness
+        logger.info("Testing Supabase connection during startup...")
+        test_response = supabase.table("content").select("*").limit(1).execute()
+        logger.info(f"Supabase test query data: {test_response.data}")
+    except Exception as e:
+        logger.error(f"Supabase test query failed during startup: {e}")
+
     try:
         await init_storage(supabase)
-        logger.info("Storage initialization completed")
+        logger.info("Storage initialization completed successfully.")
     except Exception as e:
         logger.error(f"Failed to initialize storage: {str(e)}")
-        # We don't raise the exception here because we want the app to start
-        # even if bucket creation fails - they might already exist
 
+    # Insert a small sleep to see if ephemeral environment is shutting down too quickly
+    # (This is rare, but worth a test.)
+    logger.info("Sleeping briefly to test ephemeral environment behavior...")
+    await asyncio.sleep(2)
+
+    logger.info("==== Yielding lifespan to allow request handling ====")
     yield
 
-    # Shutdown
-    logger.info("Shutting down application...")
+    logger.info("==== Entering lifespan shutdown ====")
     # Add any cleanup code here if needed
+    logger.info("==== Lifespan shutdown complete ====")
 
 
 app = FastAPI(lifespan=lifespan)
