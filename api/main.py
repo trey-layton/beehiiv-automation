@@ -336,6 +336,10 @@ async def content_generator(
         logger.info("Exception message sent")
 
 
+handler = app
+logger.info("Exported handler for Vercel environment.")
+
+
 if __name__ == "__main__":
     import uvicorn
 
