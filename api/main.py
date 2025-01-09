@@ -23,13 +23,15 @@ logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
+
+print("All env vars:", os.environ)
+print("Specific key:", os.getenv("SUPABASE_SERVICE_ROLE_KEY"))
+load_dotenv()  # Force reload from .env
+
 logger.info("====================================")
 logger.info(f"Python Version: {sys.version}")
 logger.info(f"Python Version Info: {sys.version_info}")
 logger.info("====================================")
-print("All env vars:", os.environ)
-print("Specific key:", os.getenv("SUPABASE_SERVICE_ROLE_KEY"))
-load_dotenv()  # Force reload from .env
 
 
 @asynccontextmanager
