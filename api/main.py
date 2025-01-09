@@ -2,8 +2,6 @@ import json
 import asyncio
 import time
 import os
-import sys
-import traceback
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.responses import JSONResponse, StreamingResponse
@@ -20,248 +18,123 @@ from core.main_process import run_main_process
 from core.services.status_updates import StatusService
 from core.content.image_generation.carousel_generator import CarouselGenerator
 
-# Enhanced logging setup
+# Configure logging
 logging.basicConfig(
-    level=logging.DEBUG,  # Change to DEBUG for maximum verbosity
-    format="%(asctime)s.%(msecs)03d - %(name)s - %(levelname)s - [%(filename)s:%(lineno)d] - %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S",
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
+logger = logging.getLogger(__name__)
+
+# Log environment variables immediately upon module load
+logger.info("==== Module Initialization: Start ====")
+logger.info(f"All env vars at import: {dict(os.environ)}")
+logger.info(
+    f"SUPABASE_SERVICE_ROLE_KEY at import: {os.getenv('SUPABASE_SERVICE_ROLE_KEY')}"
 )
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
-
-# Add file handler for persistent logging
-try:
-    fh = logging.FileHandler("/tmp/fastapi_debug.log")
-    fh.setLevel(logging.DEBUG)
-    formatter = logging.Formatter(
-        "%(asctime)s.%(msecs)03d - %(name)s - %(levelname)s - [%(filename)s:%(lineno)d] - %(message)s"
-    )
-    fh.setFormatter(formatter)
-    logger.addHandler(fh)
-    logger.info("File logging handler successfully initialized")
-except Exception as e:
-    logger.error(f"Failed to initialize file logging handler: {str(e)}")
-
-# Log system information
-logger.info(f"Python version: {sys.version}")
-logger.info(f"Python implementation: {sys.implementation}")
-logger.info(f"Platform: {sys.platform}")
-logger.info(f"Current working directory: {os.getcwd()}")
-logger.info(f"Environment variables present: {list(os.environ.keys())}")
-
-print("All env vars:", os.environ)
-logger.debug("Environment variables dump complete")
-print("Specific key:", os.getenv("SUPABASE_SERVICE_ROLE_KEY"))
-logger.debug("Specific key logging complete")
-
+# Force reload from .env file
 load_dotenv()
-logger.info("Environment variables loaded from .env file")
-
-
-def log_function_entry_exit(func):
-    """Decorator to log function entry and exit"""
-
-    async def wrapper(*args, **kwargs):
-        logger.debug(f"Entering function: {func.__name__}")
-        logger.debug(f"Arguments: args={args}, kwargs={kwargs}")
-        try:
-            result = await func(*args, **kwargs)
-            logger.debug(f"Exiting function: {func.__name__}")
-            return result
-        except Exception as e:
-            logger.error(f"Exception in {func.__name__}: {str(e)}")
-            logger.error(f"Traceback: {''.join(traceback.format_tb(e.__traceback__))}")
-            raise
-
-    return wrapper
+logger.info("Loaded .env file contents")
+logger.info(f"All env vars after load_dotenv: {dict(os.environ)}")
+logger.info(
+    f"SUPABASE_SERVICE_ROLE_KEY after load_dotenv: {os.getenv('SUPABASE_SERVICE_ROLE_KEY')}"
+)
+logger.info("==== Module Initialization: End ====")
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    logger.info(
-        "==================== ASGI STARTUP SEQUENCE BEGINNING ===================="
-    )
-    logger.debug("Lifespan context manager entered")
-
-    # Log all current environment variables
-    logger.debug("Environment variables at startup:")
-    for key, value in os.environ.items():
-        if "key" in key.lower() or "secret" in key.lower():
-            logger.debug(f"{key}: [REDACTED]")
-        else:
-            logger.debug(f"{key}: {value}")
+    logger.info("==== Entering lifespan startup ====")
+    # Log a checkpoint before Supabase test query
+    logger.info("Attempting Supabase connection test during startup...")
 
     try:
-        logger.info("Testing Supabase client initialization...")
-        logger.debug(
-            f"Supabase URL availability: {'Yes' if os.getenv('SUPABASE_URL') else 'No'}"
-        )
-        logger.debug(
-            f"Supabase key availability: {'Yes' if os.getenv('SUPABASE_SERVICE_ROLE_KEY') else 'No'}"
-        )
-
-        # Test Supabase connection
-        logger.info("Attempting Supabase connection test...")
-        try:
-            test_response = supabase.table("content").select("*").limit(1).execute()
-            logger.info("Supabase connection test successful")
-            logger.debug(f"Test query response: {test_response}")
-            logger.debug(f"Response data type: {type(test_response)}")
-            logger.debug(
-                f"Response status: {getattr(test_response, 'status_code', 'N/A')}"
-            )
-        except Exception as e:
-            logger.error(f"Supabase connection test failed: {str(e)}")
-            logger.error(
-                f"Connection error traceback: {''.join(traceback.format_tb(e.__traceback__))}"
-            )
-            raise
-
-        logger.info("Initializing storage...")
-        try:
-            await init_storage(supabase)
-            logger.info("Storage initialization successful")
-        except Exception as e:
-            logger.error(f"Storage initialization error: {str(e)}")
-            logger.error(
-                f"Storage error traceback: {''.join(traceback.format_tb(e.__traceback__))}"
-            )
-            logger.warning("Continuing despite storage initialization failure")
-
-        # Memory usage logging
-        try:
-            import psutil
-
-            process = psutil.Process()
-            logger.info(
-                f"Memory usage at startup: {process.memory_info().rss / 1024 / 1024:.2f} MB"
-            )
-        except ImportError:
-            logger.warning("psutil not available for memory logging")
-
-        # Test async functionality
-        logger.info("Testing async functionality...")
-        try:
-            await asyncio.sleep(0.1)
-            logger.info("Async sleep test successful")
-        except Exception as e:
-            logger.error(f"Async functionality test failed: {str(e)}")
-
-        logger.info(
-            "==================== ASGI STARTUP SEQUENCE COMPLETED ===================="
-        )
-        logger.info("Application ready to handle requests")
-
-        yield
-
-        logger.info(
-            "==================== ASGI SHUTDOWN SEQUENCE BEGINNING ===================="
-        )
-        logger.debug("Beginning shutdown sequence")
-
-        # Cleanup logging
-        try:
-            logger.info("Performing cleanup operations...")
-            # Add any cleanup code here
-            logger.info("Cleanup completed successfully")
-        except Exception as e:
-            logger.error(f"Cleanup error during shutdown: {str(e)}")
-
-        logger.info(
-            "==================== ASGI SHUTDOWN SEQUENCE COMPLETED ===================="
-        )
-
+        # Use the global supabase instance to make a harmless query
+        test_response = supabase.table("content").select("*").limit(1).execute()
+        logger.info(f"Supabase connection test successful, data: {test_response.data}")
     except Exception as e:
-        logger.critical(f"Critical error during lifespan: {str(e)}")
-        logger.critical(
-            f"Full traceback: {''.join(traceback.format_tb(e.__traceback__))}"
-        )
-        raise
+        logger.error(f"Supabase test query failed during startup: {e}")
+
+    # Initialize storage with verbose logging
+    try:
+        logger.info("Initializing storage with init_storage()...")
+        await init_storage(supabase)
+        logger.info("Storage initialization completed successfully.")
+    except Exception as e:
+        logger.error(f"Failed to initialize storage: {str(e)}")
+
+    # Small sleep to monitor ephemeral environment behavior
+    logger.info("Sleeping for 2 seconds to observe environment stability...")
+    await asyncio.sleep(2)
+    logger.info("Sleep complete, continuing lifespan startup.")
+
+    logger.info("==== Yielding lifespan to allow request handling ====")
+    yield
+
+    logger.info("==== Entering lifespan shutdown ====")
+    # Add any cleanup code here if needed
+    logger.info("==== Lifespan shutdown complete ====")
 
 
+logger.info("Creating FastAPI app instance with lifespan handler...")
 app = FastAPI(lifespan=lifespan)
-logger.info("FastAPI application instance created")
-
+logger.info("FastAPI app instance created.")
 security = HTTPBearer()
-logger.info("Security bearer initialized")
 
-# Extensive environment logging
-logger.info("Performing detailed environment check:")
+logger.info("==== Pre-client creation environment checks ====")
 logger.info(f"SUPABASE_URL: {os.getenv('SUPABASE_URL')}")
 logger.info(
     f"SUPABASE_SERVICE_ROLE_KEY present: {'Yes' if os.getenv('SUPABASE_SERVICE_ROLE_KEY') else 'No'}"
 )
-logger.debug("Environment variables (sanitized):")
-for key, value in os.environ.items():
-    if "key" in key.lower() or "secret" in key.lower():
-        logger.debug(f"{key}: [REDACTED]")
-    else:
-        logger.debug(f"{key}: {value}")
+logger.info(f"All env vars before client creation: {dict(os.environ)}")
+logger.info("==== End of pre-client creation checks ====")
 
+# Fetch Supabase credentials from environment
 supabase_url = os.getenv("SUPABASE_URL")
 supabase_key = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
 
 if not supabase_url or not supabase_key:
-    logger.critical("Missing critical Supabase configuration")
     logger.error(
-        f"URL present: {bool(supabase_url)}, Key present: {bool(supabase_key)}"
+        f"Missing required environment variables. URL present: {bool(supabase_url)}, Key present: {bool(supabase_key)}"
     )
     raise ValueError("Missing required Supabase environment variables")
 
-logger.info("Creating global Supabase client...")
-try:
-    supabase: Client = create_client(
-        os.getenv("SUPABASE_URL"),
-        os.getenv("SUPABASE_SERVICE_ROLE_KEY"),
-    )
-    logger.info("Global Supabase client created successfully")
-except Exception as e:
-    logger.critical(f"Failed to create Supabase client: {str(e)}")
-    raise
+logger.info("Creating global Supabase client instance...")
+supabase: Client = create_client(supabase_url, supabase_key)
+logger.info("Global Supabase client instance created successfully.")
 
 
-@log_function_entry_exit
-async def authenticate(
+def authenticate(
     credentials: HTTPAuthorizationCredentials = Depends(security),
 ) -> tuple[Client, dict]:
-    logger.debug(f"Authentication attempt with scheme: {credentials.scheme}")
+    logger.info("Entering authenticate() function.")
     try:
+        logger.info(f"Received credentials with scheme: {credentials.scheme}")
         if credentials.scheme != "Bearer":
-            logger.error(f"Invalid auth scheme: {credentials.scheme}")
             raise ValueError("Invalid authorization scheme")
-
-        logger.debug("Creating authenticated Supabase client...")
-        supabase = create_client(
+        logger.info(
+            "Creating Supabase client within authenticate() with custom headers..."
+        )
+        auth_supabase = create_client(
             os.getenv("SUPABASE_URL"),
             os.getenv("SUPABASE_SERVICE_ROLE_KEY"),
             options=ClientOptions(
                 headers={"Authorization": f"Bearer {credentials.credentials}"}
             ),
         )
-        logger.debug("Authenticated Supabase client created")
-
-        logger.debug("Attempting to get user...")
-        user_response = supabase.auth.get_user(credentials.credentials)
-        logger.debug(f"User response received: {bool(user_response)}")
-
+        logger.info("Fetching user from Supabase auth...")
+        user_response = auth_supabase.auth.get_user(credentials.credentials)
         if not user_response or not user_response.user:
-            logger.error("User not found in response")
             raise ValueError("User not found")
-
-        logger.info(f"Authentication successful for user: {user_response.user.id}")
-        return supabase, user_response.user
+        logger.info(f"User authenticated successfully: {user_response.user}")
+        return auth_supabase, user_response.user
     except Exception as e:
-        logger.error(f"Authentication failed: {str(e)}")
-        logger.error(
-            f"Auth error traceback: {''.join(traceback.format_tb(e.__traceback__))}"
-        )
+        logger.error(f"Authentication error: {str(e)}")
         raise HTTPException(status_code=401, detail="Failed to authenticate")
 
 
 @app.get("/")
 async def root():
-    logger.debug("Root endpoint accessed")
+    logger.info("Received request at root endpoint.")
     return {"message": "PostOnce API is running"}
 
 
