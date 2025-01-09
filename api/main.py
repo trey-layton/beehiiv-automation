@@ -1,3 +1,9 @@
+print("===== Module import started =====")
+
+import sentry_sdk
+from sentry_sdk.integrations.fastapi import FastApiIntegration
+
+sentry_sdk.init(dsn=os.getenv("SENTRY_DSN"), integrations=[FastApiIntegration()])
 import json
 import asyncio
 import time
@@ -19,6 +25,8 @@ from core.main_process import run_main_process
 from core.services.status_updates import StatusService
 from core.content.image_generation.carousel_generator import CarouselGenerator
 
+print("===== Imports successful =====")
+
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
@@ -26,7 +34,7 @@ logger = logging.getLogger(__name__)
 
 print("All env vars:", os.environ)
 print("Specific key:", os.getenv("SUPABASE_SERVICE_ROLE_KEY"))
-load_dotenv()  # Force reload from .env
+# load_dotenv()  # Force reload from .env
 
 logger.info("====================================")
 logger.info(f"Python Version: {sys.version}")
