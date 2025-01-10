@@ -336,7 +336,7 @@ async def content_generator(
         logger.info("Exception message sent")
 
 
-handler = app
+app.handler = app
 logger.info("Exported handler for Vercel environment.")
 
 
