@@ -337,7 +337,7 @@ async def content_generator(
 
 
 app.handler = app
-logger.info("Exported handler for Vercel environment.")
+logger.info("Exported handler for Vercel environment")
 
 
 if __name__ == "__main__":
