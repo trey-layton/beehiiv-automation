@@ -40,6 +40,7 @@ instructions = {
     - "heading": 1 sentences forming the main paragraph for that slide.
     - "subheading": 2-3 sentences expanding on this main point with evidence or support from the newsletter.
 
+
     Focus on substance, clarity, and a business-appropriate voice. Avoid filler or guessing. If data or a sponsor is not mentioned in the source, do not include it.
     """,
     "image_relevance": """   

@@ -136,9 +136,7 @@ async def generate_content(
 
     try:
         logger.info("Making LLM call with system and user message...")
-        response = await call_language_model(
-            system_message, user_message, tier="medium"
-        )
+        response = await call_language_model(system_message, user_message, tier="o1")
         logger.info(f"LLM raw response: {response}")
 
         match = re.search(r"~!(.*?)!~", response, re.DOTALL)

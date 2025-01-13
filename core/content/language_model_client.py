@@ -37,7 +37,6 @@ MODEL_TIERS = {
         },
     },
     "o1-preview": {
-        "openai": {
             "model": "o1-preview",
             "max_tokens": 128000,
             "max_output_tokens": 4096,
