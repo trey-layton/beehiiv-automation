@@ -29,15 +29,17 @@ instructions = {
         "content_container": [
             {
                 "heading": "Main heading text",
-                "subheading": "Optional smaller text below"
+                "subheading": "Smaller text below"
             },
             ...
         ]
     }!~
 
+    These keys (content_type and content_container) are CRITICAL. If you deivate even slightly, our entire pipeline is ruined.
     Each dictionary in "content_container" represents one image slide:
-    - "heading": 2-3 sentences forming the main paragraph for that slide.
-    - "subheading": Optional line or phrase for clarification or emphasis.
+    - "heading": 1 sentences forming the main paragraph for that slide.
+    - "subheading": 2-3 sentences expanding on this main point with evidence or support from the newsletter.
+
 
     Focus on substance, clarity, and a business-appropriate voice. Avoid filler or guessing. If data or a sponsor is not mentioned in the source, do not include it.
     """,
@@ -48,7 +50,7 @@ instructions = {
             "content_container": [
                 {
                     "heading": "Main heading text",
-                    "subheading": "Optional smaller text below"
+                    "subheading": "Smaller text below"
                 },
                 ...
             ]
@@ -71,7 +73,7 @@ instructions = {
             "content_container": [
                 {
                     "heading": "Main heading text",
-                    "subheading": "Optional smaller text below"
+                    "subheading": "Smaller text below"
                 },
                 ...
             ]
@@ -94,7 +96,7 @@ instructions = {
             "content_container": [
                 {
                     "heading": "Main heading text",
-                    "subheading": "Optional smaller text below"
+                    "subheading": "Smaller text below"
                 },
                 ...
             ]
@@ -117,7 +119,7 @@ instructions = {
             "content_container": [
                 {
                     "heading": "Main heading text",
-                    "subheading": "Optional smaller text below"
+                    "subheading": "Smaller text below"
                 },
                 ...
             ]
