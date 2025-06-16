@@ -1,3 +1,72 @@
+"""
+PostOnce Backend API - Main FastAPI Application.
+
+This module implements the primary REST API for PostOnce, a sophisticated content
+automation platform that transforms newsletter content into engaging social media posts
+using advanced AI processing.
+
+Key Features:
+- JWT-based authentication via Supabase
+- Real-time content generation with Server-Sent Events streaming
+- Comprehensive error handling and validation
+- Support for multiple social media platforms (Twitter, LinkedIn)
+- AI-powered content personalization and optimization
+- Image processing and carousel generation
+- Automatic status tracking and progress reporting
+
+Architecture:
+The API follows a clean layered architecture with clear separation of concerns:
+- **API Layer**: FastAPI endpoints with authentication and validation
+- **Business Logic**: Core processing pipeline in main_process module
+- **Services**: Account management, status tracking, file storage
+- **Models**: Pydantic data models for type safety and validation
+
+Endpoints:
+- `GET /`: Health check endpoint
+- `POST /generate_content`: Main content generation with streaming response
+
+Authentication:
+All endpoints (except health check) require JWT Bearer token authentication.
+Tokens are obtained through Supabase authentication and passed in the
+Authorization header: "Bearer <jwt_token>"
+
+Content Generation Pipeline:
+The main endpoint orchestrates a sophisticated 7-step AI processing pipeline:
+1. Content fetching from Beehiiv API or direct input
+2. AI-powered structure analysis
+3. Content strategy determination
+4. Platform-specific content generation
+5. Image relevance checking
+6. Brand voice personalization
+7. Hook writing and final optimization
+
+Each step provides real-time status updates via Server-Sent Events, allowing
+frontend applications to show progress and handle long-running operations gracefully.
+
+Usage:
+    # Start the application
+    uvicorn.run(app, host="127.0.0.1", port=8000, log_level="info")
+
+    # Generate content via API
+    POST /generate_content
+    {
+        "account_id": "user123",
+        "content_id": "content456",
+        "post_id": "beehiiv_post_789",
+        "content_type": "thread_tweet"
+    }
+
+Environment Setup:
+    - SUPABASE_URL: Supabase project URL
+    - SUPABASE_SERVICE_ROLE_KEY: Service role key for admin operations
+    - ANTHROPIC_API_KEY or OPENAI_API_KEY: AI provider credentials
+    - Additional optional configuration variables
+
+Deployment:
+Optimized for Vercel serverless deployment with 5-minute execution limit
+and 1GB memory allocation for AI processing operations.
+"""
+
 import json
 import asyncio
 import time
@@ -76,6 +145,32 @@ supabase: Client = create_client(
 def authenticate(
     credentials: HTTPAuthorizationCredentials = Depends(security),
 ) -> tuple[Client, dict]:
+    """
+    Authenticate incoming API requests using JWT Bearer tokens.
+
+    This function validates JWT tokens obtained from Supabase authentication
+    and returns both a Supabase client configured for the authenticated user
+    and the user information.
+
+    Args:
+        credentials: HTTP Bearer token credentials from request header
+
+    Returns:
+        Tuple containing:
+        - Supabase client configured with user authentication
+        - User object containing user information and metadata
+
+    Raises:
+        HTTPException: 401 Unauthorized if authentication fails
+
+    Example:
+        ```python
+        @app.post("/protected-endpoint")
+        async def protected(client_user: tuple = Depends(authenticate)):
+            supabase_client, user = client_user
+            # Use authenticated client for operations
+        ```
+    """
     try:
         if credentials.scheme != "Bearer":
             raise ValueError("Invalid authorization scheme")
@@ -116,8 +211,39 @@ class ContentGenerationRequest(BaseModel):
         "carousel_post",
     ]
 
-    def validate_request(self):
-        """Validate that either post_id or content is provided, but not both."""
+    def validate_request(self) -> None:
+        """
+        Validate request parameters for content generation.
+
+        Ensures that exactly one content source is provided (either post_id
+        for Beehiiv content or direct content string) to prevent ambiguous
+        content generation requests.
+
+        Raises:
+            ValueError: If both post_id and content are provided, or if neither is provided
+
+        Example:
+            ```python
+            # Valid requests
+            request1 = ContentGenerationRequest(
+                account_id="user1", content_id="c1",
+                post_id="beehiiv_123", content_type="thread_tweet"
+            )
+
+            request2 = ContentGenerationRequest(
+                account_id="user1", content_id="c2",
+                content="Direct newsletter content...", content_type="long_form_post"
+            )
+
+            # Invalid - both sources provided
+            bad_request = ContentGenerationRequest(
+                account_id="user1", content_id="c3",
+                post_id="beehiiv_123", content="Also direct content",
+                content_type="thread_tweet"
+            )
+            bad_request.validate_request()  # Raises ValueError
+            ```
+        """
         if bool(self.post_id) == bool(self.content):
             raise ValueError("Exactly one of post_id or content must be provided")
 

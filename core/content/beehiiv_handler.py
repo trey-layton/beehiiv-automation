@@ -39,16 +39,42 @@ ALLOWED_TAGS = {
 
 def clean_html_content(html_content: str) -> str:
     """
-    This function aggressively cleans the HTML to reduce token usage while preserving:
-    - Basic semantic structure: headers (h1-h6), paragraphs, lists (ul, ol, li)
-    - Links (a), images (img)
-    - Bold/italic formatting (b, i, em, strong)
-    It:
-    - Removes script, style, meta, title, head, and comments.
-    - Removes all attributes except 'href' for <a>, 'src' and 'alt' for <img>.
-    - Removes non-whitelisted tags but keeps their content.
-    - Normalizes whitespace and removes zero-width spaces and other invisible unicode chars.
-    - Removes doctype and any superfluous tags (html, body, div, table, etc.), flattening the structure.
+    Aggressively clean HTML content to optimize for AI processing.
+
+    This function performs comprehensive HTML sanitization to reduce token usage
+    while preserving essential content structure and formatting needed for
+    social media content generation.
+
+    Preserves:
+        - Basic semantic structure: headers (h1-h6), paragraphs, lists (ul, ol, li)
+        - Links (a) with href attributes for URL preservation
+        - Images (img) with src and alt attributes for image processing
+        - Text formatting: bold/italic (b, i, em, strong, u)
+
+    Removes:
+        - Script, style, meta, title, head tags and comments
+        - All attributes except 'href' for <a>, 'src' and 'alt' for <img>
+        - Non-whitelisted tags (but preserves their content)
+        - Zero-width spaces and excessive unicode whitespace
+        - DOCTYPE declarations and container tags (html, body, div, table, etc.)
+
+    Args:
+        html_content: Raw HTML content from newsletter or web source
+
+    Returns:
+        Cleaned HTML string optimized for AI processing with essential
+        structure preserved and token count minimized
+
+    Example:
+        ```python
+        raw_html = '''
+        <html><head><title>Newsletter</title></head>
+        <body><div><h1>Title</h1><p>Content</p></div></body>
+        </html>
+        '''
+        clean_html = clean_html_content(raw_html)
+        # Returns: '<h1>Title</h1><p>Content</p>'
+        ```
     """
 
     soup = BeautifulSoup(html_content, "html.parser")
@@ -98,7 +124,30 @@ def clean_html_content(html_content: str) -> str:
 
 def transform_images_into_placeholders(html_str: str) -> str:
     """
-    Convert <img> tags into placeholders like [image:<URL> alt="ALT"] to preserve them through LLM steps.
+    Convert HTML image tags to text placeholders for AI processing.
+
+    This function transforms <img> tags into standardized text placeholders
+    that preserve image information while making content AI-processable.
+    The placeholders maintain image URLs and alt text for later relevance
+    checking and potential inclusion in final social media posts.
+
+    Args:
+        html_str: HTML string containing <img> tags to transform
+
+    Returns:
+        HTML string with <img> tags replaced by text placeholders
+        in the format: [image:URL alt="ALT_TEXT"]
+
+    Example:
+        ```python
+        html = '<p>Check this out!</p><img src="photo.jpg" alt="Amazing photo">'
+        result = transform_images_into_placeholders(html)
+        # Returns: '<p>Check this out!</p>[image:photo.jpg alt="Amazing photo"]'
+        ```
+
+    Note:
+        Placeholders are later processed by image_relevance module to determine
+        which images are relevant to include in the final social media content.
     """
     soup = BeautifulSoup(html_str, "html.parser")
 
@@ -201,7 +250,7 @@ def extract_text(html_str: str) -> str:
 
 async def fetch_beehiiv_content(
     account_profile: AccountProfile, post_id: str, supabase: Client
-) -> dict:
+) -> Dict[str, Any]:
     try:
         post_content = get_beehiiv_post_content(account_profile, post_id)
         thumbnail_url = post_content.get("thumbnail_url") if post_content else None
@@ -243,3 +292,42 @@ async def fetch_beehiiv_content(
     except Exception as e:
         logger.error(f"Error while fetching Beehiiv content: {str(e)}")
         raise
+
+
+"""
+Beehiiv Newsletter Content Integration Module.
+
+This module handles all interactions with the Beehiiv newsletter platform,
+including content fetching, HTML processing, and content transformation
+for AI processing pipelines.
+
+Key Features:
+- Beehiiv API integration for newsletter content retrieval
+- Intelligent HTML cleaning and sanitization
+- Image placeholder transformation for AI processing
+- Content extraction and text processing utilities
+- Robust error handling and logging
+
+The module processes raw Beehiiv newsletter content through several stages:
+1. **API Fetching**: Retrieve newsletter content via Beehiiv API
+2. **HTML Cleaning**: Remove scripts, styles, and non-essential elements
+3. **Content Normalization**: Standardize formatting and structure
+4. **Image Processing**: Convert images to placeholders for AI compatibility
+5. **Text Extraction**: Pure text extraction when needed
+
+This processed content is optimized for downstream AI processing while
+preserving essential formatting and structure needed for social media
+content generation.
+
+Usage:
+    # Fetch and process newsletter content
+    content_data = await fetch_beehiiv_content(
+        account_profile, post_id, supabase_client
+    )
+    
+    # Clean HTML content
+    clean_content = clean_html_content(raw_html)
+    
+    # Transform images for AI processing
+    processed_content = transform_images_into_placeholders(clean_content)
+"""
