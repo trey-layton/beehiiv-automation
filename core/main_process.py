@@ -24,6 +24,7 @@ Key Features:
 - Platform-specific content formatting (Twitter/LinkedIn)
 - Brand voice preservation through personalization
 - Comprehensive logging for debugging and monitoring
+- Carousel generation for visual content types
 
 Usage:
     result = await run_main_process(
@@ -40,6 +41,7 @@ import logging
 import re
 from typing import Dict, Any, List, Optional
 from supabase import Client as SupabaseClient
+
 from core.content.beehiiv_handler import (
     fetch_beehiiv_content,
     transform_images_into_placeholders,
@@ -54,9 +56,11 @@ from core.llm_steps.content_personalization import (
 )
 from core.llm_steps.hook_writer import write_hooks
 from core.llm_steps.ai_polisher import ai_polish
-from core.services.status_updates import StatusService
 from core.llm_steps.image_relevance import check_image_relevance
-from core.constants import CAROUSEL_CONTENT_TYPES
+from core.services.status_updates import StatusService
+
+# Import the CarouselGenerator for creating carousels.
+from core.content.image_generation.carousel_generator import CarouselGenerator
 
 logger = logging.getLogger(__name__)
 
@@ -166,7 +170,6 @@ async def run_main_process(
     try:
         # Step 1: Content Fetching and Preparation
         await status_service.update_status(content_id, "analyzing")
-
         if post_id:
             # Fetch content from Beehiiv API
             try:
@@ -177,7 +180,6 @@ async def run_main_process(
                 web_url = content_data.get("web_url")
                 thumbnail_url = content_data.get("thumbnail_url")
                 logger.info(f"Successfully fetched Beehiiv content for post {post_id}")
-
             except Exception as e:
                 logger.error(f"Error fetching Beehiiv content: {str(e)}")
                 await status_service.update_status(content_id, "failed")
@@ -190,10 +192,13 @@ async def run_main_process(
             post_id = "pasted-content"
             logger.info("Using direct content input for processing")
 
-        # Transform images to placeholders for AI processing
+        # Safely transform images in HTML to placeholders for the LLM
         if original_content:
             original_content = transform_images_into_placeholders(original_content)
             logger.info("Transformed images to placeholders for AI processing")
+        else:
+            await status_service.update_status(content_id, "failed")
+            return {"error": "No content found", "success": False}
 
         # Step 2: Structure Analysis
         await status_service.update_status(content_id, "analyzing_structure")
@@ -231,41 +236,44 @@ async def run_main_process(
             logger.info(f"Processing section {post_number}")
 
             try:
-                # Extract and clean section content
+                # -- 4a: Cleanup section for generation (image placeholders, etc.) --
                 section_content = strategy.get("section_content", "")
-
-                # Extract image URLs from placeholders
-                image_pattern = re.compile(r"\[image:(.*?)\]")
+                image_pattern = r"\[image:(.*?)\]"
                 image_urls = [
-                    match.group(1) for match in image_pattern.finditer(section_content)
+                    match.group(1)
+                    for match in re.finditer(image_pattern, section_content)
                 ]
-                logger.info(f"Found {len(image_urls)} images in section {post_number}")
-
-                # Remove image placeholders for content generation
-                cleaned_section_content = image_pattern.sub("", section_content)
-                strategy["section_content"] = cleaned_section_content
-
-                # Step 4: Generate initial content
-                generated_content = await generate_content(
-                    strategy, content_type, account_profile, web_url, post_number
+                logger.info(
+                    f"Found {len(image_urls)} images in section {post_number}: {image_urls}"
                 )
 
+                # Remove "[image:...]" placeholders from LLM input
+                cleaned_section_content = re.sub(image_pattern, "", section_content)
+                strategy["section_content"] = cleaned_section_content
+
+                # -- 4b: Generate initial content from LLM --
+                generated_content = await generate_content(
+                    strategy,
+                    content_type,
+                    account_profile,
+                    web_url,
+                    post_number,
+                )
                 if (
                     not generated_content
                     or "content_container" not in generated_content
                 ):
-                    logger.warning(
-                        f"Failed to generate content for section {post_number}"
-                    )
+                    logger.warning(f"No valid content for section {post_number}")
                     continue
 
-                # Step 5: Check image relevance and incorporate if applicable
+                # -- 4c: Check image relevance (only if we found placeholders) --
                 if image_urls:
-                    logger.info(f"Checking image relevance for section {post_number}")
+                    logger.info(
+                        f"Running image relevance check for section {post_number}"
+                    )
                     updated_generated_content = await check_image_relevance(
                         generated_content, image_urls, account_profile, content_type
                     )
-
                     if (
                         updated_generated_content
                         and "content_container" in updated_generated_content
@@ -275,22 +283,20 @@ async def run_main_process(
                             f"Updated content with relevant images for section {post_number}"
                         )
 
-                # Step 6: Personalize content with user's brand voice
+                # -- 4d: Personalize the content --
                 personalized_content = await personalize_content(
                     generated_content,
                     account_profile,
                     content_type,
                     content_type_instructions,
                 )
-
                 content_to_use = personalized_content.get(
                     "content_container", generated_content["content_container"]
                 )
 
-                # Step 7: Add hooks and final polish (skip for carousel types)
+                # -- 4e: Add hooks if not a carousel type --
                 await status_service.update_status(content_id, "writing_hooks")
-
-                if content_type not in CAROUSEL_CONTENT_TYPES:
+                if content_type not in ["carousel_tweet", "carousel_post"]:
                     # Add engaging hooks and CTAs
                     content_with_hooks = await write_hooks(
                         {
@@ -307,7 +313,7 @@ async def run_main_process(
                 else:
                     content_for_polish = content_to_use
 
-                # Final AI polish pass
+                # -- 4f: Polish the content with AI --
                 await status_service.update_status(content_id, "polishing")
                 polished_content = await ai_polish(
                     {
@@ -318,18 +324,82 @@ async def run_main_process(
                     content_type,
                     content_type_instructions,
                 )
-
                 final_content_to_use = polished_content.get(
                     "content_container", content_for_polish
                 )
 
-                # Add to generated contents
-                generated_contents.append(
-                    {
-                        "post_number": int(post_number),
-                        "post_content": final_content_to_use,
-                    }
-                )
+                # -- 4g: If this is a carousel, generate images/PDF and shape data properly --
+                if content_type in ["carousel_tweet", "carousel_post"]:
+                    platform = (
+                        "linkedin" if content_type == "carousel_post" else "twitter"
+                    )
+                    carousel_generator = CarouselGenerator(platform)
+                    try:
+                        # Generate the actual carousel images or PDF
+                        await status_service.update_status(content_id, "generating")
+                        logger.info(f"Generating carousel for section {post_number}")
+                        image_urls = await carousel_generator.generate_carousel(
+                            {
+                                "post_number": post_number,
+                                "content_container": final_content_to_use,
+                            },
+                            supabase,
+                        )
+                        if not image_urls:
+                            raise ValueError("Failed to generate carousel images")
+
+                        # For the final shape:
+                        # - LinkedIn expects a single PDF URL, so set `carousel_pdf_url`.
+                        # - Twitter expects multiple slide URLs, so set `carousel_urls`.
+
+                        if content_type == "carousel_post":
+                            # For LinkedIn
+                            generated_contents.append(
+                                {
+                                    "post_number": int(post_number),
+                                    "post_content": [
+                                        {
+                                            "post_type": "carousel_post",
+                                            "post_content": "",  # Optionally set a short caption
+                                            "carousel_pdf_url": image_urls[0],
+                                        }
+                                    ],
+                                }
+                            )
+                        else:
+                            # For Twitter
+                            generated_contents.append(
+                                {
+                                    "post_number": int(post_number),
+                                    "post_content": [
+                                        {
+                                            "post_type": "carousel_tweet",
+                                            "post_content": "",  # Optionally set a short caption
+                                            "carousel_urls": image_urls,
+                                        }
+                                    ],
+                                }
+                            )
+
+                        logger.info(
+                            f"Successfully generated carousel for section {post_number}"
+                        )
+
+                    except Exception as e:
+                        logger.error(
+                            f"Carousel generation failed for section {post_number}: {e}"
+                        )
+                        await status_service.update_status(content_id, "failed")
+                        return {"error": str(e), "success": False}
+
+                else:
+                    # -- 4h: Otherwise, just store the final content in the usual structure --
+                    generated_contents.append(
+                        {
+                            "post_number": int(post_number),
+                            "post_content": final_content_to_use,
+                        }
+                    )
 
                 logger.info(f"Successfully processed section {post_number}")
 
@@ -342,7 +412,7 @@ async def run_main_process(
             await status_service.update_status(content_id, "failed")
             return {"error": "Failed to generate any valid content", "success": False}
 
-        # Build final response with platform detection
+        # Step 5: Build final response with platform detection
         provider = "twitter" if "tweet" in content_type else "linkedin"
         final_content = {
             "provider": provider,
